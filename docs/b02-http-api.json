@@ -1,0 +1,4414 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "zj-market B-02 HTTP contract",
+    "version": "0.5.0-trial",
+    "description": "B-02 identity, product authority, reliable synchronization and current-user marketing trial implemented. Product names trim then limit to 128 UTF-16 units, matching A. Quotes use current confirmed B facts, discard stale results and redact hidden offers; no orders or payment."
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "x-stage": "B-02.6",
+  "x-design-status": "joint-acceptance-passed",
+  "x-reviewed-on": "2026-10-08",
+  "paths": {
+    "/auth/csrf": {
+      "get": {
+        "operationId": "getCsrf",
+        "summary": "Get same-origin CSRF challenge",
+        "security": [],
+        "x-required-role": "ANONYMOUS",
+        "responses": {
+          "200": {
+            "description": "Get same-origin CSRF challenge",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CsrfSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-implementation-status": "implemented-B-02.2"
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "operationId": "register",
+        "summary": "Create USER account only; does not log in",
+        "security": [],
+        "x-required-role": "ANONYMOUS",
+        "responses": {
+          "201": {
+            "description": "Create USER account only; does not log in",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds before retrying; never automatically replay mutations.",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required together with same-origin CSRF cookie on browser auth POST endpoints."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "implemented-B-02.2"
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "login",
+        "summary": "Authenticate and create refresh grant",
+        "security": [],
+        "x-required-role": "ANONYMOUS",
+        "responses": {
+          "200": {
+            "description": "Authenticate and create refresh grant",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Set-Cookie": {
+                "description": "Refresh or clearing B_REFRESH HttpOnly/Secure/SameSite=Lax/Host-only; Path=/api/v1/auth. CSRF cookies may also be set as separate header fields. Refresh token never in JSON.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds before retrying; never automatically replay mutations.",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required together with same-origin CSRF cookie on browser auth POST endpoints."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "implemented-B-02.2"
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "operationId": "refresh",
+        "summary": "Rotate refresh token atomically and issue access JWT",
+        "security": [
+          {
+            "RefreshCookie": []
+          }
+        ],
+        "x-required-role": "REFRESH_COOKIE",
+        "responses": {
+          "200": {
+            "description": "Rotate refresh token atomically and issue access JWT",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Set-Cookie": {
+                "description": "Refresh or clearing B_REFRESH HttpOnly/Secure/SameSite=Lax/Host-only; Path=/api/v1/auth. CSRF cookies may also be set as separate header fields. Refresh token never in JSON.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required together with same-origin CSRF cookie on browser auth POST endpoints."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmptyRequest"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "implemented-B-02.2"
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "logout",
+        "summary": "Revoke current login; repeat/no login is successful",
+        "security": [
+          {},
+          {
+            "BearerAuth": []
+          },
+          {
+            "RefreshCookie": []
+          }
+        ],
+        "x-required-role": "OPTIONAL_CURRENT_GRANT",
+        "responses": {
+          "200": {
+            "description": "Revoke current login; repeat/no login is successful",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Set-Cookie": {
+                "description": "Refresh or clearing B_REFRESH HttpOnly/Secure/SameSite=Lax/Host-only; Path=/api/v1/auth. CSRF cookies may also be set as separate header fields. Refresh token never in JSON.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmptySuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "X-CSRF-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required together with same-origin CSRF cookie on browser auth POST endpoints."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmptyRequest"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "implemented-B-02.2"
+      }
+    },
+    "/users/me": {
+      "get": {
+        "operationId": "me",
+        "summary": "Read current user, never client selected userId",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "USER",
+        "responses": {
+          "200": {
+            "description": "Read current user, never client selected userId",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-implementation-status": "implemented-B-02.2"
+      }
+    },
+    "/products": {
+      "get": {
+        "operationId": "listProducts",
+        "summary": "List ON_SALE product information only",
+        "security": [],
+        "x-required-role": "ANONYMOUS",
+        "responses": {
+          "200": {
+            "description": "List ON_SALE product information only",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductPageSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "x-implementation-status": "implemented-B-02.3"
+      }
+    },
+    "/products/{goodsId}": {
+      "get": {
+        "operationId": "getProduct",
+        "summary": "Read ON_SALE product or return 404",
+        "security": [],
+        "x-required-role": "ANONYMOUS",
+        "responses": {
+          "200": {
+            "description": "Read ON_SALE product or return 404",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implementation-status": "implemented-B-02.3"
+      }
+    },
+    "/products/{goodsId}/trial": {
+      "post": {
+        "operationId": "trial",
+        "summary": "Trial current confirmed product using authenticated user; no userId/price/version input",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "USER",
+        "responses": {
+          "200": {
+            "description": "Trial current confirmed product using authenticated user; no userId/price/version input",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrialSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmptyRequest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implementation-status": "implemented-B-02.5",
+        "x-accepted-roles": [
+          "USER",
+          "OPERATOR"
+        ],
+        "description": "Requires exactly an empty JSON object and no query parameters. B supplies authenticated user and current ON_SALE, confirmed product version; quantity=1, activityId=null. RPC runs outside local transactions; changed product or sync target discards the result. A authentication failure is 502, not browser 401. No quote cache or price reservation."
+      }
+    },
+    "/admin/products": {
+      "get": {
+        "operationId": "adminList",
+        "summary": "List admin products including OFF_SALE",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "responses": {
+          "200": {
+            "description": "List admin products including OFF_SALE",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminProductPageSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "saleStatus",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ON_SALE",
+                "OFF_SALE"
+              ]
+            }
+          }
+        ],
+        "x-implementation-status": "implemented-B-02.3"
+      },
+      "post": {
+        "operationId": "createProduct",
+        "summary": "Commit product, immutable Outbox and sync target together",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "responses": {
+          "201": {
+            "description": "Commit product, immutable Outbox and sync target together",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminProductSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductFields"
+              }
+            }
+          }
+        },
+        "x-implementation-status": "implemented-B-02.3"
+      }
+    },
+    "/admin/products/{goodsId}": {
+      "get": {
+        "operationId": "adminGet",
+        "summary": "Read management product",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "responses": {
+          "200": {
+            "description": "Read management product",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminProductSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implementation-status": "implemented-B-02.3"
+      },
+      "put": {
+        "operationId": "editProduct",
+        "summary": "Replace full product using expectedVersion; every effective edit increments version",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "responses": {
+          "200": {
+            "description": "Replace full product using expectedVersion; every effective edit increments version",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminProductSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductUpdate"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implementation-status": "implemented-B-02.3"
+      }
+    },
+    "/admin/products/{goodsId}/sync": {
+      "get": {
+        "operationId": "getSync",
+        "summary": "Read actual current target and confirmation separately",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "responses": {
+          "200": {
+            "description": "Read actual current target and confirmation separately",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implementation-status": "implemented-B-02.4"
+      }
+    },
+    "/admin/products/{goodsId}/sync/retries": {
+      "post": {
+        "operationId": "retrySync",
+        "summary": "Queue original event; does not imply A applied",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "responses": {
+          "202": {
+            "description": "Queue original event; does not imply A applied",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrySuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Authenticated upstream result cannot be safely confirmed; no successful requeue is claimed.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetryRequest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implementation-status": "implemented-B-02.4",
+        "description": "Requires current product version and current target event. Confirmed/rejected/conflicting evidence cannot be resent. Published events first query A: only authoritative NOT_FOUND permits re-publication of the immutable original event. 202 means queued, never A applied."
+      }
+    },
+    "/admin/users/me": {
+      "get": {
+        "operationId": "getOperatorMe",
+        "summary": "Read own current identity, OPERATOR only",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "responses": {
+          "200": {
+            "description": "Read current user, never client selected userId",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-implementation-status": "implemented-B-02.2",
+        "description": "Requires valid access JWT and current OPERATOR role, active login grant and enabled user. Rejects all query parameters, including target userId."
+      }
+    },
+    "/admin/products/{goodsId}/sync/pauses": {
+      "post": {
+        "operationId": "pauseSync",
+        "summary": "Pause automatic recovery of current immutable event",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "responses": {
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Read actual current target and confirmation separately",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncSuccess"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetryRequest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implementation-status": "implemented-B-02.4"
+      }
+    },
+    "/admin/sync/quarantine": {
+      "get": {
+        "operationId": "listSyncQuarantine",
+        "summary": "Read sanitized quarantine metadata; replay is maintenance CLI only",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "responses": {
+          "200": {
+            "description": "Read actual current target and confirmation separately",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuarantineSuccess"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP and business error as defined in B-02 process document.",
+            "headers": {
+              "X-Request-Id": {
+                "description": "Server generated trace identifier matching body.",
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "x-implementation-status": "implemented-B-02.4"
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "RefreshCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "B_REFRESH"
+      }
+    },
+    "schemas": {
+      "Id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$",
+        "description": "B generated opaque case-sensitive identifier; never trim."
+      },
+      "Version": {
+        "type": "string",
+        "pattern": "^[1-9][0-9]{0,18}$",
+        "description": "Server additionally enforces <=9223372036854775807. Never convert to JS Number."
+      },
+      "Money": {
+        "type": "string",
+        "pattern": "^(?:0\\.(?:0[1-9]|[1-9][0-9])|[1-9][0-9]{0,5}\\.[0-9]{2})$"
+      },
+      "Deduction": {
+        "type": "string",
+        "pattern": "^(?:0|[1-9][0-9]{0,5})\\.[0-9]{2}$"
+      },
+      "LoginName": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 32,
+        "pattern": "^[a-z0-9][a-z0-9._-]{2,31}$"
+      },
+      "Password": {
+        "type": "string",
+        "minLength": 12,
+        "maxLength": 64,
+        "writeOnly": true,
+        "description": "Never trim or log; encoder byte-length limits must be explicit."
+      },
+      "ImageUrl": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "maxLength": 2048,
+        "pattern": "^https://[^\\s]+$",
+        "description": "HTTPS URI with valid host, no userinfo or whitespace; B never fetches remote images."
+      },
+      "UtcTime": {
+        "type": "string",
+        "format": "date-time",
+        "description": "UTC ISO8601 millisecond timestamp."
+      },
+      "User": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "userId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "loginName": {
+            "$ref": "#/components/schemas/LoginName"
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "roles": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "USER",
+                "OPERATOR"
+              ]
+            }
+          }
+        },
+        "required": [
+          "userId",
+          "loginName",
+          "displayName",
+          "roles"
+        ]
+      },
+      "RegisterRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loginName": {
+            "$ref": "#/components/schemas/LoginName"
+          },
+          "password": {
+            "$ref": "#/components/schemas/Password"
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "loginName",
+          "password",
+          "displayName"
+        ]
+      },
+      "LoginRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loginName": {
+            "$ref": "#/components/schemas/LoginName"
+          },
+          "password": {
+            "$ref": "#/components/schemas/Password"
+          }
+        },
+        "required": [
+          "loginName",
+          "password"
+        ]
+      },
+      "EmptyRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+      },
+      "Csrf": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "headerName": {
+            "type": "string",
+            "const": "X-CSRF-TOKEN"
+          }
+        },
+        "required": [
+          "token",
+          "headerName"
+        ]
+      },
+      "Tokens": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "readOnly": true,
+            "description": "JWT kept only in frontend memory; refresh token never appears in JSON."
+          },
+          "tokenType": {
+            "type": "string",
+            "const": "Bearer"
+          },
+          "expiresIn": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "accessToken",
+          "tokenType",
+          "expiresIn",
+          "user"
+        ]
+      },
+      "Product": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "goodsName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Leading/trailing whitespace removed. Server additionally enforces 1..128 UTF-16 code units, matching A String.length; supplementary emoji typically use two. Standard maxLength is only the necessary Unicode-character upper bound.",
+            "x-max-utf16-units": 128
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Plain text; HTML tags rejected, whitespace and newlines preserved."
+          },
+          "imageUrl": {
+            "$ref": "#/components/schemas/ImageUrl"
+          },
+          "originalPrice": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "currency": {
+            "type": "string",
+            "const": "CNY"
+          },
+          "saleStatus": {
+            "type": "string",
+            "const": "ON_SALE"
+          },
+          "productVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "syncReady": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "goodsId",
+          "goodsName",
+          "description",
+          "imageUrl",
+          "originalPrice",
+          "currency",
+          "saleStatus",
+          "productVersion",
+          "syncReady"
+        ]
+      },
+      "ProductFields": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "goodsName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Leading/trailing whitespace removed. Server additionally enforces 1..128 UTF-16 code units, matching A String.length; supplementary emoji typically use two. Standard maxLength is only the necessary Unicode-character upper bound.",
+            "x-max-utf16-units": 128
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2000,
+            "default": "",
+            "description": "Plain text; HTML tags rejected, whitespace and newlines preserved."
+          },
+          "imageUrl": {
+            "$ref": "#/components/schemas/ImageUrl",
+            "default": null
+          },
+          "originalPrice": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "currency": {
+            "type": "string",
+            "const": "CNY"
+          },
+          "saleStatus": {
+            "type": "string",
+            "enum": [
+              "ON_SALE",
+              "OFF_SALE"
+            ],
+            "default": "OFF_SALE"
+          }
+        },
+        "required": [
+          "goodsName",
+          "originalPrice",
+          "currency"
+        ]
+      },
+      "Sync": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "targetVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "targetEventId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "confirmedVersion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Version"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "CONFIRMED",
+              "REJECTED",
+              "RECONCILIATION_REQUIRED"
+            ]
+          },
+          "lastError": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 128,
+            "description": "Sanitized code, never raw MQ body, credentials or upstream exception."
+          },
+          "checkedAt": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/UtcTime"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "goodsId",
+          "targetVersion",
+          "targetEventId",
+          "confirmedVersion",
+          "state",
+          "lastError",
+          "checkedAt"
+        ]
+      },
+      "RetryRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "eventId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "expectedVersion": {
+            "$ref": "#/components/schemas/Version"
+          }
+        },
+        "required": [
+          "eventId",
+          "expectedVersion"
+        ]
+      },
+      "RetryQueued": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "eventId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "status": {
+            "type": "string",
+            "const": "QUEUED"
+          }
+        },
+        "required": [
+          "eventId",
+          "status"
+        ]
+      },
+      "Offer": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "activityId": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "productVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "originalPrice": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "deductionPrice": {
+            "$ref": "#/components/schemas/Deduction"
+          },
+          "payPrice": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "currency": {
+            "type": "string",
+            "const": "CNY"
+          },
+          "targetCount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "required": [
+          "activityId",
+          "goodsId",
+          "productVersion",
+          "originalPrice",
+          "deductionPrice",
+          "payPrice",
+          "currency",
+          "targetCount"
+        ]
+      },
+      "Trial": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "productVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "quotedAt": {
+            "$ref": "#/components/schemas/UtcTime"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "AVAILABLE",
+              "INELIGIBLE",
+              "NO_PUBLIC_OFFER"
+            ]
+          },
+          "offer": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Offer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "goodsId",
+          "productVersion",
+          "quotedAt",
+          "state",
+          "offer"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "state": {
+                  "const": "NO_PUBLIC_OFFER"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "offer": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "state": {
+                  "const": "AVAILABLE"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "offer": {
+                  "$ref": "#/components/schemas/Offer"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "FieldError": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "field": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "field",
+          "reason"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "VALIDATION_FAILED",
+              "AUTH_REQUIRED",
+              "TOKEN_INVALID",
+              "TOKEN_EXPIRED",
+              "INVALID_CREDENTIALS",
+              "FORBIDDEN",
+              "CSRF_INVALID",
+              "PRODUCT_NOT_FOUND",
+              "LOGIN_NAME_UNAVAILABLE",
+              "PRODUCT_EDIT_CONFLICT",
+              "PRODUCT_SYNC_PENDING",
+              "PRODUCT_VERSION_MISMATCH",
+              "RETRY_NOT_ALLOWED",
+              "RATE_LIMITED",
+              "UPSTREAM_RESPONSE_INVALID",
+              "INTEGRATION_AUTH_FAILED",
+              "DEPENDENCY_UNAVAILABLE",
+              "UPSTREAM_TIMEOUT",
+              "INTERNAL_ERROR",
+              "PRODUCT_VERSION_EXHAUSTED",
+              "RESOURCE_NOT_FOUND",
+              "METHOD_NOT_ALLOWED",
+              "UNSUPPORTED_MEDIA_TYPE"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "type": "null"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "fieldErrors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldError"
+            }
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "ProductUpdate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "goodsName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Leading/trailing whitespace removed. Server additionally enforces 1..128 UTF-16 code units, matching A String.length; supplementary emoji typically use two. Standard maxLength is only the necessary Unicode-character upper bound.",
+            "x-max-utf16-units": 128
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Plain text; HTML tags rejected, whitespace and newlines preserved."
+          },
+          "imageUrl": {
+            "$ref": "#/components/schemas/ImageUrl"
+          },
+          "originalPrice": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "currency": {
+            "type": "string",
+            "const": "CNY"
+          },
+          "saleStatus": {
+            "type": "string",
+            "enum": [
+              "ON_SALE",
+              "OFF_SALE"
+            ],
+            "default": "OFF_SALE"
+          },
+          "expectedVersion": {
+            "$ref": "#/components/schemas/Version"
+          }
+        },
+        "required": [
+          "goodsName",
+          "description",
+          "imageUrl",
+          "originalPrice",
+          "currency",
+          "saleStatus",
+          "expectedVersion"
+        ]
+      },
+      "AdminProduct": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "goodsName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Leading/trailing whitespace removed. Server additionally enforces 1..128 UTF-16 code units, matching A String.length; supplementary emoji typically use two. Standard maxLength is only the necessary Unicode-character upper bound.",
+            "x-max-utf16-units": 128
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Plain text; HTML tags rejected, whitespace and newlines preserved."
+          },
+          "imageUrl": {
+            "$ref": "#/components/schemas/ImageUrl"
+          },
+          "originalPrice": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "currency": {
+            "type": "string",
+            "const": "CNY"
+          },
+          "saleStatus": {
+            "type": "string",
+            "enum": [
+              "ON_SALE",
+              "OFF_SALE"
+            ]
+          },
+          "productVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "syncReady": {
+            "type": "boolean"
+          },
+          "sync": {
+            "$ref": "#/components/schemas/Sync"
+          }
+        },
+        "required": [
+          "goodsId",
+          "goodsName",
+          "description",
+          "imageUrl",
+          "originalPrice",
+          "currency",
+          "saleStatus",
+          "productVersion",
+          "syncReady",
+          "sync"
+        ]
+      },
+      "ProductPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "size",
+          "total"
+        ]
+      },
+      "AdminProductPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminProduct"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "size",
+          "total"
+        ]
+      },
+      "UserSuccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "$ref": "#/components/schemas/User"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "TokenSuccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "$ref": "#/components/schemas/Tokens"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "CsrfSuccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "$ref": "#/components/schemas/Csrf"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "ProductSuccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "AdminProductSuccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "$ref": "#/components/schemas/AdminProduct"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "ProductPageSuccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "$ref": "#/components/schemas/ProductPage"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "AdminProductPageSuccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "$ref": "#/components/schemas/AdminProductPage"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "SyncSuccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "$ref": "#/components/schemas/Sync"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "RetrySuccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "$ref": "#/components/schemas/RetryQueued"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "TrialSuccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "$ref": "#/components/schemas/Trial"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "EmptySuccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "type": "null"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "QuarantineMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "quarantineId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "bodyHash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "originalSize": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "storedAt": {
+            "$ref": "#/components/schemas/UtcTime"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "QUARANTINED",
+              "REPLAYED"
+            ]
+          }
+        },
+        "required": [
+          "quarantineId",
+          "bodyHash",
+          "reason",
+          "originalSize",
+          "storedAt",
+          "state"
+        ]
+      },
+      "QuarantinePage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/QuarantineMetadata"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "size",
+          "total"
+        ]
+      },
+      "QuarantineSuccess": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "$ref": "#/components/schemas/QuarantinePage"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      }
+    }
+  },
+  "x-identity-acceptance": "passed-B-02.2",
+  "x-product-acceptance": "passed-B-02.3",
+  "x-product-name-decision": "D12-confirmed-128-UTF16-code-units",
+  "x-sync-acceptance": {
+    "stage": "B-02.4",
+    "status": "passed-actual-B-02.4",
+    "production-reconsume-limit": 8,
+    "production-send-backoff-minutes": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "continue-after-five-failures": true,
+    "quarantine-browser": "metadata-only",
+    "replay": "external trusted-key maintenance CLI, reverify original bytes",
+    "source": "docs/b02-development.md section 13",
+    "evidence": "D:/Java/zj-market-b01/target/sync/b024-20261008-195839/verify.txt; target/sync/browser.txt; target/sync/maintenance-cli.txt"
+  },
+  "x-acceptance-run": "b026-20261008-220506"
+}
