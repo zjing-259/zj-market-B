@@ -1,8 +1,56 @@
 HELP.md
+
+# Maven and other generated build output (at any module depth)
 target/
+build/
 .mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+*.jar
+*.war
+
+# Local credentials, environment and private signing / TLS material
+.local/
+.env
+.env.*
+.envrc
+!.env.example
+!.env.sample
+!.env.template
+!.env.*.example
+!.env.*.sample
+!.env.*.template
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa
+id_ecdsa
+id_ed25519
+credentials.xml
+*.credentials.xml
+credentials.json
+secrets.json
+plain_acl.yml
+plain_acl.yaml
+
+# Runtime / verification evidence may include cookies, tokens or request bodies
+logs/
+.logs/
+*.log
+*.har
+*.hprof
+*.dump
+*.sql.gz
+*.sql.zip
+*.bak
+
+# Frontend dependencies and generated output; retain source and package-lock.json
+node_modules/
+frontend/dist/
+coverage/
+.vite/
+*.tsbuildinfo
 
 ### STS ###
 .apt_generated
@@ -14,10 +62,12 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
+# Share the portable .run/B_JDK21.run.xml; keep private overrides local
+.run/*.local.run.xml
 
 ### NetBeans ###
 /nbproject/private/
@@ -25,9 +75,6 @@ target/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/

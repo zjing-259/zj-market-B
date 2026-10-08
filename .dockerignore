@@ -1,0 +1,6 @@
+**
+!zj-market-app/
+zj-market-app/*
+!zj-market-app/target/
+zj-market-app/target/*
+!zj-market-app/target/zj-market-app-exec.jar

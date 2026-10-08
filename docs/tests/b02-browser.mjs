@@ -1,0 +1,61 @@
+import { createRequire } from 'node:module'
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { mkdir, writeFile } from 'node:fs/promises'
+import { randomUUID } from 'node:crypto'
+import assert from 'node:assert/strict'
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..')
+const require=createRequire(resolve(root,'target/b02-browser-runtime/package.json'))
+const {chromium}=require('playwright')
+const browser=await chromium.launch({headless:true,executablePath:process.env.B_BROWSER_EXECUTABLE ?? 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'})
+const context=await browser.newContext({viewport:{width:1280,height:900}})
+const page=await context.newPage()
+const errors=[];page.on('pageerror',e=>errors.push(e.message))
+const name='web'+randomUUID().replaceAll('-','').slice(0,16)
+const password='Browser-'+randomUUID()
+let accessToken
+page.on('response',async response=>{if(response.url().endsWith('/auth/login') && response.status()===200){accessToken=(await response.json()).data.accessToken}})
+try {
+ await page.goto('http://127.0.0.1:5173/register')
+ await page.locator('#loginName').fill(name)
+ await page.locator('#displayName').fill('浏览器测试用户')
+ await page.locator('#password').fill(password)
+ await page.getByRole('button',{name:'注册账号',exact:true}).click()
+ await page.getByRole('status').filter({hasText:'注册成功'}).waitFor()
+ await page.locator('#password').fill(password+'wrong')
+ await page.locator('form').getByRole('button',{name:'登录',exact:true}).click()
+ await page.getByRole('alert').filter({hasText:'账号或密码错误'}).waitFor()
+ await page.locator('#password').fill(password)
+ await page.locator('form').getByRole('button',{name:'登录',exact:true}).click()
+ await page.getByRole('heading',{name:'你好，浏览器测试用户'}).waitFor()
+ assert.equal(await page.getByRole('button',{name:'验证运营权限'}).count(),0)
+ assert.equal(await page.evaluate(()=>localStorage.length+sessionStorage.length),0)
+ const cookies=await context.cookies();const refresh=cookies.find(c=>c.name==='B_REFRESH')
+ assert.ok(refresh?.httpOnly);assert.equal(refresh.sameSite,'Lax');assert.equal(refresh.path,'/api/v1/auth');assert.equal(refresh.secure,false)
+ assert.ok(accessToken)
+ const other=await context.newPage()
+ await Promise.all([page.reload(),other.goto('http://127.0.0.1:5173/login')])
+ await Promise.all([page.getByRole('heading',{name:'你好，浏览器测试用户'}).waitFor(),other.getByRole('heading',{name:'你好，浏览器测试用户'}).waitFor()])
+ // Invoke the same HTTP client used by pages; the JWT remains inside the module.
+ const concurrent=await page.evaluate(async()=>{const api=await import('/src/auth.ts');return Promise.all([api.request('/users/me'),api.request('/users/me')]).then(rows=>rows.map(row=>row.loginName))})
+ assert.deepEqual(concurrent,[name,name])
+ await mkdir(resolve(root,'target/identity'),{recursive:true})
+ await page.screenshot({path:resolve(root,'target/identity/browser-signed-in.png'),fullPage:true})
+ await page.getByRole('button',{name:'退出登录',exact:true}).click()
+ await Promise.all([page.getByRole('heading',{name:'欢迎回来'}).waitFor(),other.getByRole('heading',{name:'欢迎回来'}).waitFor()])
+ await page.reload();await page.getByRole('heading',{name:'欢迎回来'}).waitFor()
+ if(!process.env.B_BROWSER_OPERATOR_LOGIN_NAME || !process.env.B_BROWSER_OPERATOR_PASSWORD)throw new Error('Explicit test operator credentials are required.')
+ await page.locator('#loginName').fill(process.env.B_BROWSER_OPERATOR_LOGIN_NAME)
+ await page.locator('#password').fill(process.env.B_BROWSER_OPERATOR_PASSWORD)
+ await page.locator('form').getByRole('button',{name:'登录',exact:true}).click()
+ await page.getByRole('button',{name:'验证运营权限',exact:true}).click()
+ await page.getByRole('status').filter({hasText:'运营身份验证成功'}).waitFor()
+ await page.getByRole('button',{name:'退出登录',exact:true}).click()
+ await page.getByRole('heading',{name:'欢迎回来'}).waitFor()
+ assert.deepEqual(errors,[])
+ await page.setViewportSize({width:390,height:844})
+ await page.screenshot({path:resolve(root,'target/identity/browser-login-mobile.png'),fullPage:true})
+ const report=['browser=Edge headless','registration/login-failure/login=PASSED','refresh-on-reload/two-tabs/Web-Locks=PASSED','USER-no-operator-action/explicit-CLI-OPERATOR-allowed=PASSED','JWT-memory-only/no-localStorage/no-sessionStorage=PASSED','HttpOnly/SameSite/host-cookie/path=PASSED (explicit loopback Secure=false)','logout/cross-tab-logout/reload-logged-out=PASSED','pageErrors=0','status=PASSED']
+ await writeFile(resolve(root,'target/identity/browser.txt'),report.join('\n')+'\n')
+ console.log('B browser identity verification: PASSED')
+} finally {await browser.close()}
