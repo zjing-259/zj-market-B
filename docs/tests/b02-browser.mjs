@@ -41,8 +41,22 @@ try {
  assert.deepEqual(concurrent,[name,name])
  await mkdir(resolve(root,'target/identity'),{recursive:true})
  await page.screenshot({path:resolve(root,'target/identity/browser-signed-in.png'),fullPage:true})
+ // Switch the shared cookie in tab two while tab one retains its old JWT.
+ const secondName=name+'x'
+ const [secondLogin]=await Promise.all([
+  other.waitForResponse(response=>response.url().endsWith('/auth/login') && response.status()===200),
+  other.evaluate(async ({loginName,password})=>{const api=await import('/src/services/auth.ts');await api.register(loginName,password,'第二标签页用户');await api.login(loginName,password)}, {loginName:secondName,password})
+ ])
+ const secondAccess=(await secondLogin.json()).data.accessToken
+ assert.equal(await page.evaluate(async()=>{const api=await import('/src/services/auth.ts');return (await api.request('/users/me')).loginName}),name)
+ assert.equal(await other.evaluate(async()=>{const api=await import('/src/services/auth.ts');return (await api.request('/users/me')).loginName}),secondName)
  await page.getByRole('button',{name:'退出登录',exact:true}).click()
  await Promise.all([page.getByRole('heading',{name:'欢迎回来'}).waitFor(),other.getByRole('heading',{name:'欢迎回来'}).waitFor()])
+ for(const jwt of [accessToken,secondAccess]) {
+  const response=await context.request.get('http://127.0.0.1:5173/api/v1/users/me',{headers:{Authorization:`Bearer ${jwt}`}})
+  assert.equal(response.status(),401)
+ }
+ assert.equal((await context.cookies()).some(cookie=>cookie.name==='B_REFRESH'),false)
  await page.reload();await page.getByRole('heading',{name:'欢迎回来'}).waitFor()
  if(!process.env.B_BROWSER_OPERATOR_LOGIN_NAME || !process.env.B_BROWSER_OPERATOR_PASSWORD)throw new Error('Explicit test operator credentials are required.')
  await page.locator('#loginName').fill(process.env.B_BROWSER_OPERATOR_LOGIN_NAME)
@@ -55,7 +69,7 @@ try {
  assert.deepEqual(errors,[])
  await page.setViewportSize({width:390,height:844})
  await page.screenshot({path:resolve(root,'target/identity/browser-login-mobile.png'),fullPage:true})
- const report=['browser=Edge headless','registration/login-failure/login=PASSED','refresh-on-reload/two-tabs/Web-Locks=PASSED','USER-no-operator-action/explicit-CLI-OPERATOR-allowed=PASSED','JWT-memory-only/no-localStorage/no-sessionStorage=PASSED','HttpOnly/SameSite/host-cookie/path=PASSED (explicit loopback Secure=false)','logout/cross-tab-logout/reload-logged-out=PASSED','pageErrors=0','status=PASSED']
+ const report=['browser=Edge headless','registration/login-failure/login=PASSED','refresh-on-reload/two-tabs/Web-Locks=PASSED','USER-no-operator-action/explicit-CLI-OPERATOR-allowed=PASSED','JWT-memory-only/no-localStorage/no-sessionStorage=PASSED','HttpOnly/SameSite/host-cookie/path=PASSED (explicit loopback Secure=false)','logout/cross-tab-logout/reload-logged-out=PASSED','two-tabs/different-user-login/shared-cookie-old-JWT/both-issued-JWTs-revoked/cookie-cleared=PASSED','pageErrors=0','status=PASSED']
  await writeFile(resolve(root,'target/identity/browser.txt'),report.join('\n')+'\n')
  console.log('B browser identity verification: PASSED')
 } finally {await browser.close()}

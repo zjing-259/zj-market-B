@@ -77,6 +77,30 @@ public final class IdentityCommands {
                 client.post("/auth/refresh",Map.of(),null,401);client.get("/users/me",fresh,401);
                 evidence.add("register/validation/duplicate/escalation/CSRF/login/me/USER-denied=PASSED");
                 evidence.add("refresh-rotation/absolute-lifetime/replay-family-revocation=PASSED");
+                // Independent tabs retain JWTs but share the client's current cookie.
+                String otherLogin="v"+suffix;
+                client.post("/auth/register",Map.of("loginName",otherLogin,"password",password,"displayName","second tab user"),null,201);
+                for(String currentLogin:List.of(login,otherLogin)) {
+                    var untouched=new Client(base,origin);String untouchedJwt=untouched.login(login,password);
+                    String oldJwt=client.login(login,password);String currentJwt=client.login(currentLogin,password);
+                    client.get("/users/me",oldJwt,200);client.get("/users/me",currentJwt,200);
+                    client.post("/auth/logout",Map.of(),oldJwt,200);
+                    client.get("/users/me",oldJwt,401);client.get("/users/me",currentJwt,401);
+                    check(client.cookies.getCookieStore().getCookies().stream().noneMatch(c->c.getName().equals("B_REFRESH") && !c.hasExpired()),"logout clears shared refresh cookie");
+                    untouched.get("/users/me",untouchedJwt,200);untouched.post("/auth/logout",Map.of(),untouchedJwt,200);
+                }
+                // Failure on the second revoke must roll back the first revoke too.
+                String rollbackOld=client.login(login,password);String rollbackCurrent=client.login(otherLogin,password);String rollbackCookie=client.refresh();
+                var revokeCalls=new java.util.concurrent.atomic.AtomicInteger();
+                var failingStore=(IIdentityRepository)java.lang.reflect.Proxy.newProxyInstance(IIdentityRepository.class.getClassLoader(),new Class[]{IIdentityRepository.class},(proxy,method,values)->{
+                    if(method.getName().equals("revoke") && revokeCalls.incrementAndGet()==2)throw new IllegalStateException("controlled second-revoke failure");
+                    try{return method.invoke(storeAtStart,values);}catch(java.lang.reflect.InvocationTargetException failure){throw failure.getCause();}
+                });
+                try{new IdentityService(failingStore,passwords,realTokensAtStart,java.time.Clock.systemUTC(),900,604800).logout(rollbackOld,rollbackCookie);throw new IllegalStateException("check: second revoke failure expected");}
+                catch(IllegalStateException expected){check(expected.getMessage().equals("controlled second-revoke failure"),"controlled logout transaction failure");}
+                service.authenticate(rollbackOld);service.authenticate(rollbackCurrent);
+                client.post("/auth/logout",Map.of(),rollbackOld,200);client.get("/users/me",rollbackOld,401);client.get("/users/me",rollbackCurrent,401);
+                evidence.add("actual-HTTP/shared-cookie-old-JWT/same-user+different-user/both-grants-revoked/unrelated-login-retained/cookie-cleared/MySQL-dual-revoke-rollback=PASSED");
                 jwt=client.login(login,password);client.post("/auth/logout",Map.of(),jwt,200);client.get("/users/me",jwt,401);
                 client.post("/auth/logout",Map.of(),null,200);
                 jwt=client.login(login,password);

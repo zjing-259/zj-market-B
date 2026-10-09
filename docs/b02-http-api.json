@@ -730,7 +730,7 @@
     "/auth/logout": {
       "post": {
         "operationId": "logout",
-        "summary": "Revoke current login; repeat/no login is successful",
+        "summary": "Atomically revoke JWT and refresh-cookie logins; repeat/no login is successful",
         "security": [
           {},
           {
@@ -743,7 +743,7 @@
         "x-required-role": "OPTIONAL_CURRENT_GRANT",
         "responses": {
           "200": {
-            "description": "Revoke current login; repeat/no login is successful",
+            "description": "Atomically revoke JWT and refresh-cookie logins; repeat/no login is successful",
             "headers": {
               "X-Request-Id": {
                 "description": "Server generated trace identifier matching body.",

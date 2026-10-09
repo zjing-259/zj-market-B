@@ -25,7 +25,7 @@ public final class ProductSyncRepository implements IProductSyncRepository {
   // Database time is read after locking the candidate, not before any lock wait.
   long now=m.now();String token=UUID.randomUUID().toString();m.claim(w.eventId(),token,now+leaseMillis,kind.equals("SEND")?1:0,kind.equals("QUERY")?1:0);return m.event(w.eventId(),false);
  });}
- public void sent(SyncWork w,long queryMillis){tx.executeWithoutResult(status -> {long now=m.now();m.sent(w.eventId(),w.leaseToken(),now,now+queryMillis);});}
+ public void sent(SyncWork w,long queryMillis){tx.executeWithoutResult(status -> {var locked=lock(w.eventId());if(locked==null)return;long now=m.now();m.sent(w.eventId(),w.leaseToken(),now,now+queryMillis);});}
  public void failed(SyncWork w,String kind,String code,boolean permanent,long delay){tx.executeWithoutResult(status -> {
   var locked=lock(w.eventId());if(locked==null)return;long now=m.now();String error=!permanent && kind.equals("SEND") && w.sendFailures()+1>=5?"PUBLISH_FAILED_ALERT":code;
   if(m.failed(w.eventId(),w.leaseToken(),now,kind.equals("SEND")?1:0,error,permanent?"RECONCILIATION_REQUIRED":"WAITING",permanent,now+delay,now+delay)==1)

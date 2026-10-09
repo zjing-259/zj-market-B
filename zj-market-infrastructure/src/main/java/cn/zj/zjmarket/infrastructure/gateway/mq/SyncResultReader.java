@@ -15,7 +15,7 @@ import java.util.*;
 /** Verify original bytes before strict decoding; bounded quarantine ACK occurs only after persistence. */
 public final class SyncResultReader {
  private final MqSettings settings;private final IProductSyncRepository store;private final Map<String,String> keys;
- private final ObjectMapper json=new ObjectMapper().enable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION);
+ private final ObjectMapper json=new ObjectMapper().enable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION).enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
  public SyncResultReader(MqSettings settings,IProductSyncRepository store,Map<String,String> keys){this.settings=settings;this.store=store;this.keys=Map.copyOf(keys);}
  public boolean receive(SyncBadMessage message){
   try{store.accept(decode(message),"PRODUCT_SYNC_MQ");return true;}
@@ -28,7 +28,7 @@ public final class SyncResultReader {
    if(!settings.getResultTopic().equals(message.topic()) || !"EVENT_PROCESSING_RESULT".equals(message.tag()))throw invalid("UNEXPECTED_TOPIC_OR_TAG");
    String secret=keys.get(message.keyId());if(secret==null || !ContractCodec.validSignature(secret,message.topic(),message.body(),message.signature()))throw invalid("SIGNATURE_INVALID");
    var envelope=json.readTree(message.body());fields(envelope,"eventId,eventType,schemaVersion,producer,occurredAt,source,channel,correlationId,payload");
-   String id=id(envelope,"eventId",64);if(!"EVENT_PROCESSING_RESULT".equals(text(envelope,"eventType")) || !envelope.path("schemaVersion").isIntegralNumber() || envelope.path("schemaVersion").asInt()!=1)throw invalid("SCHEMA_INVALID");
+   String id=id(envelope,"eventId",64);if(!"EVENT_PROCESSING_RESULT".equals(text(envelope,"eventType")) || !envelope.path("schemaVersion").isIntegralNumber() || !envelope.path("schemaVersion").bigIntegerValue().equals(java.math.BigInteger.ONE))throw invalid("SCHEMA_INVALID");
    if(!settings.getAProducerId().equals(text(envelope,"producer")) || !settings.getSource().equals(text(envelope,"source")) || !settings.getChannel().equals(text(envelope,"channel")))throw invalid("SOURCE_INVALID");
    utc(envelope,"occurredAt");var payload=envelope.get("payload");
    var result=parse(payload,id,settings.getAProducerId(),ContractCodec.sha256(message.body()));

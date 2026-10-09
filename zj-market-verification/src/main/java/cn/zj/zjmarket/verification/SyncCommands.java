@@ -60,6 +60,7 @@ public final class SyncCommands {
     System.out.println("B sync phase prepare/A-offline: PASSED");return 0;
    }
    evidence.add("java="+Runtime.version());evidence.add("springBoot="+SpringBootVersion.getVersion());
+   SyncLeaseRegression.verify(products,store,db,evidence);
    localMatrix(products,store,service,reader,db,ctx.getBean(MqSettings.class));
    var fixtures=JSON.readTree(Files.readAllBytes(fixtureFile));var original=fixtures.path("persisted");String event=original.path("eventId").asText(),goods=original.path("goodsId").asText();
    forceDue(db,event);waitFor(() -> {service.queryOne(event);return products.detail(goods,true).sync().ready(1);},50000,"RPC restores missed result after process restart");
@@ -126,11 +127,14 @@ public final class SyncCommands {
   try{real.retry(rejected.product().goodsId(),rejected.sync().targetEventId(),1,"verification-operator");throw new IllegalStateException("check: rejection retry expected");}catch(ProductFailure expected){check(expected.status()==409,"rejected retry denied");}
   var bad=message(mq,first,goods,"1","ON_SALE","APPLIED",UUID.randomUUID().toString());long qBefore=store.quarantined(1,100).total();
   var badSignature=new SyncBadMessage(bad.topic(),bad.tag(),bad.keyId(),"invalid",bad.body(),null);check(!reader.receive(badSignature) && !reader.receive(badSignature),"invalid signature quarantined");check(store.quarantined(1,100).total()==qBefore+1,"quarantine deduplicates");
-  for(String change:List.of("schema","producer","channel","unknown","boolean","duplicate")){
+  for(String change:List.of("schema","schema-overflow","schema-bigint","trailing-object","producer","channel","unknown","boolean","duplicate")){
    var tree=(com.fasterxml.jackson.databind.node.ObjectNode)JSON.readTree(bad.body());
-   switch(change){case "schema"->tree.put("schemaVersion",2);case "producer"->tree.put("producer","rogue");case "channel"->tree.put("channel","other");case "unknown"->((com.fasterxml.jackson.databind.node.ObjectNode)tree.path("payload")).put("unknown",true);case "boolean"->((com.fasterxml.jackson.databind.node.ObjectNode)tree.path("payload").path("result")).put("applied",false);default->{}}
+   switch(change){case "schema"->tree.put("schemaVersion",2);case "schema-overflow"->tree.put("schemaVersion",4294967297L);case "schema-bigint"->tree.put("schemaVersion",new java.math.BigInteger("18446744073709551617"));case "producer"->tree.put("producer","rogue");case "channel"->tree.put("channel","other");case "unknown"->((com.fasterxml.jackson.databind.node.ObjectNode)tree.path("payload")).put("unknown",true);case "boolean"->((com.fasterxml.jackson.databind.node.ObjectNode)tree.path("payload").path("result")).put("applied",false);default->{}}
    var invalid=signed(mq,tree,mq.getAKeyId(),mq.getASecret());if(change.equals("duplicate")){String raw=new String(invalid.body(),java.nio.charset.StandardCharsets.UTF_8).replace("\"schemaVersion\":1","\"schemaVersion\":1,\"schemaVersion\":1");byte[] bytes=raw.getBytes(java.nio.charset.StandardCharsets.UTF_8);invalid=new SyncBadMessage(mq.getResultTopic(),"EVENT_PROCESSING_RESULT",mq.getAKeyId(),ContractCodec.hmac(mq.getASecret(),mq.getResultTopic()+"\n"+ContractCodec.sha256(bytes)),bytes,null);}
+   if(change.equals("trailing-object")){byte[] bytes=(new String(invalid.body(),java.nio.charset.StandardCharsets.UTF_8)+"{}").getBytes(java.nio.charset.StandardCharsets.UTF_8);invalid=new SyncBadMessage(mq.getResultTopic(),"EVENT_PROCESSING_RESULT",mq.getAKeyId(),ContractCodec.hmac(mq.getASecret(),mq.getResultTopic()+"\n"+ContractCodec.sha256(bytes)),bytes,null);}
+   long beforePoison=store.quarantined(1,100).total();
    check(!reader.receive(invalid),"strict poison "+change);
+   check(store.quarantined(1,100).total()==beforePoison+1,"strict poison durably isolated "+change);
   }
   IProductSyncRepository broken=(IProductSyncRepository)java.lang.reflect.Proxy.newProxyInstance(IProductSyncRepository.class.getClassLoader(),new Class[]{IProductSyncRepository.class},(proxy,method,args)->{if(method.getName().equals("quarantine"))throw new org.springframework.jdbc.CannotGetJdbcConnectionException("controlled failure");try{return method.invoke(store,args);}catch(java.lang.reflect.InvocationTargetException e){throw e.getCause();}});
   try{new SyncResultReader(mq,broken,Map.of(mq.getAKeyId(),mq.getASecret())).receive(badSignature);throw new IllegalStateException("check: quarantine failure must retry");}catch(org.springframework.jdbc.CannotGetJdbcConnectionException expected){}

@@ -92,16 +92,18 @@ public final class IdentityService implements IIdentityService {
         return new AuthenticatedPrincipal(user.view(),grant.grantId());
     }
     public void logout(String access,String refresh) {
-        String grantId=null;
+        // Tabs keep independent JWTs but share the refresh cookie. Revoke both
+        // proven grants atomically; stable ordering avoids opposite-order locks.
+        var grantIds=new TreeSet<String>();
         if(access!=null) {
-            try {grantId=tokens.verify(access).grantId();}
-            catch(AuthFailure ignored) { /* Expired/invalid access may fall back to cookie. */ }
+            try {grantIds.add(tokens.verify(access).grantId());}
+            catch(AuthFailure ignored) { /* Expired/invalid access does not discard the cookie. */ }
         }
-        if(grantId==null && refresh!=null && !refresh.isBlank()) {
-            try {var credential=store.refresh(digest(refresh)); if(credential!=null)grantId=credential.grantId();}
+        if(refresh!=null && !refresh.isBlank()) {
+            try {var credential=store.refresh(digest(refresh));if(credential!=null)grantIds.add(credential.grantId());}
             catch(AuthFailure ignored) { /* Idempotent invalid-cookie logout. */ }
         }
-        if(grantId!=null) {String target=grantId;store.transaction(() -> {store.revoke(target);return null;});}
+        if(!grantIds.isEmpty())store.transaction(() -> {grantIds.forEach(store::revoke);return null;});
     }
     private boolean active(User user,LoginGrant grant) {
         return user!=null && user.enabled() && !grant.revoked() && grant.expiresAt()>now()
