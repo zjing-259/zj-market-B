@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>cn.zj</groupId>
+    <artifactId>zj-market</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>zj-market-types</artifactId>
+  <dependencies />
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>layer-dependencies</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <bannedDependencies>
+                  <searchTransitive>true</searchTransitive>
+                  <excludes>
+                    <exclude>cn.bugstack:*</exclude>
+                    <exclude>org.apache.dubbo:*</exclude>
+                    <exclude>org.apache.rocketmq:*</exclude>
+                    <exclude>com.mysql:*</exclude>
+                    <exclude>com.fasterxml.jackson.core:*</exclude>
+                    <exclude>tools.jackson.core:*</exclude>
+                    <exclude>org.springframework:*</exclude>
+                    <exclude>org.springframework.boot:*</exclude>
+                    <exclude>cn.zj:zj-market-infrastructure</exclude>
+                    <exclude>cn.zj:zj-market-trigger</exclude>
+                    <exclude>cn.zj:zj-market-app</exclude>
+                    <exclude>cn.zj:zj-market-verification</exclude>
+                    <exclude>cn.zj:zj-market-domain</exclude>
+                    <exclude>cn.zj:zj-market-api</exclude>
+                  </excludes>
+                  <message>Do not introduce outward layer dependencies or A SDK types into types.</message>
+                </bannedDependencies>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

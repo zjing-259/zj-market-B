@@ -1,29 +1,31 @@
 package cn.zj.zjmarket.verification;
-import cn.zj.zjmarket.application.product.*;
-import cn.zj.zjmarket.infrastructure.product.*;
-import cn.zj.zjmarket.infrastructure.config.MqSettings;
-import cn.zj.zjmarket.infrastructure.integration.codec.ContractCodec;
-import org.springframework.context.ApplicationContext;
+
+import cn.zj.zjmarket.domain.product.adapter.repository.IProductSyncRepository;
+import cn.zj.zjmarket.domain.product.model.valobj.SyncResult;
+import cn.zj.zjmarket.infrastructure.config.properties.MqSettings;
+import cn.zj.zjmarket.infrastructure.gateway.codec.ContractCodec;
+import cn.zj.zjmarket.infrastructure.gateway.mq.SyncResultReader;
+import java.util.*;
+import java.util.concurrent.atomic.*;
 import org.apache.rocketmq.acl.common.*;
 import org.apache.rocketmq.client.consumer.*;
 import org.apache.rocketmq.client.consumer.listener.*;
 import org.apache.rocketmq.client.consumer.rebalance.AllocateMessageQueueAveragely;
 import org.apache.rocketmq.client.producer.*;
-import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
-import java.util.*;
-import java.util.concurrent.atomic.*;
+import org.apache.rocketmq.common.message.Message;
+import org.springframework.context.ApplicationContext;
 /** Isolated real Broker retry/dead-letter path; production group remains maxReconsumeTimes=8. */
 final class SyncDeadLetter {
- static void verify(ApplicationContext ctx,SyncResultReader reader,SyncTransport.Result fact,List<String> evidence)throws Exception{
-  var mq=ctx.getBean(MqSettings.class);var store=ctx.getBean(SyncStore.class);
+ static void verify(ApplicationContext ctx,SyncResultReader reader,SyncResult fact,List<String> evidence)throws Exception{
+  var mq=ctx.getBean(MqSettings.class);var store=ctx.getBean(IProductSyncRepository.class);
   var original=SyncCommands.message(mq,fact.originalEventId(),fact.goodsId(),fact.currentVersion(),fact.saleStatus(),fact.outcome(),UUID.randomUUID().toString());
   // Match the existing authoritative fact, including processedAt, so this receipt is never new evidence.
   var tree=(com.fasterxml.jackson.databind.node.ObjectNode)SyncCommands.JSON.readTree(original.body());
   ((com.fasterxml.jackson.databind.node.ObjectNode)tree.path("payload")).put("processedAt",fact.processedAt());
   original=SyncCommands.signed(mq,tree,mq.getAKeyId(),mq.getASecret());
   final var target=original;final String hash=ContractCodec.sha256(target.body());var attempts=new AtomicInteger();var recovered=new AtomicBoolean();
-  SyncStore broken=(SyncStore)java.lang.reflect.Proxy.newProxyInstance(SyncStore.class.getClassLoader(),new Class[]{SyncStore.class},(proxy,method,args)->{if(method.getName().equals("accept"))throw new org.springframework.jdbc.CannotGetJdbcConnectionException("controlled verification fault");try{return method.invoke(store,args);}catch(java.lang.reflect.InvocationTargetException e){throw e.getCause();}});
+  IProductSyncRepository broken=(IProductSyncRepository)java.lang.reflect.Proxy.newProxyInstance(IProductSyncRepository.class.getClassLoader(),new Class[]{IProductSyncRepository.class},(proxy,method,args)->{if(method.getName().equals("accept"))throw new org.springframework.jdbc.CannotGetJdbcConnectionException("controlled verification fault");try{return method.invoke(store,args);}catch(java.lang.reflect.InvocationTargetException e){throw e.getCause();}});
   var failingReader=new SyncResultReader(mq,broken,Map.of(mq.getAKeyId(),mq.getASecret()));
   var retry=consumer(mq,"B_SYNC_RETRY_TEST-dev");var dlq=consumer(mq,"B_SYNC_DLQ_READER-dev");
   var producer=new DefaultMQProducer("B024_A_FIXTURE_"+UUID.randomUUID(),new AclClientRPCHook(new SessionCredentials(SyncCommands.env("B_SYNC_TEST_A_ACCESS_KEY"),SyncCommands.env("B_SYNC_TEST_A_SECRET_KEY"))));producer.setNamesrvAddr(mq.getNameserver());producer.setUseTLS(mq.isUseTls());producer.setRetryTimesWhenSendFailed(0);

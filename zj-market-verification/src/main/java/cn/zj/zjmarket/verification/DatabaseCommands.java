@@ -1,12 +1,7 @@
 package cn.zj.zjmarket.verification;
 
 import cn.zj.zjmarket.ZjMarketApplication;
-import cn.zj.zjmarket.infrastructure.config.DatabaseSettings;
-import org.flywaydb.core.Flyway;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.WebApplicationType;
-
-import javax.sql.DataSource;
+import cn.zj.zjmarket.infrastructure.config.properties.DatabaseSettings;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -15,7 +10,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+import javax.sql.DataSource;
+import org.flywaydb.core.Flyway;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 /** Explicit maintenance commands. Not included in the normal app executable. */
 public final class DatabaseCommands {
     private DatabaseCommands() {}

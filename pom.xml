@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -13,8 +13,9 @@
   <packaging>pom</packaging>
   <name>zj-market</name>
   <modules>
+    <module>zj-market-types</module>
+    <module>zj-market-api</module>
     <module>zj-market-domain</module>
-    <module>zj-market-application</module>
     <module>zj-market-infrastructure</module>
     <module>zj-market-trigger</module>
     <module>zj-market-app</module>
@@ -22,7 +23,6 @@
   </modules>
   <properties>
     <java.version>21</java.version>
-    <!-- Fixed after actual B TLS comparison; keep the verified SDK combination. -->
     <netty.version>4.1.118.Final</netty.version>
     <dubbo.version>3.2.16</dubbo.version>
     <rocketmq.version>4.9.7</rocketmq.version>
@@ -33,11 +33,6 @@
       <dependency>
         <groupId>cn.zj</groupId>
         <artifactId>zj-market-domain</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>cn.zj</groupId>
-        <artifactId>zj-market-application</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -79,6 +74,16 @@
         <groupId>org.apache.rocketmq</groupId>
         <artifactId>rocketmq-acl</artifactId>
         <version>${rocketmq.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>cn.zj</groupId>
+        <artifactId>zj-market-types</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>cn.zj</groupId>
+        <artifactId>zj-market-api</artifactId>
+        <version>${project.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

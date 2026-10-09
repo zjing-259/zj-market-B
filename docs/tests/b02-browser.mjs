@@ -37,7 +37,7 @@ try {
  await Promise.all([page.reload(),other.goto('http://127.0.0.1:5173/login')])
  await Promise.all([page.getByRole('heading',{name:'你好，浏览器测试用户'}).waitFor(),other.getByRole('heading',{name:'你好，浏览器测试用户'}).waitFor()])
  // Invoke the same HTTP client used by pages; the JWT remains inside the module.
- const concurrent=await page.evaluate(async()=>{const api=await import('/src/auth.ts');return Promise.all([api.request('/users/me'),api.request('/users/me')]).then(rows=>rows.map(row=>row.loginName))})
+ const concurrent=await page.evaluate(async()=>{const api=await import('/src/services/auth.ts');return Promise.all([api.request('/users/me'),api.request('/users/me')]).then(rows=>rows.map(row=>row.loginName))})
  assert.deepEqual(concurrent,[name,name])
  await mkdir(resolve(root,'target/identity'),{recursive:true})
  await page.screenshot({path:resolve(root,'target/identity/browser-signed-in.png'),fullPage:true})

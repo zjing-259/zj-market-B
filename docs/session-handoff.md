@@ -102,3 +102,55 @@ B-02.6及B-02整体闭环已完成。实际联合批次b026-20261008-220506、�
 本节覆盖前文历史记录中“未提交/合并”“原目录只有初始工程”的当前状态：用户已授权本地提交与合并，B-02源码提交为9d75f82，分支b-02已快进合并到master。D:/Java/zj-market现在包含完整模块工程、前端、脚本及唯一docs/b02-development.md和b02-http-api.json；D:/Java/zj-market-b01保留在b-02。后续在主目录打开IDE时使用master的完整Maven工程；本机凭据继续外部注入，不随Git复制或提交。
 
 原目录14个文件及索引已保留在被忽略的target/merge-b02-20261008-224649，SHA256验证通过；主分支保留最新路线图、完整阶段过程/HTTP契约与交接记录。仅配置B仓库作者ZJ，未推送远程或开展B-03。实际业务验收仍为b026-20261008-220506的PASSED结果，不将Git归档视为重新执行联合验收。本次复杂度中等，按保全、提交、快进、文档补齐四步完成。
+
+## 历史暂停点：B-02文件管理优化（2026-10-08，用户要求暂停）
+
+用户要求现在暂停，保存工作进度；只有用户明确说“恢复工作”后才能继续。此前启动的Java打包与前端构建均已结束，没有继续启动验收。当前任务未完成，不能依据构建通过宣称目录优化已经联合验收。
+
+### 工作位置与已确认方案
+
+- 唯一实施工作树：`D:/Java/zj-market-b02-noFileUpdate`，分支：`b02-noFileUpdate`，基于主分支提交`dd59938`。HEAD仍为该提交，当前整理成果保留为未提交改动；未合并或推送本轮工作。
+- D19（已确认）：按A的模块边界整理，增加`zj-market-api`/`zj-market-types`，业务服务归`domain`，移除`application`。
+- D20（已确认）：为现有业务服务建立`I*Service`，实现放独立子目录。已经确认的选择不要重复询问；出现新的方案分歧继续交用户。
+- A只作为目录规范参考。固定JDK21、Boot4.1.1、Netty/SDK及独立签名配置保持；`CONTEXT.md`是纯业务词汇表，不加入包结构细节。已读取domain-modeling技能及ADR格式，架构决策记录尚待完成。
+
+### 已完成的修改
+
+- 七个模块：types、api、domain、infrastructure、trigger、app、verification；Maven模块列表、依赖与层次约束已经调整，旧application模块已移除。
+- domain按identity/product划分`model/entity`、`model/valobj`、`adapter/repository`、`adapter/port`、`service`、`service/impl`。四个业务服务接口已建立，配置、Controller和验收调用依赖接口。
+- 仓储接口为IIdentityRepository、IProductRepository、IProductSyncRepository；基础设施实现放adapter/repository，DAO接口为IIdentityDao/IProductDao/IProductSyncDao，行模型独立放dao/po。签名/RPC/MQ实现归adapter/port或gateway。
+- 接口/服务/Controller中的公开嵌套模型已经拆成独立文件；身份HTTP DTO及ApiResponse归api，共享失败类型归types。配置装配归app/config，属性类归infrastructure/config/properties，登录安全类归app/security，Controller归trigger/http。
+- 后台循环归trigger/job/ProductSyncJob，以IProductSyncService和IProductResultSubscription及原配置参数装配，保持原后台消费启动和扫描机制；现有匿名密码适配器提取为Argon2Passwords，参数与错误处理保持。
+- 原启动类全名仍为cn.zj.zjmarket.ZjMarketApplication；15项JUnit测试集中到app模块test包。验收verification保持独立模块，尚未进行真实RPC/MQ或HTTP复验。
+- 前端按views/services/types/errors/styles归档，App.vue/main.ts保留入口；浏览器验收内动态加载路径已同步为/src/services/auth.ts。页面行为与依赖锁文件保持。
+
+### 已结束的检查与证据
+
+- `./scripts/mvn.ps1 -MavenArguments @('-B','-o','package')`通过，七模块及独立验收可执行包打包成功。15项测试：启动1、配置边界5、RS256/JWT7、签名编解码2，失败/错误/跳过均为0。报告：`target/layout-build.log`，app/target/surefire-reports。
+- 前端`npm ci --offline --no-audit --no-fund`与`npm run build`通过，TypeScript6.0.3及Vite8.3.3保持。报告：`target/layout-frontend-install.log`、`target/layout-frontend-build.log`。
+- 已跟踪但应忽略的文件为0；新工作树未复制`.local`凭据，后续实际验收需要显式复用原工作树外部配置或复制到被忽略的本地目录，不创建新的数据库账号、不打印或入库秘密。
+- 一轮Maven clean因输出日志位于正在清理的target而失败，已改为只清理并核对各模块target目录后重新编译。早期临时`target/reorganize.py`和迁移映射被这次clean清除，不能依赖其存在，也不要重新执行迁移生成器覆盖当前修正；以当前源码和git diff为准。
+
+### 恢复后的剩余事项与顺序
+
+1. 在此工作树确认状态与上述报告；审查接口/实现目录、模型/DAO、跨层依赖、包可见性、Spring注册和旧application引用，清理遗留空目录及多余导入。审查迁移仅改结构、引用和必要装配，尤其SQL、HTTP字段/权限、签名正文与事务语义。
+2. 完成API/目录规范说明、真实架构决策ADR，以及本工作树内唯一docs/b02-development.md的D19/D20与过程记录；更新当前路线图/启动/交接索引。历史B-01六模块报告作为历史证据保留，标注当前结构入口，不伪改历史验收。现有文档部分仍指向主目录，应核对当前分支记录与链接。
+3. 准备被忽略的验收本地配置：原`D:/Java/zj-market-b01/.local`已有开发/测试库DPAPI账号与学习RSA密钥，新工作树没有这些文件。原A学习配置仍外部使用。验收脚本有旧主目录HTTP契约路径，需核对是否应该改为当前工作树本地契约，避免测试了另一分支。
+4. 针对本次跨模块/模型/装配改动复用现有真实身份/商品/同步/试算及浏览器验收，确认普通应用、后台结果消费、DAO/MyBatis、签名与RPC/MQ链路无行为回退；保持隔离库、独立测试组、调用方环境恢复及共享服务边界。已有构建通过后不要机械重复相同检查，新增修改或真实问题再复验受影响部分。
+5. 最终检查敏感信息/忽略规则、主目录及旧工作树保持原状态，更新实际结果与复杂度。当前任务仅要求在新工作树完成整理；不要沿用上一轮上传授权自动提交、合并或推送本轮成果。
+
+此次任务复杂度高：模块边界变化、公开模型拆分、接口装配及后台消费生命周期互相影响。当前完成目录迁移与构建检查，真实链路复验和文档收口未完成。用户明确暂停，等“恢复工作”继续。
+
+## 当前完成点：B-02文件管理优化（2026-10-09）
+
+用户明确“恢复工作”后，已完成指定工作树 D:/Java/zj-market-b02-noFileUpdate、分支 b02-noFileUpdate 的目录优化。D19/D20落实：七模块（新增api/types、移除application）、业务服务归domain、接口与实现分目录；模型、DAO/PO、仓储、技术适配、配置/触发与前端归位。规范 docs/project-layout.md，决策 docs/adr/0001-domain-service-module-layout.md，唯一B-02过程第17节完整记录。历史暂停状态已解除。
+
+结构审查：105个Java文件包路径/模块归属一致，顶层接口与实现不混目录，依赖无环；Java/SQL字符串不变，11个资源/契约/锁文件保持。只清理经路径检查的23个空源码目录。JDK21打包及15项测试、前端类型/生产构建通过；真实联合批次 layout-20261009-110821 总报告 target/acceptance/layout-20261009-110821/report.json 为 PASSED，实际HTTP/页面、A试算、RPC/MQ/签名/ACL、双B库权限、ACK窗口重启与在线/离线浏览器全部通过。普通包无verification/Flyway，18HTTP操作/316引用有效，环境变更0，自有端口释放，终端Java8保持。
+
+外部DPAPI数据库凭据和学习RSA密钥只复用到被忽略.local；当前候选文件实际秘密、完整私钥、令牌命中0，已跟踪但应忽略0。证据 target/layout-audit.json、layout-resume-build.log、layout-safety.json 和本轮联合目录。A源码不修改，共享服务/既有业务数据不清洗；没有升级或降级依赖。主目录master与旧b-02工作树保持干净。
+
+本节完成整理时HEAD为dd59938，成果当时未提交；后续提交授权与归档见下一节。后续查看IDE请打开此工作树根pom.xml并重新加载七模块，原main全名不变。图形IDE和B的Docker运行仍属于未实测边界。当前文件整理任务已完成，等待用户下一任务；不要自行提交、合并、推送或开展B-03。出现新的方案选择仍交用户。
+
+## 本地提交归档（2026-10-09）
+
+用户已明确授权将当前工作树全部成果提交到 b02-noFileUpdate 分支。本次提交包含七模块目录整理、接口与实现分离、前端归位、验收路径修正及过程/规范/ADR文档；实际联合验收仍为 layout-20261009-110821 的 PASSED，不因Git归档冒称重新执行业务测试。提交标识以该分支最新Git日志为准；本轮只做本地提交，不合并或推送。

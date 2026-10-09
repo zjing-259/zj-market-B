@@ -1,17 +1,18 @@
 package cn.zj.zjmarket.verification;
+
 import cn.bugstack.api.v2.*;
-import cn.zj.zjmarket.infrastructure.config.RpcSettings;
-import cn.zj.zjmarket.infrastructure.product.DubboMarketingTrial;
-import cn.zj.zjmarket.infrastructure.integration.rpc.RpcClientFactory;
-import org.springframework.context.ApplicationContext;
+import cn.zj.zjmarket.infrastructure.adapter.port.product.DubboMarketingTrial;
+import cn.zj.zjmarket.infrastructure.config.properties.RpcSettings;
+import cn.zj.zjmarket.infrastructure.gateway.rpc.RpcClientFactory;
 import com.fasterxml.jackson.databind.JsonNode;
-import javax.net.ssl.*;
+import java.nio.file.*;
 import java.security.*;
 import java.security.cert.*;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.nio.file.*;
 import java.util.*;
 import java.util.concurrent.*;
+import javax.net.ssl.*;
+import org.springframework.context.ApplicationContext;
 /** Controlled envelope inputs and a separate TLS socket stalled on actual SDK traffic, never actual A. */
 final class TrialRpcFaults {
  static void verify(ApplicationContext ctx,ProductCommands.Client http,String jwt,JsonNode f,TrialCommands.Bridge bridge)throws Exception{

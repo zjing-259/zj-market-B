@@ -2,7 +2,6 @@ package cn.zj.zjmarket.verification;
 
 import cn.zj.zjmarket.ZjMarketApplication;
 import org.springframework.boot.SpringApplication;
-
 /** Separate executable using the real B bootstrap and infrastructure. */
 public final class ZjMarketVerificationApplication {
     public static void main(String[] args) {

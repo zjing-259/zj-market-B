@@ -49,10 +49,10 @@ try{
  $entries=& (Join-Path $jdk.Home 'bin/jar.exe') tf zj-market-app/target/zj-market-app-exec.jar
  if($LASTEXITCODE -ne 0 -or @($entries | Where-Object {$_ -match 'verification|flyway'}).Count -ne 0){throw 'Ordinary package boundary failed'}
  [IO.File]::WriteAllLines("$work/package-boundary.txt",@('normal-app-verification/Flyway=ABSENT','status=PASSED'));Require-TextReport 'normal-package' "$work/package-boundary.txt"
- $contract=Get-Content (Join-Path (Split-Path $root -Parent) 'zj-market/docs/b02-http-api.json') -Raw | ConvertFrom-Json -AsHashtable
+ $contract=Get-Content (Join-Path $root 'docs/b02-http-api.json') -Raw | ConvertFrom-Json -AsHashtable
  $operations=@();foreach($path in $contract.paths.Values){foreach($method in @('get','post','put','patch','delete')){if($path.ContainsKey($method)){$operations+=@($path[$method])}}}
  if($operations.Count -ne 18 -or @($operations | Where-Object {$_['x-implementation-status'] -notlike 'implemented-*'}).Count -ne 0){throw 'HTTP implementation inventory mismatch'}
- $refs=[regex]::Matches(([IO.File]::ReadAllText((Join-Path (Split-Path $root -Parent) 'zj-market/docs/b02-http-api.json'))),'"\$ref"\s*:\s*"([^"]+)"')
+ $refs=[regex]::Matches(([IO.File]::ReadAllText((Join-Path $root 'docs/b02-http-api.json'))),'"\$ref"\s*:\s*"([^"]+)"')
  foreach($ref in $refs){$pointer=$ref.Groups[1].Value;if(-not $pointer.StartsWith('#/')){throw 'Unexpected external HTTP schema reference'};$value=$contract;foreach($part in $pointer.Substring(2).Split('/')){$key=$part.Replace('~1','/').Replace('~0','~');if(-not $value.ContainsKey($key)){throw 'Invalid local HTTP reference'};$value=$value[$key]}}
  [IO.File]::WriteAllLines("$work/http-contract.txt",@('operations=18','implemented=18',"local-refs-valid=$($refs.Count)",'status=PASSED'));Require-TextReport 'http-contract' "$work/http-contract.txt"
  foreach($file in @('zj-market-app/target/zj-market-app-exec.jar','zj-market-verification/target/zj-market-verification.jar','frontend/package-lock.json')){$result.artifacts[$file]=(Get-FileHash $file -Algorithm SHA256).Hash}

@@ -1,10 +1,14 @@
 package cn.zj.zjmarket.verification;
+
 import cn.zj.zjmarket.ZjMarketApplication;
-import cn.zj.zjmarket.application.identity.*;
-import cn.zj.zjmarket.application.product.*;
-import cn.zj.zjmarket.domain.product.*;
-import org.springframework.boot.*;
-import org.springframework.boot.web.server.context.WebServerApplicationContext;
+import cn.zj.zjmarket.domain.identity.service.IIdentityService;
+import cn.zj.zjmarket.domain.product.adapter.port.IProductEventPort;
+import cn.zj.zjmarket.domain.product.adapter.repository.IProductRepository;
+import cn.zj.zjmarket.domain.product.model.valobj.ProductFields;
+import cn.zj.zjmarket.domain.product.model.valobj.SaleStatus;
+import cn.zj.zjmarket.domain.product.service.IProductService;
+import cn.zj.zjmarket.domain.product.service.impl.ProductService;
+import cn.zj.zjmarket.types.exception.ProductFailure;
 import com.fasterxml.jackson.databind.*;
 import java.net.*;
 import java.net.http.*;
@@ -12,6 +16,8 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.concurrent.*;
 import javax.sql.DataSource;
+import org.springframework.boot.*;
+import org.springframework.boot.web.server.context.WebServerApplicationContext;
 /** Actual B HTTP / MySQL acceptance, exclusively the isolated B-02 database. */
 public final class ProductCommands {
     private static final ObjectMapper JSON=new ObjectMapper();
@@ -20,8 +26,8 @@ public final class ProductCommands {
             if(!"b02-test".equals(env("B_DATABASE_SCOPE")) || !env("B_DATABASE_URL").matches("^jdbc:mysql://[^/]+/zj_market_b02_test(?:\\?.*)?$") || !"zj_market_b02_test_app".equals(env("B_DATABASE_USERNAME")))throw new IllegalArgumentException("Exact B test database required");
             var app=new SpringApplication(ZjMarketApplication.class);
             try(var ctx=app.run("--server.port=0","--b.identity.enabled=true","--b.product.enabled=true","--b.infrastructure.database.enabled=true","--b.trial.enabled=false","--b.sync.enabled=false","--b.infrastructure.rpc.enabled=false","--b.infrastructure.mq.enabled=false")){
-                var evidence=new ArrayList<String>();var db=ctx.getBean(DataSource.class);var products=ctx.getBean(ProductService.class);var store=ctx.getBean(ProductStore.class);var events=ctx.getBean(ProductEventPort.class);
-                var identity=ctx.getBean(IdentityService.class);String suffix=UUID.randomUUID().toString().replace("-","").substring(0,16),password="Product-"+UUID.randomUUID();
+                var evidence=new ArrayList<String>();var db=ctx.getBean(DataSource.class);var products=ctx.getBean(IProductService.class);var store=ctx.getBean(IProductRepository.class);var events=ctx.getBean(IProductEventPort.class);
+                var identity=ctx.getBean(IIdentityService.class);String suffix=UUID.randomUUID().toString().replace("-","").substring(0,16),password="Product-"+UUID.randomUUID();
                 identity.register("u"+suffix,password,"test user");identity.initializeOperator("o"+suffix,password,"test operator");
                 var http=new Client("http://127.0.0.1:"+((WebServerApplicationContext)ctx).getWebServer().getPort(),env("B_IDENTITY_ORIGIN"));
                 String user=http.login("u"+suffix,password),op=http.login("o"+suffix,password);
@@ -75,9 +81,9 @@ public final class ProductCommands {
                     if(v==1)check(payload.path("goodsName").asText().equals(created.path("goodsName").asText()) && payload.path("saleStatus").asText().equals("OFF_SALE"),"old body not recomputed");
                     if(v==3)check(payload.path("goodsName").asText().equals(created.path("goodsName").asText()),"display only edit snapshot increments");}
                     check(v==4,"all facts saved");}}
-                var next=new Product.Fields("rollback", "", null, "9.99", "CNY",Product.SaleStatus.ON_SALE);
+                var next=new ProductFields("rollback", "", null, "9.99", "CNY",SaleStatus.ON_SALE);
                 for(String failPoint:List.of("appendEvent","target")){
-                    ProductStore failing=(ProductStore)java.lang.reflect.Proxy.newProxyInstance(ProductStore.class.getClassLoader(),new Class[]{ProductStore.class},(proxy,method,args) -> {
+                    IProductRepository failing=(IProductRepository)java.lang.reflect.Proxy.newProxyInstance(IProductRepository.class.getClassLoader(),new Class[]{IProductRepository.class},(proxy,method,args) -> {
                         try{Object value=method.invoke(store,args);if(method.getName().equals(failPoint))throw new ProductFailure(503,"DEPENDENCY_UNAVAILABLE");return value;}catch(java.lang.reflect.InvocationTargetException e){throw e.getCause();}
                     });
                     var service=new ProductService(failing,events,java.time.Clock.systemUTC());

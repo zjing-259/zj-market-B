@@ -1,6 +1,2 @@
-/**
- * B-owned entities, value objects and rules. Keep this layer free of transport,
- * Spring, persistence and A contract types. Business aggregates are introduced
- * in their corresponding delivery stages.
- */
+/** Business models, services and adapter contracts; no framework or A SDK dependencies. */
 package cn.zj.zjmarket.domain;

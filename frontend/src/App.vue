@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import type { User } from './types/identity'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { user, login, register, logout, request, restore, explain, type User } from './auth'
-import Products from './Products.vue'
+import { user, login, register, logout, request, restore, explain } from './services/auth'
+import Products from './views/Products.vue'
 function route() { return location.pathname.startsWith('/admin/products') ? 'admin' : location.pathname === '/' || location.pathname.startsWith('/products') ? 'products' : location.pathname === '/register' ? 'register' : 'login' }
 const page = ref(route()), routePath = ref(location.pathname)
 function safeReturn() {

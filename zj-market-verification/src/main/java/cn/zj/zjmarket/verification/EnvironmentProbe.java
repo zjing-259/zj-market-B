@@ -1,11 +1,20 @@
 package cn.zj.zjmarket.verification;
 
 import cn.bugstack.api.v2.*;
-import cn.zj.zjmarket.infrastructure.config.RpcSettings;
-import cn.zj.zjmarket.infrastructure.config.MqSettings;
-import cn.zj.zjmarket.infrastructure.integration.codec.ContractCodec;
-import cn.zj.zjmarket.infrastructure.integration.rpc.RpcClientFactory;
-import cn.zj.zjmarket.infrastructure.integration.mq.MqClientFactory;
+import cn.zj.zjmarket.infrastructure.config.properties.MqSettings;
+import cn.zj.zjmarket.infrastructure.config.properties.RpcSettings;
+import cn.zj.zjmarket.infrastructure.gateway.codec.ContractCodec;
+import cn.zj.zjmarket.infrastructure.gateway.mq.MqClientFactory;
+import cn.zj.zjmarket.infrastructure.gateway.rpc.RpcClientFactory;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.SecureRandom;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -23,16 +32,6 @@ import org.springframework.boot.SpringBootVersion;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.security.SecureRandom;
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-
 /** Opt-in local interoperability check, not a business consumer or durable Inbox. */
 @Component
 @ConditionalOnProperty(name = "b.verification.enabled", havingValue = "true")

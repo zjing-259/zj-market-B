@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -8,7 +8,12 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>zj-market-domain</artifactId>
-  <dependencies></dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>cn.zj</groupId>
+      <artifactId>zj-market-types</artifactId>
+    </dependency>
+  </dependencies>
   <build>
     <plugins>
       <plugin>
@@ -34,7 +39,7 @@
                     <exclude>tools.jackson.core:*</exclude>
                     <exclude>org.springframework:*</exclude>
                     <exclude>org.springframework.boot:*</exclude>
-                    <exclude>cn.zj:zj-market-application</exclude>
+                    <exclude>cn.zj:zj-market-api</exclude>
                     <exclude>cn.zj:zj-market-infrastructure</exclude>
                     <exclude>cn.zj:zj-market-trigger</exclude>
                     <exclude>cn.zj:zj-market-app</exclude>

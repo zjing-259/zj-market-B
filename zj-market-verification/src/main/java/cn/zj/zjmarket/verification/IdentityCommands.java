@@ -1,9 +1,15 @@
 package cn.zj.zjmarket.verification;
+
 import cn.zj.zjmarket.ZjMarketApplication;
-import cn.zj.zjmarket.application.identity.*;
-import cn.zj.zjmarket.domain.identity.User;
-import org.springframework.boot.*;
-import org.springframework.boot.web.server.context.WebServerApplicationContext;
+import cn.zj.zjmarket.domain.identity.adapter.port.IAccessTokenPort;
+import cn.zj.zjmarket.domain.identity.adapter.port.IPasswordPort;
+import cn.zj.zjmarket.domain.identity.adapter.repository.IIdentityRepository;
+import cn.zj.zjmarket.domain.identity.model.entity.LoginGrant;
+import cn.zj.zjmarket.domain.identity.model.entity.User;
+import cn.zj.zjmarket.domain.identity.model.valobj.AccessTokenClaims;
+import cn.zj.zjmarket.domain.identity.service.IIdentityService;
+import cn.zj.zjmarket.domain.identity.service.impl.IdentityService;
+import cn.zj.zjmarket.types.exception.AuthFailure;
 import com.fasterxml.jackson.databind.*;
 import java.net.*;
 import java.net.http.*;
@@ -12,6 +18,8 @@ import java.sql.*;
 import java.util.*;
 import java.util.concurrent.*;
 import javax.sql.DataSource;
+import org.springframework.boot.*;
+import org.springframework.boot.web.server.context.WebServerApplicationContext;
 /** Explicit identity acceptance and operator bootstrap, excluded from production JAR. */
 public final class IdentityCommands {
     private static final ObjectMapper JSON=new ObjectMapper();
@@ -25,7 +33,7 @@ public final class IdentityCommands {
             String[] args=mode.equals("verify")?new String[]{"--server.port=0","--b.identity.enabled=true","--b.product.enabled=false","--b.infrastructure.database.enabled=true","--b.trial.enabled=false","--b.sync.enabled=false","--b.infrastructure.rpc.enabled=false","--b.infrastructure.mq.enabled=false","--b.identity.rate.ip-limit=1000","--b.identity.rate.login-limit=20"}:
                 new String[]{"--b.identity.enabled=true","--b.product.enabled=false","--b.infrastructure.database.enabled=true","--b.sync.enabled=false","--b.infrastructure.rpc.enabled=false","--b.infrastructure.mq.enabled=false"};
             try(var context=app.run(args)){
-                var service=context.getBean(IdentityService.class);
+                var service=context.getBean(IIdentityService.class);
                 if(mode.equals("init-operator")) {
                     var user=service.initializeOperator(required("B_OPERATOR_LOGIN_NAME"),required("B_OPERATOR_PASSWORD"),required("B_OPERATOR_DISPLAY_NAME"));
                     System.out.println("Operator initialized: "+user.userId());return 0;
@@ -38,7 +46,7 @@ public final class IdentityCommands {
                 String login="u"+suffix, password="Test-"+UUID.randomUUID();
                 var db=context.getBean(DataSource.class);
                 evidence.add("java="+Runtime.version());evidence.add("springBoot="+SpringBootVersion.getVersion());
-                var passwords=context.getBean(PasswordPort.class);long start=System.nanoTime();
+                var passwords=context.getBean(IPasswordPort.class);long start=System.nanoTime();
                 String hash=passwords.encode(password);long encodeMs=(System.nanoTime()-start)/1000000;
                 start=System.nanoTime();check(passwords.matches(password,hash),"argon2 match");long matchMs=(System.nanoTime()-start)/1000000;
                 check(hash.startsWith("{argon2id}$argon2id$v=19$m=19456,t=2,p=1$"),"argon2 parameters");
@@ -57,8 +65,8 @@ public final class IdentityCommands {
                 client.post("/auth/login",Map.of("loginName",login,"password",password+"wrong"),null,401);
                 client.post("/auth/login",Map.of("loginName","absent"+suffix,"password",password),null,401);
                 String jwt=client.login(login,password);String oldRefresh=client.refresh();
-                var realTokensAtStart=context.getBean(AccessTokenPort.class);
-                var storeAtStart=context.getBean(IdentityStore.class);
+                var realTokensAtStart=context.getBean(IAccessTokenPort.class);
+                var storeAtStart=context.getBean(IIdentityRepository.class);
                 var grantBeforeRefresh=storeAtStart.grant(realTokensAtStart.verify(jwt).grantId());
                 var me=client.get("/users/me",jwt,200);check(userId.equals(me.path("data").path("userId").asText()),"me identity");
                 client.get("/users/me",null,401);client.get("/users/me?userId=spoof",jwt,400);client.get("/users/me",jwt.substring(0,jwt.length()-8)+"AAAAAAAA",401);
@@ -86,16 +94,16 @@ public final class IdentityCommands {
                 try(var c=db.getConnection();var p=c.prepareStatement("INSERT INTO b_user_role(user_id,role) VALUES(?,'USER'),(?,'OPERATOR')")){p.setString(1,operatorUser.userId());p.setString(2,operatorUser.userId());p.executeUpdate();}
                 evidence.add("logout-idempotency/JWT-revocation/user-disabled/current-roles/roleless-denied/OPERATOR-allowed=PASSED");
                 // Explicit transaction rollback must leave no partial account/role.
-                var store=context.getBean(IdentityStore.class);
+                var store=context.getBean(IIdentityRepository.class);
                 try{store.transaction(() -> {store.insertUser(new User(UUID.randomUUID().toString(),"rollback"+suffix,"rollback",hash,true,1,Set.of("USER")));throw new IllegalStateException("intentional rollback");});}
                 catch(IllegalStateException expected){}
                 check(store.userByLogin("rollback"+suffix)==null,"transaction rollback");
                 // Issuer failure after grant/token writes must roll back both tables.
                 long before=countGrants(db,userId);
-                var realTokens=context.getBean(AccessTokenPort.class);
-                var failingTokens=new AccessTokenPort(){
-                    public String issue(User user,cn.zj.zjmarket.domain.identity.LoginGrant grant,long now,long expiry){throw new AuthFailure(503,"DEPENDENCY_UNAVAILABLE");}
-                    public Claims verify(String token){return realTokens.verify(token);}
+                var realTokens=context.getBean(IAccessTokenPort.class);
+                var failingTokens=new IAccessTokenPort(){
+                    public String issue(User user,cn.zj.zjmarket.domain.identity.model.entity.LoginGrant grant,long now,long expiry){throw new AuthFailure(503,"DEPENDENCY_UNAVAILABLE");}
+                    public AccessTokenClaims verify(String token){return realTokens.verify(token);}
                 };
                 var failedIssuer=new IdentityService(store,passwords,failingTokens,java.time.Clock.systemUTC(),900,604800);
                 try{failedIssuer.login(login,password);throw new IllegalStateException("check: issuer failure expected");}
