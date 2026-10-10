@@ -33,7 +33,7 @@ public final class TrialCommands {
   if(!Set.of("prepare","verify","offline").contains(mode))throw new IllegalArgumentException("Unsupported trial verification phase");SyncCommands.guard();
   boolean live=mode.equals("verify"),prepare=mode.equals("prepare");
   var app=new SpringApplication(ZjMarketApplication.class,ProbeConfiguration.class);if(prepare)app.setWebApplicationType(WebApplicationType.NONE);
-  try(var ctx=app.run("--server.port=0","--b.identity.enabled=true","--b.product.enabled=true","--b.trial.enabled="+!prepare,"--b.sync.enabled="+live,"--b.sync.scheduler-enabled=false","--b.infrastructure.database.enabled=true","--b.infrastructure.rpc.enabled="+!prepare,"--b.infrastructure.mq.enabled="+live)){
+  try(var ctx=app.run("--server.port=0","--b.order.enabled=false","--b.trade.enabled=false","--b.identity.enabled=true","--b.product.enabled=true","--b.trial.enabled="+!prepare,"--b.sync.enabled="+live,"--b.sync.scheduler-enabled=false","--b.infrastructure.database.enabled=true","--b.infrastructure.rpc.enabled="+!prepare,"--b.infrastructure.mq.enabled="+live)){
    var work=Path.of(SyncCommands.env("B_TRIAL_WORK"));Files.createDirectories(work);var manifest=work.resolve("fixtures.json");var products=ctx.getBean(IProductService.class);var identity=ctx.getBean(IIdentityService.class);
    if(prepare){
     SyncCommands.check(!Files.exists(manifest),"new owned fixture manifest only");var user=identity.register(env("LOGIN_NAME"),env("PASSWORD"),"trial user");var member=identity.register(env("MEMBER_LOGIN_NAME"),env("MEMBER_PASSWORD"),"trial member");var op=identity.initializeOperator(env("OP_LOGIN_NAME"),env("OP_PASSWORD"),"trial operator");

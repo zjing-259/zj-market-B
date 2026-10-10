@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param([string]$JavaHome='', [string]$AJavaHome='D:/Dev_tools/2.environment/jdk/jdk8', [string]$RunName='', [switch]$SkipBuild)
+param([string]$JavaHome='', [string]$AJavaHome='D:/Dev_tools/2.environment/jdk/jdk8', [string]$RunName='', [switch]$SkipBuild, [switch]$ScopedSyncBrowser)
 $ErrorActionPreference='Stop'
 $root=(Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 . (Join-Path $root 'scripts/b-runtime.ps1')
@@ -36,11 +36,11 @@ try{
   }
  }
  # All operations use isolated learning fixtures; shared services remain running.
- Step synchronization {& (Join-Path $PSScriptRoot 'run-b02-sync.ps1') -JavaHome $jdk.Home -AJavaHome $AJavaHome -RunName "$RunName-sync" -SkipBuild -AckRestart -Browser}
+ Step synchronization {& (Join-Path $PSScriptRoot 'run-b02-sync.ps1') -JavaHome $jdk.Home -AJavaHome $AJavaHome -RunName "$RunName-sync" -SkipBuild -AckRestart -Browser -ScopedBrowser:$ScopedSyncBrowser}
  $sync=Join-Path $root "target/sync/$RunName-sync"
  Require-TextReport 'sync-core' "$sync/verify.txt";Require-TextReport 'commit-before-ACK-restart' "$sync/ack-recovery.txt"
  foreach($kind in @('identity','products','sync')){Copy-Item "target/$kind/browser.txt" "$work/$kind-browser.txt";Require-TextReport "$kind-browser" "$work/$kind-browser.txt"}
- Step trial {& (Join-Path $PSScriptRoot 'run-b02-trial.ps1') -JavaHome $jdk.Home -AJavaHome $AJavaHome -RunName "$RunName-trial" -SkipBuild -Browser}
+ Step trial {& (Join-Path $PSScriptRoot 'run-b02-trial.ps1') -JavaHome $jdk.Home -AJavaHome $AJavaHome -RunName "$RunName-trial" -SkipBuild -Browser -ScopedBrowser:$ScopedSyncBrowser}
  $trial=Join-Path $root "target/trial/$RunName-trial"
  foreach($name in @('verify','browser','browser-offline','offline')){Require-TextReport "trial-$name" "$trial/$name.txt"}
  Step middleware-baseline {& (Join-Path $PSScriptRoot 'run-b01-environment.ps1') -JavaHome $jdk.Home -AJavaHome $AJavaHome -RunName "$RunName-baseline" -SkipBuild}

@@ -1,0 +1,3129 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "B-03 HTTP接口联合设计",
+    "version": "b03.5",
+    "description": "B-03 HTTP契约：库存6项、订单/报价/取消7项、登录团队摘要1项、运营异常/协调3项，共17项均已实施；真实支付未开放。"
+  },
+  "x-design-status": "implemented",
+  "x-process-document": "b03-development.md",
+  "x-joint-design-document": "b03-joint-design.md",
+  "servers": [
+    {
+      "url": "/api/v1",
+      "description": "相对服务根路径；非部署地址"
+    }
+  ],
+  "x-existing-product-extension": {
+    "status": "implemented-with-inventory-enabled",
+    "availability": {
+      "enum": [
+        "IN_STOCK",
+        "OUT_OF_STOCK"
+      ]
+    },
+    "description": "既有公开商品列表/详情拟增加availability；禁止暴露available/reserved/sold准确数值。"
+  },
+  "x-error-codes": [
+    "VALIDATION_FAILED",
+    "AUTH_REQUIRED",
+    "FORBIDDEN",
+    "ORDER_NOT_FOUND",
+    "TEAM_NOT_FOUND",
+    "PRODUCT_NOT_FOUND",
+    "IDEMPOTENCY_CONFLICT",
+    "ACTIVE_PURCHASE_EXISTS",
+    "CONFIRMATION_EXPIRED",
+    "CONFIRMATION_ALREADY_BOUND",
+    "QUOTE_CHANGED",
+    "STOCK_INSUFFICIENT",
+    "INVENTORY_VERSION_CONFLICT",
+    "PRODUCT_VERSION_CHANGED",
+    "PRODUCT_NOT_READY",
+    "TEAM_NOT_JOINABLE",
+    "CANCEL_NOT_ALLOWED",
+    "UPSTREAM_UNAVAILABLE",
+    "DEPENDENCY_UNAVAILABLE",
+    "PRODUCT_OFF_SALE",
+    "INVENTORY_ACCOUNT_MISSING",
+    "INVENTORY_VERSION_EXHAUSTED",
+    "INVENTORY_QUANTITY_OVERFLOW",
+    "INVENTORY_OPERATION_NOT_FOUND",
+    "COORDINATION_VERSION_CONFLICT",
+    "COORDINATION_ACTION_NOT_ALLOWED",
+    "OFFER_CHANGED"
+  ],
+  "paths": {
+    "/purchase-confirmations": {
+      "post": {
+        "operationId": "createPurchaseConfirmation",
+        "summary": "真实试算并签发一次购买确认",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "AUTHENTICATED",
+        "x-design-status": "implemented",
+        "responses": {
+          "201": {
+            "description": "签发成功，5分钟有效",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmationInput"
+              }
+            }
+          }
+        },
+        "x-implemented-stage": "B-03.3",
+        "x-feature-flag": "b.order.enabled"
+      }
+    },
+    "/orders": {
+      "post": {
+        "operationId": "createOrder",
+        "summary": "本地原子受理后异步协调A",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "AUTHENTICATED",
+        "x-design-status": "implemented",
+        "responses": {
+          "202": {
+            "description": "首次本地受理",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "同键同参返回原订单当前状态",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderInput"
+              }
+            }
+          }
+        },
+        "x-implemented-stage": "B-03.3",
+        "x-feature-flag": "b.order.enabled"
+      },
+      "get": {
+        "operationId": "listMyOrders",
+        "summary": "本人订单列表",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "AUTHENTICATED",
+        "x-design-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderPageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "x-implemented-stage": "B-03.3",
+        "x-feature-flag": "b.order.enabled"
+      }
+    },
+    "/orders/{orderId}": {
+      "get": {
+        "operationId": "getMyOrder",
+        "summary": "本人订单当前状态",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "AUTHENTICATED",
+        "x-design-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implemented-stage": "B-03.3",
+        "x-feature-flag": "b.order.enabled"
+      }
+    },
+    "/orders/by-intent/{purchaseIntentId}": {
+      "get": {
+        "operationId": "getMyOrderByIntent",
+        "summary": "可信作用域恢复原购买意图",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "AUTHENTICATED",
+        "x-design-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "purchaseIntentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implemented-stage": "B-03.3",
+        "x-feature-flag": "b.order.enabled"
+      }
+    },
+    "/products/{goodsId}/active-order": {
+      "get": {
+        "operationId": "getMyActiveOrder",
+        "summary": "本人该SKU当前购买；没有则data=null",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "AUTHENTICATED",
+        "x-design-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActiveOrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implemented-stage": "B-03.3",
+        "x-feature-flag": "b.order.enabled"
+      }
+    },
+    "/orders/{orderId}/cancel": {
+      "post": {
+        "operationId": "cancelMyOrder",
+        "summary": "原操作键取消；可能已发则等待A关闭",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "AUTHENTICATED",
+        "x-design-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "本地严格未发关闭/既有关闭/同操作恢复",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "关闭已受理，待A确定及本地收尾",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelInput"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/teams/{teamId}": {
+      "get": {
+        "operationId": "getTeamSummary",
+        "summary": "登录后查看裁剪团队摘要",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "AUTHENTICATED",
+        "x-design-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          },
+          "502": {
+            "$ref": "#/components/responses/E502"
+          }
+        },
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implemented-stage": "B-03.4"
+      }
+    },
+    "/admin/inventory": {
+      "get": {
+        "operationId": "listInventory",
+        "summary": "运营准确库存分页",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "x-design-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryPageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "goodsId",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implemented-stage": "B-03.2",
+        "x-feature-flag": "b.inventory.enabled"
+      }
+    },
+    "/admin/inventory/{goodsId}": {
+      "get": {
+        "operationId": "getInventory",
+        "summary": "运营单SKU准确库存",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "x-design-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          }
+        },
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-implemented-stage": "B-03.2",
+        "x-feature-flag": "b.inventory.enabled"
+      }
+    },
+    "/admin/inventory/{goodsId}/inbounds": {
+      "post": {
+        "operationId": "inboundsInventory",
+        "summary": "运营入库/增减量调整",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "x-design-status": "implemented",
+        "responses": {
+          "201": {
+            "description": "首次操作完成",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryResultResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "同键同参原操作结果",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryResultResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InboundInput"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "description": "原标识绑定原请求；成功首次201/重放200，确定业务拒绝及拒绝重放409，data.inventoryOperation可含原持久结果。异参409不替换原结果。技术失败不伪造REJECTED。",
+        "x-implemented-stage": "B-03.2",
+        "x-feature-flag": "b.inventory.enabled"
+      }
+    },
+    "/admin/inventory/{goodsId}/adjustments": {
+      "post": {
+        "operationId": "adjustmentsInventory",
+        "summary": "运营入库/增减量调整",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "x-design-status": "implemented",
+        "responses": {
+          "201": {
+            "description": "首次操作完成",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryResultResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "同键同参原操作结果",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryResultResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdjustmentInput"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "description": "原标识绑定原请求；成功首次201/重放200，确定业务拒绝及拒绝重放409，data.inventoryOperation可含原持久结果。异参409不替换原结果。技术失败不伪造REJECTED。",
+        "x-implemented-stage": "B-03.2",
+        "x-feature-flag": "b.inventory.enabled"
+      }
+    },
+    "/admin/inventory/{goodsId}/ledger": {
+      "get": {
+        "operationId": "listInventoryLedger",
+        "summary": "运营库存流水",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "x-design-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LedgerPageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          }
+        },
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "x-implemented-stage": "B-03.2",
+        "x-feature-flag": "b.inventory.enabled"
+      }
+    },
+    "/admin/orders/exceptions": {
+      "get": {
+        "operationId": "listOrderExceptions",
+        "summary": "运营脱敏异常订单",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "x-design-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExceptionPageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "enum": [
+                "PROCESSING",
+                "WAITING_PAYMENT",
+                "CLOSING",
+                "CLOSED"
+              ]
+            }
+          },
+          {
+            "name": "paused",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "reviewRequired",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ]
+      }
+    },
+    "/admin/orders/{orderId}/coordination": {
+      "get": {
+        "operationId": "getOrderCoordination",
+        "summary": "运营当前协调与安全尝试摘要",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "x-design-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CoordinationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          }
+        },
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/admin/orders/{orderId}/coordination-controls": {
+      "post": {
+        "operationId": "controlOrderCoordination",
+        "summary": "运营受控暂停/恢复/立即核对",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "x-design-status": "implemented",
+        "responses": {
+          "202": {
+            "description": "持久调度控制已受理",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ControlResultResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "同操作同参原结果",
+            "headers": {
+              "X-Request-Id": {
+                "description": "与正文requestId一致；沿用既有请求标识规则。",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ControlResultResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ControlInput"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/admin/inventory/operations/{operationId}": {
+      "get": {
+        "operationId": "getMyInventoryOperationResult",
+        "summary": "按原提交标识查询本人运营库存操作结果，不触发写操作",
+        "description": "operationId是原输入中的稳定操作标识，按当前运营作用域匹配operation_key。成功返回原结果快照；404不证明原写请求未执行。未知时不自动换键重提。 返回原请求与outcome/code/message/completedAt；页面核对原请求后才解除等待，当前余额另查。",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-role": "OPERATOR",
+        "x-design-status": "implemented",
+        "parameters": [
+          {
+            "name": "operationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "查询成功，返回持久SUCCEEDED或REJECTED原终结结果及原规范请求",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryResultResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        },
+        "x-implemented-stage": "B-03.2",
+        "x-feature-flag": "b.inventory.enabled"
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$",
+        "description": "B generated opaque case-sensitive identifier; never trim."
+      },
+      "Version": {
+        "type": "string",
+        "pattern": "^[1-9][0-9]{0,18}$",
+        "description": "Server additionally enforces <=9223372036854775807. Never convert to JS Number."
+      },
+      "Stock": {
+        "type": "string",
+        "pattern": "^(0|[1-9][0-9]{0,18})$",
+        "description": "非负BIGINT十进制字符串，服务端精确检查上限。"
+      },
+      "PositiveStock": {
+        "type": "string",
+        "pattern": "^[1-9][0-9]{0,18}$",
+        "description": "正BIGINT字符串，服务端检查上限与加法溢出。"
+      },
+      "Delta": {
+        "type": "string",
+        "pattern": "^-?[1-9][0-9]{0,18}$",
+        "description": "非零有符号增减量，精确检查BIGINT及余额运算边界。"
+      },
+      "Money": {
+        "type": "string",
+        "pattern": "^(?:0\\.(?:0[1-9]|[1-9][0-9])|[1-9][0-9]{0,5}\\.[0-9]{2})$"
+      },
+      "Instant": {
+        "type": "string",
+        "format": "date-time",
+        "pattern": "Z$",
+        "description": "UTC ISO8601，精度毫秒。"
+      },
+      "Reason": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "description": "非空纯文本原因；拒绝控制字符/秘密，不作为A原始reason枚举直接传入。"
+      },
+      "Offer": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "productVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "activityId": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "originalPrice": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "deductionPrice": {
+            "$ref": "#/components/schemas/Deduction"
+          },
+          "payPrice": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "currency": {
+            "const": "CNY"
+          },
+          "targetCount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "required": [
+          "goodsId",
+          "productVersion",
+          "activityId",
+          "originalPrice",
+          "deductionPrice",
+          "payPrice",
+          "currency",
+          "targetCount"
+        ],
+        "description": "用户明确确认的完整条件；原价-优惠=应付>=0.01，目标人数必须与真实A一致；不锁价。 最新offer仅在A允许该用户可见时返回；不通过冲突响应泄露专属价格。"
+      },
+      "ConfirmationInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "mode": {
+            "enum": [
+              "OPEN",
+              "JOIN"
+            ]
+          },
+          "teamId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "expectedOffer": {
+            "$ref": "#/components/schemas/Offer"
+          }
+        },
+        "required": [
+          "goodsId",
+          "mode",
+          "expectedOffer"
+        ],
+        "description": "goodsId与expectedOffer一致；user/source/channel由B提供。",
+        "oneOf": [
+          {
+            "properties": {
+              "mode": {
+                "const": "OPEN"
+              }
+            },
+            "not": {
+              "required": [
+                "teamId"
+              ]
+            }
+          },
+          {
+            "properties": {
+              "mode": {
+                "const": "JOIN"
+              }
+            },
+            "required": [
+              "teamId"
+            ]
+          }
+        ]
+      },
+      "Confirmation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "confirmationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "mode": {
+            "enum": [
+              "OPEN",
+              "JOIN"
+            ]
+          },
+          "teamId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "offer": {
+            "$ref": "#/components/schemas/Offer"
+          },
+          "quantity": {
+            "const": 1
+          },
+          "issuedAt": {
+            "$ref": "#/components/schemas/Instant"
+          },
+          "expiresAt": {
+            "$ref": "#/components/schemas/Instant"
+          }
+        },
+        "required": [
+          "confirmationId",
+          "mode",
+          "teamId",
+          "offer",
+          "quantity",
+          "issuedAt",
+          "expiresAt"
+        ],
+        "description": "签发起5分钟，单次绑定；再下单仍检查A。"
+      },
+      "CreateOrderInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "purchaseIntentId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "confirmationId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "purchaseIntentId",
+          "confirmationId"
+        ]
+      },
+      "CancelInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "reason": {
+            "$ref": "#/components/schemas/Reason"
+          }
+        },
+        "required": [
+          "operationId",
+          "reason"
+        ]
+      },
+      "ProductSnapshot": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "productVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "name": {
+            "type": "string",
+            "x-max-utf16-units": 128
+          },
+          "imageUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "goodsId",
+          "productVersion",
+          "name",
+          "imageUrl"
+        ]
+      },
+      "Order": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "orderId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "purchaseIntentId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "confirmationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "status": {
+            "enum": [
+              "PROCESSING",
+              "WAITING_PAYMENT",
+              "CLOSING",
+              "CLOSED"
+            ]
+          },
+          "product": {
+            "$ref": "#/components/schemas/ProductSnapshot"
+          },
+          "offer": {
+            "$ref": "#/components/schemas/Offer"
+          },
+          "quantity": {
+            "const": 1
+          },
+          "mode": {
+            "enum": [
+              "OPEN",
+              "JOIN"
+            ]
+          },
+          "requestedTeamId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "aOrderId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "teamId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "aRecordVersion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Version"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "aTeamVersion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Version"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "aOrderStatus": {
+            "anyOf": [
+              {
+                "enum": [
+                  "RESERVED",
+                  "PAID",
+                  "CANCELLED"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "aTeamStatus": {
+            "anyOf": [
+              {
+                "enum": [
+                  "FORMING",
+                  "RECONCILING",
+                  "COMPLETED",
+                  "FAILED"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "paymentEnabled": {
+            "const": false
+          },
+          "paymentDeadline": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Instant"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/Instant"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/Instant"
+          },
+          "reserveWaitDeadline": {
+            "$ref": "#/components/schemas/Instant"
+          },
+          "closedAt": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Instant"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "closeBasis": {
+            "anyOf": [
+              {
+                "enum": [
+                  "LOCAL_NEVER_DISPATCHED",
+                  "A_CONFIRMED"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reviewRequired": {
+            "type": "boolean"
+          },
+          "errorCode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "canCancel": {
+            "type": "boolean",
+            "description": "仅本人PROCESSING/WAITING_PAYMENT、NEVER_OPENED且无需核对时允许申请取消；可能已发时先等待A关闭确认。"
+          }
+        },
+        "required": [
+          "orderId",
+          "purchaseIntentId",
+          "confirmationId",
+          "version",
+          "status",
+          "product",
+          "offer",
+          "quantity",
+          "mode",
+          "requestedTeamId",
+          "aOrderId",
+          "teamId",
+          "aRecordVersion",
+          "aTeamVersion",
+          "aOrderStatus",
+          "aTeamStatus",
+          "paymentEnabled",
+          "paymentDeadline",
+          "createdAt",
+          "updatedAt",
+          "reserveWaitDeadline",
+          "closedAt",
+          "closeBasis",
+          "reviewRequired",
+          "errorCode",
+          "canCancel"
+        ],
+        "description": "仅本人安全视图。A字段可空且不可当作本地终态；B-03不提供支付入口。关闭意图成立后迟到reserve不复活。"
+      },
+      "Inventory": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "available": {
+            "$ref": "#/components/schemas/Stock"
+          },
+          "reserved": {
+            "$ref": "#/components/schemas/Stock"
+          },
+          "sold": {
+            "$ref": "#/components/schemas/Stock"
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "updatedAt": {
+            "$ref": "#/components/schemas/Instant"
+          }
+        },
+        "required": [
+          "goodsId",
+          "available",
+          "reserved",
+          "sold",
+          "version",
+          "updatedAt"
+        ]
+      },
+      "InboundInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "quantity": {
+            "$ref": "#/components/schemas/PositiveStock"
+          },
+          "expectedVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "reason": {
+            "$ref": "#/components/schemas/Reason"
+          }
+        },
+        "required": [
+          "operationId",
+          "quantity",
+          "expectedVersion",
+          "reason"
+        ]
+      },
+      "AdjustmentInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "delta": {
+            "$ref": "#/components/schemas/Delta"
+          },
+          "expectedVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "reason": {
+            "$ref": "#/components/schemas/Reason"
+          }
+        },
+        "required": [
+          "operationId",
+          "delta",
+          "expectedVersion",
+          "reason"
+        ]
+      },
+      "InventoryResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "inventory": {
+            "$ref": "#/components/schemas/Inventory"
+          },
+          "outcome": {
+            "enum": [
+              "SUCCEEDED",
+              "REJECTED"
+            ]
+          },
+          "request": {
+            "$ref": "#/components/schemas/InventoryOperationRequest"
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "completedAt": {
+            "$ref": "#/components/schemas/Instant"
+          }
+        },
+        "required": [
+          "operationId",
+          "inventory",
+          "outcome",
+          "request",
+          "code",
+          "message",
+          "completedAt"
+        ],
+        "description": "不可变原操作终结结果：成功库存快照为变更后，拒绝快照为裁决时未变更余额。重放不因expectedVersion已旧重新执行；当前余额另查。"
+      },
+      "BalanceChange": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "available": {
+            "$ref": "#/components/schemas/DeltaOrZero"
+          },
+          "reserved": {
+            "$ref": "#/components/schemas/DeltaOrZero"
+          },
+          "sold": {
+            "$ref": "#/components/schemas/DeltaOrZero"
+          }
+        },
+        "required": [
+          "available",
+          "reserved",
+          "sold"
+        ]
+      },
+      "DeltaOrZero": {
+        "type": "string",
+        "pattern": "^(0|-?[1-9][0-9]{0,18})$",
+        "description": "有符号BIGINT精确十进制字符串。"
+      },
+      "Balances": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "available": {
+            "$ref": "#/components/schemas/Stock"
+          },
+          "reserved": {
+            "$ref": "#/components/schemas/Stock"
+          },
+          "sold": {
+            "$ref": "#/components/schemas/Stock"
+          }
+        },
+        "required": [
+          "available",
+          "reserved",
+          "sold"
+        ]
+      },
+      "Ledger": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ledgerId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "kind": {
+            "enum": [
+              "INBOUND",
+              "ADJUST",
+              "RESERVE",
+              "RELEASE",
+              "CONFIRM"
+            ]
+          },
+          "operationId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "orderId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "before": {
+            "$ref": "#/components/schemas/Balances"
+          },
+          "delta": {
+            "$ref": "#/components/schemas/BalanceChange"
+          },
+          "after": {
+            "$ref": "#/components/schemas/Balances"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "createdAt": {
+            "$ref": "#/components/schemas/Instant"
+          },
+          "actorId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "ledgerId",
+          "goodsId",
+          "kind",
+          "operationId",
+          "orderId",
+          "before",
+          "delta",
+          "after",
+          "reason",
+          "createdAt",
+          "actorId"
+        ]
+      },
+      "Team": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "teamId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "activityId": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "status": {
+            "enum": [
+              "FORMING",
+              "RECONCILING",
+              "COMPLETED",
+              "FAILED"
+            ]
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "targetCount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "reservedCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "paidCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "validStartTime": {
+            "$ref": "#/components/schemas/Instant"
+          },
+          "validEndTime": {
+            "$ref": "#/components/schemas/Instant"
+          },
+          "serverTime": {
+            "$ref": "#/components/schemas/Instant"
+          },
+          "joinable": {
+            "type": "boolean"
+          },
+          "myOrderId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "teamId",
+          "goodsId",
+          "activityId",
+          "status",
+          "version",
+          "targetCount",
+          "reservedCount",
+          "paidCount",
+          "validStartTime",
+          "validEndTime",
+          "serverTime",
+          "joinable",
+          "myOrderId"
+        ],
+        "description": "裁剪可信渠道的团队摘要；无成员列表、他人订单/支付信息。joinable不是占位承诺。"
+      },
+      "Attempt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "intent": {
+            "enum": [
+              "RESERVE",
+              "QUERY",
+              "CLOSE"
+            ]
+          },
+          "startedAt": {
+            "$ref": "#/components/schemas/Instant"
+          },
+          "finishedAt": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Instant"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "requestId",
+          "intent",
+          "startedAt",
+          "finishedAt",
+          "code",
+          "message"
+        ],
+        "description": "安全尝试摘要，无租约令牌/签名/原始RPC正文。"
+      },
+      "Coordination": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "orderId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "intent": {
+            "enum": [
+              "RESERVE",
+              "QUERY",
+              "CLOSE",
+              "NONE"
+            ]
+          },
+          "runState": {
+            "enum": [
+              "READY",
+              "LEASED",
+              "REVIEW_REQUIRED",
+              "DONE"
+            ]
+          },
+          "paused": {
+            "type": "boolean"
+          },
+          "consecutiveFailures": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "alerted": {
+            "type": "boolean"
+          },
+          "nextAttemptAt": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Instant"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "leaseUntil": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Instant"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "errorCode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "allowedActions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "PAUSE",
+                "RESUME",
+                "CHECK"
+              ]
+            }
+          },
+          "recentAttempts": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "$ref": "#/components/schemas/Attempt"
+            }
+          }
+        },
+        "required": [
+          "orderId",
+          "version",
+          "intent",
+          "runState",
+          "paused",
+          "consecutiveFailures",
+          "alerted",
+          "nextAttemptAt",
+          "leaseUntil",
+          "errorCode",
+          "allowedActions",
+          "recentAttempts"
+        ],
+        "description": "运营安全摘要；expectedVersion指协调版本。鉴权故障仅CHECK只读查询，可信后恢复；证据矛盾不可页面恢复。不暴露租约令牌、签名及原始正文。"
+      },
+      "ControlInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "expectedVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "action": {
+            "enum": [
+              "PAUSE",
+              "RESUME",
+              "CHECK"
+            ]
+          },
+          "reason": {
+            "$ref": "#/components/schemas/Reason"
+          }
+        },
+        "required": [
+          "operationId",
+          "expectedVersion",
+          "action",
+          "reason"
+        ]
+      },
+      "ControlResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "coordination": {
+            "$ref": "#/components/schemas/Coordination"
+          }
+        },
+        "required": [
+          "operationId",
+          "coordination"
+        ],
+        "description": "已受理调度快照；原键原参重放返回原控制结果，不重复调度。CHECK仅原订单只读QUERY，鉴权核验失败继续停止。"
+      },
+      "Exception": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "orderId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "status": {
+            "enum": [
+              "PROCESSING",
+              "WAITING_PAYMENT",
+              "CLOSING",
+              "CLOSED"
+            ]
+          },
+          "reviewRequired": {
+            "type": "boolean"
+          },
+          "coordination": {
+            "$ref": "#/components/schemas/Coordination"
+          }
+        },
+        "required": [
+          "orderId",
+          "goodsId",
+          "status",
+          "reviewRequired",
+          "coordination"
+        ]
+      },
+      "ErrorDetail": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "latestOffer": {
+            "$ref": "#/components/schemas/Offer"
+          },
+          "activeOrderId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "currentVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "inventoryOperation": {
+            "$ref": "#/components/schemas/InventoryResult"
+          }
+        },
+        "required": [],
+        "description": "按错误种类提供允许的字段；本人activeOrderId，安全offer；不可透传A原始错误。"
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorDetail"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "OrderPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "size",
+          "total"
+        ],
+        "description": "沿用B-02分页：page从1、size最多100、total为安全整数。"
+      },
+      "InventoryPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Inventory"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "size",
+          "total"
+        ],
+        "description": "沿用B-02分页：page从1、size最多100、total为安全整数。"
+      },
+      "LedgerPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Ledger"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "size",
+          "total"
+        ],
+        "description": "沿用B-02分页：page从1、size最多100、total为安全整数。"
+      },
+      "ExceptionPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Exception"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "size",
+          "total"
+        ],
+        "description": "沿用B-02分页：page从1、size最多100、total为安全整数。"
+      },
+      "ConfirmationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Confirmation"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "OrderResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Order"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "InventoryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Inventory"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "InventoryResultResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/InventoryResult"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "TeamResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Team"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "CoordinationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Coordination"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "ControlResultResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ControlResult"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "OrderPageResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/OrderPage"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "InventoryPageResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/InventoryPage"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "LedgerPageResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/LedgerPage"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "ExceptionPageResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ExceptionPage"
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "ActiveOrderResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Order"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "requestId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "Deduction": {
+        "type": "string",
+        "pattern": "^(?:0|[1-9][0-9]{0,5})\\.[0-9]{2}$"
+      },
+      "InventoryOperationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "INBOUND",
+              "ADJUST"
+            ]
+          },
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "delta": {
+            "$ref": "#/components/schemas/Delta"
+          },
+          "expectedVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "reason": {
+            "$ref": "#/components/schemas/Reason"
+          }
+        },
+        "required": [
+          "kind",
+          "goodsId",
+          "delta",
+          "expectedVersion",
+          "reason"
+        ],
+        "description": "原规范业务请求，入库quantity规范为正delta；不含可信运营身份的可写旁路。"
+      }
+    },
+    "responses": {
+      "E400": {
+        "description": "请求不合法",
+        "headers": {
+          "X-Request-Id": {
+            "description": "与正文requestId一致；沿用既有请求标识规则。",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "E401": {
+        "description": "未登录/失效",
+        "headers": {
+          "X-Request-Id": {
+            "description": "与正文requestId一致；沿用既有请求标识规则。",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "E403": {
+        "description": "运营权限不足",
+        "headers": {
+          "X-Request-Id": {
+            "description": "与正文requestId一致；沿用既有请求标识规则。",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "E404": {
+        "description": "资源不存在或不属于调用者范围",
+        "headers": {
+          "X-Request-Id": {
+            "description": "与正文requestId一致；沿用既有请求标识规则。",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "E409": {
+        "description": "冲突，需按错误码处理",
+        "headers": {
+          "X-Request-Id": {
+            "description": "与正文requestId一致；沿用既有请求标识规则。",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "E503": {
+        "description": "前置依赖暂不可用；不能据此推断并发同意图订单不存在",
+        "headers": {
+          "X-Request-Id": {
+            "description": "与正文requestId一致；沿用既有请求标识规则。",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "E502": {
+        "description": "上游鉴权配置错误或响应事实不可确认；不泄漏上游凭据/正文。",
+        "headers": {
+          "X-Request-Id": {
+            "description": "与正文requestId一致；沿用既有请求标识规则。",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-error-semantics": "错误code按B-03领域定义映射HTTP；依赖鉴权错误不映射浏览器401；已有B-02 code映射保持。",
+  "x-b03-2-confirmed-decisions": [
+    "D28: 下架商品允许维护，不自动上架",
+    "D29: 自动查询结果，人工原键原参重试",
+    "D30: localStorage支持关闭浏览器后同账号恢复，不存登录凭据",
+    "D31: 同浏览器同运营同SKU先核对原操作",
+    "D32: 成功/确定业务拒绝都持久终结，改参数用新编号"
+  ]
+}

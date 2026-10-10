@@ -1,0 +1,218 @@
+package cn.zj.zjmarket.verification;
+
+import cn.bugstack.api.v2.*;
+import cn.zj.zjmarket.ZjMarketApplication;
+import cn.zj.zjmarket.domain.identity.service.IIdentityService;
+import cn.zj.zjmarket.domain.product.service.*;
+import cn.zj.zjmarket.domain.product.model.valobj.*;
+import cn.zj.zjmarket.infrastructure.adapter.port.product.RocketMqSyncTransport;
+import cn.zj.zjmarket.infrastructure.config.properties.RpcSettings;
+import cn.zj.zjmarket.infrastructure.gateway.codec.ContractCodec;
+import cn.zj.zjmarket.infrastructure.gateway.rpc.RpcClientFactory;
+import com.fasterxml.jackson.databind.*;
+import java.nio.file.*;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.function.Supplier;
+import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.rpc.RpcContext;
+import org.springframework.boot.*;
+import org.springframework.boot.web.server.context.WebServerApplicationContext;
+
+/** Isolated readiness fixtures and optional actual B order/trade acceptance; no payment. */
+public final class B03ReadinessCommands {
+    private static final ObjectMapper JSON=new ObjectMapper();
+    public static int run(String mode) {
+        try {
+            if(!Set.of("prepare","verify","trade-recover","close-recover","close-outage-prepare","close-outage","close-outage-recover").contains(mode))throw new IllegalArgumentException("Unknown readiness phase");
+            SyncCommands.guard();boolean live=!mode.equals("prepare");boolean tradeRecovery=live&&"true".equals(System.getenv("B03_WITH_TRADE_RECOVERY"));boolean localOrders=live&&"true".equals(System.getenv("B03_WITH_LOCAL_ORDERS"));
+            var app=new SpringApplication(ZjMarketApplication.class);
+            if(!live)app.setWebApplicationType(WebApplicationType.NONE);
+            try(var ctx=app.run("--server.port=0","--b.inventory.enabled="+localOrders,"--b.order.enabled="+localOrders,"--b.trade.enabled="+tradeRecovery,"--b.trade.scheduler-enabled=false","--b.identity.enabled=true","--b.product.enabled=true","--b.trial.enabled="+live,"--b.sync.enabled="+live,"--b.sync.scheduler-enabled=false","--b.infrastructure.database.enabled=true","--b.infrastructure.rpc.enabled="+live,"--b.infrastructure.mq.enabled="+live)) {
+                Path work=Path.of(env("B03_WORK")),file=work.resolve("fixtures.json");Files.createDirectories(work);
+                if(mode.startsWith("close-outage")){verifyCloseOutage(ctx,work,mode);return 0;}
+                if(mode.equals("close-recover")){verifyCloseRestart(ctx,work);return 0;}
+                if(mode.equals("trade-recover")){verifyTradeRestart(ctx,work);return 0;}
+                var products=ctx.getBean(IProductService.class);var identity=ctx.getBean(IIdentityService.class);
+                if(!live) {
+                    SyncCommands.check(!Files.exists(file),"immutable fresh readiness manifest");
+                    var users=new LinkedHashMap<String,Object>();
+                    for(String role:List.of("USER","MEMBER","SECOND","THIRD","OP")) {
+                        var user=role.equals("OP")?identity.initializeOperator(env("B03_TEST_OP_LOGIN_NAME"),env("B03_TEST_OP_PASSWORD"),"B03 operator"):
+                            identity.register(env("B03_TEST_"+role+"_LOGIN_NAME"),env("B03_TEST_"+role+"_PASSWORD"),"B03 "+role);
+                        users.put(role,user.userId());
+                    }
+                    var data=new LinkedHashMap<String,Object>();data.put("users",users);
+                    data.put("discountId",Integer.toString(10000000+new java.security.SecureRandom().nextInt(90000000)));
+                    data.put("tagId","b030-"+UUID.randomUUID().toString().replace("-","").substring(0,20));
+                    for(String key:List.of("open","full","expired","ineligible")) {
+                        var product=products.create(new ProductFields("B03准备"+key+"-"+UUID.randomUUID().toString().substring(0,8),"仅隔离联调样本",null,"100.00","CNY",SaleStatus.ON_SALE),"b03-readiness");
+                        data.put(key,Map.of("goodsId",product.product().goodsId(),"eventId",product.sync().targetEventId(),"productVersion","1","activityId",Long.toString(700000000000L+new java.security.SecureRandom().nextLong(100000000000L)),"inventoryPlan",key.equals("open")?10:key.equals("full")?2:1,"inventoryApplied",false));
+                    }
+                    var requests=new LinkedHashMap<String,Object>();
+                    for(String key:List.of("open","join","fullFirst","fullSecond","fullRejected","expired","ineligible","closeProbe","closeMarker"))requests.put(key,"b030-"+UUID.randomUUID());
+                    data.put("outTradeNos",requests);data.put("closeId","b030-"+UUID.randomUUID());data.put("closeMarkerId","b030-"+UUID.randomUUID());data.put("verifiedAt",utc());
+                    Files.write(file,new ContractCodec().encode(data));return 0;
+                }
+                var f=JSON.readTree(Files.readAllBytes(file));var evidence=new ArrayList<String>();
+                String base="http://127.0.0.1:"+((WebServerApplicationContext)ctx).getWebServer().getPort();
+                var userHttp=new ProductCommands.Client(base,env("B_IDENTITY_ORIGIN"));String jwt=userHttp.login(env("B03_TEST_USER_LOGIN_NAME"),env("B03_TEST_USER_PASSWORD"));
+                var me=userHttp.call("GET","/users/me",null,jwt,200);SyncCommands.check(me.path("data").path("userId").asText().equals(user(f,"USER")),"real login user mapping");
+                userHttp.call("GET","/admin/users/me",null,jwt,403);
+                var operatorHttp=new ProductCommands.Client(base,env("B_IDENTITY_ORIGIN"));String op=operatorHttp.login(env("B03_TEST_OP_LOGIN_NAME"),env("B03_TEST_OP_PASSWORD"));operatorHttp.call("GET","/admin/users/me",null,op,200);
+                evidence.add("httpRequestId="+me.path("requestId").asText());
+                var sync=ctx.getBean(IProductSyncService.class);ctx.getBean(RocketMqSyncTransport.class).startConsumer(8,false);
+                for(String key:List.of("open","full","expired","ineligible")) {
+                    var row=f.path(key);var product=products.detail(row.path("goodsId").asText(),true);
+                    if(!product.sync().ready(1))sync.publishOne(row.path("eventId").asText());
+                    SyncCommands.waitFor(()->products.detail(row.path("goodsId").asText(),true).sync().ready(1),45000,"B03 real A signed product synchronization "+key);
+                }
+                evidence.add("B-user/operator/HTTP-requestId/product-version1/real-MQ-signed-confirmation=PASSED");
+                var trial=ctx.getBean(IMarketingTrialService.class);var good=trial.trial(user(f,"USER"),goods(f,"open"),UUID.randomUUID().toString());
+                SyncCommands.check(good.state().equals("AVAILABLE") && good.offer().payPrice().equals("90.00"),"real A available quotation");
+                SyncCommands.check(trial.trial(user(f,"USER"),goods(f,"ineligible"),UUID.randomUUID().toString()).state().equals("INELIGIBLE"),"real A ineligible fixture");
+                SyncCommands.check(trial.trial(user(f,"MEMBER"),goods(f,"ineligible"),UUID.randomUUID().toString()).state().equals("AVAILABLE"),"real A tagged member fixture");
+                try(var rpc=new SignedRpc(ctx.getBean(RpcSettings.class),ctx.getBean(RpcClientFactory.class),evidence)) {
+                    var open=rpc.reserve(reserve(f,"open","open","USER",null));checkReservation(open,f,"open","open","USER");
+                    var query=rpc.query(query(f,"open","USER"));checkReservation(query,f,"open","open","USER");
+                    var team=rpc.team(team(open.getTeamId(),user(f,"USER")));SyncCommands.check(Boolean.TRUE.equals(team.getJoinable()),"joinable team fixture");
+                    var joined=rpc.reserve(reserve(f,"open","join","SECOND",open.getTeamId()));SyncCommands.check(open.getTeamId().equals(joined.getTeamId()),"specified team join");
+                    var full=rpc.reserve(reserve(f,"full","fullFirst","USER",null));rpc.reserve(reserve(f,"full","fullSecond","SECOND",full.getTeamId()));
+                    var filled=rpc.team(team(full.getTeamId(),user(f,"THIRD")));SyncCommands.check(Boolean.FALSE.equals(filled.getJoinable()) && filled.getReservedCount()==filled.getTargetCount(),"full team fixture");
+                    String fullCode=rpc.reserveCode(reserve(f,"full","fullRejected","THIRD",full.getTeamId()));SyncCommands.check(Set.of("E0006","E0109").contains(fullCode),"full team rejects additional member");
+                    SyncCommands.check(rpc.reserveCode(reserve(f,"expired","expired","USER",null)).equals("E0102"),"expired activity fixture rejects reserve");
+                    SyncCommands.check(rpc.reserveCode(reserve(f,"ineligible","ineligible","USER",null)).equals("E0110"),"ineligible fixture rejects reserve");
+                    var probe=rpc.queryResult(query(f,"closeProbe","THIRD"));
+                    if(probe.getCode().equals("NOT_FOUND"))rpc.reserve(reserve(f,"open","closeProbe","THIRD",null));else SyncCommands.check(probe.getCode().equals("0000"),"recover close-probe query");
+                    rpc.close(close(f,"closeProbe","THIRD",false));var closed=rpc.query(query(f,"closeProbe","THIRD"));SyncCommands.check("CANCELLED".equals(closed.getOrderStatus()),"NEVER_OPENED close/query");
+                    rpc.close(close(f,"closeMarker","THIRD",true));var marker=rpc.query(query(f,"closeMarker","THIRD"));SyncCommands.check("CLOSE_MARKER".equals(marker.getRecordKind()),"close-before-reserve marker");
+                    SyncCommands.check(rpc.reserveCode(reserve(f,"open","closeMarker","THIRD",null)).equals("ORDER_CLOSED"),"late reserve blocked by close marker");
+                    Files.write(work.resolve("live-fixtures.json"),new ContractCodec().encode(Map.of("openTeamId",open.getTeamId(),"fullTeamId",full.getTeamId(),"openTeamDeadline",open.getPaymentDeadline(),"fullTeamDeadline",full.getPaymentDeadline(),"openOrderId",open.getOrderId(),"closeMarkerRecordKind",marker.getRecordKind(),"fullReserveCode",fullCode)));
+                }
+                evidence.add("real-TLS/signed-reserve+query+team+close/open+join+full+expired+ineligible/CLOSE_MARKER/late-reserve-rejected=PASSED");
+                if(localOrders){verifyLocalOrders(ctx,f,base,work,evidence);evidence.add("inventory=OPERATOR_APPLIED;localBOrders=2;B-order-reserve-RPC-sent="+(tradeRecovery?"2":"0")+";payment-facts-sent=0");}
+                else evidence.add("inventory=PLAN_ONLY;B-order-reserve-RPC-sent=0;payment-facts-sent=0");
+                evidence.add("java="+Runtime.version());evidence.add("springBoot="+SpringBootVersion.getVersion());evidence.add("status=PASSED");Files.write(work.resolve("verify.txt"),evidence);
+            }return 0;
+        }catch(Exception e){System.err.println("B03 readiness failed: "+e.getClass().getSimpleName()+" "+(e.getMessage()!=null && e.getMessage().startsWith("check:")?e.getMessage():"details withheld"));return 1;}
+    }
+    private static void verifyLocalOrders(org.springframework.context.ConfigurableApplicationContext ctx,JsonNode f,String base,Path work,List<String> evidence)throws Exception{
+        var trial=ctx.getBean(IMarketingTrialService.class);var http=new ProductCommands.Client(base,env("B_IDENTITY_ORIGIN"));String jwt=http.login(env("B03_TEST_USER_LOGIN_NAME"),env("B03_TEST_USER_PASSWORD"));var admin=new ProductCommands.Client(base,env("B_IDENTITY_ORIGIN"));String op=admin.login(env("B03_TEST_OP_LOGIN_NAME"),env("B03_TEST_OP_PASSWORD"));String id=goods(f,"open");
+        admin.call("POST","/admin/inventory/"+id+"/inbounds",Map.of("operationId","b033-stock-"+id,"quantity","10","expectedVersion","1","reason","B033 own isolated live fixture"),op,201);
+        var offer=trial.trial(user(f,"USER"),id,UUID.randomUUID().toString()).offer();
+        var changed=new LinkedHashMap<String,Object>();changed.put("activityId",offer.activityId());changed.put("goodsId",id);changed.put("productVersion",offer.productVersion());changed.put("originalPrice","100.00");changed.put("deductionPrice","11.00");changed.put("payPrice","89.00");changed.put("currency","CNY");changed.put("targetCount",3);
+        var rejected=http.call("POST","/purchase-confirmations",Map.of("goodsId",id,"mode","OPEN","expectedOffer",changed),jwt,409);SyncCommands.check(rejected.path("code").asText().equals("OFFER_CHANGED")&&rejected.path("data").path("latestOffer").path("payPrice").asText().equals("90.00"),"real offer change requires reconfirmation");
+        var confirmation=http.call("POST","/purchase-confirmations",Map.of("goodsId",id,"mode","OPEN","expectedOffer",offer),jwt,201).path("data");
+        String intent="b033-open-"+UUID.randomUUID();var input=Map.of("purchaseIntentId",intent,"confirmationId",confirmation.path("confirmationId").asText());var order=http.call("POST","/orders",input,jwt,202).path("data");http.call("POST","/orders",input,jwt,200);
+        var live=JSON.readTree(Files.readAllBytes(work.resolve("live-fixtures.json")));String team=live.path("openTeamId").asText();String third=http.login(env("B03_TEST_THIRD_LOGIN_NAME"),env("B03_TEST_THIRD_PASSWORD"));
+        var joined=http.call("POST","/purchase-confirmations",Map.of("goodsId",id,"mode","JOIN","teamId",team,"expectedOffer",offer),third,201).path("data");var joinOrder=http.call("POST","/orders",Map.of("purchaseIntentId","b033-join-"+UUID.randomUUID(),"confirmationId",joined.path("confirmationId").asText()),third,202).path("data");
+        var fullOffer=trial.trial(user(f,"THIRD"),goods(f,"full"),UUID.randomUUID().toString()).offer();var full=http.call("POST","/purchase-confirmations",Map.of("goodsId",goods(f,"full"),"mode","JOIN","teamId",live.path("fullTeamId").asText(),"expectedOffer",fullOffer),third,409);SyncCommands.check(full.path("code").asText().equals("TEAM_NOT_JOINABLE"),"real full team cannot confirm");
+        try(var rpc=new SignedRpc(ctx.getBean(RpcSettings.class),ctx.getBean(RpcClientFactory.class),evidence)){
+            for(var item:List.of(Map.entry(user(f,"USER"),order),Map.entry(user(f,"THIRD"),joinOrder))){var q=new TradeQueryRequest();q.setUserId(item.getKey());q.setOutTradeNo(item.getValue().path("orderId").asText());SyncCommands.check(rpc.queryResult(q).getCode().equals("NOT_FOUND"),"local order has not remotely reserved");}
+        }
+        if("true".equals(System.getenv("B03_WITH_TRADE_RECOVERY")))verifyTradeRecovery(ctx,f,base,work,evidence,order,joinOrder,jwt,third,team);
+        var account=ctx.getBean(cn.zj.zjmarket.domain.inventory.service.IInventoryService.class).detail(id);SyncCommands.check(account.available()==8&&account.reserved()==2,"live confirmations atomically reserve B stock");
+        Files.write(work.resolve("local-orders.json"),new ContractCodec().encode(Map.of("status","PASSED","openOrderId",order.path("orderId").asText(),"joinOrderId",joinOrder.path("orderId").asText(),"available","8","reserved","2","realA","TLS/signed trial + TeamService.query; offer change/full team rejected","localAtomic","HELD + guard + READY task","A-reserve-for-these-orders","true".equals(System.getenv("B03_WITH_TRADE_RECOVERY"))?"see trade-recovery.json after actual process restart":"NOT_FOUND","payment","NEVER_OPENED")));
+        evidence.add("B033-real-A-quote/offer-change/signed-JOIN-team/full-team/HTTP-confirmation+order/replay/B-stock=PASSED");
+    }
+    private static void verifyTradeRecovery(org.springframework.context.ConfigurableApplicationContext ctx,JsonNode f,String base,Path work,List<String> evidence,JsonNode open,JsonNode join,String jwt,String third,String team)throws Exception{
+        var repo=ctx.getBean(cn.zj.zjmarket.domain.order.adapter.repository.ITradeRepository.class);var orders=ctx.getBean(cn.zj.zjmarket.domain.order.service.IOrderService.class);var actual=ctx.getBean(cn.zj.zjmarket.domain.order.adapter.port.ITradePort.class);var db=ctx.getBean(javax.sql.DataSource.class);var http=new ProductCommands.Client(base,env("B_IDENTITY_ORIGIN"));
+        String openId=open.path("orderId").asText(),joinId=join.path("orderId").asText();
+        // Lose only the response AFTER the real A reserve commits. The original result remains recoverable in A.
+        var losing=new cn.zj.zjmarket.domain.order.adapter.port.ITradePort(){public cn.zj.zjmarket.domain.order.model.valobj.TradeReply execute(cn.zj.zjmarket.domain.order.model.valobj.TradeDispatch d){SyncCommands.check(!org.springframework.transaction.support.TransactionSynchronizationManager.isActualTransactionActive(),"real RPC outside B transaction");var r=actual.execute(d);SyncCommands.check(r.code().equals("0000"),"real reserve before injected response loss code="+r.code());return new cn.zj.zjmarket.domain.order.model.valobj.TradeReply("UPSTREAM_TIMEOUT",null);}public cn.zj.zjmarket.domain.order.model.valobj.TeamView team(String u,String t,String r){return actual.team(u,t,r);}};
+        new cn.zj.zjmarket.domain.order.service.impl.TradeCoordinationService(repo,losing,30000).recover(openId);
+        SyncCommands.check(orders.detail(user(f,"USER"),openId).businessStatus().equals("PROCESSING"),"lost real response remains processing");
+        ctx.getBean(cn.zj.zjmarket.domain.order.service.ITradeCoordinationService.class).recover(joinId);
+        SyncCommands.check(orders.detail(user(f,"THIRD"),joinId).businessStatus().equals("WAITING_PAYMENT"),"real JOIN success before process restart");
+        Files.write(work.resolve("trade-restart.json"),new ContractCodec().encode(Map.of("status","RESTART_REQUIRED","previousPid",Long.toString(ProcessHandle.current().pid()),"openOrderId",openId,"joinOrderId",joinId,"teamId",team,"openRequestHash",orders.detail(user(f,"USER"),openId).requestHash())));
+        evidence.add("B034-real-A-reserve-committed/response-lost/durable-query-ready/JOIN-success=PASSED;process-restart-pending");
+    }
+    private static void verifyTradeRestart(org.springframework.context.ConfigurableApplicationContext ctx,Path work)throws Exception{
+        var f=JSON.readTree(Files.readAllBytes(work.resolve("fixtures.json")));var restart=JSON.readTree(Files.readAllBytes(work.resolve("trade-restart.json")));var evidence=new ArrayList<String>();
+        SyncCommands.check(!restart.path("previousPid").asText().equals(Long.toString(ProcessHandle.current().pid())),"actual new B process PID");
+        String openId=restart.path("openOrderId").asText(),joinId=restart.path("joinOrderId").asText(),team=restart.path("teamId").asText();
+        var orders=ctx.getBean(cn.zj.zjmarket.domain.order.service.IOrderService.class);var db=ctx.getBean(javax.sql.DataSource.class);var service=ctx.getBean(cn.zj.zjmarket.domain.order.service.ITradeCoordinationService.class);var before=orders.detail(user(f,"USER"),openId);
+        SyncCommands.check(before.businessStatus().equals("PROCESSING")&&before.mayHaveDispatched()&&before.requestHash().equals(restart.path("openRequestHash").asText()),"new process loads original dispatched pending purchase");
+        try(var c=db.getConnection();var p=c.prepareStatement("UPDATE b_trade_coordination SET next_attempt_ms=0 WHERE order_id=? AND intent='QUERY' AND run_state='READY'")){p.setString(1,openId);SyncCommands.check(p.executeUpdate()==1,"original durable QUERY intent");}
+        service.recover(openId);
+        String base="http://127.0.0.1:"+((WebServerApplicationContext)ctx).getWebServer().getPort();var http=new ProductCommands.Client(base,env("B_IDENTITY_ORIGIN"));String jwt=http.login(env("B03_TEST_USER_LOGIN_NAME"),env("B03_TEST_USER_PASSWORD"));String third=http.login(env("B03_TEST_THIRD_LOGIN_NAME"),env("B03_TEST_THIRD_PASSWORD"));
+        var o=orders.detail(user(f,"USER"),openId);var j=orders.detail(user(f,"THIRD"),joinId);SyncCommands.check(o.businessStatus().equals("WAITING_PAYMENT")&&j.businessStatus().equals("WAITING_PAYMENT"),"real OPEN and JOIN waiting payment");SyncCommands.check(j.evidence().teamId().equals(team)&&!o.evidence().teamId().equals(team),"JOIN stays specified; OPEN has assigned team");
+        http.call("GET","/teams/"+team,null,null,401);var teamPage=http.call("GET","/teams/"+team,null,third,200).path("data");SyncCommands.check(!teamPage.path("joinable").asBoolean()&&teamPage.path("myOrderId").asText().equals(joinId)&&!teamPage.has("members"),"actual full team clipped to own local order");var openPage=http.call("GET","/teams/"+o.evidence().teamId(),null,jwt,200).path("data");SyncCommands.check(openPage.path("joinable").asBoolean()&&openPage.path("myOrderId").asText().equals(openId),"actual OPEN share team");
+        try(var rpc=new SignedRpc(ctx.getBean(RpcSettings.class),ctx.getBean(RpcClientFactory.class),evidence)){for(var item:List.of(Map.entry(user(f,"USER"),o),Map.entry(user(f,"THIRD"),j))){var q=new TradeQueryRequest();q.setUserId(item.getKey());q.setOutTradeNo(item.getValue().orderId());var saved=rpc.query(q);SyncCommands.check(saved.getOrderId().equals(item.getValue().evidence().orderId())&&saved.getPayPrice().equals("90.00")&&saved.getProductVersion().equals("1")&&saved.getPayment()==null,"real A agrees with saved exact B snapshot");}}
+        var view=http.call("GET","/orders/"+openId,null,jwt,200).path("data");SyncCommands.check(view.path("aOrderId").isTextual()&&view.path("paymentDeadline").isTextual()&&!view.path("paymentEnabled").asBoolean(),"actual HTTP A fields no payment");
+        Files.write(work.resolve("trade-recovery.json"),new ContractCodec().encode(Map.of("status","PASSED","openOrderId",openId,"joinOrderId",joinId,"responseLoss","injected after actual A reserve success; actual new B process real query","realA","TLS signed reserve/query/TeamService.query; exact A identifiers/prices/deadlines/versions","inventory","available=8 reserved=2; HELD; no release","payment","NEVER_OPENED; disabled")));
+        try(var c=db.getConnection();var p=c.prepareStatement("SELECT method FROM b_trade_attempt WHERE order_id=? ORDER BY started_at_ms,attempt_id")){p.setString(1,openId);try(var r=p.executeQuery()){SyncCommands.check(r.next()&&r.getString(1).equals("reserve")&&r.next()&&r.getString(1).equals("query")&&!r.next(),"exactly reserve then query across process restart, no new reserve key");}}
+        evidence.add("B034-real-OPEN/JOIN/reserve-response-loss/actual-new-process-original-query/safe-team-HTTP/immutable-evidence=PASSED");evidence.add("status=PASSED");Files.write(work.resolve("trade-recover.txt"),evidence);
+        if("true".equals(System.getenv("B03_WITH_UNPAID_CLOSE")))prepareCloseRestart(ctx,work,f,openId,joinId);
+    }
+    private static void prepareCloseRestart(org.springframework.context.ConfigurableApplicationContext ctx,Path work,JsonNode f,String openId,String joinId)throws Exception{
+        var life=ctx.getBean(cn.zj.zjmarket.domain.order.service.IOrderLifecycleService.class);var repo=ctx.getBean(cn.zj.zjmarket.domain.order.adapter.repository.ITradeRepository.class);var service=ctx.getBean(cn.zj.zjmarket.domain.order.service.ITradeCoordinationService.class);var actual=ctx.getBean(cn.zj.zjmarket.domain.order.adapter.port.ITradePort.class);var orders=ctx.getBean(cn.zj.zjmarket.domain.order.service.IOrderService.class);
+        String key="b035-cancel-"+UUID.randomUUID();life.cancel(user(f,"THIRD"),joinId,key,"real A JOIN cancel");service.recover(joinId);service.recover(joinId);SyncCommands.check(orders.detail(user(f,"THIRD"),joinId).businessStatus().equals("CLOSED"),"real JOIN close then full query releases once");life.cancel(user(f,"THIRD"),joinId,key,"real A JOIN cancel");
+        // Persist the send mark but delay reserve. A close marker must win before the delayed real reserve.
+        var offer=ctx.getBean(IMarketingTrialService.class).trial(user(f,"THIRD"),goods(f,"open"),UUID.randomUUID().toString()).offer();var conditions=new cn.zj.zjmarket.domain.order.model.valobj.PurchaseConditions(goods(f,"open"),"OPEN",null,offer);var c=orders.confirm(user(f,"THIRD"),conditions,UUID.randomUUID().toString());var delayed=orders.create(user(f,"THIRD"),"b035-delay-"+UUID.randomUUID(),c.confirmationId(),UUID.randomUUID().toString()).order();var old=repo.beforeSend(repo.claim(delayed.orderId(),30000));life.cancel(user(f,"THIRD"),delayed.orderId(),UUID.randomUUID().toString(),"close before delayed real reserve");service.recover(delayed.orderId());service.recover(delayed.orderId());SyncCommands.check(orders.detail(user(f,"THIRD"),delayed.orderId()).businessStatus().equals("CLOSED"),"real close marker confirmed and locally released");var late=actual.execute(old);SyncCommands.check(late.code().equals("ORDER_CLOSED")&&!repo.complete(old,late),"real A rejects late reserve; old B token cannot reopen");
+        life.cancel(user(f,"USER"),openId,UUID.randomUUID().toString(),"real close loss before B writeback");var dispatch=repo.beforeSend(repo.claim(openId,500));SyncCommands.check(dispatch!=null&&dispatch.method().equals("close"),"original close attempt durably started");var response=actual.execute(dispatch);SyncCommands.check(response.code().equals("0000")&&response.closeEvidence()!=null,"actual A close committed before injected B process loss");
+        String closeHash;try(var connection=ctx.getBean(javax.sql.DataSource.class).getConnection();var p=connection.prepareStatement("SELECT close_request_hash FROM b_market_order WHERE order_id=?")){p.setString(1,openId);try(var r=p.executeQuery()){r.next();closeHash=r.getString(1);}}
+        SyncCommands.check(orders.detail(user(f,"USER"),openId).businessStatus().equals("CLOSING"),"no close response writeback before process exit");
+        Files.write(work.resolve("close-restart.json"),new ContractCodec().encode(Map.of("previousPid",Long.toString(ProcessHandle.current().pid()),"orderId",openId,"closeHash",closeHash,"delayedOrderId",delayed.orderId(),"realCloseMarker","confirmed before late reserve","status","RESTART_REQUIRED")));
+    }
+    private static void verifyCloseRestart(org.springframework.context.ConfigurableApplicationContext ctx,Path work)throws Exception{
+        var f=JSON.readTree(Files.readAllBytes(work.resolve("fixtures.json")));var restart=JSON.readTree(Files.readAllBytes(work.resolve("close-restart.json")));String id=restart.path("orderId").asText(),owner=user(f,"USER");SyncCommands.check(!restart.path("previousPid").asText().equals(Long.toString(ProcessHandle.current().pid())),"new B process for close recovery");var orders=ctx.getBean(cn.zj.zjmarket.domain.order.service.IOrderService.class);SyncCommands.check(orders.detail(owner,id).businessStatus().equals("CLOSING"),"restart loads original closing order");ctx.getBean(cn.zj.zjmarket.domain.order.service.ITradeCoordinationService.class).recover(id);var closed=orders.detail(owner,id);SyncCommands.check(closed.businessStatus().equals("CLOSED")&&closed.closeBasis().equals("A_CONFIRMED")&&closed.evidence().orderStatus().equals("CANCELLED"),"new process queries real A close and atomically finalizes");
+        var db=ctx.getBean(javax.sql.DataSource.class);try(var c=db.getConnection();var p=c.prepareStatement("SELECT close_request_hash,(SELECT COUNT(*) FROM b_inventory_ledger l WHERE l.order_id=o.order_id AND l.kind='RELEASE') FROM b_market_order o WHERE o.order_id=?")){p.setString(1,id);try(var r=p.executeQuery()){r.next();SyncCommands.check(r.getString(1).equals(restart.path("closeHash").asText())&&r.getLong(2)==1,"close request immutable and one release after process restart");}}
+        var account=ctx.getBean(cn.zj.zjmarket.domain.inventory.service.IInventoryService.class).detail(goods(f,"open"));SyncCommands.check(account.available()==10&&account.reserved()==0,"real OPEN/JOIN and close-marker inventory restored");
+        try(var rpc=new SignedRpc(ctx.getBean(RpcSettings.class),ctx.getBean(RpcClientFactory.class),new ArrayList<>())){var q=new TradeQueryRequest();q.setUserId(owner);q.setOutTradeNo(id);var a=rpc.query(q);SyncCommands.check(a.getOrderStatus().equals("CANCELLED"),"real A remains closed after B restart");SyncCommands.check(rpc.team(team(a.getTeamId(),owner)).getReservedCount()==0,"real A released OPEN team slot once");}
+        var c=orders.confirm(owner,closed.confirmation().conditions(),UUID.randomUUID().toString());var again=orders.create(owner,"b035-again-"+UUID.randomUUID(),c.confirmationId(),UUID.randomUUID().toString()).order();ctx.getBean(cn.zj.zjmarket.domain.order.service.IOrderLifecycleService.class).cancel(owner,again.orderId(),UUID.randomUUID().toString(),"new purchase local never sent");SyncCommands.check(orders.detail(owner,again.orderId()).closeBasis().equals("LOCAL_NEVER_DISPATCHED"),"new purchase allowed after release and safely cancelled without A");SyncCommands.check(orders.create(owner,closed.purchaseIntentId(),closed.confirmation().confirmationId(),UUID.randomUUID().toString()).order().businessStatus().equals("CLOSED"),"old purchase intent never becomes new order");
+        Files.write(work.resolve("close-recovery.json"),new ContractCodec().encode(Map.of("status","PASSED","orderId",id,"actualProcessRestart",true,"realA","JOIN cancel / OPEN close response lost / new process query / close marker rejects delayed reserve","inventory","available10 reserved0; one release per order","payment","NEVER_OPENED; no funds","closeRequest","original hash unchanged across process restart")));Files.write(work.resolve("close-recover.txt"),List.of("status=PASSED","realA=TLS signed close/query; JOIN/OPEN/close-marker/late reserve; new B process recovery","inventory=10 available / 0 reserved; single release ledger and guard cleared","oldIntent=closed; new purchase permitted; local never-sent close","payment=never opened"));
+    }
+    private static void verifyCloseOutage(org.springframework.context.ConfigurableApplicationContext ctx,Path work,String mode)throws Exception{
+        var f=JSON.readTree(Files.readAllBytes(work.resolve("fixtures.json")));String owner=user(f,"USER"),sku=goods(f,"open");
+        var orders=ctx.getBean(cn.zj.zjmarket.domain.order.service.IOrderService.class);var lifecycle=ctx.getBean(cn.zj.zjmarket.domain.order.service.IOrderLifecycleService.class);
+        var service=ctx.getBean(cn.zj.zjmarket.domain.order.service.ITradeCoordinationService.class);var inventory=ctx.getBean(cn.zj.zjmarket.domain.inventory.service.IInventoryService.class);var db=ctx.getBean(javax.sql.DataSource.class);
+        if(mode.equals("close-outage-prepare")){
+            var q=ctx.getBean(IMarketingTrialService.class).trial(owner,sku,UUID.randomUUID().toString()).offer();var conditions=new cn.zj.zjmarket.domain.order.model.valobj.PurchaseConditions(sku,"OPEN",null,q);
+            var c=orders.confirm(owner,conditions,UUID.randomUUID().toString());var o=orders.create(owner,"b036-offline-"+UUID.randomUUID(),c.confirmationId(),UUID.randomUUID().toString()).order();service.recover(o.orderId());SyncCommands.check(orders.detail(owner,o.orderId()).businessStatus().equals("WAITING_PAYMENT"),"real A reserved before outage");
+            lifecycle.cancel(owner,o.orderId(),UUID.randomUUID().toString(),"real owned A outage during close");
+            try(var connection=db.getConnection();var p=connection.prepareStatement("SELECT close_request_hash FROM b_market_order WHERE order_id=?")){p.setString(1,o.orderId());try(var r=p.executeQuery()){r.next();Files.write(work.resolve("close-outage-fixture.json"),new ContractCodec().encode(Map.of("orderId",o.orderId(),"closeHash",r.getString(1),"preparedPid",Long.toString(ProcessHandle.current().pid()))));}}
+            return;
+        }
+        var fixture=JSON.readTree(Files.readAllBytes(work.resolve("close-outage-fixture.json")));String id=fixture.path("orderId").asText();SyncCommands.check(!fixture.path("preparedPid").asText().equals(Long.toString(ProcessHandle.current().pid())),"outage uses new actual B process");
+        if(mode.equals("close-outage")){
+            service.recover(id);var o=orders.detail(owner,id);SyncCommands.check(o.businessStatus().equals("CLOSING")&&!o.reviewRequired(),"offline A is technical unknown, never close success");
+            var a=inventory.detail(sku);SyncCommands.check(a.available()==9&&a.reserved()==1,"A offline keeps inventory held");
+            try(var connection=db.getConnection();var p=connection.prepareStatement("SELECT t.failure_count,t.run_state,t.intent,o.close_request_hash,(SELECT COUNT(*) FROM b_inventory_ledger l WHERE l.order_id=o.order_id AND l.kind='RELEASE') FROM b_trade_coordination t JOIN b_market_order o ON t.order_id=o.order_id WHERE o.order_id=?")){p.setString(1,id);try(var r=p.executeQuery()){r.next();SyncCommands.check(r.getLong(1)==1&&r.getString(2).equals("READY")&&r.getString(3).equals("CLOSE")&&r.getString(4).equals(fixture.path("closeHash").asText())&&r.getLong(5)==0,"offline close keeps frozen request and pending recovery without release");}}
+            Files.write(work.resolve("close-outage.txt"),List.of("status=PASSED","actualA=owned provider stopped; real signed close could not connect","B=CLOSING; same original close; failure persisted; stock9 available/1 HELD; no release","process=actual fresh B process"));return;
+        }
+        service.recover(id);service.recover(id);var o=orders.detail(owner,id);SyncCommands.check(o.businessStatus().equals("CLOSED")&&o.closeBasis().equals("A_CONFIRMED"),"restarted real A accepts original close then full query");
+        try(var connection=db.getConnection();var p=connection.prepareStatement("SELECT close_request_hash,(SELECT COUNT(*) FROM b_inventory_ledger l WHERE l.order_id=o.order_id AND l.kind='RELEASE'),(SELECT COUNT(DISTINCT request_id) FROM b_trade_attempt t WHERE t.order_id=o.order_id AND t.method='close') FROM b_market_order o WHERE order_id=?")){p.setString(1,id);try(var r=p.executeQuery()){r.next();SyncCommands.check(r.getString(1).equals(fixture.path("closeHash").asText())&&r.getLong(2)==1&&r.getLong(3)==2,"same close body, separate network request ids, one release");}}
+        var a=inventory.detail(sku);SyncCommands.check(a.available()==10&&a.reserved()==0&&a.sold()==0,"real outage recovery restores inventory conservation");
+        try(var rpc=new SignedRpc(ctx.getBean(RpcSettings.class),ctx.getBean(RpcClientFactory.class),new ArrayList<>())){var q=new TradeQueryRequest();q.setUserId(owner);q.setOutTradeNo(id);var reservation=rpc.query(q);SyncCommands.check(reservation.getOrderStatus().equals("CANCELLED")&&rpc.team(team(reservation.getTeamId(),owner)).getReservedCount()==0,"real A order closed and team slot released");}
+        Files.write(work.resolve("close-outage-recovery.json"),new ContractCodec().encode(Map.of("status","PASSED","orderId",id,"realAStoppedAndRestarted",true,"originalCloseHashUnchanged",true,"inventory","10 available / 0 HELD / 0 sold; one RELEASE","separateBProcesses",true,"funds","NEVER_OPENED; no payment facts")));
+    }
+    private static String env(String name){return SyncCommands.env(name);}
+    private static String user(JsonNode f,String role){return f.path("users").path(role).asText();}
+    private static String goods(JsonNode f,String key){return f.path(key).path("goodsId").asText();}
+    private static String utc(){return DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSS'Z'").withZone(ZoneOffset.UTC).format(Instant.now());}
+    private static ReserveRequest reserve(JsonNode f,String product,String key,String role,String team){var q=new ReserveRequest();q.setUserId(user(f,role));q.setOutTradeNo(f.path("outTradeNos").path(key).asText());q.setGoodsId(goods(f,product));q.setActivityId(f.path(product).path("activityId").asText());q.setQuantity(1);q.setProductVersion("1");q.setExpectedPayPrice("90.00");q.setCurrency("CNY");q.setTeamId(team);return q;}
+    private static TradeQueryRequest query(JsonNode f,String key,String role){var q=new TradeQueryRequest();q.setUserId(user(f,role));q.setOutTradeNo(f.path("outTradeNos").path(key).asText());return q;}
+    private static TeamQueryRequest team(String id,String user){var q=new TeamQueryRequest();q.setTeamId(id);q.setUserId(user);return q;}
+    private static CloseRequest close(JsonNode f,String key,String role,boolean marker){var q=new CloseRequest();q.setUserId(user(f,role));q.setOutTradeNo(f.path("outTradeNos").path(key).asText());q.setCloseId(f.path(marker?"closeMarkerId":"closeId").asText());q.setReason("ORDER_ABORT");q.setPaymentDisposition("NEVER_OPENED");q.setVerifiedAt(f.path("verifiedAt").asText());return q;}
+    private static void checkReservation(Reservation q,JsonNode f,String product,String key,String role){SyncCommands.check("RESERVATION".equals(q.getRecordKind()) && q.getUserId().equals(user(f,role)) && q.getOutTradeNo().equals(f.path("outTradeNos").path(key).asText()) && q.getGoodsId().equals(goods(f,product)) && "1".equals(q.getProductVersion()) && "90.00".equals(q.getPayPrice()) && "CNY".equals(q.getCurrency()) && q.getQuantity()==1 && q.getPaymentDeadline()!=null && q.getServerTime()!=null,"real reservation relation/amount/version/deadline");}
+    private static final class SignedRpc implements AutoCloseable {
+        final RpcSettings settings;final ReferenceConfig<TradeService> trade;final ReferenceConfig<TeamService> teams;final List<String> evidence;
+        SignedRpc(RpcSettings s,RpcClientFactory factory,List<String> e){settings=s;evidence=e;trade=factory.reference(TradeService.class);teams=factory.reference(TeamService.class);trade.setCheck(false);teams.setCheck(false);}
+        <T>RpcResult<T> call(Class<?> type,String method,BaseRequest q,Supplier<RpcResult<T>> action)throws Exception {
+            q.setSource(settings.getSource());q.setChannel(settings.getChannel());String id=UUID.randomUUID().toString(),timestamp=Long.toString(System.currentTimeMillis()),nonce=UUID.randomUUID().toString();
+            String text=String.join("\n",settings.getClientId(),settings.getKeyId(),timestamp,nonce,id,type.getName(),method,settings.getVersion(),settings.getGroup(),ContractCodec.sha256(new ContractCodec().encode(q)));
+            var headers=Map.of("clientId",settings.getClientId(),"keyId",settings.getKeyId(),"timestamp",timestamp,"nonce",nonce,"requestId",id,"signature",ContractCodec.hmac(settings.getSecret(),text));
+            try{headers.forEach((k,v)->RpcContext.getClientAttachment().setAttachment(k,v));var result=action.get();SyncCommands.check(result!=null && id.equals(result.getRequestId()),"B03 RPC requestId "+method);evidence.add("rpcRequestId="+id+";method="+method+";code="+result.getCode());return result;}finally{RpcContext.getClientAttachment().clearAttachments();}
+        }
+        <T>T success(RpcResult<T> result){SyncCommands.check("0000".equals(result.getCode()) && result.getData()!=null,"B03 RPC success; code="+result.getCode());return result.getData();}
+        Reservation reserve(ReserveRequest q)throws Exception{return success(call(TradeService.class,"reserve",q,()->trade.get().reserve(q)));}
+        String reserveCode(ReserveRequest q)throws Exception{return call(TradeService.class,"reserve",q,()->trade.get().reserve(q)).getCode();}
+        RpcResult<Reservation> queryResult(TradeQueryRequest q)throws Exception{return call(TradeService.class,"query",q,()->trade.get().query(q));}
+        Reservation query(TradeQueryRequest q)throws Exception{return success(queryResult(q));}
+        Team team(TeamQueryRequest q)throws Exception{return success(call(TeamService.class,"query",q,()->teams.get().query(q)));}
+        CloseResponse close(CloseRequest q)throws Exception{return success(call(TradeService.class,"close",q,()->trade.get().close(q)));}
+        public void close(){trade.destroy();teams.destroy();}
+    }
+}

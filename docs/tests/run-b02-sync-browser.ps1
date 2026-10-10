@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param([string]$JavaHome='', [switch]$SkipBuild, [string]$BrowserExecutable='C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe')
+param([string]$JavaHome='', [switch]$SkipBuild, [switch]$ScopedBackground, [string]$BrowserExecutable='C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe')
 $ErrorActionPreference='Stop'
 $root=(Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 . (Join-Path $root 'scripts/b-runtime.ps1')
@@ -45,7 +45,10 @@ try{
     & $jdk.Java '-jar' (Join-Path $root 'zj-market-verification/target/zj-market-verification.jar') '--sync' 'prepare-browser' *> target/b024-browser-fixture.txt
     if($LASTEXITCODE -ne 0){throw 'Fresh owned paused browser fixture failed'}
     $ps=(Get-Process -Id $PID).Path
-    $backend=Start-Process -FilePath $ps -ArgumentList @('-NoProfile','-File',(Join-Path $root 'scripts/start-sync.ps1'),'-TestDatabase','-SkipBuild','-JavaHome',('"'+$jdk.Home+'"')) -WindowStyle Hidden -PassThru -RedirectStandardOutput target/b024-browser-backend.txt -RedirectStandardError target/b024-browser-backend.err.txt
+    $backendArgs=@('-NoProfile','-File',(Join-Path $root $(if($ScopedBackground){'scripts/start-sync-verification-browser.ps1'}else{'scripts/start-sync.ps1'})))
+    if(-not $ScopedBackground){$backendArgs+='-TestDatabase'}
+    $backendArgs+=@('-SkipBuild','-JavaHome',('"'+$jdk.Home+'"'))
+    $backend=Start-Process -FilePath $ps -ArgumentList $backendArgs -WindowStyle Hidden -PassThru -RedirectStandardOutput target/b024-browser-backend.txt -RedirectStandardError target/b024-browser-backend.err.txt
     $node=(Get-Command node).Source
     $frontend=Start-Process -FilePath $node -ArgumentList @((Join-Path $root 'frontend/node_modules/vite/bin/vite.js'),'--host','127.0.0.1') -WorkingDirectory (Join-Path $root 'frontend') -WindowStyle Hidden -PassThru -RedirectStandardOutput target/b024-browser-frontend.txt -RedirectStandardError target/b024-browser-frontend.err.txt
     $deadline=[DateTime]::UtcNow.AddSeconds(30)
@@ -58,11 +61,12 @@ try{
     Get-Content target/identity/browser.txt
     & $node (Join-Path $PSScriptRoot 'b02-sync-browser.mjs') *> target/b024-browser-run.txt
     if($LASTEXITCODE -ne 0){throw 'B product browser verification failed; inspect ignored target log.'}
+    if($ScopedBackground){Add-Content target/sync/browser.txt 'background=verification-owned-event/real-service/A/MQ'}
     Get-Content target/sync/browser.txt
 }catch{[IO.File]::WriteAllText($browserReport,'status=FAILED');throw}finally{
     if($backend){
         # Stop only children of the process launched by this invocation.
-        Get-CimInstance Win32_Process -Filter "ParentProcessId=$($backend.Id)" | Where-Object { $_.Name -eq 'java.exe' -and $_.CommandLine -like '*zj-market-app-exec.jar*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -ErrorAction SilentlyContinue }
+        Get-CimInstance Win32_Process -Filter "ParentProcessId=$($backend.Id)" | Where-Object { $_.Name -eq 'java.exe' -and ($_.CommandLine -like '*zj-market-app-exec.jar*' -or ($ScopedBackground -and $_.CommandLine -like '*zj-market-verification.jar*')) } | ForEach-Object { Stop-Process -Id $_.ProcessId -ErrorAction SilentlyContinue }
         Stop-Process -Id $backend.Id -ErrorAction SilentlyContinue
     }
     if($frontend){Stop-Process -Id $frontend.Id -ErrorAction SilentlyContinue}

@@ -1,5 +1,5 @@
-﻿[CmdletBinding()]
-param([string]$JavaHome='', [string]$AJavaHome='D:/Dev_tools/2.environment/jdk/jdk8', [string]$RunName='', [switch]$SkipBuild, [switch]$Browser, [switch]$AckRestart)
+[CmdletBinding()]
+param([string]$JavaHome='', [string]$AJavaHome='D:/Dev_tools/2.environment/jdk/jdk8', [string]$RunName='', [switch]$SkipBuild, [switch]$Browser, [switch]$AckRestart, [switch]$ScopedBrowser)
 $ErrorActionPreference='Stop'
 $projectRoot=(Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 . (Join-Path $projectRoot 'scripts/b-runtime.ps1')
@@ -128,7 +128,7 @@ try{
  if($AckRestart){Invoke-SyncPhase ack-commit 86;if(-not(Test-Path "$work/ack-committed.json")){throw 'Expected durable pre-ACK marker missing'};Invoke-SyncPhase ack-recover;Get-Content "$work/ack-recovery.txt"}
  if($Browser){
   & (Join-Path $PSScriptRoot 'run-b02-products-browser.ps1') -JavaHome $jdk.Home -SkipBuild
-  & (Join-Path $PSScriptRoot 'run-b02-sync-browser.ps1') -JavaHome $jdk.Home -SkipBuild
+  & (Join-Path $PSScriptRoot 'run-b02-sync-browser.ps1') -JavaHome $jdk.Home -SkipBuild -ScopedBackground:$ScopedBrowser
  }
 }finally{
  foreach($process in @($consumer,$provider)){if($process -and -not $process.HasExited){Stop-Process -Id $process.Id -Force}}

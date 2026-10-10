@@ -12,6 +12,8 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.web.bind.annotation.*;
 @RestControllerAdvice
 public class IdentityErrors {
+    @ExceptionHandler(cn.zj.zjmarket.types.exception.OrderFailure.class) ResponseEntity<ApiResponse> order(cn.zj.zjmarket.types.exception.OrderFailure e,HttpServletRequest req){return ResponseEntity.status(e.status()).body(new ApiResponse(e.code(),e.code(),e.detail(),id(req)));}
+    @ExceptionHandler(cn.zj.zjmarket.types.exception.InventoryFailure.class) ResponseEntity<ApiResponse> inventory(cn.zj.zjmarket.types.exception.InventoryFailure e,HttpServletRequest req){return ResponseEntity.status(e.status()).body(ApiResponse.error(e.code(),id(req)));}
     @ExceptionHandler(cn.zj.zjmarket.types.exception.ProductFailure.class) ResponseEntity<ApiResponse> product(cn.zj.zjmarket.types.exception.ProductFailure e,HttpServletRequest req){return ResponseEntity.status(e.status()).body(ApiResponse.error(e.code(),id(req)));}
     @ExceptionHandler(cn.zj.zjmarket.types.exception.SyncTransportFailure.class) ResponseEntity<ApiResponse> sync(cn.zj.zjmarket.types.exception.SyncTransportFailure e,HttpServletRequest req){boolean upstream=e.code().equals("INTEGRATION_AUTH_FAILED") || e.permanent();return ResponseEntity.status(upstream?502:503).body(ApiResponse.error(upstream?"UPSTREAM_RESPONSE_INVALID":"DEPENDENCY_UNAVAILABLE",id(req)));}
     @ExceptionHandler(AuthFailure.class) ResponseEntity<ApiResponse> auth(AuthFailure e,HttpServletRequest req){

@@ -1,5 +1,5 @@
 export type Sync = { goodsId: string; state: string; targetEventId: string; targetVersion: string; confirmedVersion: string | null; lastError: string | null; checkedAt: string | null }
 export type Quarantine = { quarantineId: string; bodyHash: string; reason: string; originalSize: number; storedAt: string; state: string }
-export type Product = { goodsId: string; goodsName: string; description: string; imageUrl: string | null; originalPrice: string; currency: 'CNY'; saleStatus: 'ON_SALE' | 'OFF_SALE'; productVersion: string; syncReady: boolean; sync?: Sync }
+export type Product = { goodsId: string; availability?: 'IN_STOCK' | 'OUT_OF_STOCK'; goodsName: string; description: string; imageUrl: string | null; originalPrice: string; currency: 'CNY'; saleStatus: 'ON_SALE' | 'OFF_SALE'; productVersion: string; syncReady: boolean; sync?: Sync }
 export type Trial = { goodsId: string; productVersion: string; quotedAt: string; state: 'AVAILABLE' | 'INELIGIBLE' | 'NO_PUBLIC_OFFER'; offer: null | { activityId: string; goodsId: string; productVersion: string; originalPrice: string; deductionPrice: string; payPrice: string; currency: 'CNY'; targetCount: number } }
 export type Page = { items: Product[]; page: number; size: number; total: number }

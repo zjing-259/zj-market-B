@@ -16,7 +16,7 @@ public final class ProductRepository implements IProductRepository {
     public <T>T transaction(Supplier<T> work){return tx.execute(status -> work.get());}
     public Product get(String id,boolean lock){var row=mapper.get(id,lock);return row==null?null:product(row);}
     public ProductSyncProgress progress(String id){return mapper.progress(id);}
-    public void insert(Product p){one(mapper.insert(row(p)));}
+    public void insert(Product p){one(mapper.insert(row(p)));one(mapper.initializeInventory(row(p)));}
     public boolean update(Product p,long expected){return mapper.update(row(p),expected)==1;}
     public void appendEvent(Product p,String eventId,String body){one(mapper.append(p.goodsId(),p.version(),eventId,body,p.updatedAt()));}
     public void target(Product p,String eventId){mapper.target(p.goodsId(),p.version(),eventId);}

@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @ConditionalOnProperty(name="b.product.enabled",havingValue="true")
 public final class ProductController {
     private final IProductService service;
-    public ProductController(IProductService service){this.service=service;}
+    private final org.springframework.beans.factory.ObjectProvider<cn.zj.zjmarket.domain.inventory.service.IInventoryService> inventory;
+    public ProductController(IProductService service,org.springframework.beans.factory.ObjectProvider<cn.zj.zjmarket.domain.inventory.service.IInventoryService> inventory){this.service=service;this.inventory=inventory;}
     @GetMapping("/products") ApiResponse list(HttpServletRequest req){return page(req,false);}
     @GetMapping("/admin/products") ApiResponse adminList(HttpServletRequest req){return page(req,true);}
     @GetMapping("/products/{id}") ApiResponse detail(@PathVariable String id,HttpServletRequest req){query(req,Set.of());return ok(dto(service.detail(id,false),false),req);}
@@ -40,7 +41,7 @@ public final class ProductController {
     private static int integer(HttpServletRequest req,String name,int fallback){String v=req.getParameter(name);if(v==null)return fallback;if(!v.matches("[1-9][0-9]{0,9}"))throw invalid();try{return Integer.parseInt(v);}catch(NumberFormatException e){throw invalid();}}
     private static void query(HttpServletRequest req,Set<String> allowed){if(req.getParameterMap().entrySet().stream().anyMatch(e -> !allowed.contains(e.getKey()) || e.getValue().length!=1))throw invalid();}
     private static ProductFields fields(String name,String description,String image,String price,String currency,String status){try{return new ProductFields(name,description,image,price,currency,SaleStatus.valueOf(status));}catch(IllegalArgumentException|NullPointerException e){throw invalid();}}
-    private static Map<String,Object> dto(ProductView v,boolean admin){var p=v.product();var f=p.fields();var value=new LinkedHashMap<String,Object>();value.put("goodsId",p.goodsId());value.put("goodsName",f.goodsName());value.put("description",f.description());value.put("imageUrl",f.imageUrl());value.put("originalPrice",f.originalPrice().toPlainString());value.put("currency",f.currency());value.put("saleStatus",f.saleStatus().name());value.put("productVersion",Long.toString(p.version()));value.put("syncReady",v.sync().ready(p.version()));if(admin)value.put("sync",v.sync());return value;}
+    private Map<String,Object> dto(ProductView v,boolean admin){var p=v.product();var f=p.fields();var value=new LinkedHashMap<String,Object>();value.put("goodsId",p.goodsId());value.put("goodsName",f.goodsName());value.put("description",f.description());value.put("imageUrl",f.imageUrl());value.put("originalPrice",f.originalPrice().toPlainString());value.put("currency",f.currency());value.put("saleStatus",f.saleStatus().name());value.put("productVersion",Long.toString(p.version()));value.put("syncReady",v.sync().ready(p.version()));if(admin)value.put("sync",v.sync());var stock=inventory.getIfAvailable();if(stock!=null)value.put("availability",stock.detail(p.goodsId()).available()>0?"IN_STOCK":"OUT_OF_STOCK");return value;}
     // Check the authenticated principal at the handler too: raw URI spellings cannot bypass role checks.
     private static void operator(HttpServletRequest req){var p=(AuthenticatedPrincipal)req.getAttribute("b.principal");if(p==null)throw new AuthFailure(401,"AUTH_REQUIRED");if(!p.user().roles().contains("OPERATOR"))throw new AuthFailure(403,"FORBIDDEN");}
     private static ProductFailure invalid(){return new ProductFailure(400,"VALIDATION_FAILED");}

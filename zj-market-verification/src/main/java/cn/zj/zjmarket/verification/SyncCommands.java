@@ -38,7 +38,7 @@ public final class SyncCommands {
   if(!Set.of("prepare","prepare-browser","verify","replay","ack-commit","ack-recover").contains(mode))throw new IllegalArgumentException("Unsupported sync command");
   if(!mode.equals("replay"))guard();
   var app=new SpringApplication(ZjMarketApplication.class);if(!mode.equals("verify"))app.setWebApplicationType(WebApplicationType.NONE);
-  try(var ctx=app.run("--server.port=0","--b.identity.enabled=true","--b.product.enabled=true","--b.trial.enabled=false","--b.sync.enabled=true","--b.sync.scheduler-enabled=false","--b.infrastructure.database.enabled=true","--b.infrastructure.rpc.enabled=true","--b.infrastructure.mq.enabled=true")){
+  try(var ctx=app.run("--server.port=0","--b.order.enabled=false","--b.trade.enabled=false","--b.identity.enabled=true","--b.product.enabled=true","--b.trial.enabled=false","--b.sync.enabled=true","--b.sync.scheduler-enabled=false","--b.infrastructure.database.enabled=true","--b.infrastructure.rpc.enabled=true","--b.infrastructure.mq.enabled=true")){
    var products=ctx.getBean(IProductService.class);var store=ctx.getBean(IProductSyncRepository.class);var service=ctx.getBean(IProductSyncService.class);var transport=ctx.getBean(RocketMqSyncTransport.class);var reader=ctx.getBean(SyncResultReader.class);var db=ctx.getBean(DataSource.class);
    if(mode.equals("replay")){if(id==null)throw new IllegalArgumentException("Quarantine id required");reader.replay(id);System.out.println("B quarantine trusted replay: PASSED");return 0;}
    var work=Path.of(env("B_SYNC_WORK"));Files.createDirectories(work);var fixtureFile=work.resolve("fixtures.json");

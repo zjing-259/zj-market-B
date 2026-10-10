@@ -30,8 +30,8 @@ public final class IdentityCommands {
             if(mode.equals("verify")) testGuard();
             SpringApplication app=new SpringApplication(ZjMarketApplication.class);
             if(mode.equals("init-operator"))app.setWebApplicationType(WebApplicationType.NONE);
-            String[] args=mode.equals("verify")?new String[]{"--server.port=0","--b.identity.enabled=true","--b.product.enabled=false","--b.infrastructure.database.enabled=true","--b.trial.enabled=false","--b.sync.enabled=false","--b.infrastructure.rpc.enabled=false","--b.infrastructure.mq.enabled=false","--b.identity.rate.ip-limit=1000","--b.identity.rate.login-limit=20"}:
-                new String[]{"--b.identity.enabled=true","--b.product.enabled=false","--b.infrastructure.database.enabled=true","--b.sync.enabled=false","--b.infrastructure.rpc.enabled=false","--b.infrastructure.mq.enabled=false"};
+            String[] args=mode.equals("verify")?new String[]{"--server.port=0","--b.identity.enabled=true","--b.product.enabled=false","--b.inventory.enabled=false","--b.order.enabled=false","--b.trade.enabled=false","--b.infrastructure.database.enabled=true","--b.trial.enabled=false","--b.sync.enabled=false","--b.infrastructure.rpc.enabled=false","--b.infrastructure.mq.enabled=false","--b.identity.rate.ip-limit=1000","--b.identity.rate.login-limit=20"}:
+                new String[]{"--b.identity.enabled=true","--b.product.enabled=false","--b.inventory.enabled=false","--b.order.enabled=false","--b.trade.enabled=false","--b.infrastructure.database.enabled=true","--b.sync.enabled=false","--b.infrastructure.rpc.enabled=false","--b.infrastructure.mq.enabled=false"};
             try(var context=app.run(args)){
                 var service=context.getBean(IIdentityService.class);
                 if(mode.equals("init-operator")) {

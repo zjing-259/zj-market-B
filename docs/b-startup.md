@@ -110,3 +110,65 @@ B-02闭环已通过B-02.6联合验收。统一复现使用docs/tests/run-b02-acc
 ## B-02目录优化后的启动确认（2026-10-09）
 
 当前七模块布局、Java包与前端归位已完成，普通main/JAR、脚本和JDK21选择保持。IDE加载此工作树根pom.xml后重新导入Maven，旧application模块应消失；运行模块仍app、主类仍cn.zj.zjmarket.ZjMarketApplication。图形IDE本轮未实际启动，脚本普通应用、HTTP/浏览器和独立验收均通过，实际批次 `layout-20261009-110821` 及复现命令见 [B-02第17节](b02-development.md#17-b-02文件管理优化2026-10-09)。本轮15项测试、正常包排除verification/Flyway，默认Java8和调用方环境恢复已确认；B容器仍未执行验收。
+
+
+## B-03.2库存启动增量（2026-10-09）
+
+完整商城scripts/start-market.ps1现显式开启库存b.inventory.enabled，继续使用JDK21及已有外部数据库/JWT/RPC/MQ配置。先执行V5库存基础和V6请求审计迁移，再给运行账号三张库存表DML权限；普通启动不自动迁移，不使用迁移账号运行。已执行迁移不改写，旧版商品写入口不得在迁移后继续创建漏账户商品。
+
+仅本地身份/商品/库存开发可先外部设置B_INVENTORY_ENABLED=true，再运行scripts/start-products.ps1；该入口仍关闭真实RPC/MQ/试算。浏览器运营入口为/admin/inventory。身份/数据库维护CLI显式关闭库存，防止继承功能开关。准确余额和流水只对运营开放，公开商品只有有货/缺货。
+
+验收入口docs/tests/run-b03-inventory.ps1和run-b03-inventory-browser.ps1，均显式选JDK21、限定现有独立B测试库；凭据/密钥仍在外部或被忽略.local，浏览器恢复信息只存业务参数，不存登录凭据。完整过程、命令、证据及范围见[B-03第14节](b03-development.md#14-b-032实现与验收2026-10-09已完成)。
+
+## B-03.3本地订单启动增量
+
+完整商城start-market.ps1显式启用b.order.enabled，需先在受控窗口执行V7并授予新增五表DML（运行账号共19张B表），真实A试算/RPC配置仍由外部注入。B_ORDER_ENABLED默认false；维护CLI显式关闭订单。start-products.ps1仍用于不连接A的商品/库存页面，不自动开启订单。
+
+/orders提供本人订单列表/详情，商品详情先核对报价再确认购买。本阶段订单先进入PROCESSING并持久预留，worker发送A reserve在B-03.4，取消和超时释放在B-03.5；当前不开放支付或取消按钮，页面倒计时不触发释放。运行B-03.3本地验收用docs/tests/run-b03-orders.ps1；真实A联调用run-b03-readiness.ps1 -WithLocalOrders及新RunName；浏览器验收专用入口绝不作为普通商城启动。
+
+## B-03.4 A占位与结果恢复启动增量
+
+完整商城start-market.ps1显式启用b.trade.enabled，先在无旧B写进程的受控窗口执行V8并授予b_trade_attempt DML（运行账号共20张B表）。普通启动不迁移；沿用JDK21、既有签名编解码/Netty及外部RPC/TLS/账号配置。单独identity/products/sync脚本、维护CLI及非交易验收显式关闭trade/order，防止继承开关触发后台占位。
+
+后台默认扫描2秒/20条、逐条租约30秒、RPC10秒；B_TRADE_SCAN_MILLIS/B_TRADE_BATCH_SIZE/B_TRADE_LEASE_MILLIS与B_TRADE_RETRY_BASE_MILLIS/B_TRADE_RETRY_MAX_MILLIS可外部配置。退避默认2/4/8/16/30秒加抖动并限于30秒；5次技术失败记录告警并继续恢复。关闭调度可用B_TRADE_SCHEDULER_ENABLED=false，保留持久任务，不用重建订单恢复。
+
+/teams/{teamId}登录后展示安全团队摘要及分享地址，指定团队参团不自动改成开团；/orders显示已验证A团队/期限和核对状态。支付仍未接入，取消/关闭执行与HELD释放按B-03.5实施。复现与真实A/进程重启/MySQL/页面证据集中维护在[B-03过程第16节](b03-development.md#16-b-034-a占位与结果恢复2026-10-09已完成)。
+
+本次启动索引复杂度低，复用既有入口；交易恢复实施复杂度高，分步依赖和验收以过程文档为准。
+
+## B-03.5未支付关闭入口
+
+完整商城沿用start-market.ps1与显式JDK21。在无旧B写进程的受控窗口执行新增V9并为b_order_operation授予DML，运行账号共21张B表；普通启动仍不自动迁移，凭据/私钥外部注入。已执行V1～V8不改写，框架/Netty/签名方案不变。
+
+/orders/{orderId}提供本人未支付取消、关闭进度与关闭依据；/admin/orders及/admin/orders/{orderId}提供运营异常和允许的任务控制。鉴权故障CHECK仅原单只读签名查询，可信后恢复；证据矛盾不能页面强制恢复。可能已发时确认A关闭后才释放，支付仍未开放。
+
+独立验收用docs/tests/run-b03-closes.ps1，真实A/进程重启用run-b03-readiness.ps1 -WithUnpaidClose，浏览器用run-b03-orders-browser.ps1 -WithClose；均显式传入-JavaHome 'C:/Program Files/Java/jdk-21'。复现及证据见[B-03过程第17节](b03-development.md#17-b-035-未支付关闭与页面闭环2026-10-09已完成)。索引更新复杂度低，实际关闭实现复杂度高并按过程文档分步验收。
+
+## B-03.6联合故障验收入口
+
+从b03工作树运行（PowerShell7，外部/DPAPI凭据，不把密码写入命令或仓库）：
+
+```powershell
+pwsh -NoProfile -File docs/tests/run-b03-acceptance.ps1 -JavaHome 'C:/Program Files/Java/jdk-21' -RunName <新的唯一批次>
+```
+
+默认重新打包并执行单元测试，随后同一产物验证普通JDK21启动、双库V9/权限、完整B-02回归、库存/订单/交易/关闭及组合故障、真实A离线重启/B新进程恢复和Edge页面。每批target/b03-acceptance/<批次>独立保存报告、产物指纹及本批证据，拒绝覆盖旧批次或引用旧通过报告。SkipBuild表示本次没有重新执行单元构建，不能当作新测试证据。
+
+用户确认的历史同步积压隔离仅用于验收：统一入口传ScopedSyncBrowser，逐层选择verification包--sync-browser，只认领本次browser-fixture.json事件；试算页面同开关选择verification的--trial-browser，本批本地allowlist只登记页面实际修改/恢复返回的eventId和goodsId，后台核对关联/正文哈希。两者复用真实同步服务、A和MQ。正常ProductSyncJob不变，旧数据保留；生产不使用scripts/start-sync-verification-browser.ps1或start-trial-verification-browser.ps1，不把验收入口作为常规启动。未传开关时B-02验收仍沿用原全局后台。
+
+单独组合故障用docs/tests/run-b03-joint-faults.ps1；真实A停启及B进程恢复用run-b03-readiness.ps1 -WithJointFaults，均显式JavaHome且使用新的RunName（后者）。只停止本次启动的A/B/Vite/浏览器进程，共享MySQL/MQ保持；启动前要求专用端口空闲，结束检查环境、端口及终端默认Java8。完整结果见[B-03过程第18节](b03-development.md#18-b-036-联合故障验收与交接2026-10-09已完成)，资金接续见[b03-payment-handoff.md](b03-payment-handoff.md)。
+
+索引维护复杂度低；联合验收复杂度高，按组合竞争→同批指纹→真实故障/页面→守恒→交接→安全六步执行。真实支付/退款留后续阶段。
+
+## B-03收尾：D6可配置等待期限（2026-10-10）
+
+`B_ORDER_RESERVE_WAIT_MILLIS`对应`b.order.reserve-wait-millis`，单位毫秒，默认300000（5分钟）；也可通过Spring启动参数覆盖。开启订单模块时必须为正的long整数，零/负数及不能解析为long的值拒绝启动。计算数据库绝对期限使用Math.addExact，溢出不提交订单。
+
+```powershell
+$env:B_ORDER_RESERVE_WAIT_MILLIS='60000'
+./scripts/start-market.ps1 -JavaHome 'C:/Program Files/Java/jdk-21' -TestDatabase -SkipBuild
+```
+
+该配置仅用于新订单，从数据库创建时刻计算并持久化reserve_wait_deadline_ms。已受理订单和原键重试继续使用原期限，不按当前配置续期；D9报价确认仍独立5分钟，A付款截止不受影响。到期持久关闭，严格未发才本地释放；可能已发仍须确认A关闭。普通IDE、Maven、脚本均通过同一Spring配置读取。演示结束应恢复原环境变量；真实凭据与密钥仍外部注入。
+
+收尾复杂度中等：配置注入与参数保护→默认/自定义/原键/D9回归→真实数据库与关闭验证→阶段当前状态与历史归档统一。证据见B-03过程第19节。

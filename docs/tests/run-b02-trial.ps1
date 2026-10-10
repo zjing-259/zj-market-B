@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param([string]$JavaHome='', [string]$AJavaHome='D:/Dev_tools/2.environment/jdk/jdk8', [string]$RunName='', [switch]$SkipBuild, [switch]$Browser)
+param([string]$JavaHome='', [string]$AJavaHome='D:/Dev_tools/2.environment/jdk/jdk8', [string]$RunName='', [switch]$SkipBuild, [switch]$Browser, [switch]$ScopedBrowser)
 $ErrorActionPreference='Stop'
 $projectRoot=(Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 . (Join-Path $projectRoot 'scripts/b-runtime.ps1')
@@ -139,7 +139,7 @@ try{
  while(-not(Test-ProbePort 50051)){if($provider.HasExited -or [DateTime]::UtcNow -gt $readyBy){throw 'Owned isolated A did not become ready'};Start-Sleep -Milliseconds 300}
  Invoke-TrialPhase verify
  Get-Content "$work/verify.txt"
- if($Browser){ & (Join-Path $PSScriptRoot 'run-b02-trial-browser.ps1') -JavaHome $jdk.Home -SkipBuild; Copy-Item target/b025-browser-run.txt "$work/live-browser-run.txt";Copy-Item target/trial/browser.txt "$work/browser.txt" }
+ if($Browser){ & (Join-Path $PSScriptRoot 'run-b02-trial-browser.ps1') -JavaHome $jdk.Home -SkipBuild -ScopedBackground:$ScopedBrowser; Copy-Item target/b025-browser-run.txt "$work/live-browser-run.txt";Copy-Item target/trial/browser.txt "$work/browser.txt" }
  Stop-Process -Id $provider.Id -Force
  $provider.WaitForExit()
  if($Browser){ & (Join-Path $PSScriptRoot 'run-b02-trial-browser.ps1') -JavaHome $jdk.Home -SkipBuild -Offline;Copy-Item target/b025-browser-run.txt "$work/offline-browser-run.txt";Copy-Item target/trial/browser-offline.txt "$work/browser-offline.txt" }

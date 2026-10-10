@@ -1,7 +1,7 @@
-﻿import {createRequire} from 'node:module'
+import {createRequire} from 'node:module'
 import {resolve,dirname} from 'node:path'
 import {fileURLToPath} from 'node:url'
-import {mkdir,writeFile,readFile} from 'node:fs/promises'
+import {mkdir,writeFile,readFile,rename} from 'node:fs/promises'
 import assert from 'node:assert/strict'
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..'),base='http://127.0.0.1:5173'
 const {chromium}=createRequire(resolve(root,'target/b02-browser-runtime/package.json'))('playwright')
@@ -9,6 +9,13 @@ const fixture=JSON.parse(await readFile(resolve(process.env.B_TRIAL_WORK,'fixtur
 const browser=await chromium.launch({headless:true,executablePath:process.env.B_BROWSER_EXECUTABLE})
 const context=await browser.newContext({viewport:{width:1280,height:1100}}),page=await context.newPage(),errors=[]
 page.on('pageerror',e=>errors.push(e.message))
+const ownedEvents=[]
+async function allowOwnedEvent(product){
+ if(!process.env.B_TRIAL_BROWSER_SCOPE)return
+ ownedEvents.push({goodsId:product.goodsId,eventId:product.sync.targetEventId})
+ const scope=process.env.B_TRIAL_BROWSER_SCOPE
+ await writeFile(scope+'.tmp',JSON.stringify(ownedEvents));await rename(scope+'.tmp',scope)
+}
 let trialCount=0,lastTrial
 page.on('response',async r=>{if(r.url().endsWith('/trial')&&r.status()===200){trialCount++;lastTrial=(await r.json()).data}})
 async function login(role=''){
@@ -47,6 +54,7 @@ try{
  const before=(await(await api.get(`${base}/api/v1/admin/products/${id}`,{headers})).json()).data
  const edited=(await(await api.put(`${base}/api/v1/admin/products/${id}`,{headers,data:{goodsName:before.goodsName,description:'浏览器在途真实修改',imageUrl:before.imageUrl,originalPrice:before.originalPrice,currency:'CNY',saleStatus:before.saleStatus,expectedVersion:before.productVersion}})).json()).data
  assert.notEqual(edited.productVersion,old.productVersion)
+ await allowOwnedEvent(edited)
  releaseResolve();await page.getByText(`在售 · 商品版本 ${edited.productVersion}`,{exact:true}).waitFor()
  await page.getByText('你当前可参与此优惠。',{exact:true}).waitFor({timeout:65000});assert.equal(lastTrial.productVersion,edited.productVersion)
  await page.unroute(`**/products/${id}/trial`)
@@ -66,6 +74,7 @@ try{
  assert.ok(reads>=18&&reads<=21,'bounded three-second public reads');assert.equal(quotes,0,'no trial before confirmed sync')
  const settled=reads;await page.waitForTimeout(3500);assert.equal(reads,settled,'no read after deadline')
  const resumed=await api.post(`${base}/api/v1/admin/products/${pending.goodsId}/sync/retries`,{headers,data:{eventId:pending.sync.targetEventId,expectedVersion:pending.productVersion}});assert.equal(resumed.status(),202)
+ await allowOwnedEvent(pending)
  await until(async()=>{const r=await api.get(`${base}/api/v1/products/${pending.goodsId}`);return (await r.json()).data.syncReady},'real A confirms resumed product',30000)
  await page.getByRole('button',{name:'刷新商品资料',exact:true}).click();await page.getByText('暂无可展示优惠。',{exact:true}).waitFor();assert.equal(quotes,1,'manual refresh restores automatic real trial')
  page.off('response',count);await operator.close()
@@ -78,6 +87,7 @@ try{
  await page.goto(`${base}/login?returnTo=https%3A%2F%2Fevil.invalid`);await login();await page.getByRole('button',{name:'退出登录',exact:true}).waitFor();assert.equal(new URL(page.url()).pathname,'/login');assert.equal(new URL(page.url()).origin,base)
  assert.deepEqual(errors,[])
  await writeFile(resolve(root,'target/trial/browser.txt'),'status=PASSED\nactual-Edge/anonymous-base/login-safe-return/automatic-real-A-trial/manual-retrial/visible-ineligible/hidden-no-offer/member-identity/logout-clears/no-token-storage/actual-delayed-quote-concurrent-operator-edit/discard-old-version/pending-refresh-auto-retrial/actual-60s-limit-public-read-only/manual-refresh-after-confirmation/no-orders/pageerrors=0\n')
+ if(process.env.B_TRIAL_BROWSER_SCOPE)await writeFile(resolve(root,'target/trial/browser.txt'), 'background=verification-owned-events/real-service/A/MQ\n', {flag:'a'})
  console.log('B-02.5 actual trial browser verification: PASSED')
  }
 }finally{await browser.close()}

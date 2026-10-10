@@ -25,7 +25,7 @@ public final class ProductCommands {
         try {
             if(!"b02-test".equals(env("B_DATABASE_SCOPE")) || !env("B_DATABASE_URL").matches("^jdbc:mysql://[^/]+/zj_market_b02_test(?:\\?.*)?$") || !"zj_market_b02_test_app".equals(env("B_DATABASE_USERNAME")))throw new IllegalArgumentException("Exact B test database required");
             var app=new SpringApplication(ZjMarketApplication.class);
-            try(var ctx=app.run("--server.port=0","--b.identity.enabled=true","--b.product.enabled=true","--b.infrastructure.database.enabled=true","--b.trial.enabled=false","--b.sync.enabled=false","--b.infrastructure.rpc.enabled=false","--b.infrastructure.mq.enabled=false")){
+            try(var ctx=app.run("--server.port=0","--b.order.enabled=false","--b.trade.enabled=false","--b.identity.enabled=true","--b.product.enabled=true","--b.infrastructure.database.enabled=true","--b.trial.enabled=false","--b.sync.enabled=false","--b.infrastructure.rpc.enabled=false","--b.infrastructure.mq.enabled=false")){
                 var evidence=new ArrayList<String>();var db=ctx.getBean(DataSource.class);var products=ctx.getBean(IProductService.class);var store=ctx.getBean(IProductRepository.class);var events=ctx.getBean(IProductEventPort.class);
                 var identity=ctx.getBean(IIdentityService.class);String suffix=UUID.randomUUID().toString().replace("-","").substring(0,16),password="Product-"+UUID.randomUUID();
                 identity.register("u"+suffix,password,"test user");identity.initializeOperator("o"+suffix,password,"test operator");

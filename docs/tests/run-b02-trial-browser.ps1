@@ -1,5 +1,5 @@
-﻿[CmdletBinding()]
-param([string]$JavaHome='', [switch]$SkipBuild, [switch]$Offline, [string]$BrowserExecutable='C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe')
+[CmdletBinding()]
+param([string]$JavaHome='', [switch]$SkipBuild, [switch]$ScopedBackground, [switch]$Offline, [string]$BrowserExecutable='C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe')
 $ErrorActionPreference='Stop'
 $root=(Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 . (Join-Path $root 'scripts/b-runtime.ps1')
@@ -8,7 +8,7 @@ if($PSVersionTable.PSVersion.Major -lt 7){throw 'Browser acceptance uses PowerSh
 if(-not(Test-Path -LiteralPath $BrowserExecutable)){throw 'Supply installed browser executable.'}
 function Test-Port([int]$Port){$client=[Net.Sockets.TcpClient]::new();try{return $client.ConnectAsync('127.0.0.1',$Port).Wait(500)}catch{return $false}finally{$client.Dispose()}}
 foreach($port in @(18092,5173)){if(Test-Port $port){throw "Port $port is occupied; acceptance will not stop unrelated processes."}}
-$names=@('B_IDENTITY_ORIGIN','B_IDENTITY_SECURE_COOKIES','B_IDENTITY_KEY_ID','B_IDENTITY_PRIVATE_KEY_FILE','B_IDENTITY_PUBLIC_KEY_FILE','B_OPERATOR_LOGIN_NAME','B_OPERATOR_PASSWORD','B_OPERATOR_DISPLAY_NAME','B_BROWSER_OPERATOR_LOGIN_NAME','B_BROWSER_OPERATOR_PASSWORD','B_BROWSER_EXECUTABLE','B_WEB_API_TARGET','B_PRODUCT_EVENT_PRODUCER','B_PRODUCT_EVENT_SOURCE','B_PRODUCT_EVENT_CHANNEL','B_SYNC_SCAN_MILLIS')
+$names=@('B_IDENTITY_ORIGIN','B_IDENTITY_SECURE_COOKIES','B_IDENTITY_KEY_ID','B_IDENTITY_PRIVATE_KEY_FILE','B_IDENTITY_PUBLIC_KEY_FILE','B_OPERATOR_LOGIN_NAME','B_OPERATOR_PASSWORD','B_OPERATOR_DISPLAY_NAME','B_BROWSER_OPERATOR_LOGIN_NAME','B_BROWSER_OPERATOR_PASSWORD','B_BROWSER_EXECUTABLE','B_WEB_API_TARGET','B_PRODUCT_EVENT_PRODUCER','B_PRODUCT_EVENT_SOURCE','B_PRODUCT_EVENT_CHANNEL','B_SYNC_SCAN_MILLIS','B_TRIAL_BROWSER_SCOPE')
 $previous=@{};foreach($name in $names){$previous[$name]=[Environment]::GetEnvironmentVariable($name,'Process')}
 $backend=$null;$frontend=$null
 $browserReport=Join-Path $root $(if($Offline){'target/trial/browser-offline.txt'}else{'target/trial/browser.txt'})
@@ -38,7 +38,15 @@ try{
     }
     Restore-BEnvironmentVariable B_SYNC_SCAN_MILLIS 5000
     $ps=(Get-Process -Id $PID).Path
-    $backend=Start-Process -FilePath $ps -ArgumentList @('-NoProfile','-File',(Join-Path $root 'scripts/start-market.ps1'),'-TestDatabase','-SkipBuild','-JavaHome',('"'+$jdk.Home+'"')) -WindowStyle Hidden -PassThru -RedirectStandardOutput target/b025-browser-backend.txt -RedirectStandardError target/b025-browser-backend.err.txt
+    $scopedLive=$ScopedBackground -and -not $Offline
+    if($scopedLive){
+        Restore-BEnvironmentVariable B_TRIAL_BROWSER_SCOPE (Join-Path $env:B_TRIAL_WORK 'browser-scope.json')
+        [IO.File]::WriteAllText($env:B_TRIAL_BROWSER_SCOPE,'[]')
+    }
+    $backendArgs=@('-NoProfile','-File',(Join-Path $root $(if($scopedLive){'scripts/start-trial-verification-browser.ps1'}else{'scripts/start-market.ps1'})))
+    if(-not $scopedLive){$backendArgs+='-TestDatabase'}
+    $backendArgs+=@('-SkipBuild','-JavaHome',('"'+$jdk.Home+'"'))
+    $backend=Start-Process -FilePath $ps -ArgumentList $backendArgs -WindowStyle Hidden -PassThru -RedirectStandardOutput target/b025-browser-backend.txt -RedirectStandardError target/b025-browser-backend.err.txt
     $node=(Get-Command node).Source
     $frontend=Start-Process -FilePath $node -ArgumentList @((Join-Path $root 'frontend/node_modules/vite/bin/vite.js'),'--host','127.0.0.1') -WorkingDirectory (Join-Path $root 'frontend') -WindowStyle Hidden -PassThru -RedirectStandardOutput target/b025-browser-frontend.txt -RedirectStandardError target/b025-browser-frontend.err.txt
     $deadline=[DateTime]::UtcNow.AddSeconds(30)
@@ -52,7 +60,7 @@ try{
 }catch{[IO.File]::WriteAllText($browserReport,'status=FAILED');throw}finally{
     if($backend){
         # Stop only children of the process launched by this invocation.
-        Get-CimInstance Win32_Process -Filter "ParentProcessId=$($backend.Id)" | Where-Object { $_.Name -eq 'java.exe' -and $_.CommandLine -like '*zj-market-app-exec.jar*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -ErrorAction SilentlyContinue }
+        Get-CimInstance Win32_Process -Filter "ParentProcessId=$($backend.Id)" | Where-Object { $_.Name -eq 'java.exe' -and ($_.CommandLine -like '*zj-market-app-exec.jar*' -or ($ScopedBackground -and $_.CommandLine -like '*zj-market-verification.jar*')) } | ForEach-Object { Stop-Process -Id $_.ProcessId -ErrorAction SilentlyContinue }
         Stop-Process -Id $backend.Id -ErrorAction SilentlyContinue
     }
     if($frontend){Stop-Process -Id $frontend.Id -ErrorAction SilentlyContinue}

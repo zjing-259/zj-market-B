@@ -1,0 +1,2 @@
+package cn.zj.zjmarket.domain.order.model.valobj;
+public record OrderControl(String operationId,long expectedVersion,String action,String reason){public OrderControl{PurchaseConditions.id(operationId);if(expectedVersion<1||!java.util.Set.of("PAUSE","RESUME","CHECK").contains(action))throw PurchaseConditions.invalid();reason(reason);}public static void reason(String r){if(r==null||r.isBlank()||r.length()>256||r.chars().anyMatch(Character::isISOControl)||r.matches("(?s).*<\\s*/?\\s*[A-Za-z][^>]*>.*"))throw PurchaseConditions.invalid();}}

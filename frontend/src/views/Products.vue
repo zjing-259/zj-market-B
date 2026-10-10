@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PurchasePanel from './PurchasePanel.vue'
 import type { Sync, Quarantine, Product, Trial, Page } from '../types/product'
 import { ApiError } from '../errors/ApiError'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
@@ -155,7 +156,7 @@ onMounted(async () => {
     <article v-else-if="selected" class="product-detail">
       <button class="secondary compact" @click="backToList">返回列表</button>
       <img v-if="selected.imageUrl && !broken[selected.goodsId]" :src="selected.imageUrl" :alt="selected.goodsName" referrerpolicy="no-referrer" @error="broken[selected.goodsId]=true"><div v-else class="image-placeholder">商品图片暂无</div>
-      <h2>{{ selected.goodsName }}</h2><p class="product-price">¥ {{ selected.originalPrice }}</p><p class="product-description">{{ selected.description || '暂无商品描述。' }}</p>
+      <h2>{{ selected.goodsName }}</h2><p v-if="selected.availability">{{ selected.availability==='IN_STOCK'?'有货':'暂时缺货' }}</p><p class="product-price">¥ {{ selected.originalPrice }}</p><p class="product-description">{{ selected.description || '暂无商品描述。' }}</p>
       <p>{{ selected.saleStatus === 'ON_SALE' ? '在售' : '已下架' }} · 商品版本 {{ selected.productVersion }}</p><p v-if="!selected.syncReady" class="muted">资料更新中，暂不可试算</p>
       <section v-if="!admin" class="trial-panel" aria-label="我的优惠">
         <h3>我的优惠</h3>
@@ -175,6 +176,7 @@ onMounted(async () => {
           <button class="secondary compact" :disabled="trialBusy || !selected.syncReady" @click="calculateTrial">重新试算</button>
         </template>
       </section>
+      <PurchasePanel v-if="!admin" :key="selected.goodsId" :product="selected" :trial="trial" />
       <p v-if="admin" class="muted">营销同步：{{ syncLabels[selected.sync?.state ?? ''] ?? '等待核对' }} · 目标版本 {{ selected.sync?.targetVersion }}</p><button v-if="admin" class="compact" @click="form(selected)">编辑商品</button>
       <div v-if="admin" class="sync-controls">
         <button class="secondary compact" :disabled="busy" @click="syncStatus">读取同步状态</button>
@@ -195,7 +197,7 @@ onMounted(async () => {
       <p v-if="!busy && !listing.items.length" class="empty">{{ admin ? '暂无商品，点击创建商品开始维护。' : '暂无在售商品。' }}</p>
       <div class="product-grid"><article v-for="p in listing.items" :key="p.goodsId" class="product-tile">
         <img v-if="p.imageUrl && !broken[p.goodsId]" :src="p.imageUrl" :alt="p.goodsName" referrerpolicy="no-referrer" @error="broken[p.goodsId]=true"><div v-else class="image-placeholder">商品图片暂无</div>
-        <h2>{{ p.goodsName }}</h2><p class="product-price">¥ {{ p.originalPrice }}</p><p v-if="admin" class="muted">{{ p.saleStatus==='ON_SALE'?'在售':'下架' }} · 版本 {{ p.productVersion }}</p><p v-if="!p.syncReady" class="muted">资料更新中，暂不可试算</p><button @click="detail(p)" :disabled="busy">查看详情</button>
+        <h2>{{ p.goodsName }}</h2><p v-if="p.availability">{{ p.availability==='IN_STOCK'?'有货':'暂时缺货' }}</p><p class="product-price">¥ {{ p.originalPrice }}</p><p v-if="admin" class="muted">{{ p.saleStatus==='ON_SALE'?'在售':'下架' }} · 版本 {{ p.productVersion }}</p><p v-if="!p.syncReady" class="muted">资料更新中，暂不可试算</p><button @click="detail(p)" :disabled="busy">查看详情</button>
       </article></div>
       <div class="pagination"><button class="secondary compact" :disabled="busy || listing.page<=1" @click="load(listing.page-1)">上一页</button><span>第 {{ listing.page }} 页 · 共 {{ listing.total }} 件</span><button class="secondary compact" :disabled="busy || listing.page*listing.size>=listing.total" @click="load(listing.page+1)">下一页</button></div>
     </template>

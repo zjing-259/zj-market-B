@@ -14,7 +14,7 @@ const clear = () => { accessToken = null; expiresAt = 0; current.value = null }
 sessionEvents?.addEventListener('message', event => { if (event.data === 'logout') clear() })
 async function body<T>(response: Response): Promise<T> {
   const result: Envelope<T> = await response.json()
-  if (!response.ok) throw new ApiError(result.code, response.status, result.requestId)
+  if (!response.ok) throw new ApiError(result.code, response.status, result.requestId, result.data)
   return result.data
 }
 // Serializes cookie mutations across tabs; never replay a consumed refresh token.
@@ -40,16 +40,17 @@ export async function logout() {
   // On 503 retain the session and show failure; never claim server logout succeeded.
   await authPost<null>('logout', {}, accessToken ?? undefined); clear(); sessionEvents?.postMessage('logout')
 }
-export async function request<T>(path: string): Promise<T> {
+export async function request<T>(path: string, expectedUserId?: string): Promise<T> {
   if (!accessToken || expiresAt <= Date.now() + 5000) await refresh()
-  const send = () => fetch(`/api/v1${path}`, { credentials: 'same-origin', cache: 'no-store', headers: { Authorization: `Bearer ${accessToken}` } })
+  const send = () => { if (expectedUserId && current.value?.userId !== expectedUserId) throw new Error('登录身份已变化，请重新核对。'); return fetch(`/api/v1${path}`, { credentials: 'same-origin', cache: 'no-store', headers: { Authorization: `Bearer ${accessToken}` } }) }
   let response = await send()
   if (response.status === 401) { await refresh(); response = await send() }
   return body<T>(response)
 }
 // Resource writes are sent once. A response loss must never create a second business fact.
-export async function write<T>(path: string, method: 'POST' | 'PUT', data: object): Promise<T> {
+export async function write<T>(path: string, method: 'POST' | 'PUT', data: object, expectedUserId?: string): Promise<T> {
   if (!accessToken || expiresAt <= Date.now() + 5000) await refresh()
+  if (expectedUserId && current.value?.userId !== expectedUserId) throw new Error('登录身份已变化，请重新核对。')
   return body<T>(await fetch(`/api/v1${path}`, { method, credentials: 'same-origin', cache: 'no-store',
     headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' }, body: JSON.stringify(data) }))
 }
