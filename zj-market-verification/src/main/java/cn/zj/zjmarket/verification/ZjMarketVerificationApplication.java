@@ -5,6 +5,11 @@ import org.springframework.boot.SpringApplication;
 /** Separate executable using the real B bootstrap and infrastructure. */
 public final class ZjMarketVerificationApplication {
     public static void main(String[] args) {
+        if(args.length==1 && args[0].equals("--b04-handoff")){System.exit(B04HandoffCommands.run());return;}
+        if(args.length==2 && args[0].equals("--fulfillment")){System.exit(FulfillmentCommands.run(args[1]));return;}
+        if(args.length==2 && args[0].equals("--payment-closing")){System.exit(PaymentClosingCommands.run(args[1]));return;}
+        if(args.length==2 && args[0].equals("--settlement")){System.exit(SettlementCommands.run(args[1]));return;}
+        if(args.length==2 && args[0].equals("--payments")){System.exit(PaymentCommands.run(args[1]));return;}
         if(args.length==1 && args[0].equals("--trial-browser")){System.exit(SyncBrowserCommands.run(true));return;}
         if(args.length==1 && args[0].equals("--sync-browser")){System.exit(SyncBrowserCommands.run());return;}
         if(args.length==1 && args[0].equals("--joint-faults")){System.exit(JointFaultCommands.run());return;}

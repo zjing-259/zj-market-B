@@ -18,7 +18,7 @@ public final class SyncResultReader {
  private final ObjectMapper json=new ObjectMapper().enable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION).enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
  public SyncResultReader(MqSettings settings,IProductSyncRepository store,Map<String,String> keys){this.settings=settings;this.store=store;this.keys=Map.copyOf(keys);}
  public boolean receive(SyncBadMessage message){
-  try{store.accept(decode(message),"PRODUCT_SYNC_MQ");return true;}
+  try{var result=decode(message);if(result!=null)store.accept(result,"PRODUCT_SYNC_MQ");return true;}
   catch(SyncTransportFailure invalid){store.quarantine(new SyncBadMessage(message.topic(),message.tag(),message.keyId(),message.signature(),message.body(),invalid.code()));return false;}
  }
  public void replay(String id){var message=store.quarantinedBody(id);if(!receive(message))throw new ProductFailure(409,"RETRY_NOT_ALLOWED");store.replayed(id);}
@@ -31,6 +31,9 @@ public final class SyncResultReader {
    String id=id(envelope,"eventId",64);if(!"EVENT_PROCESSING_RESULT".equals(text(envelope,"eventType")) || !envelope.path("schemaVersion").isIntegralNumber() || !envelope.path("schemaVersion").bigIntegerValue().equals(java.math.BigInteger.ONE))throw invalid("SCHEMA_INVALID");
    if(!settings.getAProducerId().equals(text(envelope,"producer")) || !settings.getSource().equals(text(envelope,"source")) || !settings.getChannel().equals(text(envelope,"channel")))throw invalid("SOURCE_INVALID");
    utc(envelope,"occurredAt");var payload=envelope.get("payload");
+   TradeMessageReader.validateResult(payload);
+   if(!envelope.get("correlationId").isNull()&&!id(payload,"originalEventId",64).equals(id(envelope,"correlationId",64)))throw invalid("CORRELATION_INVALID");
+   if(!"PRODUCT_SNAPSHOT_CHANGED".equals(text(payload,"originalEventType")))return null;
    var result=parse(payload,id,settings.getAProducerId(),ContractCodec.sha256(message.body()));
    if(!envelope.get("correlationId").isNull() && !result.originalEventId().equals(id(envelope,"correlationId",64)))throw invalid("CORRELATION_INVALID");
    return result;

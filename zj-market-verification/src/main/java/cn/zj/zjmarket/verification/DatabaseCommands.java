@@ -73,7 +73,7 @@ public final class DatabaseCommands {
                 SpringApplication application = new SpringApplication(ZjMarketApplication.class);
                 application.setWebApplicationType(WebApplicationType.NONE);
                 try (var context = application.run(
-                        "--b.infrastructure.database.enabled=true","--b.trial.enabled=false","--b.sync.enabled=false","--b.identity.enabled=false","--b.product.enabled=false","--b.inventory.enabled=false","--b.order.enabled=false","--b.trade.enabled=false",
+                        "--b.infrastructure.database.enabled=true","--b.trial.enabled=false","--b.sync.enabled=false","--b.identity.enabled=false","--b.product.enabled=false","--b.inventory.enabled=false","--b.order.enabled=false","--b.trade.enabled=false","--b.payment.enabled=false","--b.trade.events-enabled=false",
                         "--b.infrastructure.rpc.enabled=false", "--b.infrastructure.mq.enabled=false")) {
                     var bound = context.getBean(DatabaseSettings.class);
                     if (!bound.getUsername().equals(runtimeUser()) || !bound.getUrl().equals(url)) {
@@ -217,7 +217,7 @@ public final class DatabaseCommands {
     }
 
     private static boolean allowedRuntimeGrant(String grant){
-        for(String table:List.of("b_database_probe","b_user","b_user_role","b_login_grant","b_refresh_token","b_product","b_product_outbox","b_product_sync","b_sync_inbox","b_sync_quarantine","b_sync_audit","b_inventory_account","b_inventory_operation","b_inventory_ledger","b_purchase_confirmation","b_purchase_guard","b_market_order","b_inventory_reservation","b_trade_coordination","b_trade_attempt","b_order_operation"))
+        for(String table:List.of("b_database_probe","b_user","b_user_role","b_login_grant","b_refresh_token","b_product","b_product_outbox","b_product_sync","b_sync_inbox","b_sync_quarantine","b_sync_audit","b_inventory_account","b_inventory_operation","b_inventory_ledger","b_purchase_confirmation","b_purchase_guard","b_market_order","b_inventory_reservation","b_trade_coordination","b_trade_attempt","b_order_operation","b_payment","b_payment_attempt","b_payment_operation","b_payment_task","b_sim_payment","b_sim_attempt","b_sim_operation","b_sim_notification","b_trade_outbox","b_trade_inbox","b_trade_quarantine","b_trade_work","b_team_cursor","b_fulfillment"))
             if(grant.startsWith("GRANT SELECT, INSERT, UPDATE, DELETE ON `"+schema()+"`.`"+table+"` TO "))return true;
         return false;
     }

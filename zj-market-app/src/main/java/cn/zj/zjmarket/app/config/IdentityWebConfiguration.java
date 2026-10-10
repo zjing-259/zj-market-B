@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 @Import(cn.zj.zjmarket.app.security.IdentityErrors.class)
 @org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication(type=org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET)
 public class IdentityWebConfiguration {
+    @Bean org.springframework.boot.jackson.autoconfigure.JsonFactoryBuilderCustomizer rejectDuplicateJsonFields(){return builder -> builder.enable(tools.jackson.core.StreamReadFeature.STRICT_DUPLICATE_DETECTION);}
     @Bean UserDetailsService noDefaultUsers(){return name -> {throw new UsernameNotFoundException("No implicit users");};}
     @Bean IBrowserAuthPort browserAuth(IdentitySettings settings,
        @Value("${b.identity.rate.ip-limit:20}")int ip,@Value("${b.identity.rate.login-limit:5}")int login,

@@ -22,9 +22,10 @@ public final class MqClientFactory {
         producer.setSendMsgTimeout(settings.getSendTimeoutMillis());
         return producer;
     }
-    public DefaultMQPushConsumer resultConsumer() {
+    public DefaultMQPushConsumer resultConsumer() {return consumer(settings.getResultConsumerGroup());}
+    public DefaultMQPushConsumer consumer(String group) {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(
-                settings.getResultConsumerGroup(), credentials(), new AllocateMessageQueueAveragely());
+                group, credentials(), new AllocateMessageQueueAveragely());
         consumer.setNamesrvAddr(settings.getNameserver());
         consumer.setUseTLS(settings.isUseTls());
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);

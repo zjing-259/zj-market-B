@@ -19,6 +19,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 @Configuration(proxyBeanMethods=false)
 @ConditionalOnProperty(name="b.order.enabled",havingValue="true")
 public class OrderConfiguration {
+ @Bean cn.zj.zjmarket.domain.payment.adapter.repository.IFulfillmentView fulfillmentView(DataSource ds){return new cn.zj.zjmarket.infrastructure.adapter.repository.FulfillmentView(ds);}
  @Bean IOrderRepository orderRepository(DataSource db,@Value("${b.inventory.enabled:false}")boolean inventory,@Value("${b.identity.enabled:false}")boolean identity)throws Exception{
   if(!inventory||!identity)throw new IllegalArgumentException("Orders require inventory and identity");
   var factory=new SqlSessionFactoryBean();factory.setDataSource(db);var c=new org.apache.ibatis.session.Configuration();c.setLocalCacheScope(org.apache.ibatis.session.LocalCacheScope.STATEMENT);c.addMapper(IOrderDao.class);c.addMapper(IProductDao.class);c.addMapper(IInventoryDao.class);factory.setConfiguration(c);

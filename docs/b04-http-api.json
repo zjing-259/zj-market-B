@@ -1,0 +1,1366 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "B-04支付HTTP增量",
+    "version": "b04.6",
+    "description": "本人支付及原订单响应增量：.2收银台、.3资金/可靠消息、.4支付开放后关闭、.5可信成团库存确认/PENDING待履约已编码；普通新写默认关闭；.6模拟联合验收通过，退款/完整到期核对归B-05，生产总联调归B-06。B-02/B-03历史契约保持。"
+  },
+  "x-design-status": "implemented-b04.6",
+  "x-process-document": "b04-development.md",
+  "x-joint-design-document": "b04-joint-design.md",
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "paths": {
+    "/orders/{orderId}/payment": {
+      "get": {
+        "operationId": "getOrderPayment",
+        "summary": "查看本人订单资金摘要；未创建支付单返回payment=null",
+        "responses": {
+          "200": {
+            "description": "查询或同键返回原受理快照；资金状态以本人查询接口为准。",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "description": "与响应正文requestId一致。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderPaymentViewResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "orderId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ]
+    },
+    "/orders/{orderId}/payment-attempts": {
+      "post": {
+        "operationId": "createPaymentAttempt",
+        "summary": "受理首次/失败后新尝试；未知只恢复原尝试",
+        "responses": {
+          "200": {
+            "description": "同键原受理快照或已完成同事实观察；不产生新渠道动作。",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "description": "与响应正文requestId一致。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationReceiptResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          },
+          "202": {
+            "description": "已持久受理，不表示渠道成功/A已接受/已成团。",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "description": "与响应正文requestId一致。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationReceiptResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAttemptRequest"
+              },
+              "examples": {
+                "first": {
+                  "value": {
+                    "operationId": "b041-create-1",
+                    "previousAttemptId": null
+                  }
+                },
+                "retryAfterConfirmedFailure": {
+                  "value": {
+                    "operationId": "b041-create-2",
+                    "previousAttemptId": "b041-attempt-1"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "orderId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ]
+    },
+    "/orders/{orderId}/payment-operations/{operationId}": {
+      "get": {
+        "operationId": "getPaymentOperation",
+        "summary": "查询本人原受理快照及当前处理进度",
+        "responses": {
+          "200": {
+            "description": "查询或同键返回原受理快照；资金状态以本人查询接口为准。",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "description": "与响应正文requestId一致。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationViewResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "orderId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "name": "operationId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ]
+    },
+    "/payments/{paymentId}": {
+      "get": {
+        "operationId": "getPayment",
+        "summary": "查询本人稳定商城支付单",
+        "responses": {
+          "200": {
+            "description": "查询或同键返回原受理快照；资金状态以本人查询接口为准。",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "description": "与响应正文requestId一致。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentViewResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "paymentId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ]
+    },
+    "/payments/{paymentId}/attempts/{attemptId}": {
+      "get": {
+        "operationId": "getPaymentAttempt",
+        "summary": "查询本人原渠道尝试的商城观察结果",
+        "responses": {
+          "200": {
+            "description": "查询或同键返回原受理快照；资金状态以本人查询接口为准。",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "description": "与响应正文requestId一致。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptViewResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "paymentId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "name": "attemptId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ]
+    },
+    "/payments/{paymentId}/attempts/{attemptId}/simulated-results": {
+      "post": {
+        "operationId": "chooseSimulatedPaymentResult",
+        "summary": "受理本人有效尝试的模拟成功/失败选择",
+        "responses": {
+          "200": {
+            "description": "同键原受理快照或已完成同事实观察；不产生新渠道动作。",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "description": "与响应正文requestId一致。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationReceiptResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          },
+          "202": {
+            "description": "已持久受理，不表示渠道成功/A已接受/已成团。",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "description": "与响应正文requestId一致。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationReceiptResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChooseResultRequest"
+              },
+              "examples": {
+                "success": {
+                  "value": {
+                    "operationId": "b041-result-1",
+                    "result": "SUCCEEDED"
+                  }
+                },
+                "failure": {
+                  "value": {
+                    "operationId": "b041-result-2",
+                    "result": "FAILED"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "paymentId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "name": "attemptId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ]
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$"
+      },
+      "Version": {
+        "type": "string",
+        "pattern": "^[1-9][0-9]{0,18}$",
+        "description": "正long十进制字符串，服务端另校验不超过9223372036854775807。"
+      },
+      "Money": {
+        "type": "string",
+        "pattern": "^(0|[1-9][0-9]{0,5})\\.[0-9]{2}$",
+        "description": "CNY精确两位，另校验0.01～999999.99。"
+      },
+      "UtcMillis": {
+        "type": "string",
+        "format": "date-time",
+        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+      },
+      "Currency": {
+        "type": "string",
+        "const": "CNY"
+      },
+      "FundsState": {
+        "type": "string",
+        "enum": [
+          "UNPAID",
+          "UNKNOWN",
+          "SUCCEEDED"
+        ]
+      },
+      "PaymentGate": {
+        "type": "string",
+        "enum": [
+          "OPEN",
+          "CLOSING",
+          "CLOSED_UNPAID",
+          "PAID"
+        ]
+      },
+      "AttemptState": {
+        "type": "string",
+        "enum": [
+          "CREATING",
+          "OPEN",
+          "UNKNOWN",
+          "FAILED",
+          "SUCCEEDED",
+          "CLOSED_UNPAID"
+        ]
+      },
+      "AAcceptance": {
+        "type": "string",
+        "enum": [
+          "NOT_SENT",
+          "PENDING",
+          "ACCEPTED",
+          "REJECTED",
+          "REVIEW_REQUIRED"
+        ]
+      },
+      "ResultChoice": {
+        "type": "string",
+        "enum": [
+          "SUCCEEDED",
+          "FAILED"
+        ]
+      },
+      "CreateAttemptRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "previousAttemptId"
+        ],
+        "properties": {
+          "operationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "previousAttemptId": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "ChooseResultRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "result"
+        ],
+        "properties": {
+          "operationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "result": {
+            "$ref": "#/components/schemas/ResultChoice"
+          }
+        }
+      },
+      "OperationReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "operationId",
+          "action",
+          "orderId",
+          "paymentId",
+          "attemptId",
+          "accepted",
+          "receivedAt",
+          "errorCode"
+        ],
+        "properties": {
+          "operationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "CREATE_ATTEMPT",
+              "CHOOSE_RESULT"
+            ]
+          },
+          "orderId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "paymentId": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "attemptId": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "accepted": {
+            "type": "boolean"
+          },
+          "receivedAt": {
+            "$ref": "#/components/schemas/UtcMillis"
+          },
+          "errorCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "AttemptView": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "orderId",
+          "paymentId",
+          "attemptId",
+          "attemptNo",
+          "version",
+          "state",
+          "amount",
+          "currency",
+          "paymentDeadline",
+          "paidAt",
+          "channelTransactionId",
+          "canSelectResult",
+          "errorCode"
+        ],
+        "properties": {
+          "orderId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "paymentId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "attemptId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "attemptNo": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "state": {
+            "$ref": "#/components/schemas/AttemptState"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency"
+          },
+          "paymentDeadline": {
+            "$ref": "#/components/schemas/UtcMillis"
+          },
+          "paidAt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UtcMillis"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "channelTransactionId": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "canSelectResult": {
+            "type": "boolean"
+          },
+          "errorCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "PaymentView": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "paymentId",
+          "orderId",
+          "version",
+          "simulated",
+          "fundsState",
+          "gate",
+          "aAcceptance",
+          "amount",
+          "currency",
+          "paymentDeadline",
+          "paidAt",
+          "activeAttemptId",
+          "successAttemptId",
+          "attempts",
+          "allowedActions",
+          "reviewRequired",
+          "errorCode"
+        ],
+        "properties": {
+          "paymentId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "orderId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "simulated": {
+            "const": true,
+            "type": "boolean"
+          },
+          "fundsState": {
+            "$ref": "#/components/schemas/FundsState"
+          },
+          "gate": {
+            "$ref": "#/components/schemas/PaymentGate"
+          },
+          "aAcceptance": {
+            "$ref": "#/components/schemas/AAcceptance"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency"
+          },
+          "paymentDeadline": {
+            "$ref": "#/components/schemas/UtcMillis"
+          },
+          "paidAt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UtcMillis"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "activeAttemptId": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "successAttemptId": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "attempts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttemptView"
+            },
+            "maxItems": 20,
+            "description": "最近20条尝试概要，不是全部渠道关闭证明；active/success指针独立保留。"
+          },
+          "allowedActions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "CREATE_ATTEMPT",
+                "SELECT_RESULT",
+                "CANCEL"
+              ]
+            }
+          },
+          "reviewRequired": {
+            "type": "boolean"
+          },
+          "errorCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "OrderPaymentView": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "orderId",
+          "payment",
+          "canCreateAttempt",
+          "simulated",
+          "notice"
+        ],
+        "properties": {
+          "orderId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "payment": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PaymentView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "canCreateAttempt": {
+            "type": "boolean"
+          },
+          "simulated": {
+            "const": true,
+            "type": "boolean"
+          },
+          "notice": {
+            "type": "string",
+            "const": "模拟支付，不产生真实扣款"
+          }
+        }
+      },
+      "OperationView": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "receipt",
+          "progress",
+          "attempt"
+        ],
+        "properties": {
+          "receipt": {
+            "$ref": "#/components/schemas/OperationReceipt"
+          },
+          "progress": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "APPLIED",
+              "REJECTED",
+              "WAITING_DEPENDENCY",
+              "REVIEW_REQUIRED"
+            ]
+          },
+          "attempt": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AttemptView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "data": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "仅脱敏错误摘要，不含凭据/渠道原始正文/他人信息。"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "OperationReceiptResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ],
+        "properties": {
+          "code": {
+            "const": "0000",
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/OperationReceipt"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "AttemptViewResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ],
+        "properties": {
+          "code": {
+            "const": "0000",
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AttemptView"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "PaymentViewResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ],
+        "properties": {
+          "code": {
+            "const": "0000",
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PaymentView"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "OrderPaymentViewResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ],
+        "properties": {
+          "code": {
+            "const": "0000",
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/OrderPaymentView"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "OperationViewResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ],
+        "properties": {
+          "code": {
+            "const": "0000",
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/OperationView"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "FulfillmentSummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "confirmedAt",
+          "paymentId",
+          "teamId"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING"
+            ]
+          },
+          "confirmedAt": {
+            "$ref": "#/components/schemas/UtcMillis"
+          },
+          "paymentId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "teamId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      }
+    },
+    "responses": {
+      "E400": {
+        "description": "字段/类型/格式错误，拒绝未知字段及重复JSON键。",
+        "headers": {
+          "X-Request-Id": {
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "description": "与响应正文requestId一致。"
+          },
+          "Cache-Control": {
+            "schema": {
+              "type": "string",
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "E401": {
+        "description": "缺失/无效商城访问凭据。",
+        "headers": {
+          "X-Request-Id": {
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "description": "与响应正文requestId一致。"
+          },
+          "Cache-Control": {
+            "schema": {
+              "type": "string",
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "E403": {
+        "description": "角色/Origin不允许；不泄漏上游鉴权信息。",
+        "headers": {
+          "X-Request-Id": {
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "description": "与响应正文requestId一致。"
+          },
+          "Cache-Control": {
+            "schema": {
+              "type": "string",
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "E404": {
+        "description": "本人范围内订单/支付单/尝试/操作不存在；查询操作404不证明写未执行。",
+        "headers": {
+          "X-Request-Id": {
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "description": "与响应正文requestId一致。"
+          },
+          "Cache-Control": {
+            "schema": {
+              "type": "string",
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "E409": {
+        "description": "同键异参、状态/前驱冲突、结果选择冲突、已关闭/已支付或窗口准入拒绝。",
+        "headers": {
+          "X-Request-Id": {
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "description": "与响应正文requestId一致。"
+          },
+          "Cache-Control": {
+            "schema": {
+              "type": "string",
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "E503": {
+        "description": "依赖暂不可用/时间证据不可靠且尚未受理；已受理操作保持原键可恢复。",
+        "headers": {
+          "X-Request-Id": {
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "description": "与响应正文requestId一致。"
+          },
+          "Cache-Control": {
+            "schema": {
+              "type": "string",
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-idempotency": "operationId按本人唯一并绑定动作/订单/尝试/完整请求；同参原受理200、异参409；确定业务拒绝也持久。同键重放先读取原结果，已受理后依赖离线不丢结果。requestId不充当操作键。 确定业务拒绝保留原409及可查询快照，不因重放变为受理；同结果新键已终结返回200。",
+  "x-previous-attempt": "previousAttemptId首次显式null；重试须匹配本支付单当前确定FAILED尝试。UNKNOWN/CREATING/OPEN不允许新尝试。",
+  "x-result-semantics": "202仅持久受理，成功事实由独立渠道提交/通知/查单核验；同尝试相反选择409。普通HTTP不接受故障、金额、身份、paidAt或A状态。 同结果不同操作键绑定原选择作业；未完成202、已有同终态200，相反选择409。",
+  "x-no-query-parameters": true,
+  "x-error-codes": [
+    "VALIDATION_FAILED",
+    "AUTH_REQUIRED",
+    "FORBIDDEN",
+    "ORDER_NOT_FOUND",
+    "PAYMENT_NOT_FOUND",
+    "PAYMENT_ATTEMPT_NOT_FOUND",
+    "PAYMENT_OPERATION_NOT_FOUND",
+    "IDEMPOTENCY_CONFLICT",
+    "PAYMENT_PREDECESSOR_CONFLICT",
+    "PAYMENT_NOT_ALLOWED",
+    "PAYMENT_RESULT_CONFLICT",
+    "PAYMENT_WINDOW_UNAVAILABLE",
+    "PAYMENT_TIME_UNVERIFIABLE",
+    "DEPENDENCY_UNAVAILABLE",
+    "PAYMENT_DISABLED",
+    "PAYMENT_ATTEMPT_ACTIVE",
+    "PAYMENT_ATTEMPT_NOT_ACTIVE",
+    "PAYMENT_RESULT_NOT_ALLOWED",
+    "PAYMENT_DEPENDENCY_UNAVAILABLE",
+    "PAYMENT_DISPATCH_BLOCKED",
+    "PAYMENT_SYNC_PENDING",
+    "CHANNEL_FACT_MISMATCH",
+    "PAYMENT_FACT_CONFLICT",
+    "PAYMENT_OUTSIDE_WINDOW",
+    "PAYMENT_SNAPSHOT_INVALID",
+    "PAYMENT_ORDER_CONFLICT",
+    "A_PAYMENT_MISMATCH",
+    "A_RESULT_CONFLICT",
+    "TEAM_VERSION_CONFLICT",
+    "TEAM_ORDER_MISMATCH",
+    "PAYMENT_CLOSING",
+    "CHANNEL_CLOSE_UNKNOWN",
+    "CHANNEL_CLOSE_CONFLICT"
+  ],
+  "x-existing-order-extension": {
+    "status": "partially-implemented-b04.4",
+    "source": "b03-http-api.json",
+    "fields": {
+      "paymentSummary": "nullable；资金状态、A接收状态及当前本人允许动作，不暴露渠道原正文",
+      "fulfillmentSummary": "nullable；PENDING待履约及确认时间",
+      "paymentEnabled": "按开关/本人/订单/资金/关闭/期限实际准入",
+      "canCancel": "能受理关闭意图，不能承诺最终未付关闭"
+    },
+    "statusEnum": [
+      "PROCESSING",
+      "WAITING_PAYMENT",
+      "PAYMENT_PROCESSING",
+      "PAID_WAITING_A",
+      "PAID_WAITING_TEAM",
+      "GROUP_COMPLETED",
+      "WAITING_REFUND",
+      "CLOSING",
+      "CLOSED"
+    ],
+    "implementation": "已实现原paymentSummary/支付关闭增量，以及.5 nullable fulfillmentSummary。可信团队名单＋本地SUCCEEDED/A ACCEPTED＋完整Trade.query一致后原子GROUP_COMPLETED/CONFIRMED/唯一CONFIRM/PENDING，清除本单guard。重复不影响新订单；资金/证据缺失继续等待，矛盾隔离。读取摘要不依赖checkout/MQ写开关。",
+    "fulfillmentSummarySchema": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/FulfillmentSummary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "x-runtime-scope": {
+    "implemented": [
+      "本人六项HTTP",
+      "持久渠道创建/结果/查询",
+      "原键恢复",
+      "操作受理快照校验",
+      "通知与查原渠道共用资金核验、SUCCEEDED/原paidAt/成功指针与交易Outbox原子提交",
+      "原字节HMAC交易发布、独立A结果Inbox与完整支付核验、queryEventResult及Trade.query补偿",
+      "D6团队游标、原名单与每订单工作、唯一退款义务，B-05接续执行",
+      "V12完整根关闭证明、迟到创建阻断、原关闭任务/令牌互斥、支付开放后本人取消及新A到期证据关闭",
+      "V13可信成团逐单依赖恢复、库存CONFIRM/守卫/唯一PENDING原子提交及本人订单摘要"
+    ],
+    "deferred": {
+      "B-04.6": "联合故障总验收与交接",
+      "B-05": "核对及退款执行",
+      "B-06": "履约后续验收与生产部署"
+    },
+    "gates": "B_PAYMENT_ENABLED装配基础；B_PAYMENT_CHECKOUT_ENABLED关闭新写但不停止已装配恢复；B_TRADE_EVENTS_ENABLED独立装配资金/通知/消息恢复，默认false，关闭新写须保留已装配恢复。 支付开放后关闭恢复随B_TRADE_EVENTS_ENABLED装配并复用B_TRADE_SCHEDULER_ENABLED；checkout=false仍可取消/恢复旧单。无新增渠道关闭HTTP或故障入口。 成团处理随B_TRADE_EVENTS_ENABLED和events scheduler恢复；关闭checkout不阻断旧成团任务；本人待履约摘要随order模块提供。",
+    "marketSuccessInB042": false,
+    "marketSuccessInB043": true
+  },
+  "x-existing-envelope": "沿用既有ApiResponse(code,message,data,requestId)；.1草稿info字段按当前仓库纠正，不变更旧API。"
+}

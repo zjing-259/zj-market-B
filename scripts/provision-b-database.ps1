@@ -52,7 +52,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, DROP, INDEX, REFERENCES ON 
 "@
 Invoke-AdminSql $sql | Out-Null
 & (Join-Path $PSScriptRoot 'database.ps1') -Mode migrate -CredentialFile $localFile -JavaHome $JavaHome -SkipBuild:$SkipBuild
-foreach ($table in @('b_database_probe','b_user','b_user_role','b_login_grant','b_refresh_token','b_product','b_product_outbox','b_product_sync','b_sync_inbox','b_sync_quarantine','b_sync_audit','b_inventory_account','b_inventory_operation','b_inventory_ledger','b_purchase_confirmation','b_purchase_guard','b_market_order','b_inventory_reservation','b_trade_coordination','b_trade_attempt','b_order_operation')) {
+foreach ($table in @('b_database_probe','b_user','b_user_role','b_login_grant','b_refresh_token','b_product','b_product_outbox','b_product_sync','b_sync_inbox','b_sync_quarantine','b_sync_audit','b_inventory_account','b_inventory_operation','b_inventory_ledger','b_purchase_confirmation','b_purchase_guard','b_market_order','b_inventory_reservation','b_trade_coordination','b_trade_attempt','b_order_operation','b_payment','b_payment_attempt','b_payment_operation','b_payment_task','b_sim_payment','b_sim_attempt','b_sim_operation','b_sim_notification','b_trade_outbox','b_trade_inbox','b_trade_quarantine','b_trade_work','b_team_cursor','b_fulfillment')) {
     Invoke-AdminSql "GRANT SELECT, INSERT, UPDATE, DELETE ON $schema.$table TO '$runtimeUser'@'%';" | Out-Null
 }
 & (Join-Path $PSScriptRoot 'database.ps1') -Mode verify -CredentialFile $localFile -JavaHome $JavaHome -SkipBuild

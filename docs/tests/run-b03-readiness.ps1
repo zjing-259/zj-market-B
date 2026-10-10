@@ -1,6 +1,13 @@
 ﻿[CmdletBinding()]
-param([string]$JavaHome='', [string]$AJavaHome='D:/Dev_tools/2.environment/jdk/jdk8', [string]$RunName='', [switch]$SkipBuild,[switch]$WithLocalOrders,[switch]$WithTradeRecovery,[switch]$WithUnpaidClose,[switch]$WithJointFaults, [ValidateSet('prepare','verify')][string]$Mode='prepare')
+param([string]$JavaHome='', [string]$AJavaHome='D:/Dev_tools/2.environment/jdk/jdk8', [string]$RunName='', [switch]$SkipBuild,[switch]$WithFulfillment,[switch]$WithPaymentClosing,[switch]$WithPayments,[switch]$WithSettlement,[switch]$WithLocalOrders,[switch]$WithTradeRecovery,[switch]$WithUnpaidClose,[switch]$WithJointFaults, [ValidateSet('prepare','verify')][string]$Mode='prepare')
 $ErrorActionPreference='Stop'
+if($WithFulfillment -and ($WithPayments -or $WithSettlement -or $WithPaymentClosing -or $WithUnpaidClose -or $WithJointFaults)){throw 'Fulfillment requires its own fresh batch'}
+if($WithFulfillment){$WithTradeRecovery=$true}
+if($WithPaymentClosing -and ($WithPayments -or $WithSettlement -or $WithUnpaidClose -or $WithJointFaults)){throw "PaymentClosing requires its own fresh batch"}
+if($WithPaymentClosing){$WithTradeRecovery=$true}
+if($WithSettlement){$WithPayments=$true}
+if($WithPayments -and ($WithUnpaidClose -or $WithJointFaults)){throw "Payments requires its own batch; exposed orders cannot use old unpaid close probes"}
+if($WithPayments){$WithTradeRecovery=$true}
 if($WithJointFaults){$WithUnpaidClose=$true}
 if($WithUnpaidClose){$WithTradeRecovery=$true}
 if($WithTradeRecovery){$WithLocalOrders=$true}
@@ -142,6 +149,9 @@ try{
  Set-ProbeEnvironment B_MQ_RESULT_TOPIC 'A_INTEGRATION_RESULTS-dev'
  Set-ProbeEnvironment B_MQ_TEAM_TOPIC 'A_TEAM_EVENTS-dev'
  Set-ProbeEnvironment B_MQ_RESULT_GROUP 'B_PRODUCT_SYNC_RESULTS-dev'
+ Set-ProbeEnvironment B_MQ_TRADE_TOPIC 'B_TRADE_EVENTS-dev'
+ Set-ProbeEnvironment B_MQ_TRADE_RESULT_GROUP 'B_INTEGRATION_RESULTS-dev'
+ Set-ProbeEnvironment B_MQ_TRADE_TEAM_GROUP 'B_TEAM_EVENTS-dev'
  Set-ProbeEnvironment B_MQ_USE_TLS false
  Set-ProbeEnvironment B_MQ_ALLOW_PLAINTEXT_LOOPBACK true
  Set-ProbeEnvironment B_SYNC_ACCELERATED_TEST true
@@ -191,6 +201,11 @@ try{
  while(-not(Test-ProbePort 50051)){if($provider.HasExited -or [DateTime]::UtcNow -gt $readyBy){throw 'Owned isolated A did not become ready'};Start-Sleep -Milliseconds 300}
  Invoke-ReadinessPhase verify
  if($WithTradeRecovery){Invoke-ReadinessPhase trade-recover;if(-not((Get-Content "$work/trade-recover.txt") -contains 'status=PASSED')){throw 'Trade process restart report incomplete'}}
+ if($WithSettlement){Set-ProbeEnvironment B03_WITH_SETTLEMENT true}
+ if($WithFulfillment){Invoke-ReadinessPhase fulfillment;if(-not((Get-Content "$work/fulfillment.txt") -contains "status=PASSED")){throw "Actual A fulfillment incomplete"}}
+ if($WithPaymentClosing){Invoke-ReadinessPhase payment-closing;if(-not((Get-Content "$work/payment-closing.txt") -contains "status=PASSED")){throw "Actual A exposed close incomplete"}}
+ if($WithPayments){Invoke-ReadinessPhase payments;if(-not((Get-Content "$work/payments.txt") -contains "status=PASSED")){throw "Actual A payment probe incomplete"}}
+ if($WithSettlement){Invoke-ReadinessPhase settlement;if(-not((Get-Content "$work/settlement.txt") -contains "status=PASSED")){throw "Actual A settlement probe incomplete"}}
  if($WithUnpaidClose){Invoke-ReadinessPhase close-recover;if(-not((Get-Content "$work/close-recover.txt") -contains 'status=PASSED')){throw 'Unpaid close restart report incomplete'}}
  if($WithJointFaults){
   Invoke-ReadinessPhase close-outage-prepare

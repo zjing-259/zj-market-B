@@ -1,6 +1,15 @@
+> B-04.6最新启动接续（2026-10-10）：.0～.6按模拟范围已完成，b-04/7cef241，全部成果未提交；双库V13/35表、77项JUnit及同包联合验收通过。唯一详细事实见[B-04过程第15节](b04-development.md)，B-05从[b04-b05-handoff.md](b04-b05-handoff.md)接完整核对/退款。普通写默认关闭，原资金/HELD/guard及待处理工作保留；B-05/B-06待开展。以下旧增量保留其阶段时点。
+
 # B 的统一启动方式
 
-更新：2026-10-09。当前目录优化工作树：`D:/Java/zj-market-b02-noFileUpdate`，分支：`b02-noFileUpdate`。下文旧验收日期记录保留为历史证据。
+> B-04最新增量（2026-10-10）：.5可信成团/库存确认/PENDING已完成，见[B-04过程第14节](b04-development.md)。当前双库V13、runtime35表DML；先显式provision迁移与授权，普通启动不迁移。成团后台随events及其scheduler恢复，checkout=false不阻断旧工作；本人待履约摘要随order装配，独立于消息/checkout写开关。普通资金写仍默认关闭，.6总验收待开展。以下按阶段的旧表数/状态保留历史时点。
+
+
+> B-04当前增量（2026-10-10）：.3可信资金/消息见[B-04过程第12节](b04-development.md)；.4完整根关闭/竞争见[第13节](b04-development.md)。当前迁移V12、runtime34表DML；普通开关仍默认关闭，库存确认/待履约归.5。以下旧阶段配置/表数保留历史时点。
+
+> 历史状态说明（2026-10-10）：本文保留各实施时点的工作树、分支、未提交/未合并/未推送状态、验收批次和产物指纹；这些记录不代表当前 Git 状态。B-02、目录整理与补修、B-03及D6收尾均已包含在 `7cef241`；当前接续工作树为 `D:/Java/zj-market-b-04`，分支 `b-04`。最新进度见 [B-04开发过程](b04-development.md)及[路线图](development-roadmap.md)。历史 `.local`、`target` 和前端依赖不随 Git 复制，旧报告不作为新工作树重新验收的证据。
+
+更新：2026-10-10。当前工作树：`D:/Java/zj-market-b-04`，分支：`b-04`，接续提交 `7cef241`。B-01～B-03功能基线已归档；下文带阶段/日期的增量记录保留其当时范围和证据。普通入口仍为 `scripts/start-market.ps1`，B-04.2已实现模拟收银台/持久渠道基础，普通新写默认关闭；商城成功/可靠通知/已开放关闭证明/待履约继续按.3～.5推进。
 
 ## 固定基线
 
@@ -146,7 +155,7 @@ B-02闭环已通过B-02.6联合验收。统一复现使用docs/tests/run-b02-acc
 
 ## B-03.6联合故障验收入口
 
-从b03工作树运行（PowerShell7，外部/DPAPI凭据，不把密码写入命令或仓库）：
+B-03验收脚本可从当前工作树运行（PowerShell7）；先显式准备外部/DPAPI凭据及产物，再使用新的唯一批次，不把密码写入命令或仓库：
 
 ```powershell
 pwsh -NoProfile -File docs/tests/run-b03-acceptance.ps1 -JavaHome 'C:/Program Files/Java/jdk-21' -RunName <新的唯一批次>
@@ -172,3 +181,28 @@ $env:B_ORDER_RESERVE_WAIT_MILLIS='60000'
 该配置仅用于新订单，从数据库创建时刻计算并持久化reserve_wait_deadline_ms。已受理订单和原键重试继续使用原期限，不按当前配置续期；D9报价确认仍独立5分钟，A付款截止不受影响。到期持久关闭，严格未发才本地释放；可能已发仍须确认A关闭。普通IDE、Maven、脚本均通过同一Spring配置读取。演示结束应恢复原环境变量；真实凭据与密钥仍外部注入。
 
 收尾复杂度中等：配置注入与参数保护→默认/自定义/原键/D9回归→真实数据库与关闭验证→阶段当前状态与历史归档统一。证据见B-03过程第19节。
+
+## 2026-10-10历史状态校正复杂度
+
+此次文档维护复杂度低：依据Git归档修正当前入口并明确历史实施范围，保留原验收批次、路径和指纹；未改变业务规则或重新执行业务验收。后续详细过程维护于 [B-04开发过程](b04-development.md)，总体进度同步[路线图](development-roadmap.md)。
+
+
+## B-04.0基线与接续（2026-10-10）
+
+当前b-04工作树已独立构建并完成基线验证；实际配置复用、双库V9/权限、46项测试/前端、真实A/RPC/MQ及占位/关闭恢复、D6默认与自定义、样本/指纹/失败重跑及可重复命令见[B-04过程第9节](b04-development.md#9-b-040基线与接续2026-10-10已完成)。普通入口保持start-market.ps1，支付仍未实现；已有团队有期限且含直接A测试占位，未来资金验收须通过B建立新完整团队，不能将旧报告或已关闭B订单当待支付样本。
+
+
+## B-04.3可信资金与可靠消息配置
+
+先显式provision/migrate：当前V12，runtime34表。B_PAYMENT_ENABLED=true装配渠道/本人查询，B_PAYMENT_CHECKOUT_ENABLED=false只停新写；已有资金恢复需要B_TRADE_EVENTS_ENABLED=true及B_TRADE_EVENTS_SCHEDULER_ENABLED=true（后者默认true）。交易装配默认false，不受checkout关闭影响。配套身份/商品/库存/订单/trade及数据库/RPC/MQ均需开启并同clientId/source/channel；不开普通支付，不把.3单独启用当作完整资金闭环。
+
+外部B_MQ_TRADE_TOPIC=B_TRADE_EVENTS-dev、B_MQ_TRADE_RESULT_GROUP=B_INTEGRATION_RESULTS-dev、B_MQ_TRADE_TEAM_GROUP=B_TEAM_EVENTS-dev；商品组保持B_PRODUCT_SYNC_RESULTS-dev，两组不得相同或使用PROBE组。本机现有ACL已授权这些业务组；跨机部署需单独核验自己的ACL，不能使用A凭据发B事实。HMAC/RPC/DB秘密继续外部注入，已有previous A keys轮换规则沿用。
+
+隔离故障验证：docs/tests/run-b04-settlement.ps1；页面：run-b04-settlement-browser.ps1；真实通路：run-b03-readiness.ps1 -WithSettlement（隐含WithPayments/TradeRecovery/LocalOrders，须全新RunName，与旧未付关闭/联合故障模式互斥）。不重用未知资金样本或清除HELD/guard；所有操作保存独立target证据，普通包无verification/Flyway。
+
+
+## B-04.4 支付开放后关闭配置
+
+复用以上支付/资金装配，B_TRADE_EVENTS_ENABLED=true启用完整根关闭接续，B_TRADE_SCHEDULER_ENABLED=true运行原关闭扫描（默认true）；B_PAYMENT_CHECKOUT_ENABLED=false只停止新付款，旧订单取消与资金/关闭恢复继续。独立扫描无需新增开关；普通商城只提供原取消入口，不提供故障/资金强制成功/强制释放。先迁移V12，再启用装配；不要将不具备.5/.6的当前阶段作为普通环境完整支付闭环开放。
+
+关闭隔离验证：run-b04-payment-closing.ps1；实际A：run-b03-readiness.ps1 -WithPaymentClosing。均指定JDK21和新的RunName；完整复现及证据见B-04过程第13节。原NEVER_OPENED回归仍由run-b03-closes.ps1验证。

@@ -1,6 +1,12 @@
+> B-04.6最新模块接续（2026-10-10）：.0～.6按模拟范围已完成，b-04/7cef241，全部成果未提交；双库V13/35表、77项JUnit及同包联合验收通过。唯一详细事实见[B-04过程第15节](b04-development.md)，B-05从[b04-b05-handoff.md](b04-b05-handoff.md)接完整核对/退款。普通写默认关闭，原资金/HELD/guard及待处理工作保留；B-05/B-06待开展。以下旧增量保留其阶段时点。
+
 # B 的文件与模块规范
 
-更新：2026-10-09。适用于 `b02-noFileUpdate` 分支，工作树 `D:/Java/zj-market-b02-noFileUpdate`。D19/D20 已由用户确认；决策见 [ADR-0001](adr/0001-domain-service-module-layout.md)，过程和验收见 [B-02第17节](b02-development.md#17-b-02文件管理优化2026-10-09)。B-01 六模块说明保留为历史基线。
+> B-04.3当前增量（2026-10-10）：见[B-04过程第12节](b04-development.md)。V11及34张B表DML、可信资金/独立交易消息、D6持久接管已完成验收；普通支付写与交易恢复装配默认关闭。开放后关闭证明/待履约归.4/.5；以下旧阶段配置/表数保留历史时点。
+
+> 历史状态说明（2026-10-10）：本文保留各实施时点的工作树、分支、未提交/未合并/未推送状态、验收批次和产物指纹；这些记录不代表当前 Git 状态。B-02、目录整理与补修、B-03及D6收尾均已包含在 `7cef241`；当前接续工作树为 `D:/Java/zj-market-b-04`，分支 `b-04`。最新进度见 [B-04开发过程](b04-development.md)及[路线图](development-roadmap.md)。历史 `.local`、`target` 和前端依赖不随 Git 复制，旧报告不作为新工作树重新验收的证据。
+
+更新：2026-10-10。本规范适用于当前七模块工程；当前接续工作树 `D:/Java/zj-market-b-04`，分支 `b-04`。目录整理提交 `d9f12c7`、补修 `f93c861` 均已包含在当前基线 `7cef241`。D19/D20 决策见 [ADR-0001](adr/0001-domain-service-module-layout.md)，历史验收见 [B-02第17节](b02-development.md#17-b-02文件管理优化2026-10-09)；B-01 六模块说明保留为历史基线。
 
 ## 模块边界
 
@@ -10,7 +16,7 @@
 | --- | --- | --- |
 | types | 共享异常及基础类型，目前为 exception | 无 |
 | api | 对外身份 DTO、统一 HTTP 响应包装；纯 Java | 无 |
-| domain | identity/product 模型、业务服务及出站接口 | types |
+| domain | identity/product/inventory/order 模型、业务服务及出站接口 | types |
 | infrastructure | DAO、仓储和密码/JWT/RPC/MQ实现、外部配置属性 | domain |
 | trigger | HTTP Controller、后台任务、入站适配接口 | domain、api |
 | app | Spring 装配、身份过滤与普通 main | infrastructure、trigger |
@@ -57,10 +63,14 @@ application 模块已移除，用例协调归 domain 的业务服务。domain/ap
 
 ## 前端与配置
 
-前端 `src/App.vue`、`main.ts` 为入口，页面放 `views`，身份请求放 `services`，公开类型放 `types`，错误类放 `errors`，样式放 `styles`。当前页面为 `views/Products.vue`；浏览器验收动态模块路径同步为 `/src/services/auth.ts`。
+前端 `src/App.vue`、`main.ts` 为入口，页面放 `views`，身份请求放 `services`，公开类型放 `types`，错误类放 `errors`，样式放 `styles`。页面已包括Products/Inventory/Orders/Team/OrderExceptions及B-04 Payment收银台；浏览器验收动态模块路径同步为 `/src/services/auth.ts`。
 
-资源保持原位置：app 的 application.properties 导入基础设施配置；infrastructure 保存 RPC/MQ/数据库 properties 和 `db/migration/V1～V4`；verification 保存验收 profile。普通启动、数据库迁移、联合验收分别使用 `scripts/start-market.ps1`、`scripts/database.ps1`、`docs/tests/run-b02-acceptance.ps1`。JDK 由 B 脚本显式选择 21，终端和 A 默认 Java 8 保持。
+资源保持原位置：app 的 application.properties 导入基础设施配置；infrastructure 保存 RPC/MQ/数据库 properties 和 `db/migration`（当前V1～V11；V1～V4为B-02整理时基线）；verification 保存验收 profile。普通启动、数据库迁移、联合验收分别使用 `scripts/start-market.ps1`、`scripts/database.ps1`、`docs/tests/run-b02-acceptance.ps1`。JDK 由 B 脚本显式选择 21，终端和 A 默认 Java 8 保持。
 
-`.local`、凭据 XML、密钥、target、node_modules、dist 和 IDE 本机配置继续忽略。新工作树不从 Git 获得本机秘密，启动时外部注入；不把实际密码或私钥放进示例、文档或日志。当前开发不增加迁移版本、不改变 HTTP 字段、业务规则、依赖版本或 A 源码。
+`.local`、凭据 XML、密钥、target、node_modules、dist 和 IDE 本机配置继续忽略。新工作树不从 Git 获得本机秘密，启动时外部注入；不把实际密码或私钥放进示例、文档或日志。目录整理任务当时不增加迁移或改变HTTP/业务；本轮B-04按授权新增支付迁移/API，依赖版本和A源码保持。
 
-IDE 打开此工作树根 pom.xml 并重新加载 Maven，移除缓存中的 application 模块，确认七个子模块。共享 B - JDK 21 运行配置仍指向 app 与原 main；不要切换主目录来验证尚未合并的整理结果。
+IDE 打开当前 `b-04` 工作树根 pom.xml 并重新加载 Maven，确认七个子模块。共享 B - JDK 21 运行配置仍指向 app 与原 main；目录整理已合入 master，旧工作树路径只用于定位历史产物。
+
+## 2026-10-10历史状态校正复杂度
+
+此次文档维护复杂度低：依据Git归档修正当前入口并明确历史实施范围，保留原验收批次、路径和指纹；未改变业务规则或重新执行业务验收。后续详细过程维护于 [B-04开发过程](b04-development.md)，总体进度同步[路线图](development-roadmap.md)。

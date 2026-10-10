@@ -10,3 +10,5 @@
 .trial-panel dl { display:grid; grid-template-columns:8rem 1fr; gap:.6rem; }
 .trial-panel dd { margin:0; }
 .trial-panel button { margin-top:1rem; }
+
+.payment-page{max-width:680px;overflow-wrap:anywhere}.payment-page h1{font-size:30px;line-height:1.5}.payment-page details{margin:24px 0}.payment-page [role="alert"]{color:#a84035}

@@ -6,12 +6,13 @@ import Products from './views/Products.vue'
 import Inventory from './views/Inventory.vue'
 import Orders from './views/Orders.vue'
 import Team from './views/Team.vue'
+import Payment from './views/Payment.vue'
 import OrderExceptions from './views/OrderExceptions.vue'
-function route() { return location.pathname.startsWith('/admin/orders') ? 'exceptions' : location.pathname.startsWith('/teams/') ? 'team' : location.pathname.startsWith('/orders') ? 'orders' : location.pathname.startsWith('/admin/inventory') ? 'inventory' : location.pathname.startsWith('/admin/products') ? 'admin' : location.pathname === '/' || location.pathname.startsWith('/products') ? 'products' : location.pathname === '/register' ? 'register' : 'login' }
+function route() { return /^\/orders\/[A-Za-z0-9_-]+\/payment$/.test(location.pathname) ? 'payment' : location.pathname.startsWith('/admin/orders') ? 'exceptions' : location.pathname.startsWith('/teams/') ? 'team' : location.pathname.startsWith('/orders') ? 'orders' : location.pathname.startsWith('/admin/inventory') ? 'inventory' : location.pathname.startsWith('/admin/products') ? 'admin' : location.pathname === '/' || location.pathname.startsWith('/products') ? 'products' : location.pathname === '/register' ? 'register' : 'login' }
 const page = ref(route()), routePath = ref(location.pathname)
 function safeReturn() {
   const path = new URLSearchParams(location.search).get('returnTo')
-  return path && /^(?:\/|\/products(?:\/[A-Za-z0-9._-]{1,64})?|\/teams\/[A-Za-z0-9_-]{1,64}|\/orders(?:\/[A-Za-z0-9_-]{1,64})?)$/.test(path) ? path : null
+  return path && /^(?:\/|\/products(?:\/[A-Za-z0-9._-]{1,64})?|\/teams\/[A-Za-z0-9_-]{1,64}|\/orders(?:\/[A-Za-z0-9_-]{1,64}(?:\/payment)?)?)$/.test(path) ? path : null
 }
 const returnTo = ref(safeReturn())
 function finishLogin() { if (returnTo.value) { history.replaceState(null, '', returnTo.value); returnTo.value = null; routePath.value = location.pathname; page.value = route() } }
@@ -40,6 +41,7 @@ async function checkOperator() { busy.value = true; error.value = ''; try { cons
     <header><a href="/login" @click.prevent="navigate('login')" class="brand">知集 <span>MARKET</span></a><nav class="site-nav"><button @click="navigate('products')">商城商品</button><button v-if="operator" @click="navigate('admin')">商品管理</button><button v-if="operator" @click="navigate('inventory')">库存管理</button><button v-if="operator" @click="navigate('exceptions')">订单异常</button><button @click="navigate('orders')">我的订单</button><button @click="navigate('login')">账号中心</button></nav></header>
     <main v-if="page==='products' || page==='admin'" class="catalog-main"><p v-if="error" class="message error" role="alert">{{ error }}</p><Products v-if="page!=='admin' || operator" :key="routePath" :admin="page==='admin'" /><p v-else role="alert">请使用运营账号登录后维护商品。</p></main>
     <main v-else-if="page==='team'" class="catalog-main"><Team :key="routePath" /></main>
+    <main v-else-if="page==='payment'" class="catalog-main"><Payment :key="routePath" /></main>
     <main v-else-if="page==='orders'" class="catalog-main"><Orders :key="routePath" /></main>
     <main v-else-if="page==='exceptions'" class="catalog-main"><OrderExceptions v-if="operator" :key="routePath" /><p v-else role="alert">请使用运营账号登录后查看订单异常。</p></main>
     <main v-else-if="page==='inventory'" class="catalog-main"><Inventory v-if="operator" /><p v-else role="alert">请使用运营账号登录后维护库存。</p></main>
