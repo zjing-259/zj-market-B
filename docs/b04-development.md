@@ -1,3 +1,5 @@
+> 最新Git状态（2026-10-10）：用户授权后，B-04.0～.6及通知租约P2补修已提交为`1b5242ed1d34722dba52b84a3962e6dc3abb41b2`，已快进合并master；origin/b-04与origin/master首次推送成功，远程核验均为该提交。b-04已关联origin/b-04。本次文档状态记录随随后文档提交同步两分支；下文“未提交/未合并/未推送”均为各次开发验收当时的历史状态。当前工作树仍为D:/Java/zj-market-b-04；B-05/B-06未开展。
+
 # B-04开发过程：模拟支付、成功成团与待履约
 
 更新：2026-10-10（Asia/Shanghai）。当前工作树：`D:/Java/zj-market-b-04`；分支：`b-04`；创建基线：`7cef24165a12fe443703142225c3dda5fd692a87`。
@@ -506,3 +508,11 @@ retry和acknowledge共用noticeTime：在各自独立事务内先SELECT FOR UPDA
 - zj-market-verification/target/zj-market-verification.jar：`8A2E9B1791F506550F5A0109F71ED879744F56423CF5EE16D6A7ED09642FC66D`
 
 主B/A仍干净；b-04全部成果仍未提交/合并/推送。共享中间件保持运行，B-05/B-06未开展。
+
+## 17. B-04提交、主分支集成与发布记录
+
+2026-10-10用户明确授权提交当前工作树到b-04、合并master并上传远程。操作前核对b-04/master及新获取的origin/master均为7cef241，远端无b-04，主B工作树干净。提交前交付审计383文件、126项已知密钥检查无命中，忽略边界及差异空白检查通过；沿用第15/16节已完成的验收，不把提交操作当新业务验收。
+
+全部非忽略源码、前端、迁移、工具与文档提交为1b5242ed1d34722dba52b84a3962e6dc3abb41b2（feat: complete B-04 simulated payments, settlement and fulfillment）。在D:/Java/zj-market的master以ff-only合并，无冲突；原子推送origin的b-04/master成功，两远端引用核验同为该提交，b-04建立上游。凭据、构建包、数据库和完整运行证据继续留在忽略的.local/target，不纳入远端；本地样本不清理。
+
+随后以单独文档提交记录本次真实Git状态，沿同样快进及原子推送同步两分支。历史开发记录、失败批次和SHA不改写；远程仓库https://github.com/zjing-259/zj-market-B.git。主A不修改，普通资金写默认关闭，B-05/B-06不由本次发布自动开展。
