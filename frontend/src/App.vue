@@ -8,7 +8,9 @@ import Orders from './views/Orders.vue'
 import Team from './views/Team.vue'
 import Payment from './views/Payment.vue'
 import OrderExceptions from './views/OrderExceptions.vue'
-function route() { return /^\/orders\/[A-Za-z0-9_-]+\/payment$/.test(location.pathname) ? 'payment' : location.pathname.startsWith('/admin/orders') ? 'exceptions' : location.pathname.startsWith('/teams/') ? 'team' : location.pathname.startsWith('/orders') ? 'orders' : location.pathname.startsWith('/admin/inventory') ? 'inventory' : location.pathname.startsWith('/admin/products') ? 'admin' : location.pathname === '/' || location.pathname.startsWith('/products') ? 'products' : location.pathname === '/register' ? 'register' : 'login' }
+import RefundExceptions from './views/RefundExceptions.vue'
+import Reconciliations from './views/Reconciliations.vue'
+function route() { return location.pathname.startsWith('/admin/refunds') ? 'refunds' : location.pathname.startsWith('/admin/reconciliations') ? 'reconciliations' : /^\/orders\/[A-Za-z0-9_-]+\/payment$/.test(location.pathname) ? 'payment' : location.pathname.startsWith('/admin/orders') ? 'exceptions' : location.pathname.startsWith('/teams/') ? 'team' : location.pathname.startsWith('/orders') ? 'orders' : location.pathname.startsWith('/admin/inventory') ? 'inventory' : location.pathname.startsWith('/admin/products') ? 'admin' : location.pathname === '/' || location.pathname.startsWith('/products') ? 'products' : location.pathname === '/register' ? 'register' : 'login' }
 const page = ref(route()), routePath = ref(location.pathname)
 function safeReturn() {
   const path = new URLSearchParams(location.search).get('returnTo')
@@ -19,7 +21,7 @@ function finishLogin() { if (returnTo.value) { history.replaceState(null, '', re
 const loginName = ref(''), password = ref(''), displayName = ref('')
 const busy = ref(true), error = ref(''), notice = ref('')
 const operator = computed(() => user.value?.roles.includes('OPERATOR'))
-function navigate(next: string) { page.value = next; if (!['login','register'].includes(next)) returnTo.value = null; history.pushState(null, '', (next === 'admin' ? '/admin/products' : next === 'inventory' ? '/admin/inventory' : next === 'exceptions' ? '/admin/orders' : `/${next}`) + (['login','register'].includes(next) && returnTo.value ? `?returnTo=${encodeURIComponent(returnTo.value)}` : '')); routePath.value = location.pathname; error.value = ''; notice.value = ''; password.value = '' }
+function navigate(next: string) { page.value = next; if (!['login','register'].includes(next)) returnTo.value = null; history.pushState(null, '', (next === 'refunds' ? '/admin/refunds' : next === 'reconciliations' ? '/admin/reconciliations' : next === 'admin' ? '/admin/products' : next === 'inventory' ? '/admin/inventory' : next === 'exceptions' ? '/admin/orders' : `/${next}`) + (['login','register'].includes(next) && returnTo.value ? `?returnTo=${encodeURIComponent(returnTo.value)}` : '')); routePath.value = location.pathname; error.value = ''; notice.value = ''; password.value = '' }
 function pop() { page.value = route(); routePath.value = location.pathname; returnTo.value = safeReturn(); password.value = '' }
 onMounted(async () => { window.addEventListener('popstate', pop); try { await restore(); if (user.value) finishLogin() } catch (e) { error.value = explain(e) } finally { busy.value = false } })
 onUnmounted(() => window.removeEventListener('popstate', pop))
@@ -38,12 +40,14 @@ async function checkOperator() { busy.value = true; error.value = ''; try { cons
 </script>
 <template>
   <div class="shell">
-    <header><a href="/login" @click.prevent="navigate('login')" class="brand">知集 <span>MARKET</span></a><nav class="site-nav"><button @click="navigate('products')">商城商品</button><button v-if="operator" @click="navigate('admin')">商品管理</button><button v-if="operator" @click="navigate('inventory')">库存管理</button><button v-if="operator" @click="navigate('exceptions')">订单异常</button><button @click="navigate('orders')">我的订单</button><button @click="navigate('login')">账号中心</button></nav></header>
+    <header><a href="/login" @click.prevent="navigate('login')" class="brand">知集 <span>MARKET</span></a><nav class="site-nav"><button @click="navigate('products')">商城商品</button><button v-if="operator" @click="navigate('admin')">商品管理</button><button v-if="operator" @click="navigate('inventory')">库存管理</button><button v-if="operator" @click="navigate('exceptions')">订单异常</button><button v-if="operator" @click="navigate('refunds')">退款异常</button><button v-if="operator" @click="navigate('reconciliations')">团队核对</button><button @click="navigate('orders')">我的订单</button><button @click="navigate('login')">账号中心</button></nav></header>
     <main v-if="page==='products' || page==='admin'" class="catalog-main"><p v-if="error" class="message error" role="alert">{{ error }}</p><Products v-if="page!=='admin' || operator" :key="routePath" :admin="page==='admin'" /><p v-else role="alert">请使用运营账号登录后维护商品。</p></main>
     <main v-else-if="page==='team'" class="catalog-main"><Team :key="routePath" /></main>
     <main v-else-if="page==='payment'" class="catalog-main"><Payment :key="routePath" /></main>
     <main v-else-if="page==='orders'" class="catalog-main"><Orders :key="routePath" /></main>
     <main v-else-if="page==='exceptions'" class="catalog-main"><OrderExceptions v-if="operator" :key="routePath" /><p v-else role="alert">请使用运营账号登录后查看订单异常。</p></main>
+    <main v-else-if="page==='refunds'" class="catalog-main"><RefundExceptions v-if="operator" :key="routePath" /><p v-else role="alert">请使用运营账号登录后查看退款。</p></main>
+    <main v-else-if="page==='reconciliations'" class="catalog-main"><Reconciliations v-if="operator" :key="routePath" /><p v-else role="alert">请使用运营账号登录后查看完整核对。</p></main>
     <main v-else-if="page==='inventory'" class="catalog-main"><Inventory v-if="operator" /><p v-else role="alert">请使用运营账号登录后维护库存。</p></main>
     <main v-else>
       <section class="intro"><p class="eyebrow">YOUR ACCOUNT</p><h1>从这里，<br>开启你的商城体验。</h1><p>登录后查看你的账号信息。</p><div class="rule"></div><small>知集商城 · 账号中心</small></section>

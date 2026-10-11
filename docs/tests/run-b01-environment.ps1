@@ -3,11 +3,14 @@
     [string]$AJavaHome = 'D:/Dev_tools/2.environment/jdk/jdk8',
     [string]$AProject = '',
     [string]$RunName = 'verified',
+    [ValidateRange(1024,65535)][int]$AProviderRpcPort=50051,
+    [ValidateRange(1024,65535)][int]$AProviderHttpPort=18091,
     [string]$NettyVersion = '',
     [string]$TlsDirectory = '',
     [switch]$SkipBuild
 )
 $ErrorActionPreference = 'Stop'
+if($AProviderRpcPort -eq $AProviderHttpPort){throw 'Use different provider RPC and HTTP ports'}
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 . (Join-Path $projectRoot 'scripts/b-runtime.ps1')
 if (-not $AProject) { $AProject = Join-Path (Split-Path $projectRoot -Parent) 'group-buy-market' }
@@ -57,7 +60,7 @@ try {
     foreach ($path in @($aJar, "$localA/app.env", "$localA/b.env")) {
         if (-not (Test-Path -LiteralPath $path)) { throw 'Existing A jar and ignored dev credentials are required.' }
     }
-    foreach ($port in @(50051,18091)) {
+    foreach ($port in @($AProviderRpcPort,$AProviderHttpPort)) {
         if (Test-ProbePort $port) { throw "Provider port $port is occupied; this script only manages its own isolated provider." }
     }
     foreach ($port in @(13306,16379,9876,10911)) {
@@ -99,10 +102,10 @@ try {
     Set-ProbeEnvironment 'JAVA_HOME' $AJavaHome
     Set-ProbeEnvironment 'PATH' ((Join-Path $AJavaHome 'bin') + [IO.Path]::PathSeparator + $env:PATH)
     $provider = Start-Process -FilePath (Join-Path $AJavaHome 'bin/java.exe') -WindowStyle Hidden -PassThru -WorkingDirectory $localA `
-        -ArgumentList @('-jar', $aJar, '--server.port=18091', '--spring.profiles.active=dev,v2-tls') `
+        -ArgumentList @('-jar', $aJar, "--server.port=$AProviderHttpPort","--dubbo.protocol.port=$AProviderRpcPort", '--spring.profiles.active=dev,v2-tls') `
         -RedirectStandardOutput "$work/a.stdout.log" -RedirectStandardError "$work/a.stderr.log"
     $readyBy = [DateTime]::UtcNow.AddSeconds(60)
-    while (-not (Test-ProbePort 50051)) {
+    while (-not (Test-ProbePort $AProviderRpcPort)) {
         if ($provider.HasExited) { throw 'Isolated A provider exited; inspect ignored A logs.' }
         if ([DateTime]::UtcNow -ge $readyBy) { throw 'Isolated A provider did not become ready.' }
         Start-Sleep -Milliseconds 500
@@ -115,7 +118,8 @@ try {
     Import-ProbeEnvironment "$localA/b.env"
     Set-ProbeEnvironment 'AB_V2_TLS_CLIENT_CERT' "$TlsDirectory/certificate.pem"
     Set-ProbeEnvironment 'AB_V2_TLS_CLIENT_KEY' "$TlsDirectory/private-key.pem"
-    Set-ProbeEnvironment 'B_PROBE_RPC_URL' 'tri://127.0.0.1:50051?ssl-enabled=true'
+    Set-ProbeEnvironment 'B_PROBE_RPC_PORT' $AProviderRpcPort
+    Set-ProbeEnvironment 'B_PROBE_RPC_URL' "tri://127.0.0.1:${AProviderRpcPort}?ssl-enabled=true"
     Set-ProbeEnvironment 'B_PROBE_REPORT' "$work/report.json"
     if (Test-Path -LiteralPath "$work/report.json") { Remove-Item -LiteralPath "$work/report.json" }
     Set-ProbeEnvironment 'JAVA_HOME' $JavaHome

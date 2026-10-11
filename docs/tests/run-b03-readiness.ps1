@@ -1,6 +1,13 @@
 ﻿[CmdletBinding()]
-param([string]$JavaHome='', [string]$AJavaHome='D:/Dev_tools/2.environment/jdk/jdk8', [string]$RunName='', [switch]$SkipBuild,[switch]$WithFulfillment,[switch]$WithPaymentClosing,[switch]$WithPayments,[switch]$WithSettlement,[switch]$WithLocalOrders,[switch]$WithTradeRecovery,[switch]$WithUnpaidClose,[switch]$WithJointFaults, [ValidateSet('prepare','verify')][string]$Mode='prepare')
+param([string]$JavaHome='', [string]$AJavaHome='D:/Dev_tools/2.environment/jdk/jdk8', [string]$RunName='', [ValidateRange(1024,65535)][int]$AProviderRpcPort=50051,[ValidateRange(1024,65535)][int]$AProviderHttpPort=18091, [switch]$SkipBuild,[switch]$WithRefundRelease,[ValidateSet('PARTIAL','NONE')][string]$ReconciliationPaymentCase='PARTIAL',[switch]$WithRefundSync,[switch]$WithReconciliationCompletion,[switch]$WithReconciliation,[switch]$WithFulfillment,[switch]$WithPaymentClosing,[switch]$WithPayments,[switch]$WithSettlement,[switch]$WithLocalOrders,[switch]$WithTradeRecovery,[switch]$WithUnpaidClose,[switch]$WithJointFaults, [ValidateSet('prepare','verify')][string]$Mode='prepare')
 $ErrorActionPreference='Stop'
+if($AProviderRpcPort -eq $AProviderHttpPort){throw 'Use different provider RPC and HTTP ports'}
+if($WithRefundRelease){$WithRefundSync=$true}
+if($WithRefundSync){$WithReconciliation=$true}
+if($ReconciliationPaymentCase -eq 'NONE' -and ($WithRefundSync -or $WithReconciliationCompletion)){throw 'NONE cannot execute refunds or all-paid competition'}
+if($WithReconciliationCompletion){$WithReconciliation=$true}
+if($WithReconciliation -and ($WithFulfillment -or $WithPayments -or $WithSettlement -or $WithPaymentClosing -or $WithUnpaidClose -or $WithJointFaults)){throw 'Reconciliation requires its own fresh batch'}
+if($WithReconciliation){$WithTradeRecovery=$true}
 if($WithFulfillment -and ($WithPayments -or $WithSettlement -or $WithPaymentClosing -or $WithUnpaidClose -or $WithJointFaults)){throw 'Fulfillment requires its own fresh batch'}
 if($WithFulfillment){$WithTradeRecovery=$true}
 if($WithPaymentClosing -and ($WithPayments -or $WithSettlement -or $WithUnpaidClose -or $WithJointFaults)){throw "PaymentClosing requires its own fresh batch"}
@@ -78,13 +85,13 @@ function Start-OwnedProvider([string]$label){
  $providerCaller=@{};Get-ChildItem Env: | ForEach-Object {$providerCaller[$_.Name]=$_.Value}
  foreach($name in $providerCaller.Keys){if(-not $aEnvironment.ContainsKey($name)){[Environment]::SetEnvironmentVariable($name,$null,'Process')}}
  foreach($name in $aEnvironment.Keys){[Environment]::SetEnvironmentVariable($name,$aEnvironment[$name],'Process')}
- try{$ownedProvider=Start-Process -FilePath (Join-Path $AJavaHome 'bin/java.exe') -WindowStyle Hidden -PassThru -WorkingDirectory $localA -ArgumentList @('-jar',$aJar,'--server.port=18091','--spring.profiles.active=dev,v2-tls') -RedirectStandardOutput "$work/$label.stdout.log" -RedirectStandardError "$work/$label.stderr.log"}
+ try{$ownedProvider=Start-Process -FilePath (Join-Path $AJavaHome 'bin/java.exe') -WindowStyle Hidden -PassThru -WorkingDirectory $localA -ArgumentList @('-jar',$aJar,"--server.port=$AProviderHttpPort","--dubbo.protocol.port=$AProviderRpcPort",'--spring.profiles.active=dev,v2-tls') -RedirectStandardOutput "$work/$label.stdout.log" -RedirectStandardError "$work/$label.stderr.log"}
  finally{Get-ChildItem Env: | ForEach-Object {if(-not $providerCaller.ContainsKey($_.Name)){[Environment]::SetEnvironmentVariable($_.Name,$null,'Process')}};foreach($name in $providerCaller.Keys){[Environment]::SetEnvironmentVariable($name,$providerCaller[$name],'Process')}}
  return $ownedProvider
 }
 Push-Location $projectRoot
 try{
- foreach($port in @(50051,18091)){if(Test-ProbePort $port){throw "Owned provider port $port occupied"}}
+ foreach($port in @($AProviderRpcPort,$AProviderHttpPort)){if(Test-ProbePort $port){throw "Owned provider port $port occupied"}}
  if(-not $SkipBuild){Invoke-BMaven -JavaHome $jdk.Home -Arguments @('-B','-o','package') *> "$work/build.log"}
  foreach($credential in @('database.credentials.xml','b02-test-database.credentials.xml')){
   foreach($action in @('migrate','verify')){
@@ -93,11 +100,11 @@ try{
   }
  }
  if($Mode -eq 'prepare'){
-  & (Join-Path $PSScriptRoot 'run-b01-environment.ps1') -JavaHome $jdk.Home -AJavaHome $AJavaHome -RunName "$RunName-baseline" -SkipBuild *> "$work/baseline.log"
+  & (Join-Path $PSScriptRoot 'run-b01-environment.ps1') -JavaHome $jdk.Home -AJavaHome $AJavaHome -AProviderRpcPort $AProviderRpcPort -AProviderHttpPort $AProviderHttpPort -RunName "$RunName-baseline" -SkipBuild *> "$work/baseline.log"
   Copy-Item "target/environment-probe/$RunName-baseline/report.json" "$work/baseline.json"
  }else{Copy-Item "$baseWork/baseline.json" "$work/baseline.json"}
  if((Get-Content "$work/baseline.json" -Raw | ConvertFrom-Json).status -ne 'PASSED'){throw 'A passing middleware baseline is required'}
- @("B-head=$(& git rev-parse HEAD)","A-head=$(& git -C $AProject rev-parse HEAD)","B-JDK=$($jdk.Home)","A-JDK=$AJavaHome","A-contract-sha256=$((Get-FileHash "$AProject/docs/ab-api-contract.md").Hash)","A-jar-sha256=$((Get-FileHash $aJar).Hash)","B-verification-jar-sha256=$((Get-FileHash $bJar).Hash)") | Set-Content "$work/provenance.txt"
+ @("A-provider-rpc-port=$AProviderRpcPort","A-provider-http-port=$AProviderHttpPort","B-head=$(& git rev-parse HEAD)","A-head=$(& git -C $AProject rev-parse HEAD)","B-JDK=$($jdk.Home)","A-JDK=$AJavaHome","A-contract-sha256=$((Get-FileHash "$AProject/docs/ab-api-contract.md").Hash)","A-jar-sha256=$((Get-FileHash $aJar).Hash)","B-verification-jar-sha256=$((Get-FileHash $bJar).Hash)") | Set-Content "$work/provenance.txt"
  foreach($file in @('docs/tests/run-b03-readiness.ps1','zj-market-verification/src/main/java/cn/zj/zjmarket/verification/B03ReadinessCommands.java','zj-market-app/target/zj-market-app.jar')){
   "$file=$((Get-FileHash (Join-Path $projectRoot $file)).Hash)" | Add-Content "$work/provenance.txt"
  }
@@ -124,6 +131,7 @@ try{
  Import-ProbeEnvironment "$localA/b.env"
  foreach($name in @('SPRING_DATASOURCE_URL','SPRING_DATASOURCE_USERNAME','SPRING_DATASOURCE_PASSWORD')){Set-ProbeEnvironment $name $null}
  $credentials=Import-Clixml (Join-Path $projectRoot '.local/b02-test-database.credentials.xml')
+ Set-ProbeEnvironment B05_RECONCILIATION_PAYMENT_CASE $ReconciliationPaymentCase
  Set-ProbeEnvironment B_DATABASE_URL $credentials.Url
  Set-ProbeEnvironment B_DATABASE_USERNAME $credentials.Runtime.UserName
  Set-ProbeEnvironment B_DATABASE_PASSWORD $credentials.Runtime.GetNetworkCredential().Password
@@ -137,7 +145,7 @@ try{
  Set-ProbeEnvironment B_IDENTITY_PRIVATE_KEY_FILE (Join-Path $projectRoot '.local/b02-test-keys/private.pem')
  Set-ProbeEnvironment B_IDENTITY_PUBLIC_KEY_FILE (Join-Path $projectRoot '.local/b02-test-keys/public.pem')
  Set-ProbeEnvironment B_RPC_GROUP 'gbm-dev'
- Set-ProbeEnvironment B_RPC_URL 'tri://127.0.0.1:50051?ssl-enabled=true'
+ Set-ProbeEnvironment B_RPC_URL "tri://127.0.0.1:${AProviderRpcPort}?ssl-enabled=true"
  Set-ProbeEnvironment B_RPC_TRUST_CERT "$TlsDirectory/certificate.pem"
  Set-ProbeEnvironment AB_V2_TLS_CLIENT_CERT "$TlsDirectory/certificate.pem"
  Set-ProbeEnvironment AB_V2_TLS_CLIENT_KEY "$TlsDirectory/private-key.pem"
@@ -186,7 +194,8 @@ try{
    $tag='NULL';$scope='NULL';$target=if($key -eq 'full'){2}else{3}
    if($key -eq 'ineligible'){$tag="'$($fixture.tagId)'";$scope="'0,2'"}
    $end=if($key -eq 'expired'){'DATE_SUB(NOW(),INTERVAL 1 HOUR)'}else{'DATE_ADD(NOW(),INTERVAL 1 DAY)'}
-   $sql+="INSERT INTO group_buy_activity(activity_id,activity_name,discount_id,group_type,take_limit_count,target,valid_time,status,start_time,end_time,tag_id,tag_scope) VALUES($($row.activityId),'B030 isolated','$($fixture.discountId)',0,10,$target,60,1,DATE_SUB(NOW(),INTERVAL 1 DAY),$end,$tag,$scope);"
+   $validMinutes=if($WithReconciliation){2}else{60}
+   $sql+="INSERT INTO group_buy_activity(activity_id,activity_name,discount_id,group_type,take_limit_count,target,valid_time,status,start_time,end_time,tag_id,tag_scope) VALUES($($row.activityId),'B030 isolated','$($fixture.discountId)',0,10,$target,$validMinutes,1,DATE_SUB(NOW(),INTERVAL 1 DAY),$end,$tag,$scope);"
    $sql+="INSERT INTO sc_sku_activity(source,channel,activity_id,goods_id) VALUES('s01','c01',$($row.activityId),'$($row.goodsId)');"
   }
   $sql+="INSERT INTO crowd_tags(tag_id,tag_name,tag_desc,statistics) VALUES('$($fixture.tagId)','B030 own tag','B030 isolated fixture',1);"
@@ -198,10 +207,25 @@ try{
 
  $provider=Start-OwnedProvider a
  $readyBy=[DateTime]::UtcNow.AddSeconds(60)
- while(-not(Test-ProbePort 50051)){if($provider.HasExited -or [DateTime]::UtcNow -gt $readyBy){throw 'Owned isolated A did not become ready'};Start-Sleep -Milliseconds 300}
+ while(-not(Test-ProbePort $AProviderRpcPort)){if($provider.HasExited -or [DateTime]::UtcNow -gt $readyBy){throw 'Owned isolated A did not become ready'};Start-Sleep -Milliseconds 300}
  Invoke-ReadinessPhase verify
  if($WithTradeRecovery){Invoke-ReadinessPhase trade-recover;if(-not((Get-Content "$work/trade-recover.txt") -contains 'status=PASSED')){throw 'Trade process restart report incomplete'}}
  if($WithSettlement){Set-ProbeEnvironment B03_WITH_SETTLEMENT true}
+ if($WithReconciliation){foreach($phase in $(if($WithReconciliationCompletion){@('reconciliation-completed')}else{@('reconciliation','reconciliation-recover')})){Invoke-ReadinessPhase $phase;if(-not((Get-Content "$work/$phase.txt") -contains 'status=PASSED')){throw "Actual A reconciliation phase failed"}}}
+ if($WithRefundSync){
+  $oldProviderPid=$provider.Id
+  Stop-Process -Id $provider.Id -Force;$null=$provider.WaitForExit(5000)
+  $offlineBy=[DateTime]::UtcNow.AddSeconds(10)
+  while((Test-ProbePort $AProviderRpcPort) -or (Test-ProbePort $AProviderHttpPort)){if([DateTime]::UtcNow -ge $offlineBy){throw 'Owned refund provider did not stop'};Start-Sleep -Milliseconds 200}
+  Invoke-ReadinessPhase refund-offline
+  if(-not((Get-Content "$work/refund-offline.txt") -contains 'status=PASSED')){throw 'Offline refund facts incomplete'}
+  if($WithRefundRelease){foreach($phase in @('refund-release-offline','refund-release-recover')){Invoke-ReadinessPhase $phase;if(-not((Get-Content "$work/$phase.txt") -contains 'status=PASSED')){throw 'Actual A offline inventory release incomplete'}}}
+  $provider=Start-OwnedProvider a-refund-restarted
+  $readyBy=[DateTime]::UtcNow.AddSeconds(60)
+  while(-not(Test-ProbePort $AProviderRpcPort)){if($provider.HasExited -or [DateTime]::UtcNow -gt $readyBy){throw 'Owned refund provider restart failed'};Start-Sleep -Milliseconds 300}
+  foreach($phase in @('refund-sync-live','refund-sync-recover')){Invoke-ReadinessPhase $phase;if(-not((Get-Content "$work/$phase.txt") -contains 'status=PASSED')){throw 'Refund sync actual A acceptance incomplete'}}
+  @{status='PASSED';oldProviderPid=$oldProviderPid;newProviderPid=$provider.Id;sharedMiddlewareStopped=$false} | ConvertTo-Json | Set-Content "$work/refund-outage-processes.json"
+ }
  if($WithFulfillment){Invoke-ReadinessPhase fulfillment;if(-not((Get-Content "$work/fulfillment.txt") -contains "status=PASSED")){throw "Actual A fulfillment incomplete"}}
  if($WithPaymentClosing){Invoke-ReadinessPhase payment-closing;if(-not((Get-Content "$work/payment-closing.txt") -contains "status=PASSED")){throw "Actual A exposed close incomplete"}}
  if($WithPayments){Invoke-ReadinessPhase payments;if(-not((Get-Content "$work/payments.txt") -contains "status=PASSED")){throw "Actual A payment probe incomplete"}}
@@ -212,13 +236,13 @@ try{
   $firstProviderPid=$provider.Id
   Stop-Process -Id $provider.Id -Force;$null=$provider.WaitForExit(5000)
   $offlineBy=[DateTime]::UtcNow.AddSeconds(10)
-  while((Test-ProbePort 50051) -or (Test-ProbePort 18091)){if([DateTime]::UtcNow -ge $offlineBy){throw 'Owned A provider did not stop'};Start-Sleep -Milliseconds 200}
+  while((Test-ProbePort $AProviderRpcPort) -or (Test-ProbePort $AProviderHttpPort)){if([DateTime]::UtcNow -ge $offlineBy){throw 'Owned A provider did not stop'};Start-Sleep -Milliseconds 200}
   Invoke-ReadinessPhase close-outage
   if(-not((Get-Content "$work/close-outage.txt") -contains 'status=PASSED')){throw 'Actual A outage did not preserve held stock'}
   $provider=Start-OwnedProvider a-restarted
   if($provider.Id -eq $firstProviderPid){throw 'Expected actual new A process'}
   $readyBy=[DateTime]::UtcNow.AddSeconds(60)
-  while(-not(Test-ProbePort 50051)){if($provider.HasExited -or [DateTime]::UtcNow -gt $readyBy){throw 'Owned A restart failed'};Start-Sleep -Milliseconds 300}
+  while(-not(Test-ProbePort $AProviderRpcPort)){if($provider.HasExited -or [DateTime]::UtcNow -gt $readyBy){throw 'Owned A restart failed'};Start-Sleep -Milliseconds 300}
   Invoke-ReadinessPhase close-outage-recover
   if((Get-Content "$work/close-outage-recovery.json" -Raw | ConvertFrom-Json).status -ne 'PASSED'){throw 'Actual outage recovery incomplete'}
   @{status='PASSED';oldProviderPid=$firstProviderPid;newProviderPid=$provider.Id;sharedMiddlewareStopped=$false} | ConvertTo-Json | Set-Content "$work/a-outage-processes.json"
@@ -232,11 +256,11 @@ try{
   if($process -and -not $process.HasExited){Stop-Process -Id $process.Id -Force;$null=$process.WaitForExit(5000)}
  }
  $releaseBy=[DateTime]::UtcNow.AddSeconds(10)
- while((Test-ProbePort 50051) -or (Test-ProbePort 18091)){
+ while((Test-ProbePort $AProviderRpcPort) -or (Test-ProbePort $AProviderHttpPort)){
   if([DateTime]::UtcNow -ge $releaseBy){break}
   Start-Sleep -Milliseconds 200
  }
- $released=(-not(Test-ProbePort 50051) -and -not(Test-ProbePort 18091))
+ $released=(-not(Test-ProbePort $AProviderRpcPort) -and -not(Test-ProbePort $AProviderHttpPort))
  foreach($name in $previousEnvironment.Keys){Restore-BEnvironmentVariable $name $previousEnvironment[$name]}
  $restored=$true
  foreach($name in $previousEnvironment.Keys){
@@ -246,7 +270,7 @@ try{
  $javaUnchanged=$defaultJava -ceq $originalDefaultJava
  @("environment-restored=$restored","owned-ports-released=$released","default-java-unchanged=$javaUnchanged",$defaultJava) | Set-Content "$work/cleanup.txt"
  $passed=$completed -and $restored -and $released -and $javaUnchanged
- @{status=$(if($passed){'PASSED'}else{'FAILED'});runName=$RunName;mode=$Mode;environmentRestored=$restored;ownedPortsReleased=$released;defaultJavaUnchanged=$javaUnchanged;fixtureSha256=(Get-FileHash "$work/fixtures.json" -ErrorAction SilentlyContinue).Hash;inventory=$(if($WithLocalOrders){'OPERATOR_APPLIED'}else{'PLAN_ONLY'});verifiedAt=[DateTime]::UtcNow.ToString('o')} | ConvertTo-Json | Set-Content "$work/report.json"
+ @{providerRpcPort=$AProviderRpcPort;providerHttpPort=$AProviderHttpPort;status=$(if($passed){'PASSED'}else{'FAILED'});runName=$RunName;mode=$Mode;environmentRestored=$restored;ownedPortsReleased=$released;defaultJavaUnchanged=$javaUnchanged;fixtureSha256=(Get-FileHash "$work/fixtures.json" -ErrorAction SilentlyContinue).Hash;inventory=$(if($WithLocalOrders){'OPERATOR_APPLIED'}else{'PLAN_ONLY'});verifiedAt=[DateTime]::UtcNow.ToString('o')} | ConvertTo-Json | Set-Content "$work/report.json"
  Pop-Location
  if($completed -and -not $passed){throw 'Readiness cleanup verification failed'}
 }

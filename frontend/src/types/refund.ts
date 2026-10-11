@@ -1,0 +1,5 @@
+export type RefundSummary={refundId:string;orderId:string;paymentId:string;refundAmount:string;currency:string;fundsStatus:string;syncStatus:string;releaseStatus:string;version:string;refundedAt:string|null}
+export type RefundDetail=RefundSummary&{eligibilityStatus:string;attemptId:string|null;attemptStatus:string;refundVersion:string|null;acceptedRefundVersion:string|null;failureCode:string|null;failureCount:number;alerted:boolean;nextAttemptAt:string|null;reasons:string[];evidenceIds:string[];allowedActions:('CHECK'|'RETRY')[]}
+export type Page<T>={page:number;size:number;total:number;items:T[]}
+export type ReconciliationSummary={taskId:string;teamId:string;reconciliationId:string|null;rosterVersion:string|null;state:string;teamVersion:string|null;memberCount:number;readyCount:number;version:string;alerted:boolean}
+export type ReconciliationDetail=ReconciliationSummary&{completionId:string|null;submissionState:string;members:{outTradeNo:string;userId:string;localOrderId:string|null;state:string;refundId:string|null;failureCode:string|null}[];evidenceIds:string[]}

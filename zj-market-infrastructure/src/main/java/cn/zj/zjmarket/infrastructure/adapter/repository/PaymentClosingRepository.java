@@ -25,7 +25,9 @@ public final class PaymentClosingRepository implements IPaymentClosing {
  private String hash(byte[] x){return OrderService.hash(new String(x,StandardCharsets.UTF_8));}
  private List<CloseAttempt> attempts(String payment){return db.query("SELECT attempt_id,attempt_no,request_hash FROM b_payment_attempt WHERE payment_id=? ORDER BY attempt_no FOR UPDATE",(rs,i)->new CloseAttempt(rs.getString(1),rs.getInt(2),rs.getString(3)),payment);}
  private Map<String,Object> payment(String order){return first("SELECT * FROM b_payment WHERE order_id=? FOR UPDATE",order);}
- public boolean eligible(MarketOrder o){var p=first("SELECT funds_state,gate,review_required FROM b_payment WHERE order_id=?",o.orderId());return !o.reviewRequired()&&Set.of("WAITING_PAYMENT","PAYMENT_PROCESSING","CLOSING").contains(o.businessStatus())&&p!=null&&!Boolean.TRUE.equals(p.get("review_required"))&&!"SUCCEEDED".equals(p.get("funds_state"))&&Set.of("OPEN","CLOSING").contains(p.get("gate"));}
+ private java.util.function.Predicate<String> reconciliationPolicy=id->false;
+ public void enableReconciliation(java.util.function.Predicate<String> policy){reconciliationPolicy=policy;}
+ public boolean eligible(MarketOrder o){var p=first("SELECT funds_state,gate,review_required FROM b_payment WHERE order_id=?",o.orderId());return (!o.reviewRequired()||reconciliationPolicy.test(o.orderId()))&&Set.of("WAITING_PAYMENT","PAYMENT_PROCESSING","CLOSING").contains(o.businessStatus())&&p!=null&&(!Boolean.TRUE.equals(p.get("review_required"))||reconciliationPolicy.test(o.orderId()))&&!"SUCCEEDED".equals(p.get("funds_state"))&&Set.of("OPEN","CLOSING").contains(p.get("gate"));}
  public boolean begin(MarketOrder o,String reason,String code,long n){
   if(!TransactionSynchronizationManager.isActualTransactionActive())throw new IllegalStateException("Mclose requires market transaction");
   var p=payment(o.orderId());if(!eligible(o)||p==null)return false;var all=attempts(p.get("payment_id").toString());if(all.isEmpty())throw new IllegalStateException("Missing close coverage");

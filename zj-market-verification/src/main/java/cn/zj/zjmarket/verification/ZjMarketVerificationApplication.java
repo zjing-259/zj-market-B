@@ -5,6 +5,12 @@ import org.springframework.boot.SpringApplication;
 /** Separate executable using the real B bootstrap and infrastructure. */
 public final class ZjMarketVerificationApplication {
     public static void main(String[] args) {
+        if(args.length==1 && args[0].equals("--refund-browser")){System.exit(RefundBrowserCommands.run());return;}
+        if(args.length==2 && args[0].equals("--refund-release")){System.exit(RefundCommands.run(args[1],true,true));return;}
+        if(args.length==1 && args[0].equals("--refund-actual")){System.exit(ActualRefundCommands.run());return;}
+        if(args.length==2 && args[0].equals("--refund-sync")){System.exit(RefundCommands.run(args[1],true));return;}
+        if(args.length==2 && args[0].equals("--refund")){System.exit(RefundCommands.run(args[1]));return;}
+        if(args.length==2 && args[0].equals("--reconciliation")){System.exit(ReconciliationCommands.run(args[1]));return;}
         if(args.length==1 && args[0].equals("--b04-handoff")){System.exit(B04HandoffCommands.run());return;}
         if(args.length==2 && args[0].equals("--fulfillment")){System.exit(FulfillmentCommands.run(args[1]));return;}
         if(args.length==2 && args[0].equals("--payment-closing")){System.exit(PaymentClosingCommands.run(args[1]));return;}

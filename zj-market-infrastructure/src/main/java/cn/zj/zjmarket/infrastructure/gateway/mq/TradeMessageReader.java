@@ -28,7 +28,7 @@ public final class TradeMessageReader {
   if(!settings.getAProducerId().equals(text(e,"producer"))||!settings.getSource().equals(text(e,"source"))||!settings.getChannel().equals(text(e,"channel")))throw bad("SOURCE_INVALID");
   utc(e,"occurredAt");if(!e.get("correlationId").isNull())id(e,"correlationId",64);
   var p=e.get("payload");String original=null;
-  if(result){validateResult(p);original=id(p,"originalEventId",64);if(!e.get("correlationId").isNull()&&!original.equals(text(e,"correlationId")))throw bad("CORRELATION_INVALID");if(!text(p,"originalEventType").equals("PAYMENT_SUCCEEDED"))return null;}
+  if(result){validateResult(p);original=id(p,"originalEventId",64);if(!e.get("correlationId").isNull()&&!original.equals(text(e,"correlationId")))throw bad("CORRELATION_INVALID");if(!Set.of("PAYMENT_SUCCEEDED","REFUND_STATUS_CHANGED").contains(text(p,"originalEventType")))return null;}
   else validateTeam(m.tag(),p);
   return new TradeReceipt(settings.getAProducerId(),event,m.tag(),ContractCodec.sha256(m.body()),new String(m.body(),StandardCharsets.UTF_8),original);
  }catch(SyncTransportFailure e){throw e;}catch(Exception e){throw bad("TRADE_STRUCTURE_INVALID");}}
@@ -37,8 +37,9 @@ public final class TradeMessageReader {
   String outcome=text(p,"outcome"),code=id(p,"code",64);text(p,"info");utc(p,"processedAt");
   if(outcome.equals("REJECTED")){if(code.equals("0000")||!p.get("result").isNull())throw bad("RESULT_STRUCTURE_INVALID");return;}
   if(!Set.of("APPLIED","IGNORED").contains(outcome)||!code.equals("0000")||!p.path("result").isObject())throw bad("RESULT_STRUCTURE_INVALID");
-  if(type.equals("PAYMENT_SUCCEEDED"))validatePaymentResult(p.get("result"));
+  if(type.equals("PAYMENT_SUCCEEDED"))validatePaymentResult(p.get("result"));if(type.equals("REFUND_STATUS_CHANGED"))validateRefundResult(p.get("result"));
  }
+ public static void validateRefundResult(JsonNode p){fields(p,"outTradeNo,refundId,refundStatus,refundVersion,recordVersion");id(p,"outTradeNo",64);id(p,"refundId",64);version(p,"refundVersion");version(p,"recordVersion");if(!Set.of("PENDING","FAILED","SUCCEEDED").contains(text(p,"refundStatus")))throw bad("RESULT_STRUCTURE_INVALID");}
  public static void validatePaymentResult(JsonNode p){fields(p,"orderId,outTradeNo,teamId,payment,orderStatus,teamStatus,recordVersion,teamVersion");for(String k:List.of("orderId","outTradeNo","teamId"))id(p,k,64);version(p,"recordVersion");version(p,"teamVersion");if(!"PAID".equals(text(p,"orderStatus"))||!Set.of("FORMING","RECONCILING","COMPLETED","FAILED").contains(text(p,"teamStatus")))throw bad("RESULT_STRUCTURE_INVALID");
   var pay=p.get("payment");fields(pay,"paymentId,paidAmount,currency,paidAt");id(pay,"paymentId",64);String amount=text(pay,"paidAmount");if(!amount.matches("(?:0|[1-9][0-9]{0,5})\\.[0-9]{2}")||new java.math.BigDecimal(amount).signum()<=0||!"CNY".equals(text(pay,"currency")))throw bad("RESULT_STRUCTURE_INVALID");utc(pay,"paidAt");}
  private static void version(JsonNode p,String k){cn.zj.zjmarket.domain.order.model.valobj.ReservationEvidence.version(text(p,k));}

@@ -13,9 +13,16 @@ import java.util.*;
 public final class TradeRepository implements ITradeRepository,IOrderLifecycleRepository {
  private final ITradeDao dao;private final IOrderDao orderDao;private final IProductDao products;private final IInventoryDao stock;private final IOrderRepository orders;private final TransactionTemplate tx;private final ObjectMapper json=new ObjectMapper();
  private volatile IPaymentClosing paymentClosing;
+ private java.util.function.Predicate<String> reconciliationPolicy=id->false;
+ public void enableReconciliation(java.util.function.Predicate<String> policy){reconciliationPolicy=Objects.requireNonNull(policy);if(paymentClosing!=null)paymentClosing.enableReconciliation(policy);}
+ private boolean recoveryReview(MarketOrder o){return !o.reviewRequired()||reconciliationPolicy.test(o.orderId());}
+ /** Only the reconciliation coordinator calls this; no new buyer/operator bypass. */
+ public void requestReconciliationClose(String id){tx.executeWithoutResult(s->{var l=lock(id);if(l==null||!"HELD".equals(l.reservation)||!recoveryReview(l.order)||Set.of("CLOSED","CLOSING","PAID_WAITING_A","PAID_WAITING_TEAM","GROUP_COMPLETED","WAITING_REFUND").contains(l.order.businessStatus()))return;close(l,"PAYMENT_TIMEOUT","TEAM_RECONCILIATION_REQUIRED",orderDao.now());});}
+
  public void enablePaymentClosing(IPaymentClosing closing){if(paymentClosing!=null)throw new IllegalStateException("Payment closing already installed");paymentClosing=Objects.requireNonNull(closing);}
  public boolean prepare(TradeLease lease){return paymentClosing==null||paymentClosing.prepare(lease);}
  public boolean paymentCancelAllowed(MarketOrder o){return !"CLOSING".equals(o.businessStatus())&&paymentClosing!=null&&paymentClosing.eligible(o);}
+ public boolean unpaidProven(MarketOrder o){return closeSafe(o);}
  private boolean closeSafe(MarketOrder o){return "NEVER_OPENED".equals(o.paymentExposure())||paymentClosing!=null&&paymentClosing.proven(o);}
  private final long retryBase,retryMax;private static final org.slf4j.Logger log=org.slf4j.LoggerFactory.getLogger(TradeRepository.class);
  private static final Set<String> AUTH=Set.of("AUTH_REQUIRED","AUTH_INVALID","FORBIDDEN","REPLAY_REJECTED","E0112","INTEGRATION_AUTH_FAILED");
@@ -30,13 +37,13 @@ public final class TradeRepository implements ITradeRepository,IOrderLifecycleRe
  public TradeLease claim(String id,long leaseMillis){return tx.execute(s->{var l=lock(id);if(l==null||!"HELD".equals(l.reservation))return null;var o=l.order;var t=l.task;long now=orderDao.now();
   // Business expiry persists a close intent even while an operator has paused dispatch.
   if("PROCESSING".equals(o.businessStatus())&&now>=o.reserveWaitDeadline()){close(l,"ORDER_ABORT","RESERVE_WAIT_EXPIRED",now);return null;}
-  if(t.paused()||o.reviewRequired()&&!t.authProbe()||t.leaseUntil()!=null&&t.leaseUntil()>now)return null;
+  if(t.paused()||!recoveryReview(o)&&!t.authProbe()||t.leaseUntil()!=null&&t.leaseUntil()>now)return null;
   if("WAITING_PAYMENT".equals(o.businessStatus())&&"DONE".equals(t.runState())){var row=dao.closeRow(id);if(row.deadline()==null||row.deadline()>now)return null;update(t,"QUERY",Math.incrementExact(t.intentVersion()),"READY",now,null,null,t.attemptCount(),t.failureCount(),t.alerted(),null);t=dao.readTask(id);}
   if(!Set.of("RESERVE","QUERY","CLOSE").contains(t.intent())||!Set.of("READY","LEASED").contains(t.runState())||t.nextAttempt()>now||"CLOSED".equals(o.businessStatus()))return null;
   String intent=t.authProbe()||t.runState().equals("LEASED")&&o.mayHaveDispatched()?"QUERY":t.intent();long iv=t.intentVersion()+(intent.equals(t.intent())?0:1);String token=UUID.randomUUID().toString();update(t,intent,iv,"LEASED",now,token,Math.addExact(now,leaseMillis),t.attemptCount(),t.failureCount(),t.alerted(),null);return new TradeLease(id,token,intent,iv);
  });}
  private static boolean current(TradeTaskRow t,TradeLease lease,long now){return !t.paused()&&t.runState().equals("LEASED")&&Objects.equals(t.leaseToken(),lease.token())&&t.intent().equals(lease.intent())&&t.intentVersion()==lease.intentVersion()&&t.leaseUntil()!=null&&t.leaseUntil()>now;}
- public TradeDispatch beforeSend(TradeLease lease){return tx.execute(s->{var l=lock(lease.orderId());if(l==null||!"HELD".equals(l.reservation))return null;long now=orderDao.now();var o=l.order;var t=l.task;if(!current(t,lease,now)||o.reviewRequired()&&!t.authProbe()||"CLOSED".equals(o.businessStatus()))return null;
+ public TradeDispatch beforeSend(TradeLease lease){return tx.execute(s->{var l=lock(lease.orderId());if(l==null||!"HELD".equals(l.reservation))return null;long now=orderDao.now();var o=l.order;var t=l.task;if(!current(t,lease,now)||!recoveryReview(o)&&!t.authProbe()||"CLOSED".equals(o.businessStatus()))return null;
   if("PROCESSING".equals(o.businessStatus())&&now>=o.reserveWaitDeadline()){close(l,"ORDER_ABORT","RESERVE_WAIT_EXPIRED",now);return null;}
   if(t.authProbe()&&!"QUERY".equals(lease.intent()))throw new IllegalStateException("Read-only auth probe required");
   if("CLOSING".equals(o.businessStatus())&&"RESERVE".equals(lease.intent()))return null;
@@ -45,7 +52,7 @@ public final class TradeRepository implements ITradeRepository,IOrderLifecycleRe
   if(lease.intent().equals("RESERVE")&&!o.mayHaveDispatched())dao.mark(o.orderId(),now);
   String method=lease.intent().toLowerCase(Locale.ROOT),requestId=UUID.randomUUID().toString(),attempt=UUID.randomUUID().toString();dao.attempt(attempt,lease,OrderService.hash(lease.token()),requestId,method,now);update(t,t.intent(),t.intentVersion(),"LEASED",t.nextAttempt(),t.leaseToken(),t.leaseUntil(),Math.incrementExact(t.attemptCount()),t.failureCount(),t.alerted(),t.lastError());return new TradeDispatch(lease,orders.byId(o.confirmation().userId(),o.orderId()),method,requestId,attempt,request);
  });}
- public boolean complete(TradeDispatch d,TradeReply reply){long received=orderDao.now();return Boolean.TRUE.equals(tx.execute(s->{var l=lock(d.lease().orderId());if(l==null)return false;long now=orderDao.now();boolean valid=current(l.task,d.lease(),now)&&"HELD".equals(l.reservation)&&!"CLOSED".equals(l.order.businessStatus())&&(!l.order.reviewRequired()||l.task.authProbe());String code=safe(reply.code());Object result=reply.closeEvidence()!=null?reply.closeEvidence():reply.evidence();dao.finish(d.attemptId(),now,code,result==null?null:OrderService.hash(encode(result)),!valid);if(!valid)return false;
+ public boolean complete(TradeDispatch d,TradeReply reply){long received=orderDao.now();return Boolean.TRUE.equals(tx.execute(s->{var l=lock(d.lease().orderId());if(l==null)return false;long now=orderDao.now();boolean valid=current(l.task,d.lease(),now)&&"HELD".equals(l.reservation)&&!"CLOSED".equals(l.order.businessStatus())&&(recoveryReview(l.order)||l.task.authProbe());String code=safe(reply.code());Object result=reply.closeEvidence()!=null?reply.closeEvidence():reply.evidence();dao.finish(d.attemptId(),now,code,result==null?null:OrderService.hash(encode(result)),!valid);if(!valid)return false;
   if(AUTH.contains(code)||CONFLICT.contains(code)){review(l,code,now);return true;}
   if(l.task.authProbe()&&!Set.of("0000","NOT_FOUND").contains(code)){review(l,code,now);dao.flags(l.order.orderId(),l.task.paused(),true,false);return true;}
   if(!"0000".equals(code)){
@@ -76,9 +83,9 @@ public final class TradeRepository implements ITradeRepository,IOrderLifecycleRe
  private void close(Locked l,String reason,String code,long now){if("CLOSED".equals(l.order.businessStatus()))return;if(!"NEVER_OPENED".equals(l.order.paymentExposure())){if(paymentClosing!=null&&paymentClosing.begin(l.order,reason,code,now)){schedule(l,"CLOSE",now,code);return;}review(l,"PAYMENT_EXPOSURE_UNKNOWN",now);return;}
   if(!l.order.mayHaveDispatched()&&!l.order.reviewRequired()&&l.order.evidence()==null){finishClose(l,"LOCAL_NEVER_DISPATCHED",now);return;}
   if(dao.closeRow(l.order.orderId()).request()==null){var c=l.order.confirmation();var request=new TreeMap<String,Object>();request.put("source",c.source());request.put("channel",c.channel());request.put("userId",c.userId());request.put("outTradeNo",l.order.orderId());request.put("closeId",UUID.randomUUID().toString());request.put("reason",reason);request.put("paymentDisposition","NEVER_OPENED");request.put("verifiedAt",time(now));String body=encode(request);one(dao.closeIntent(l.order.orderId(),body,OrderService.hash(body),reason,code,now));}
-  update(l.task,"CLOSE",Math.incrementExact(l.task.intentVersion()),l.order.reviewRequired()&&!l.task.authProbe()?"REVIEW_REQUIRED":"READY",now,null,null,l.task.attemptCount(),l.task.failureCount(),l.task.alerted(),code);
+  update(l.task,"CLOSE",Math.incrementExact(l.task.intentVersion()),!recoveryReview(l.order)&&!l.task.authProbe()?"REVIEW_REQUIRED":"READY",now,null,null,l.task.attemptCount(),l.task.failureCount(),l.task.alerted(),code);
  }
- private void finishClose(Locked l,String basis,long now){if(!"HELD".equals(l.reservation)||!closeSafe(l.order)||l.order.reviewRequired()){review(l,"CLOSE_FINALIZATION_CONFLICT",now);return;}var c=l.order.confirmation();if(!Objects.equals(orderDao.guard(c.userId(),c.conditions().goodsId()),l.order.orderId())){review(l,"PURCHASE_GUARD_CONFLICT",now);return;}
+ private void finishClose(Locked l,String basis,long now){if(!"HELD".equals(l.reservation)||!closeSafe(l.order)||!recoveryReview(l.order)){review(l,"CLOSE_FINALIZATION_CONFLICT",now);return;}var c=l.order.confirmation();if(!Objects.equals(orderDao.guard(c.userId(),c.conditions().goodsId()),l.order.orderId())){review(l,"PURCHASE_GUARD_CONFLICT",now);return;}
   var r=stock.get(c.conditions().goodsId(),true);var before=new InventoryAccount(r.goodsId(),r.available(),r.reserved(),r.sold(),r.version(),r.updatedAt());InventoryAccount after;try{after=before.release(1,now);}catch(Exception capacity){review(l,"INVENTORY_RELEASE_CONFLICT",now);return;}
   one(dao.release(l.order.orderId(),now,basis));one(stock.update(new InventoryRow(after.goodsId(),after.available(),after.reserved(),after.sold(),after.version(),after.updatedAt())));one(dao.releaseLedger(UUID.randomUUID().toString(),l.order.orderId(),before,after,basis));one(dao.clearGuard(c.userId(),c.conditions().goodsId(),l.order.orderId(),now));one(dao.closed(l.order.orderId(),now,basis));update(l.task,"NONE",Math.incrementExact(l.task.intentVersion()),"DONE",now,null,null,l.task.attemptCount(),0,l.task.alerted(),null);one(dao.flags(l.order.orderId(),false,false,false));
  }

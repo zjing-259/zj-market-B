@@ -1,3 +1,17 @@
+> 当前状态（2026-10-11）：B-05.6联合故障验收与B-06交接已完成支持范围内验收。最终同包106项JUnit/前端构建、新SQL及跨JVM/浏览器、真实A无人/部分付款停机退款释放/全付款最后事件成团竞争、逐单资金库存及A名额只读核验、原三专项/交接审计/普通启动均通过。推荐D26～D28已写双路线图，证据及边界见[b05-development.md第15.2节](b05-development.md)、[B-06交接](b05-b06-handoff.md)与[持久验收摘要](tests/b05-joint-acceptance.json)。取消后异常收款正向自动资格未开放，隔离验收通过；此限制不宣称全自动闭环。b-05/53ad32d，全部成果未提交/合并/推送，B-06未开展。下文旧阶段状态保留历史时点。
+
+> 当前状态（2026-10-11）：B-05.5库存收尾及运营页面已完成本阶段验收。双B库V18/runtime48表精确DML；最终同包106项JUnit、SQL05及跨JVM、实际B HTTP浏览器04、真实A live02停机退款/释放/新B重放/恢复后同步、原关单/结算/履约回归、只读交接审计及普通启动均通过。推荐D21～D25已写双路线图，详情见[b05-development.md第14.3节](b05-development.md)。最终只读归档target/refund/b055-20261011-delivery-03/report.json；.6完整联合故障矩阵未开展。b-05/53ad32d，全部阶段改动未提交/合并/推送。下文带日期的旧状态保留历史时点。
+
+> 当前状态（2026-10-11）：B-05.4可信退款事实与A同步已实现并通过同包业务验收；b-05/53ad32d，阶段变更未提交/合并/推送。双B库V16/runtime46表精确DML；103项JUnit、SQL03/跨JVM、实际A live-02停启/签名MQ/严格查询/新B进程、关单/结算/履约回归及普通启动通过。推荐D18～D20已保存双路线图；最终归档见target/refund/b054-20261011-delivery-02/report.json，过程见[b05-development.md第13.2节](b05-development.md)。付费HELD/guard保留；库存释放/HTTP/页面归.5、完整联合矩阵归.6。A外部并行改动保持，实际验收A包及契约不变。下列旧状态保留历史时点。
+
+> 当前状态（2026-10-11）：B-05.3独立模拟退款已完成并验收通过；b-05/53ad32d，全部阶段变更未提交/合并/推送。双B库V15、runtime46表精确DML；99项JUnit、同包SQL/跨JVM、真实A完整核对资格及自有A停止后独立退款、关单/结算/履约回归和普通包默认启动通过。新增推荐D15～D17已保存双路线图。最终报告target/refund/b053-20261011-delivery-02/report.json；详见[B-05过程12.2](b05-development.md)。退款MQ/库存释放/运营及页面归.4/.5，.4～.6未开展；下列旧状态保留历史时点。
+
+B-05.3 V15已在双B库落地，新增b_refund_attempt、b_refund_task、b_sim_refund、b_sim_refund_attempt、b_sim_refund_notification五表，runtime46表精确DML。增量扩展b_refund资金状态/current_attempt_id/fact_version/成功事实与复合FK，保留V14字节；原支付/库存/消息表无资金改写。渠道payment唯一refund根、退款根全额上限CHECK、每根成功attempt唯一slot、通知(attemptId,factVersion)唯一，市场同根锁控制一个活动尝试；真实SQL并发和回滚已验。V16退款Outbox及V17释放/审计尚未迁移，不能把46表说成48表。
+
+> 当前状态（2026-10-11）：B-05.2到期完整核对已完成并验收通过；工作树D:/Java/zj-market-b-05，分支b-05/53ad32d，改动未提交/合并/推送。双B库V14、41表精确DML；87项JUnit、最终同包真实A成团竞争/部分付款丢响应跨JVM恢复、SQL及关单/结算/履约回归通过。最终报告target/reconciliation/b052-20261011-delivery-03/report.json；详见[B-05过程11.4](b05-development.md)。退款义务已持久化，资金仍NONE、付费HELD保留；退款执行归.3，.3～.6未开展。下列暂停及旧阶段记录保留历史时点，以本条和11.4为当前状态。
+
+V14__reconciliation_and_refund_obligations.sql已显式应用双B库，新增b_reconciliation_task、b_reconciliation_member、b_reconciliation_submission、b_refund、b_trade_evidence_link、b_order_block六表。runtime只精确41表DML，无DDL/history/A/system/grant；provision和verification权限白名单同步。V1～V13含V10_1不变，历史资金/HELD/guard/原文保留。b_refund当前只允许funds NONE，.3须用追加迁移扩展，不能修改已应用V14；V15～V17与46/48表仍设计计划，尚未执行。
+
 # B-01：独立数据库与访问边界
 
 > B-04.3当前增量（2026-10-10）：见[B-04过程第12节](b04-development.md)。V11及34张B表DML、可信资金/独立交易消息、D6持久接管已完成验收；普通支付写与交易恢复装配默认关闭。开放后关闭证明/待履约归.4/.5；以下旧阶段配置/表数保留历史时点。
@@ -110,3 +124,17 @@ database入口支持外部环境变量；设置B_DATABASE_URL时优先使用环�
 ## 2026-10-10历史状态校正复杂度
 
 此次文档维护复杂度低：依据Git归档修正当前入口并明确历史实施范围，保留原验收批次、路径和指纹；未改变业务规则或重新执行业务验收。后续详细过程维护于 [B-04开发过程](b04-development.md)，总体进度同步[路线图](development-roadmap.md)。
+
+## B-05.4 V16增量（2026-10-11）
+
+双B库已执行V16__trusted_refund_sync.sql，无新表，runtime46表DML及原DDL/history/A/system/grant拒绝边界保持。b_trade_outbox新增refund_id及(refund_id,payment_id,order_id)复合FK，原uk_trade_fact(payment_id,event_type,fact_version)保留；支付仅version1且refund_id=NULL，退款正版本且refund_id非空。V11原匿名CHECK通过metadata精确定位替换，不假定chk_1等编号。b_refund新增sync_status/accepted_version/accepted_status/a_record_version/sync_error，接受版本不超本地fact_version且状态成组；b_trade_inbox新增authority/authority_hash成组保存完整typed Trade.query快照，MQ原body/hash保持独立。V1～V15不可改写，后续用增量迁移。
+
+## B-05.5 数据库增量（2026-10-11）
+
+双B库已显式应用V17__refund_release_and_operations.sql与V18__refund_check_schedule.sql，runtime48表精确DML，无DDL/Flyway历史/A/system/grant。V17新增b_refund_release（原order唯一/退款根唯一、支付复合绑定、原RELEASE流水与冻结证明）及b_refund_operation（actor+operationId请求/结果hash审计）；扩展FULL_REFUND_CONFIRMED关闭依据、独立释放状态及查询标记。V18持久CHECK前due_ms，完成查询恢复原计划。V17已落库后不得改写，故独立追加V18；所有V1～V18校验和已归档保持。
+
+已付款且RELEASED仅在可信全额退款、终局资格及原唯一释放证明核验通过时合法；UNKNOWN及证据矛盾仍不得释放。账户available+1/reserved-1/sold不变、原流水/关闭/guard/work及账本同事务，重放不改库存。已退款资金、原支付及消息字节保留，不靠清库完成验收。实际双库权限与回滚/行锁/唯一性证据见过程14.3。
+
+## B-05.6 验收接续（2026-10-11）
+
+本阶段零新迁移，双库V18/48表精确DML复验通过，旧V1～V18校验和保持；库存账户等于完整库存流水增量，明确本批订单唯一RESERVE及各终局RELEASE/CONFIRM，渠道全额成功退款不超原收款。A名额额外由verification容器管理员只读固定隔离库/三个本批团队核验，B runtime无A库权限仍被否决。原资金/工作/退款/HELD/guard/消息字节保护见过程15.2和持久摘要。部署迁移/备份回滚归B-06，不能据本次验收降schema或清历史样本。

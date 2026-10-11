@@ -1,3 +1,17 @@
+> 当前状态（2026-10-11）：B-05.6联合故障验收与B-06交接已完成支持范围内验收。最终同包106项JUnit/前端构建、新SQL及跨JVM/浏览器、真实A无人/部分付款停机退款释放/全付款最后事件成团竞争、逐单资金库存及A名额只读核验、原三专项/交接审计/普通启动均通过。推荐D26～D28已写双路线图，证据及边界见[b05-development.md第15.2节](b05-development.md)、[B-06交接](b05-b06-handoff.md)与[持久验收摘要](tests/b05-joint-acceptance.json)。取消后异常收款正向自动资格未开放，隔离验收通过；此限制不宣称全自动闭环。b-05/53ad32d，全部成果未提交/合并/推送，B-06未开展。下文旧阶段状态保留历史时点。
+
+> 当前状态（2026-10-11）：B-05.5库存收尾及运营页面已完成本阶段验收。双B库V18/runtime48表精确DML；最终同包106项JUnit、SQL05及跨JVM、实际B HTTP浏览器04、真实A live02停机退款/释放/新B重放/恢复后同步、原关单/结算/履约回归、只读交接审计及普通启动均通过。推荐D21～D25已写双路线图，详情见[b05-development.md第14.3节](b05-development.md)。最终只读归档target/refund/b055-20261011-delivery-03/report.json；.6完整联合故障矩阵未开展。b-05/53ad32d，全部阶段改动未提交/合并/推送。下文带日期的旧状态保留历史时点。
+
+> 当前状态（2026-10-11）：B-05.4可信退款事实与A同步已实现并通过同包业务验收；b-05/53ad32d，阶段变更未提交/合并/推送。双B库V16/runtime46表精确DML；103项JUnit、SQL03/跨JVM、实际A live-02停启/签名MQ/严格查询/新B进程、关单/结算/履约回归及普通启动通过。推荐D18～D20已保存双路线图；最终归档见target/refund/b054-20261011-delivery-02/report.json，过程见[b05-development.md第13.2节](b05-development.md)。付费HELD/guard保留；库存释放/HTTP/页面归.5、完整联合矩阵归.6。A外部并行改动保持，实际验收A包及契约不变。下列旧状态保留历史时点。
+
+> 当前状态（2026-10-11）：B-05.3独立模拟退款已完成并验收通过；b-05/53ad32d，全部阶段变更未提交/合并/推送。双B库V15、runtime46表精确DML；99项JUnit、同包SQL/跨JVM、真实A完整核对资格及自有A停止后独立退款、关单/结算/履约回归和普通包默认启动通过。新增推荐D15～D17已保存双路线图。最终报告target/refund/b053-20261011-delivery-02/report.json；详见[B-05过程12.2](b05-development.md)。退款MQ/库存释放/运营及页面归.4/.5，.4～.6未开展；下列旧状态保留历史时点。
+
+B-05.3配置增量：b.refund.enabled/B_REFUND_ENABLED默认false（发现并接管新ELIGIBLE义务），recovery-enabled/B_REFUND_RECOVERY_ENABLED默认true，scheduler-enabled/B_REFUND_SCHEDULER_ENABLED默认true。依赖trade.events能力和V15；enabled或recovery-enabled任一为true才装配，scheduler=false停后台，enabled=false不会终止已承担任务。显式provision后再启，普通启动不迁移。scan-millis=2000、timeout-millis=10000、lease-millis=30000、renew-millis=20000、retry-base-millis=2000、retry-cap-millis=30000、jitter-millis=250，均可用对应B_REFUND_*环境变量覆盖；启动检查正值、timeout<lease、renew<lease等，5次失败告警仍恢复。无普通故障HTTP或用户退款结果按钮。真实验收工具可指定AProviderRpcPort/AProviderHttpPort（默认50051/18091，本轮50052/18092），基线工具和B TLS端点一同设置，清理只涉及自有进程/端口。具体复现见过程12.2。
+
+> 当前状态（2026-10-11）：B-05.2到期完整核对已完成并验收通过；工作树D:/Java/zj-market-b-05，分支b-05/53ad32d，改动未提交/合并/推送。双B库V14、41表精确DML；87项JUnit、最终同包真实A成团竞争/部分付款丢响应跨JVM恢复、SQL及关单/结算/履约回归通过。最终报告target/reconciliation/b052-20261011-delivery-03/report.json；详见[B-05过程11.4](b05-development.md)。退款义务已持久化，资金仍NONE、付费HELD保留；退款执行归.3，.3～.6未开展。下列暂停及旧阶段记录保留历史时点，以本条和11.4为当前状态。
+
+核对配置：b.reconciliation.enabled / B_RECONCILIATION_ENABLED=false控制发现新任务；recovery-enabled / B_RECONCILIATION_RECOVERY_ENABLED=true恢复既有任务；scheduler-enabled / B_RECONCILIATION_SCHEDULER_ENABLED=true控制调度。配置装配还要求b.trade.events-enabled=true及原订单/关闭/支付渠道、认证TLS RPC和V14 schema能力，普通默认启动不启外部能力。恢复不是新任务发现；checkout关闭不终止原任务恢复。显式provision迁移/授权后才启业务，普通包不迁移。固定2秒扫描/10秒A调用/30秒租约与有界退避已实现，退款参数化/续租未实现。验收入口run-b05-reconciliation.ps1、run-b03-readiness.ps1的WithReconciliation或WithReconciliationCompletion（各用新批次），最终collect-b05-reconciliation.py；参数及证据见过程11.4。
+
 > B-04.6最新启动接续（2026-10-10）：.0～.6按模拟范围已完成，b-04/7cef241，全部成果未提交；双库V13/35表、77项JUnit及同包联合验收通过。唯一详细事实见[B-04过程第15节](b04-development.md)，B-05从[b04-b05-handoff.md](b04-b05-handoff.md)接完整核对/退款。普通写默认关闭，原资金/HELD/guard及待处理工作保留；B-05/B-06待开展。以下旧增量保留其阶段时点。
 
 # B 的统一启动方式
@@ -206,3 +220,21 @@ $env:B_ORDER_RESERVE_WAIT_MILLIS='60000'
 复用以上支付/资金装配，B_TRADE_EVENTS_ENABLED=true启用完整根关闭接续，B_TRADE_SCHEDULER_ENABLED=true运行原关闭扫描（默认true）；B_PAYMENT_CHECKOUT_ENABLED=false只停止新付款，旧订单取消与资金/关闭恢复继续。独立扫描无需新增开关；普通商城只提供原取消入口，不提供故障/资金强制成功/强制释放。先迁移V12，再启用装配；不要将不具备.5/.6的当前阶段作为普通环境完整支付闭环开放。
 
 关闭隔离验证：run-b04-payment-closing.ps1；实际A：run-b03-readiness.ps1 -WithPaymentClosing。均指定JDK21和新的RunName；完整复现及证据见B-04过程第13节。原NEVER_OPENED回归仍由run-b03-closes.ps1验证。
+
+## B-05.4 退款同步装配（2026-10-11）
+
+先用verification迁移并校验V16；普通包无DDL/Flyway。启用B_TRADE_EVENTS_ENABLED=true且退款新接管或恢复任一启用时，RefundConfiguration校验V16并向原SettlementRepository装配退款同步。B_REFUND_ENABLED=false仅停新退款接管；B_REFUND_RECOVERY_ENABLED=true默认保留旧退款渠道恢复，B_REFUND_SCHEDULER_ENABLED控制该资金扫描。退款Outbox/Inbox复用B_TRADE_EVENTS_SCHEDULER_ENABLED和原SettlementJob，不另建MQ消费组；停止资金扫描不代表停止已承担的A同步。必须明确区分关闭全部trade events与仅关闭新接管。
+
+退款网络发送/查询在订单事务外，调用前沿用原交易范围/TLS/HMAC；同步失败采用B_REFUND_RETRY_BASE_MILLIS/CAP_MILLIS/JITTER_MILLIS，默认2/4/8/16/30秒加0～250ms；正常发送确认后30秒查询结果。A的WAITING_DEPENDENCY/NOT_FOUND继续原事件恢复，ACK不记ACCEPTED。完整默认值仍见application.properties。.4不新增普通故障接口或退款HTTP。
+
+隔离退款同步：run-b05-refund-sync.ps1；实际A停启及原事件/乱序/新B进程：run-b03-readiness.ps1 -WithRefundSync -AProviderRpcPort 50052 -AProviderHttpPort 18092（新b054批次）。沿用双库DPAPI凭据与JDK21，不停止50051上的外部A，不改A源配置。具体同包通过范围以过程13最终记录为准。
+
+## B-05.5 启动与验收增量（2026-10-11）
+
+先显式provision迁移双库至V18并授予48表精确DML，普通启动不迁移。本人/运营只读退款接口由b.order.enabled装配并验证V17读schema，独立于新退款接管；CHECK/RETRY还需RefundRepository恢复能力（含V18）。退款收尾恢复器由RefundConfiguration装配，沿用refund.scheduler-enabled，固定2秒扫描；scheduler=false停止其后台，验收仅显式处理本批原工作。既有新接管false/恢复true/普通外部能力默认关闭不变。CHECK仅查询原尝试并恢复原计划，不增加普通故障HTTP。
+
+新增run-b05-refund-release.ps1、run-b05-refund-browser.ps1、run-b05-refund-release-regressions.ps1及collect-b05-refund-release.py；真实A入口run-b03-readiness.ps1 -WithRefundRelease（包含核对及退款同步），仅自有50052/18092。完整参数与同包证据见过程14.3～14.4。浏览器依赖Edge/Web Locks及仓库锁定Playwright；测试令牌仅忽略目录短期存在，用完删除，复跑新SQL批次。写库套件串行运行。
+
+## B-05.6 联合验收与B-06接续（2026-10-11）
+
+联合总入口docs/tests/run-b05-joint.ps1（新b056批次、JDK21）构建一次后串行七阶段，不运行全局旧任务批量清理。readiness新增-ReconciliationPaymentCase NONE用于无人付，默认PARTIAL保持；NONE禁止配退款执行/全付竞争，恢复原环境。额外collect-b05-quota.py只读管理员固定A隔离库本批团队，B运行权限不扩张；collect-b05-joint.py只读归档，通过才可--publish-summary。支持范围结果与完整参数见过程15.2～15.3；配置/迁移/开关不变，B-06交接见b05-b06-handoff.md。

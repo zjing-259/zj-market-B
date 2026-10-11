@@ -1,0 +1,1583 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "B-05核对及退款HTTP增量",
+    "version": "b05.5-implementation",
+    "description": "六操作已实现并通过实际HTTP和浏览器验收；证据见b05-development.md第14.3节。CHECK仅查询原尝试且恢复原执行计划；RETRY仅唤醒明确失败且资格有效的原任务。"
+  },
+  "x-design-status": "implemented-verified",
+  "x-process-document": "b05-development.md",
+  "x-joint-design-document": "b05-joint-design.md",
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "paths": {
+    "/orders/{orderId}/refund": {
+      "parameters": [
+        {
+          "name": "orderId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getOrderRefund",
+        "x-design-status": "implemented-pending-verification",
+        "x-required-role": "OWNER",
+        "summary": "getOrderRefund",
+        "responses": {
+          "200": {
+            "description": "原结果/查询成功",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderRefundViewResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        }
+      }
+    },
+    "/admin/refund-exceptions": {
+      "get": {
+        "operationId": "listRefundExceptions",
+        "x-design-status": "implemented-pending-verification",
+        "x-required-role": "OPERATOR",
+        "summary": "listRefundExceptions",
+        "responses": {
+          "200": {
+            "description": "原结果/查询成功",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefundPageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "fundsStatus",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/FundsStatus"
+            }
+          },
+          {
+            "name": "syncStatus",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/SyncStatus"
+            }
+          },
+          {
+            "name": "releaseStatus",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ReleaseStatus"
+            }
+          },
+          {
+            "name": "alerted",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/admin/refunds/{refundId}": {
+      "parameters": [
+        {
+          "name": "refundId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getRefundException",
+        "x-design-status": "implemented-pending-verification",
+        "x-required-role": "OPERATOR",
+        "summary": "getRefundException",
+        "responses": {
+          "200": {
+            "description": "原结果/查询成功",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefundDetailResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        }
+      }
+    },
+    "/admin/refunds/{refundId}/controls": {
+      "parameters": [
+        {
+          "name": "refundId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "controlRefund",
+        "x-design-status": "implemented-pending-verification",
+        "x-required-role": "OPERATOR",
+        "summary": "controlRefund",
+        "responses": {
+          "200": {
+            "description": "原结果/查询成功",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefundControlReceiptResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "409": {
+            "$ref": "#/components/responses/E409"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          },
+          "202": {
+            "description": "持久受理；不等于退款成功",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefundControlReceiptResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefundControlRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/reconciliations": {
+      "get": {
+        "operationId": "listReconciliations",
+        "x-design-status": "implemented-pending-verification",
+        "x-required-role": "OPERATOR",
+        "summary": "listReconciliations",
+        "responses": {
+          "200": {
+            "description": "原结果/查询成功",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReconciliationPageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ReconciliationStatus"
+            }
+          },
+          {
+            "name": "teamId",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "alerted",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ]
+      }
+    },
+    "/admin/reconciliations/{taskId}": {
+      "parameters": [
+        {
+          "name": "taskId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getReconciliation",
+        "x-design-status": "implemented-pending-verification",
+        "x-required-role": "OPERATOR",
+        "summary": "getReconciliation",
+        "responses": {
+          "200": {
+            "description": "原结果/查询成功",
+            "headers": {
+              "X-Request-Id": {
+                "schema": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReconciliationDetailResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/E400"
+          },
+          "401": {
+            "$ref": "#/components/responses/E401"
+          },
+          "403": {
+            "$ref": "#/components/responses/E403"
+          },
+          "404": {
+            "$ref": "#/components/responses/E404"
+          },
+          "503": {
+            "$ref": "#/components/responses/E503"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^\\S+$"
+      },
+      "Version": {
+        "type": "string",
+        "pattern": "^[1-9][0-9]{0,18}$",
+        "description": "1..9223372036854775807，服务端须检查上界"
+      },
+      "Money": {
+        "type": "string",
+        "pattern": "^(0|[1-9][0-9]*)\\.[0-9]{2}$",
+        "description": "服务端验证大于0并等于原收款全额"
+      },
+      "Instant": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "Reason": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "FundsStatus": {
+        "type": "string",
+        "enum": [
+          "NONE",
+          "PENDING",
+          "UNKNOWN",
+          "FAILED",
+          "SUCCEEDED"
+        ]
+      },
+      "SyncStatus": {
+        "type": "string",
+        "enum": [
+          "NOT_CREATED",
+          "PENDING",
+          "ACCEPTED",
+          "WAITING_DEPENDENCY",
+          "REVIEW_REQUIRED"
+        ]
+      },
+      "ReleaseStatus": {
+        "type": "string",
+        "enum": [
+          "HELD",
+          "READY",
+          "RELEASED",
+          "ALREADY_RELEASED",
+          "REVIEW_REQUIRED"
+        ]
+      },
+      "ReconciliationStatus": {
+        "type": "string",
+        "enum": [
+          "DISCOVERED",
+          "COLLECTING",
+          "READY",
+          "SUBMITTING",
+          "SUBMIT_UNKNOWN",
+          "WAITING_DEPENDENCY",
+          "RESOLVED",
+          "REVIEW_REQUIRED"
+        ]
+      },
+      "RefundSummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "refundId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "orderId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "paymentId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "refundAmount": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "currency": {
+            "const": "CNY"
+          },
+          "fundsStatus": {
+            "$ref": "#/components/schemas/FundsStatus"
+          },
+          "syncStatus": {
+            "$ref": "#/components/schemas/SyncStatus"
+          },
+          "releaseStatus": {
+            "$ref": "#/components/schemas/ReleaseStatus"
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "refundedAt": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Instant"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "refundId",
+          "orderId",
+          "paymentId",
+          "refundAmount",
+          "currency",
+          "fundsStatus",
+          "syncStatus",
+          "releaseStatus",
+          "version",
+          "refundedAt"
+        ]
+      },
+      "OrderRefundView": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "orderId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "refund": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RefundSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "orderId",
+          "refund"
+        ]
+      },
+      "RefundDetail": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "refundId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "orderId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "paymentId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "refundAmount": {
+            "$ref": "#/components/schemas/Money"
+          },
+          "currency": {
+            "const": "CNY"
+          },
+          "fundsStatus": {
+            "$ref": "#/components/schemas/FundsStatus"
+          },
+          "syncStatus": {
+            "$ref": "#/components/schemas/SyncStatus"
+          },
+          "releaseStatus": {
+            "$ref": "#/components/schemas/ReleaseStatus"
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "refundedAt": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Instant"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "eligibilityStatus": {
+            "type": "string",
+            "enum": [
+              "WAITING_ELIGIBILITY",
+              "ELIGIBLE",
+              "REVIEW_REQUIRED"
+            ]
+          },
+          "attemptId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "attemptStatus": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "PENDING",
+              "UNKNOWN",
+              "FAILED",
+              "SUCCEEDED"
+            ]
+          },
+          "refundVersion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Version"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "acceptedRefundVersion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Version"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "failureCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 64
+          },
+          "failureCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "alerted": {
+            "type": "boolean"
+          },
+          "nextAttemptAt": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Instant"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reason"
+            }
+          },
+          "evidenceIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "allowedActions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CHECK",
+                "RETRY"
+              ]
+            }
+          }
+        },
+        "required": [
+          "refundId",
+          "orderId",
+          "paymentId",
+          "refundAmount",
+          "currency",
+          "fundsStatus",
+          "syncStatus",
+          "releaseStatus",
+          "version",
+          "refundedAt",
+          "eligibilityStatus",
+          "attemptId",
+          "attemptStatus",
+          "refundVersion",
+          "acceptedRefundVersion",
+          "failureCode",
+          "failureCount",
+          "alerted",
+          "nextAttemptAt",
+          "reasons",
+          "evidenceIds",
+          "allowedActions"
+        ]
+      },
+      "RefundControlRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "CHECK",
+              "RETRY"
+            ]
+          },
+          "expectedVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "reason": {
+            "$ref": "#/components/schemas/Reason"
+          }
+        },
+        "required": [
+          "operationId",
+          "action",
+          "expectedVersion",
+          "reason"
+        ]
+      },
+      "RefundControlReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "refundId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "CHECK",
+              "RETRY"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "ACCEPTED",
+              "NO_CHANGE"
+            ]
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          }
+        },
+        "required": [
+          "operationId",
+          "refundId",
+          "action",
+          "state",
+          "version"
+        ]
+      },
+      "ReconciliationSummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "taskId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "teamId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "reconciliationId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rosterVersion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "state": {
+            "$ref": "#/components/schemas/ReconciliationStatus"
+          },
+          "teamVersion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Version"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "memberCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "readyCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "alerted": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "taskId",
+          "teamId",
+          "reconciliationId",
+          "rosterVersion",
+          "state",
+          "teamVersion",
+          "memberCount",
+          "readyCount",
+          "version",
+          "alerted"
+        ]
+      },
+      "ReconciliationMember": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "outTradeNo": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "localOrderId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "WAITING",
+              "PAID_ACCEPTED",
+              "CLOSED_UNPAID",
+              "PAID_OUTSIDE_WINDOW",
+              "MISSING_LOCAL",
+              "UNKNOWN",
+              "REVIEW_REQUIRED"
+            ]
+          },
+          "refundId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "failureCode": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "outTradeNo",
+          "userId",
+          "localOrderId",
+          "state",
+          "refundId",
+          "failureCode"
+        ]
+      },
+      "ReconciliationDetail": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "taskId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "teamId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "reconciliationId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rosterVersion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "state": {
+            "$ref": "#/components/schemas/ReconciliationStatus"
+          },
+          "teamVersion": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Version"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "memberCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "readyCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "alerted": {
+            "type": "boolean"
+          },
+          "completionId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "submissionState": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "FROZEN",
+              "SENDING",
+              "UNKNOWN",
+              "ACKNOWLEDGED",
+              "REVIEW_REQUIRED"
+            ]
+          },
+          "members": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/ReconciliationMember"
+            }
+          },
+          "evidenceIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        },
+        "required": [
+          "taskId",
+          "teamId",
+          "reconciliationId",
+          "rosterVersion",
+          "state",
+          "teamVersion",
+          "memberCount",
+          "readyCount",
+          "version",
+          "alerted",
+          "completionId",
+          "submissionState",
+          "members",
+          "evidenceIds"
+        ]
+      },
+      "RefundPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "page": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/RefundSummary"
+            }
+          }
+        },
+        "required": [
+          "page",
+          "size",
+          "total",
+          "items"
+        ]
+      },
+      "ReconciliationPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "page": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "items": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/ReconciliationSummary"
+            }
+          }
+        },
+        "required": [
+          "page",
+          "size",
+          "total",
+          "items"
+        ]
+      },
+      "OrderRefundViewResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/OrderRefundView"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "RefundDetailResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RefundDetail"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "RefundControlReceiptResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RefundControlReceipt"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "ReconciliationDetailResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ReconciliationDetail"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "RefundPageResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RefundPage"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "ReconciliationPageResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ReconciliationPage"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "null"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ]
+      }
+    },
+    "responses": {
+      "E400": {
+        "description": "参数无效",
+        "headers": {
+          "X-Request-Id": {
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "type": "string",
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "E401": {
+        "description": "未登录或凭据无效",
+        "headers": {
+          "X-Request-Id": {
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "type": "string",
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "E403": {
+        "description": "缺少OPERATOR权限",
+        "headers": {
+          "X-Request-Id": {
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "type": "string",
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "E404": {
+        "description": "不存在或非本人订单",
+        "headers": {
+          "X-Request-Id": {
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "type": "string",
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "E409": {
+        "description": "版本/操作键/资格冲突，UNKNOWN不可RETRY",
+        "headers": {
+          "X-Request-Id": {
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "type": "string",
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "E503": {
+        "description": "数据库/必要能力不可用",
+        "headers": {
+          "X-Request-Id": {
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "Cache-Control": {
+            "schema": {
+              "type": "string",
+              "const": "no-store"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-design-decisions": [
+    "B05-D4",
+    "B05-D5",
+    "B05-D6",
+    "B05-D7",
+    "B05-D8",
+    "B05-D9",
+    "B05-D10",
+    "B05-D11"
+  ],
+  "x-migration-plan": [
+    {
+      "version": 14,
+      "phase": "B-05.2",
+      "tables": [
+        "b_reconciliation_task",
+        "b_reconciliation_member",
+        "b_reconciliation_submission",
+        "b_refund",
+        "b_trade_evidence_link",
+        "b_order_block"
+      ],
+      "runtimeTables": 41
+    },
+    {
+      "version": 15,
+      "phase": "B-05.3",
+      "tables": [
+        "b_refund_attempt",
+        "b_refund_task",
+        "b_sim_refund",
+        "b_sim_refund_attempt",
+        "b_sim_refund_notification"
+      ],
+      "runtimeTables": 46
+    },
+    {
+      "version": 16,
+      "phase": "B-05.4",
+      "tables": [],
+      "runtimeTables": 46
+    },
+    {
+      "version": 17,
+      "phase": "B-05.5",
+      "tables": [
+        "b_refund_release",
+        "b_refund_operation"
+      ],
+      "runtimeTables": 48
+    }
+  ],
+  "x-order-response-extension": {
+    "status": "design-only",
+    "optionalFields": {
+      "refundSummary": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/RefundSummary"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "reconciliationSummary": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/ReconciliationSummary"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "description": "已有订单HTTP可选投影扩展；历史b03/b04规范不改，.5实现时同步实际契约"
+  },
+  "x-examples": {
+    "noRefund": {
+      "code": "0000",
+      "message": "成功",
+      "data": {
+        "orderId": "order-demo-1",
+        "refund": null
+      },
+      "requestId": "req-demo-1"
+    },
+    "control": {
+      "operationId": "operation-demo-1",
+      "action": "RETRY",
+      "expectedVersion": "3",
+      "reason": "明确失败后请求再次自动执行"
+    }
+  }
+}

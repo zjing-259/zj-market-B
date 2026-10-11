@@ -76,7 +76,8 @@ public class EnvironmentProbe implements ApplicationRunner, ExitCodeGenerator {
         try {
             require(Runtime.version().feature() == 21, "Actual runtime must be JDK 21");
             require("dev".equals(setting("b.verification.environment", "dev")), "Probe uses isolated local dev only");
-            require("tri://127.0.0.1:50051?ssl-enabled=true".equals(rpc.getUrl()), "Local TLS provider");
+            int ownedPort=Integer.parseInt(System.getenv().getOrDefault("B_PROBE_RPC_PORT","50051"));
+            require(ownedPort>=1024&&ownedPort<=65535&&("tri://127.0.0.1:"+ownedPort+"?ssl-enabled=true").equals(rpc.getUrl()), "Explicit local TLS provider");
             require(source().equals(mq.getSource()) && channel().equals(mq.getChannel())
                     && rpc.getClientId().equals(mq.getProducerId()), "RPC/MQ authorization scope must agree");
             verify();

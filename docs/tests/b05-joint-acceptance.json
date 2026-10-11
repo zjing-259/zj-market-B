@@ -1,0 +1,1104 @@
+{
+  "stage": "B-05.6",
+  "status": "PASSED",
+  "scope": "current supported simulated channel; fresh actual A/TLS/signed MQ NONE/PARTIAL/ALL-paid competition, real SQL controlled faults, independent refund channel, inventory/HTTP/browser/three original regressions; explicit limits below",
+  "limitations": [
+    "CANCELLED_LATE_PAYMENT eligibility production and ALREADY_RELEASED positive off-contract channel funding are not enabled. Normal channel rejects payment after root close; in-window channel PAID/A CANCELLED is tested for safe isolation, original funds/HELD/guard preservation and no fabricated declaration. Extending this requires separate provider design and acceptance.",
+    "No third-party money or production/cross-host/middleware outage certification. A outage affects only owned test provider ports; shared middleware remains running."
+  ],
+  "verificationJarSha256": "b8245ae51b3085ccfe9a0112467287211d777b276dec5c9e4eae4eae979ef28b",
+  "applicationJarSha256": "b17ded82736ad7435814a247360bab7c86c525979fccf4a6eab08688dca5cfec",
+  "junit": {
+    "tests": 106,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "originalProtectedRows": 4014,
+  "originalProtectedMissingOrChanged": 0,
+  "coverage": [
+    {
+      "case": "NONE full roster / original complete response loss / new JVM / 3 unpaid releases",
+      "status": "PASSED",
+      "provenance": "actual A/TLS",
+      "evidence": "b055-b056-20261011-01-none"
+    },
+    {
+      "case": "PARTIAL / original A stopped / independent full refund / atomic release / new B / restarted A signed MQ and authenticated queries",
+      "status": "PASSED",
+      "provenance": "actual A/TLS/MQ + independent simulated money",
+      "evidence": "b055-b056-20261011-01-partial"
+    },
+    {
+      "case": "ALL paid in-window / last event after expiry / reconciliation competition / 3 CONFIRM and PENDING / no refund",
+      "status": "PASSED",
+      "provenance": "actual A/TLS/MQ",
+      "evidence": "b055-b056-20261011-01-completed"
+    },
+    {
+      "case": "missing member / no partial submission / outside-window declaration and eligibility / lease expiry and token swap / rollback / owned blocks / legacy review / in-window paid and A cancelled isolation",
+      "status": "PASSED",
+      "provenance": "real MySQL + explicitly controlled A and owned channel fault",
+      "evidence": "b055-b056-20261011-01-reconciliation"
+    },
+    {
+      "case": "M1/C1/M2 crashes / timeout / lost response and notification / FAILED retries and alert / UNKNOWN same key / locks / renewal / immutable versions and Outbox / strict signed receipts and wrong bindings / full query / release rollback concurrent replay and later guard / actual HTTP controls",
+      "status": "PASSED",
+      "provenance": "real MySQL + independent simulated refund channel + controlled A",
+      "evidence": "b055-b056-20261011-01-sql"
+    },
+    {
+      "case": "buyer/operator auth and detail / desktop and 390px / read refresh zero writes / committed operation response loss original-body replay",
+      "status": "PASSED",
+      "provenance": "actual B HTTP browser; saved controlled qualification",
+      "evidence": "b055-b056-20261011-01-browser"
+    },
+    {
+      "case": "original payment closing / paid notification delay / root arbitration / settlement / team conflict / fulfillment / original new JVM recovery",
+      "status": "PASSED",
+      "provenance": "real MySQL + controlled A; original B04 regression",
+      "evidence": "b055-b056-20261011-01"
+    },
+    {
+      "case": "proof-aware global read-only audit / ordinary defaults and no Flyway / exact grants / unchanged migrations and external worktrees",
+      "status": "PASSED",
+      "provenance": "read-only SQL/package/process",
+      "evidence": "b055-b056-20261011-01-handoff"
+    }
+  ],
+  "migrationSha256": {
+    "zj-market-infrastructure/src/main/resources/db/migration/V10_1__payment_receipt_integrity.sql": "a6643db499eab2017d291e3850e10695ea0b0b499664fb583a78806918665fcc",
+    "zj-market-infrastructure/src/main/resources/db/migration/V10__payment_and_simulated_channel.sql": "09fb9b6c156e48461fd81c373d8d2639cdbc6cb58332141ec198e1259577d358",
+    "zj-market-infrastructure/src/main/resources/db/migration/V11__trusted_payment_and_trade_messages.sql": "8400c406aa94ed47a31043b8391e78841732a54ac3adfbf2dba912d70a39c1c6",
+    "zj-market-infrastructure/src/main/resources/db/migration/V12__payment_root_close_proof.sql": "b03531a26ba7e074b566d48ec86f5a7ac336fe1cfb6ed8dee92d9af161461abf",
+    "zj-market-infrastructure/src/main/resources/db/migration/V13__group_completion_and_fulfillment.sql": "ae8229b349db7c6a9bff17d2f636110de5d8266c079617c443049d3f6974ca2e",
+    "zj-market-infrastructure/src/main/resources/db/migration/V14__reconciliation_and_refund_obligations.sql": "3dc11745859cc9306c1f1b471e27b4a9e193a21f61c6cd0ddf0832b1b30d735b",
+    "zj-market-infrastructure/src/main/resources/db/migration/V15__independent_simulated_refunds.sql": "d9e5af1a5d31450b87829c9160e7ee4a9d1f8f31f8dd0287cfbf327cefeabd41",
+    "zj-market-infrastructure/src/main/resources/db/migration/V16__trusted_refund_sync.sql": "c12534969af82502487276b8cbc552ef9e62f48779a99e3d4ddfe5b843ac07fa",
+    "zj-market-infrastructure/src/main/resources/db/migration/V17__refund_release_and_operations.sql": "8272de979150529d34134e3c63e2714cb375230a9427c3d2661b8c92fba4c7fc",
+    "zj-market-infrastructure/src/main/resources/db/migration/V18__refund_check_schedule.sql": "2c4ddeebb872c62186e7d85cdf734c397bc729fb75b4332c14556ab06b7ee7f7",
+    "zj-market-infrastructure/src/main/resources/db/migration/V1__database_boundary.sql": "e15907b5e0e6efb4cef7cf014b936419885a11ba142db32766f51fe913e8bccf",
+    "zj-market-infrastructure/src/main/resources/db/migration/V2__identity.sql": "fa9e3656f319516f668e5144532475ed5c62bee7737b03d594ea35cc301ddde4",
+    "zj-market-infrastructure/src/main/resources/db/migration/V3__product_authority.sql": "09a93fb70b5114638c53ef8ecc9b5497fbfaf31139f29cb289a42b3740502813",
+    "zj-market-infrastructure/src/main/resources/db/migration/V4__reliable_product_sync.sql": "b1d56616314c4721722d87e7e2330492c3fe85061eed4387e45a25db56848150",
+    "zj-market-infrastructure/src/main/resources/db/migration/V5__inventory_foundation.sql": "391597b09115db1fdc6c88e233e7c6ad539469df3afcf9f651c98ca9f2d245d4",
+    "zj-market-infrastructure/src/main/resources/db/migration/V6__inventory_request_audit.sql": "848970f67a8b84efe69d5c862b8ecf72ca7a1fdb1f219dca4d9f7ea4e4f24ff3",
+    "zj-market-infrastructure/src/main/resources/db/migration/V7__local_order_reservation.sql": "9c13b9ccc931f76fdcf2c18b11009b277cb3a7d1582db6518de2fbcfef14bf7d",
+    "zj-market-infrastructure/src/main/resources/db/migration/V8__trade_reservation_recovery.sql": "bd907735fd1d43a1016d1c2bbd7e66c75df57e39ebbde0d2abc91aff999a749b",
+    "zj-market-infrastructure/src/main/resources/db/migration/V9__unpaid_close_and_order_operations.sql": "57aae3282de2322f6615331edd375b0c48832a7a97d55dcf470a55650b97b071"
+  },
+  "AProvenance": {
+    "head": "8c0a3faee01d20730f05c7a357a491bb4438027f",
+    "runtimeJarSha256": "223a02521120f6d83cb58220e7cff08839a5b6bcbac9bc5c00bca42f8e6c8392",
+    "contractSha256": "83b02a7ebf5e80b5ef4d1b03936e6b1ca33eed32f6d9c68b451e855c6192d7dd"
+  },
+  "frontendSourceSha256": {
+    "frontend\\src\\App.vue": "b4a2ab927386893d60069450341aa305ccc25ddb1096ba98a0977a18955231db",
+    "frontend\\src\\main.ts": "91abcb0ebb5bc958d977869ed7633b3a5fe046159fa4e2b82bb7aaf953d91411",
+    "frontend\\src\\components\\RefundProgress.vue": "c62e2c34e7209e3820d2d7f4412637c9cc760be8f805bfb5e2899806ff13c92c",
+    "frontend\\src\\errors\\ApiError.ts": "48f48b985701e7bd7242a7f85b71d03994eb20917e863ebc334e2ba6191a1806",
+    "frontend\\src\\services\\auth.ts": "d6d1df80d708eaf638ec9ca8437b815d94b76bc7990e0ac3f749a7aca2ca1253",
+    "frontend\\src\\services\\inventory.ts": "438c566cab58ece29a2fe009b9ab4a34e4738654a04f66ecaa5ab96326784f39",
+    "frontend\\src\\services\\orderLifecycle.ts": "bd69406397b4e382b9909ca826e798e21375ca3107b73850da138e171c5b4c8b",
+    "frontend\\src\\services\\orders.ts": "4609c808e02785ee31c8144436e03206cebe99ae143b1ca08810b5b7e7412e51",
+    "frontend\\src\\services\\payments.ts": "79b66398421f9959dd17d4e22bf75d7b36199245643fdf5b7c3f6be7234fe3ea",
+    "frontend\\src\\services\\refunds.ts": "4857f7b1bb931acae68c248990f1673b626b40d809b302fa7ab649c88534899b",
+    "frontend\\src\\styles\\style.css": "5ab677904c05d29fdeb99f223c334413ae6d8c41839b416706296bf0fb1a297e",
+    "frontend\\src\\types\\http.ts": "d8c33b15dd725e9b8ede426d5686558cb8e85450d748b545b8c5845e3cb3c1e6",
+    "frontend\\src\\types\\identity.ts": "dff5545b3d0e1e980b0f38f1553b6912442b1663e2db7683c50934a83049623a",
+    "frontend\\src\\types\\inventory.ts": "57d4c63a174bd5995304c8eb2c9bfebe1c0fd5b70e9da9d2e6da9620d203a397",
+    "frontend\\src\\types\\order.ts": "b891ce32b098d4f3b4c6bb3c723d7955c26be2805e892b2406731ee1f02c75ec",
+    "frontend\\src\\types\\payment.ts": "78969c49b2a3b999da9101a9907767b5b99c60ba0da5ba092f23259af8a02669",
+    "frontend\\src\\types\\product.ts": "b494d39b55b8cad6eaaf513f342dd1473ac03e46766e4719821b77dff163ec6e",
+    "frontend\\src\\types\\refund.ts": "ba2e9fc2e0766f822eecdd943c3858538459af6c6d9b57b4cf878d905ddacfb0",
+    "frontend\\src\\views\\Inventory.vue": "0cb2b82d352283677b8c0f0b46f87bf40f6a83963823ae36336b9852aa93e478",
+    "frontend\\src\\views\\OrderExceptions.vue": "e9e41bba18bfe034632a641f907f0c176eee148fd03a0734ff662032099737c5",
+    "frontend\\src\\views\\Orders.vue": "231a3a0581abebba769050c4c793b41f01237fea73f5778532acb3d8cb081fad",
+    "frontend\\src\\views\\Payment.vue": "5048d37338475a19584dcc8d86e5f7a0fa97aede2b4cdcafa5bc8d8843e223e1",
+    "frontend\\src\\views\\Products.vue": "adceeb8c5eb7328db65ef5e257ad648e962c24ac625a09ea3bf99a439b5a7d9f",
+    "frontend\\src\\views\\PurchasePanel.vue": "eea61e1f407c401e55e6bc0d440df137e21362899ad05743d41752699296b46a",
+    "frontend\\src\\views\\Reconciliations.vue": "ce9da9cf9433ff11ee607864fdf71376ec64c74d724f77b4d614bff086812f35",
+    "frontend\\src\\views\\RefundExceptions.vue": "fbb9f79db6eb000aebce4cb955f6999ad300f94cbf14f3752d7f520da097f3b1",
+    "frontend\\src\\views\\Team.vue": "3aeba6ec89c73d2e3a9dc5c9039b4f75726802dfe1ee50986a6dd0adead408a4"
+  },
+  "sourceSha256": {
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\ActualReconciliationCommands.java": "bca16d3b13b74925c49a80779830215ee252adf27418c7ad3d67898a149bcdc8",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\ActualRefundCommands.java": "20d5d9507a9a0ae6c8154a21d1a5a77f7d7f94be1d3e8ea6454b079e54592d21",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\ActualRefundSyncCommands.java": "57b077cfbe486a2b8eab7559830ead37225c191aa255f841902f224be5c102f5",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\B03ReadinessCommands.java": "780ddacc2f6db74696688a5907b90a6caaa0a63ded55d8b343fc85f981de99e8",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\B04HandoffCommands.java": "c1d4da5f0bb7217a9b109d1a7af52be559dbd647e9934e1df891390f58633d80",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\B05Conservation.java": "a6a618315f8e02826658d66eed8902fe2ad1833dbdbc06ac10df92bc6b8ec172",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\CloseCommands.java": "e59e87caa174248b39470bb442ac048a7000d2fbd70244717d0e57f8f041aeca",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\DatabaseCommands.java": "c67c7901552ad9e9d56dea8fac9c49afa91292652854fe71a499696c898440aa",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\EnvironmentProbe.java": "b6e58ad887a6f3a8fa3eb316d2e440741f22d82ebedf230a02d0b4ca82ef9646",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\FulfillmentCommands.java": "df17d1a1075b0dd427608b96f1d8b9aa775b0841934c734e38a12010d8286e64",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\IdentityCommands.java": "7b91be969ebce77725a19d1837f854f452db708cc2599a12afc1db7c1831fe92",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\InventoryCommands.java": "cf423d1b3c0ae43721b260146be09dfc2763f1d6a4d323a99892b3d639198b56",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\JointFaultCommands.java": "e4aa483bd255fdd70d2c2c142715ab94be3117989caeaf788d452b70e4586beb",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\NotificationLeaseRegression.java": "72a94bc2429a3f219edad88d12e41037e092b59ab2890c9d77b2c1bb88ab64f3",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\OrderCommands.java": "ec5b9ac71777799d063130818772e409d608a400845aa7a7653b574fcba18108",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\PaymentClosingCommands.java": "64e4d34648e2cd275952ed69a9185428c040e9e09d5912af67f7a6e638814c9d",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\PaymentCommands.java": "6a0b5841f6d5dc9a7e00266b3bfebeeff6723790a6721c3dcd375154f3a2addf",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\ProductCommands.java": "8988e466d2fc2193999acccbd62ed5f7b190bfec0cdc0d5c31db4d386c5dbaa9",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\ReconciliationCommands.java": "0c735216ce807beafebff436d860a53a8f60d0ee85e82ab59659896f5c910651",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\RefundBrowserCommands.java": "3ec8f23b21a9dc88ec0a6ac821311d9c4cafd8c16df2bdc3b8bf2f4bb8f40301",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\RefundCommands.java": "410127e1eadd40f7d636f674cbc9b0c0502b56dbd1ec1c02d2830a2043b90f0f",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\RefundReleaseAssertions.java": "dabb981fb5af358b4977b0560cd83456b4c8823147625359ee7a1a5a1148605e",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\RefundSyncAssertions.java": "1f5d2ce344e32d44ae206a9c5a2ec9ffb486ac564220c1e3b85194014b0dd631",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\SettlementCommands.java": "feb92348632715769d1d07236b7028d0601d9e2581cd98bc27e1cc7be6c7e25f",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\SyncAckRestart.java": "688d41fbe2b5f7b650bfe77bb0ae706740bb2efdc11825d9f5ac04467ebf81ac",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\SyncBrowserCommands.java": "ecaf6577800e0b8c63c8829152c34f568656271423e2e684a000829f9cf62ad7",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\SyncCommands.java": "7cb21293e9cecee105d284f186d4c784cd0137c5ed19ac9690f5c2f78ae2cf18",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\SyncDeadLetter.java": "8b07ca20ccd499ed4bf88a1a71f3daf1eb0f458d2bd454def15fb10e0c9bfbbe",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\SyncLeaseRegression.java": "5e226f2b83d4b643e548976b961b243df1204792173943dc1559f07340de4e5a",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\TradeCommands.java": "b729a69928ddb2ebc44a888a2a7bebd0bb8775d608f1fd7013ee74bac600a2f2",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\TrialCommands.java": "19740c14ba7b7843a942d83a55e11d88b34e4c3682d9791b90b2ae6d6af62946",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\TrialRpcFaults.java": "3642d3bb62fac92645341ddc63abd798ac92b5fde0f0ee0877a28d87b4aad878",
+    "zj-market-verification\\src\\main\\java\\cn\\zj\\zjmarket\\verification\\ZjMarketVerificationApplication.java": "8d40479ad02c1182752f7c688edd1f1eb8e033e0544fcd64be7490f82090d16d",
+    "zj-market-types\\src\\main\\java\\cn\\zj\\zjmarket\\types\\package-info.java": "0cc852efaf6428c1cc5d2af6c1e4c3b2cb84e262156e36a200e61df7fef055b5",
+    "zj-market-types\\src\\main\\java\\cn\\zj\\zjmarket\\types\\exception\\AuthFailure.java": "e19ac9634049e49f8493cfd8d9d6b9bc032d57545c03f80be6eaa1f325935216",
+    "zj-market-types\\src\\main\\java\\cn\\zj\\zjmarket\\types\\exception\\InventoryFailure.java": "b25b964a63cbc816d1500e9642ce41dd68c2c847c7d29c9d6cb1011d5f42259c",
+    "zj-market-types\\src\\main\\java\\cn\\zj\\zjmarket\\types\\exception\\OrderFailure.java": "d63e87891d68c45d7edb3f71171a7d1ab3dca6397b6595b3b6b456930a54feb5",
+    "zj-market-types\\src\\main\\java\\cn\\zj\\zjmarket\\types\\exception\\ProductFailure.java": "7a40b065453c1a9d6fcda4ccfc6347bc52ee611e1bf351e587857803e95a4671",
+    "zj-market-types\\src\\main\\java\\cn\\zj\\zjmarket\\types\\exception\\SyncTransportFailure.java": "a3e347cba9a658358cdcd59dcab73ce72e2e7a50f1a1d4fd3295046c35c39958",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\config\\TriggerConfiguration.java": "be0f82ac88a4ac0c7e367a1218edee2b570c99a4a5433ad335ce74bde081c5ba",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\http\\IdentityController.java": "35f568fd784d4989c9cdcca8cdae500bab142b18333257ea402f62a7ac9f8c7b",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\http\\InventoryController.java": "7a554c733b1a11c780fa0ef7860b7f7a6c8db0750eceaa7feb1d26bdcc6c6cb9",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\http\\MarketingTrialController.java": "8117b9ff04a5c59c51f80a30fb27483da2b32516e6f23b3a7349006f0460e4b5",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\http\\OrderController.java": "2035536d8f11d44c8192129340cc17e3c5954e61c7f2715f8847db98b0369c66",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\http\\OrderLifecycleController.java": "e2cb34dbcd9596e9a3abd1ad716d89da345915bd7ee71ea9ff2b5afdf3f94c2b",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\http\\PaymentController.java": "b8ccb9b066f0a9c7d7cb333676fe44f04fcabbe54b14751f63455964572271a2",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\http\\ProductController.java": "691d7d2d885cc7a9226e83e215dd518ba56b8d0825fc50b63ffb923d61a2dd27",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\http\\ProductSyncController.java": "b6bea22a39e2fe17f0169d72a20f92423bcf2f087e5cb145b998f7d05e096ea7",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\http\\RefundController.java": "7a1a9292c20defa9c2839104f900513f00bd5b3fd630d4208c3508e8f150151a",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\http\\TeamController.java": "3cb1abab4c9b446eeb4c6d88315286b99029932a149de00702d470c9f6166196",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\job\\PaymentRecoveryJob.java": "567b8036e37ad504a908524076ba65cb0cd6fc97046152c205b659798c8db421",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\job\\ProductSyncJob.java": "7e9cd089757fe4b636ed01031aadf02d43b1a976e1991e575756f45671df3e5f",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\job\\ReconciliationJob.java": "2fce206ac216efe087f739311638ac81c8431877ee9a58f25fe65854b50e1fc5",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\job\\RefundRecoveryJob.java": "d9b93ae6d086b0800b0538e0f2da47cedbda6eb2ae936cd0a623283848a35d74",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\job\\RefundReleaseJob.java": "a1d8cb374a36f82ad2e3fc962d85e862c506fad70fedd4d6795d0c40d24cb058",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\job\\SettlementJob.java": "9da53741e6ecf8b673eb529ac0732acc27f11f6eeaf91ac11c8863694f7f16cb",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\job\\TradeRecoveryJob.java": "9bd7266f3e9a13bdf3fa378a5387fbb8add440ce6c66832e0d70f6939b7b4073",
+    "zj-market-trigger\\src\\main\\java\\cn\\zj\\zjmarket\\trigger\\adapter\\port\\IBrowserAuthPort.java": "228d7749321bbbc8d880650f72d4634198d96af86b387d65bcdcb1f8e70a0b94",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\IIdentityDao.java": "bec51e2f0d2b292c462777aef9c55ee646fad1538dfc82335665d5506be0275f",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\IInventoryDao.java": "71c1a1a88fcd83ac942cda0895191eaf7c23424358723fa89a973065578c4ece",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\IOrderDao.java": "1fd50d7da537b43404c9f11f3203680abc730d0def2c3fb2aeb14b7624e2651c",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\IProductDao.java": "897eacf186463b5f30881ff968cb1672c3fb2d24f64ae373711fe21d6528c1a1",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\IProductSyncDao.java": "ff8c587be93344321ee6ae75505da3ed29dc59ff59fc399a1a9b44f3f30b9021",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\ITradeDao.java": "5ceb24ca74a897ca94c62613c783c027d3b03db2c846e5a2c71fdcba936f7b01",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\gateway\\codec\\ContractCodec.java": "04d48885413e473102b5d9c501bd4f7119febb95e32eec3125ff5469a51bd190",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\gateway\\mq\\MqClientFactory.java": "a5787122a17191f647537d4de80149fcddae654f185a7d3c0235bbe6b2e58a9b",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\gateway\\mq\\SyncResultReader.java": "63c8c35da407d7e5c6387dd25d2de69d154b165db23c24a758c856e9bb58ea3a",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\gateway\\mq\\TradeMessageReader.java": "534d764cf1698d2786bf2ff70b449aa4b65296d1b755dfbbc963835e3e0ed243",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\gateway\\rpc\\RpcClientFactory.java": "56a1cfdcc68d373f166221592fb60a6c677b0c73e83722ff35e2c17e48ff8ee0",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\po\\CloseRow.java": "98e7967d3a39477db96db754afb1dac1b065ad3400175b9cacac3aed6871d33b",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\po\\ConfirmationRow.java": "cf5f590129ab4f5ed71da7acafcd9bb694504cfe871791c096d29aab39fa9076",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\po\\InventoryLedgerRow.java": "646b9c32633bf0c8a37d5e6d7ba93c81ef1d588ed6055f9276cf289560b81bf1",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\po\\InventoryOperationRow.java": "af3a65cf2fbfae9dc61048adb89ecf2d8fd8d1db214b6ca78a1f6ea9f73270c0",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\po\\InventoryRow.java": "e046796f3222d423de44a43cb1f31274bba825798ddfcebd4b25d6e7c3a645b2",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\po\\MarketOrderRow.java": "5964e33851de22a16ed931883ccafedf0882d3e5bc9f37710029b9e22a63bbb3",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\po\\OrderLocatorRow.java": "bab6988d9d2712198346291c1da641240325584f4d5155d5a626ad40e9fc9f50",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\po\\OrderOperationRow.java": "5b1fc5a99917439649c42f396ccdce21bb2f567de053d49183252df05c9b7c32",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\po\\ProductRow.java": "9b627cbdc29d05b36b6e71b63a60fbc226da9b138c285476b651d5b380804e51",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\po\\SyncInboxRow.java": "e4d2b89110a15bc3ef6214aeec104200b385b3c401b9ea8cad3ddcf5ebd1059e",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\po\\TradeTaskRow.java": "8902fd6ab0ae3163a4400d8cdc673caa9fcda28676238b6b1b1445a0a9c55fc6",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\dao\\po\\UserRow.java": "d612764d49caec7573594ee3167c5d23d1e93740fce761984a997e6862853831",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\config\\properties\\ConfigurationChecks.java": "d50adec94721779fee5b068367120d8d0f7e8b80cce4d3e7e913ecc5c211d52f",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\config\\properties\\DatabaseSettings.java": "2316478499ec5656d718898ba3806514869b179b6095bd954a4f3b7253a95cc2",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\config\\properties\\IdentitySettings.java": "b1d0f0d5b16014c5631c9899435f3c38d5cd8ca3bec7b29d198e46e5b1aa0675",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\config\\properties\\MqSettings.java": "4084afa181cd840b5b0660f00e021a5bcc3b3b53cfaf215fafaeb68ff8122b81",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\config\\properties\\RpcSettings.java": "96b0bfa755119ec0e432d47c86802301aa3e4d9e38b2093e38eb0eab43ee872d",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\config\\properties\\SyncSettings.java": "8e45106b7b25f50396b262d9485efa51512b58572f865cd18da01723e7a5613c",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\FulfillmentRepository.java": "02a7332efc04efd06a3f26466c7fcb5783359de856b9fa1e5518f24024cae772",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\FulfillmentView.java": "99b3e2ee52fd82d21e20a6d303671542bc4127e5ebdbc240c985d618c2905cbf",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\IdentityRepository.java": "b5fbe28a66b6e82cb9f714abe5257ebbfcc422614dd1b10765f52a5521178e48",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\InventoryRepository.java": "7de878603399b15d2abe2510260cc5782d3e9d6758948070e4ec396c93009224",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\OrderRepository.java": "eb16cfaeeee15e543221af3b8e248566617f39a2f545f3932768d9582250e983",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\OrderReviewBlocks.java": "0363a4838864df8f6399eede8532df3065ecca588e763cefd2569a931d99f004",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\PaymentClosingRepository.java": "a001e3aa43145b5fb5721ace616dd8ee94256fe7121e1756298d3caca2bfe82c",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\PaymentRepository.java": "0c2ce54dd6a850a4dfbd3703d93d19da62d3ce36f19ab21bdbc0c4468b228539",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\ProductRepository.java": "5d0d72642c02b8e8108d203bd7229ea5046423d6d0fdd8b5288cccf885760454",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\ProductSyncRepository.java": "807f4a92c7cede64ddb528444aef168e04d379ed3856d792124dacccc0493080",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\ReconciliationRepository.java": "676f537ff2b646460f150595aaa86a0dd6c5588ce6a5b3b91506905277cbe216",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\RefundOperationsRepository.java": "515117f0f44f8b715d266dc846caeaeec4d01c49a1abf258b930095993806a40",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\RefundOutbox.java": "ccb50d33b846f9172c8010c59b9db3e33bb8429c7c4138dd1acca77129cd730a",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\RefundReleaseRepository.java": "8dfbafa763335bb896da0591b2975cd0d3dd7ab437667588ce4478ec70b4063f",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\RefundRepository.java": "6e629610f7676b41078895a0355f322b0a48b4d092f3d70b828f689b150ceea8",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\RefundSyncRepository.java": "79d0faaec0ad9407ba34e0cae820e9b8aa510f60c17ba86a13e3115f2849727d",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\SettlementRepository.java": "8aac03788771bc8d7247a6f0f3f47c5ad3296bc68228ea6c6bfeb0440964d6e3",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\repository\\TradeRepository.java": "0b5391d103cec4b30d5dca1182f683c375f11e1eb940d17e0af8ce534c0191b7",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\port\\identity\\Argon2Passwords.java": "1464ac121d62b54c5c5b3cfe85387ed8822b8930b01e90558b27baaee2c89b70",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\port\\identity\\RsaAccessTokens.java": "7e2212bb779229184ae9ab8b0cca89b9e09f1330c8b1ea67b77e595d6a4a302e",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\port\\order\\DubboPurchaseQuote.java": "d3f808d86f21482aee9f26cb611474037601990064078d38d74b54e58c58c010",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\port\\order\\DubboTradePort.java": "b51f034ab92b25146dd69d4f871d335d05ce703a7c4e2db73e5a490f7f09031c",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\port\\payment\\RocketMqSettlementTransport.java": "481179c5a4c2fd6426dd7521f387518d038dd931f404ef605b882a16aacbbd63",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\port\\payment\\SimulatedChannel.java": "23e6835ab19b2c3fb57cf20839e42c1cdbf05df4bd0b8a1c3de6be663dfae45b",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\port\\product\\ContractProductEvents.java": "84c502790053bad06581e0ee2df7c891e219dc3e63e889c472b62c376dd8349a",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\port\\product\\DubboMarketingTrial.java": "1310d61ac746012b2fd8150a9aa2088d608b0dd49a2ce7a0e16cc39f82da9454",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\port\\product\\RocketMqSyncTransport.java": "35b5ae532b05e2c09bde12b4031db839097355b61c5c1c16a5c3b3a2a453e8a6",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\port\\reconciliation\\DubboReconciliationPort.java": "fbd449d05b686b5e232800c5ce18bef20a4bd18345b6aa80489aaa1fcf0bc99a",
+    "zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\port\\refund\\SimulatedRefundChannel.java": "5378cc257e0c54ad0aba64f70cc9ce34cc466eee778133ccbf11280d5a0376c6",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\package-info.java": "7880752738f2a4d3da588aa1efdd54c3e7fe3c18193c71176bb0260410982900",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\refund\\model\\Refund.java": "08e1c1deba2a2aed80d899b585046fff3dc2e693127fc73b8912871890d1703a",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\refund\\service\\RefundService.java": "c92e56f1ed76a2c500eb7ccaa4ee35272458bb6455b90f236a4bc2d144e2621c",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\refund\\adapter\\port\\IRefundChannel.java": "c30d13c67e40fad3e3081213d17dda0d081156b08a47fb0bdf85ea34c76463a3",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\refund\\adapter\\repository\\IRefundOperations.java": "8b95c41aab69a25f139ea46b058f1a584e6aca8fe463aa86880344596d2139c0",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\refund\\adapter\\repository\\IRefundRepository.java": "7ebfcbd26ded517d581fad2487eafecd8eb3c9cce9e9a10770005a4fe6042083",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\refund\\adapter\\repository\\IRefundView.java": "13968a19e6e39394daa4fff6dc0ad42996b60a04e552fbcef8ad714f13134798",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\reconciliation\\model\\Reconciliation.java": "1035a261e247f61330b092250b043dac848eba9f3cd41fd34141f44f40a52571",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\reconciliation\\service\\ReconciliationService.java": "0874d0f833f580810320ea4903d50fa85d34ee5b1c7e6d37eeeda36a7e856c12",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\reconciliation\\adapter\\port\\IReconciliationPort.java": "f413b9757035a603940ecce2cdc50086945cb19ea3cb7ad5200645904c133bfa",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\reconciliation\\adapter\\repository\\IReconciliationRepository.java": "04d86b19bad06a610f26826ae5e5a04ccf75cc48f0945ed534eaf92e9c980789",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\service\\IMarketingTrialService.java": "508f306eca5ebef187f1e551e94c62e4282f4ba2f6a1f99cfc1e75e6850fca63",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\service\\IProductService.java": "5644c0acc9834bede1aff536f3bc091a9b64b4a925f4feca59b30078ee0caf57",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\service\\IProductSyncService.java": "58da0ba08b603a977aa817fedfb08e6731f1c92555ff67a567601200390d5723",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\service\\impl\\MarketingTrialService.java": "1495d3dc2fe8fa61cb1a4c509fc8bd43b0edefe05d942ec6c6cc682a3bdb2912",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\service\\impl\\ProductService.java": "9e13995b8f13fb993f412013260482fc7a0d5a9b08401dd51f2163fd65279d55",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\service\\impl\\ProductSyncService.java": "a17bb79d875b0e08eb120c96c018597d5e1fcb5db71ca6ba5446926b4decf382",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\entity\\Product.java": "901e9f555fca6618a5a7e646b7070fb04ee11f5dba40016c45868e6f2556d2e5",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\ProductFields.java": "7d2f1381588718bbcd0ceecd45ef2f65bce0e4edff2097567f9c185652d3cbe5",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\ProductPage.java": "dbc7a177c70dd5511ae5dac91d176a5e4cf179869645d62c622c6f2496e84d84",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\ProductSyncProgress.java": "59842aea170402fb00bd5132ce4c4c9fbb2acea9cfad0a5e4418add0ddfbda37",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\ProductView.java": "a99c46d6dda42ed866fe3b868a5f94b7fd3fe469c4761b94995b506b1bbe4627",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\QuarantinedMessage.java": "b43c8f9108456ffed60f00c7e1c61eecefcf433d2b6c420bccbbdbaa75e875a4",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\QuarantinePage.java": "1e75985bb9a36ef1a5e19c7cb4a80d742d9b0d25bc7145b2f2932b54d8dac97c",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\SaleStatus.java": "ae728b546808dde06a20c0522be144b00b6b94b7cf4e5a56903944448cbe1323",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\SyncBadMessage.java": "6f2324dfdf262f675d00f889c4998611eaf3ecacd89fa9bd6eeb6cbcf6ee67e2",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\SyncQuery.java": "43d01440b0a1229c3ab63313acdea2a90001eb667f85969b8e0a04ac1c79dbf4",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\SyncResult.java": "fe1b39424d14ba1a6c1eea2b9b73c2984e10ce97e7cbcd55fd3a6340f455e71f",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\SyncWork.java": "69e126bd6b8301c03b610e73618751d6eb3a7049f5bec1cc9017843f4a628445",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\TrialOffer.java": "137bcaa67ae5c142f12b1678413a8de506f0e6b3b42b85ae18345a809a0bd1a8",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\TrialQuote.java": "b380eb1b1d2d3a489eb3c383b78c6572a9583635cf5e3258989f98ee8338d4ae",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\model\\valobj\\TrialResult.java": "c2cba02070fb626e64200fedd5dc53d199a787deaba1edabb21dc5b08bb75bb7",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\adapter\\port\\IMarketingTrialPort.java": "43ffa3f9adaeb7e61d848f9159b6f51feec20927ff90ad15ffa5fe89e96f458c",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\adapter\\port\\IProductEventPort.java": "62033984214a9184875b6439051b8a089e7b7ac111bfcd72b628483cacb14859",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\adapter\\port\\IProductResultSubscription.java": "15129f5657e3313508c28ab35c3174bc904e084cd2f897a501d3915bb2de9859",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\adapter\\port\\IProductSyncPort.java": "11d9e847fff1d131ce78ec237168424014181d1f72e8c4f9aa8f5954d1268d1e",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\adapter\\repository\\IProductRepository.java": "e893159db662ff60264cb3cce7ef0380ca7a98a64dab899bb57feabab8f3a3d1",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\product\\adapter\\repository\\IProductSyncRepository.java": "405b2653bc94a31072430e17858100ceac13aa54e483261e17db389a5f7b1d3b",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\service\\IPaymentService.java": "76543789d1dd844d6c4f878673877eed39fc5f346f997122cf6f24375b2b794f",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\service\\ISettlementService.java": "98804ea4e94c78dd25c52355252b68b0c31053b86e312026a739a9cc4e499e73",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\service\\impl\\FulfillmentService.java": "1b5a8f7560f223430d294270d82871e5b4bb2ddb8722fd3b47630150df448be0",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\service\\impl\\PaymentService.java": "4b95775914643e8d3934a80ccbfefb7b04d79dfadde5f6f8409b41d3309612c2",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\service\\impl\\SettlementService.java": "4f058ba07844c210ced88ede2e5ec13da5cba1aa426108cc8506a90c1081608f",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\Accepted.java": "aae6a4a81e01aae08cb44382e6c9fbefecea7bb4d6fe0a9c703ac1cc1ada426d",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\Attempt.java": "c53f2534faffd29a6623166f9d24a028095fb043effe4bf50746359b3b4e3da7",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\Channel.java": "cbeb534d23977b899eaf600eb95104aa05c2fc247287a942ea1fa1d0940f0726",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\ChannelClosure.java": "287067272032e9f092295ff668bd547c98e6b463a6d3080ca68d87f0efbc38bc",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\ChannelFact.java": "393951a72bfbb9941285b22c6a0b14ecae4a2f56ddea5d479e8fef74f45bc8fd",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\ChannelNotice.java": "7eed7d902a44bc6463e95c36e38284f447141e623752b0811c059431aa52dbea",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\CloseAttempt.java": "bef9eb6973708b14544191f009bba089953bf2b423c12176ae1be04f2d7cf15a",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\ClosedAttempt.java": "f326844fc06dcf01d81a49cf137c8a06595c388da902bf8ee1de3532505900f4",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\CompletionEvidence.java": "5e5c6392642edc6a2706e8a7525efb5531dc97ccc3568b27eeb2eb90f8c18fa2",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\Evidence.java": "5e002132d045d846105e01d9fa0243d2dee02f54c2c3b2fffb332ffb6b34ef2a",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\FulfillmentWork.java": "16c0ab5f4b9d6261059a9045863fd405df17d170439073dd2e0554dc7757c597",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\Operation.java": "2427eb4f5519ab12c384c1506e00d111dd86c25afeaa23b9e8c69d7c2328c844",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\Payment.java": "6e2b27c3bc92282458a3753215d0017140c3b3a5d43b01d027a54945a172899f",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\PaymentClose.java": "d5128529cfd2f3c67c066ad2eba437412bb3790233a904e7d5424e7851998bb0",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\PaymentRules.java": "cf56873b03e5e9783848d54fdf957865483caced6fbb63d583149d80cef994dd",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\Receipt.java": "afda4241a7df4f85b91594819169be511804d4a9abf9ca993f7d68ac72dc7cfb",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\TradeDelivery.java": "9db54d241bb2c0cb728f3f2f2fbee91d39cad259f72ddc99baa276cc11ead8e3",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\TradeReceipt.java": "d40643f5c6453b8dff27af8921e50fd675bf0612c15d2b34f63b67bc126deb63",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\model\\valobj\\Work.java": "089db5791210b14b867e34bed2e99cfb1453e03360ef794a35f83295a06466fc",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\adapter\\port\\IChannelClosing.java": "646194f14b7261a45a6d44ad138d4a3eb2b5a56bcdac3438bdca08031f21c5b4",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\adapter\\port\\IChannelFacts.java": "87094eeaacf3dc9b671cdb9a6e618d3d39d43a9755639a8434d282788a9f3047",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\adapter\\port\\ISettlementTransport.java": "058bf7a3683a0560ce0ca9a178cf2d0b0b4512617d72aa682b24355f5a21511f",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\adapter\\port\\ISimulatedChannel.java": "bc826754673e122a0abe052586c60589e93f284148802a6599c00b26adc77c95",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\adapter\\repository\\IFulfillmentRepository.java": "36671d41f27500e9fb64f38eafc83a48f8775224c2db0df0c3204f2218a29858",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\adapter\\repository\\IFulfillmentView.java": "1d8d699ece1384adea664f96853d095f03308ddefbe423f76b7bcd906cdc706c",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\adapter\\repository\\IPaymentRepository.java": "33fdf38e54d0abc5c1d2b157cda77c7b091dc83ddb5bd5bb4002455602a9e2d9",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\payment\\adapter\\repository\\ISettlementRepository.java": "aebb9f806b1018281e1c5fea74eccde1b5fb919e0bcaa58710f692c0a693a442",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\service\\IOrderLifecycleService.java": "a2faebe311ee68dd6d47e205cd4ccca7b3b657d4defe6b5f393799196d72630a",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\service\\IOrderService.java": "c001d446802e3d011fbd2855c2544942b71fceeaedf48fb8c3481ad03ed48cb7",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\service\\ITeamService.java": "0ccf6f38471b94cc8d9fdf2db952d9bac3cdd25817f12754f9c8dbcd1964bf27",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\service\\ITradeCoordinationService.java": "248b4985dd9f44efb0dcb8df2965d03f08af46080d35f25a29b7a79f37e5c5cd",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\service\\impl\\OrderLifecycleService.java": "178093e35ab5de709a279519d7dedfb707fc307843d7d7ac2ae2b8cce24918e4",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\service\\impl\\OrderService.java": "cfe74d736d384bc4d5df6d19f57f24bed2f3f2797848b49a8d4283d8ad7ead28",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\service\\impl\\TeamService.java": "9b106dda217ed245b0c6935ec333e99f6bd9d62b849e51c1c67cdd8a9908509a",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\service\\impl\\TradeCoordinationService.java": "69bc0e471d7e46bc215f7854da797a60d892350465312ac4c5e934aaf2f6edce",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\entity\\MarketOrder.java": "1bcfefaf6b326e0ed9b5972dc298b2ad915186e42d7897abd77577a2bf2c45d1",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\entity\\PurchaseConfirmation.java": "f09b69e46e9a724f96bbf828fb34ded33b333e60a6c84ce45b2c7917e8bae47e",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\valobj\\CloseEvidence.java": "3af385d9fc68cd155346aa94fa427c1f46c54128556e34be2ee7ba54b49e13ed",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\valobj\\CloseInstruction.java": "599eaf98752e50f507379c5783a9388878920ee88049215dc0baf7dea95799f4",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\valobj\\OrderActionResult.java": "e35150bb9f0baebb06db60b1e1b6cb72cbe6c1b0695fe15459e215d2aa3922d8",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\valobj\\OrderControl.java": "277795c101054863571407f21a1782c0e93564a8d7ef6219d92d9fbced30f1ee",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\valobj\\OrderWrite.java": "bb538a7ad50b856f22d0f663266a70d560ee166e53712ddf19093cab9fd21f95",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\valobj\\PurchaseConditions.java": "1ad378b17351e1acacf6abf1b5d28ec73c8e082b7f97b120184749580bf3c8c1",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\valobj\\ReservationEvidence.java": "5d2f0e49cf85664592bb169ea21745bb1f72f3332283792eb4dd3dadcbe7aa69",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\valobj\\TeamView.java": "7d58c3b8770bc8e6ffaac19612d63ff621697c857be6c89a79c1e864501a8006",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\valobj\\TradeDispatch.java": "0d281384647185ea74b37935a1c62f4cf75109e36cb091631b66c2063fbd2866",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\valobj\\TradeLease.java": "63f50d017748cdd59bf8c7e5b725d805ef686079a769d4e1054cf3137c212ea5",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\model\\valobj\\TradeReply.java": "b532400072444a57ed5d9511b030bb15f01baf284cc8182afe4b8dad7c3987a9",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\adapter\\port\\IPurchaseQuotePort.java": "4ac686c1c7031196e732e55ec3c840d26975755c4f9e172b4c58588ae2d7706c",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\adapter\\port\\ITradePort.java": "14124bfa4d335cf6f026f9b2a7a7722ee57de8fea6cbd85332ec1ffecc7bff3d",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\adapter\\repository\\IOrderLifecycleRepository.java": "a061dd71a8e4cdaf81affaf184bfc3e46d40e8f0051dadb4cbbb4f940bfd1fe4",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\adapter\\repository\\IOrderRepository.java": "695c19ede1bdcfa0d8d566510a850bb19304429c9c942c521757ed0ec1a34027",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\adapter\\repository\\IPaymentClosing.java": "5dcc46b8ac241dab30c00d8f99f32b7306417415e35d011b68e102902333b581",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\adapter\\repository\\ITradeRepository.java": "b42cad9275ca637a321cb3a773f1528101294f1c43e04db3768f1ac4fa8b8964",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\inventory\\service\\IInventoryService.java": "fc96c64bd8622e9815eb93c4f8fdef91cb79a5c30ca6357023ef4e13d8df5837",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\inventory\\service\\impl\\InventoryService.java": "f4fe02a44de43b7d431c8b582eb1488a16757aa952d967446b808c2f88ce16fd",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\inventory\\model\\entity\\InventoryAccount.java": "b2f4d2cc8c86aad3f6c2a5ebce18cd63f913a0860c21196c45cc8a1e1e1467a2",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\inventory\\model\\valobj\\InventoryLedger.java": "dc7a8a1bea1d6a470d76e5f1bcfc0d7de11b3cb23249d625856d2eba2e979a56",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\inventory\\model\\valobj\\InventoryPage.java": "aa48ff3ebd2b82ab2174c750f53888c7786c6cf6d6c415d013a9f4f3d60818e7",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\inventory\\model\\valobj\\InventoryRequest.java": "0a9a674c874fd986f24f800233b6cd04f3bea8bc74542e15c5cc3f2cd99deb4f",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\inventory\\model\\valobj\\InventoryResult.java": "9eda2790e53b3fd15e8116b4e8c307a9ab047ba8257b54a709e15cfd3ecd9031",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\inventory\\model\\valobj\\InventoryWrite.java": "42f03cc266fa27c347546babad2b28df23eed147520b90ea73321ff5509b1460",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\inventory\\adapter\\repository\\IInventoryRepository.java": "2c9e0b85caf21b2c48a3a3eb37ab71c5a8a475cc8ba2b678e5d895a753db79af",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\identity\\service\\IIdentityService.java": "ed6a35c1eaa96c2a7ef79d1a989f1f9f5ff4c0cb66eef7c8ce302acf1130df87",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\identity\\service\\impl\\IdentityService.java": "af0cd2e54beccb6631003d40862a6b471ad22797e9f07e6dde4d1ac08ba35f4c",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\identity\\model\\entity\\LoginGrant.java": "953a78069efd7430ea733564019e0d722073c37c23fc334e4847793405167e58",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\identity\\model\\entity\\User.java": "856c5dd9b24fc4008fd305caba9c14a84e08dfbbef9dd788ed129a6ef08d7822",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\identity\\model\\valobj\\AccessTokenClaims.java": "c1bbdb9e64c96d77dfd9e10f0be81c999840cd280445227b5b0e35805ed102d2",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\identity\\model\\valobj\\AuthenticatedPrincipal.java": "c74167a9d0462bb8f8f4fdefe1fc7f380cb21ed7fa551e7589fcb6615fe31104",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\identity\\model\\valobj\\IdentityTokens.java": "5f6155d373aa14cc7c356941187f94dac077f6cc6af12b5f17e474797685b803",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\identity\\model\\valobj\\RefreshCredential.java": "eb660ea667b2d29c88bb6e17b737be487fe94f1d6f48079efe58450b9ff63e4c",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\identity\\model\\valobj\\UserView.java": "d9eb5e23d04640af6c9c9358a92062497b45887fd2137f04ed44dc8043fa4aeb",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\identity\\adapter\\port\\IAccessTokenPort.java": "ef2cb1ca5b8104c9ba3a7601cd644fc5e3b60160425473c49ffe15de26ce8f14",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\identity\\adapter\\port\\IPasswordPort.java": "290484ac2eefeaae217f8cbd628ab2951d938e66c61bf9cb21c02dba38a7ef21",
+    "zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\identity\\adapter\\repository\\IIdentityRepository.java": "bb38e727b794f3be9680efdeae36b4c936ae6cd1a468c96b515bfd7589a0ef21",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\app\\ZjMarketApplicationTests.java": "2ae82f9ddb48657f76d05aed663b1183c95acc50e9aada3de23c661f4ab5058a",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\config\\ConfigurationBoundaryTests.java": "fe0ed9bae0d8fcd90f21ffdd8c8cd7bb627a5836ee30dd2f654b5ab0ce2ae681",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\identity\\IdentityLogoutTests.java": "6ab214648e93833551eb42514125c7acd7904bd43df0c3e4d5618403d7645496",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\identity\\RsaAccessTokensTests.java": "39a5e5322e07912a0f2467ef66b824be00b0ed1eab7eec62a820094758cfe3f5",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\integration\\ContractCodecTests.java": "9d41be6e6e678c548387cd8b8001534b56628ceb1c651db308990643dcabdf5f",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\integration\\SyncResultReaderTests.java": "5b04e3e35d43c8c3a31f57ca66ec5cc5dc5e62892ada5e023c150d96d84c925e",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\inventory\\InventoryAccountTest.java": "cdc4f6651dff00e48917345fcefeba63d8dbbdd41e4029fb0a8ff2644bf2a9a5",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\order\\CloseEvidenceTest.java": "fc03fb72ba5c1648d166d9bb2b16cf7a0d6b2ddcddf4a9d6c787fabdc0a9cf6b",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\order\\OrderServiceTest.java": "3458c9507961871ee6419c00c0e80ad02b571e3e9a4446c0960a946a832984a3",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\order\\ReservationEvidenceTest.java": "5a444806fcfb863cfc47bc0afbb45be8c5979d966dd4742554f1c2d1952e963e",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\order\\TeamServiceTest.java": "0923e8c5f33e3a01d0a1dc81ec9070f9123db75e494996916840d9e25e16155f",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\payment\\ChannelClosureTest.java": "94a35454f4c5fb9ceca3d8aab9f2c9d8f58b33fee6a8de6b0962dd2b3b3ba76e",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\payment\\CompletionEvidenceTest.java": "f7f093b26c665816a680cc4ae45b3a89201b27c2c62633cfbcdb54eaaefa6724",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\payment\\PaymentServiceTest.java": "e48718a8f31a48c79ac2e6c28772c47e6d9b7ba5faac508ce043aec3b6214e62",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\payment\\SettlementJobTest.java": "ea3fa2e440c5682bb85f2ea3b055ebe720ed2f7947f49b398049096b28086c23",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\payment\\SettlementTests.java": "8d7584c6971764997c1a60f9ad23a9a2120aff34605e83343e128539e84c03f4",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\reconciliation\\ReconciliationTests.java": "3b630ec2d76e302d2ea20cf6853669985371a551c03c85e8734ecf8197606a57",
+    "zj-market-app\\src\\test\\java\\cn\\zj\\zjmarket\\test\\refund\\RefundTests.java": "f76ab81cddd168464fd4ab67825f75a1ec4207925a9ba397cc6021cf7cb2e64b",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\ZjMarketApplication.java": "c3638e873fce8153203b3cf5d05258aded94369d445354424b14811e4fa91ff1",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\IdentityConfiguration.java": "9d2d92635b93dd6ab89ea5e8a282fb86f216639d2ae2ceb9be9499859949c30e",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\IdentityWebConfiguration.java": "c1a6995596bc13425683dedaae9389ea6589ad44181a5d8ce66d72e89a5e574e",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\InfrastructureConfiguration.java": "1ee803aa9da6b32418112ce2e3e8689a57fc32bd3809cbf7f6b937ba0469462a",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\InventoryConfiguration.java": "12cbe5bceb5a1d68ed3e774c1f3095bd6d2de0b933be2be90763ae2a0cc75900",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\MarketingTrialConfiguration.java": "7e578c1f2f2e1497506950a401ea1e9c64207848efd28b6b751adf94bbd0fc17",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\OrderConfiguration.java": "0e7b9d50b146ea4b4a2ba1e489d41631062c069069a97fbc5ebbe5eb3d4e8f47",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\PaymentConfiguration.java": "3feea4c9d381aee2d7558746a8d6dcd9c4d53a04a547871f27b594f0e74459d8",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\ProductConfiguration.java": "8b7121d5479cc7c9b919692d8c7ca110d32cd500bca26f6072925e95e0231da5",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\ReconciliationConfiguration.java": "8614a54d4d0676a012f090fc51d6216f0a180328b48a513cf97bdc4f29695bf1",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\RefundConfiguration.java": "2f81eba5af9292ce246413cd6c9892437a52c0cf3a45046527918dbe94b03f6d",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\RefundOperationsConfiguration.java": "0068a75a4bbd45d925a17a9370ebc4958e612bde43ddbe1859402f4bbc3aa260",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\SettlementConfiguration.java": "c6febbff7f8f01ad928b3e5a2150a2d7f5804cd18d1e30c72761aacc4b8b8ef0",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\SyncConfiguration.java": "d1993810314853cbce6a32776bb3d03e17d5daf52e099e9b37e715b022a6480c",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\config\\TradeConfiguration.java": "adce0294868b15479774110dec6a86c0e9bcba289d6b4b2e970ccd635c7d417e",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\security\\BrowserAuth.java": "3cfc49bf5eec1c5534db4884d70fb55ad04f3e16be61368a4b417ba5735bbc74",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\security\\IdentityErrors.java": "10a3e4c49409d6396497535e50bf11d21e47ec3c4bd5b0145cbd637451c9d76b",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\security\\IdentityHttpFilter.java": "be25db10c3dd097c599836a2213303961a718e68070f7417e8e0c4718eb4970c",
+    "zj-market-app\\src\\main\\java\\cn\\zj\\zjmarket\\app\\security\\LoginRateLimiter.java": "7c1fa843de18c4ff2831d932ae6db12db78fcd09bfe9b6103d79e73365681b06",
+    "zj-market-api\\src\\main\\java\\cn\\zj\\zjmarket\\api\\package-info.java": "f8d2b60875c7ab9a1ab5ae220092429593bd3343a8c5660ce8e5b690ac1027bd",
+    "zj-market-api\\src\\main\\java\\cn\\zj\\zjmarket\\api\\response\\ApiResponse.java": "01f4ec962ac1b58b42ff86c54603c0681e11721b3dc7014a76f1097887103bf1",
+    "zj-market-api\\src\\main\\java\\cn\\zj\\zjmarket\\api\\dto\\identity\\LoginRequestDTO.java": "0a81a4fa30fcf572af912ca259df67ed4c50551e195a819d29930637ee31ac9e",
+    "zj-market-api\\src\\main\\java\\cn\\zj\\zjmarket\\api\\dto\\identity\\RegistrationRequestDTO.java": "64c3789ac63194003e62b305cc8458e740e956dddaeaff1b019f57c252086005",
+    "zj-market-api\\src\\main\\java\\cn\\zj\\zjmarket\\api\\dto\\identity\\TokenResponseDTO.java": "dd2460acd3f5ca6d533193b188c03610421f1e9ad079714ba64c4e2a05ae758d"
+  },
+  "runName": "b056-20261011-01",
+  "BHead": "53ad32d222cdcb1b330cf07a53b2fd64e02ccccf",
+  "branch": "b-05",
+  "localEvidenceReport": "target/b05-joint/b056-20261011-delivery-02/report.json",
+  "localEvidenceReportSha256": "c92bcac3c3cde432686e353ab466e90c8ba46f6a0e1cd701e5f481b1990f7b75",
+  "checks": [
+    {
+      "name": "actual b-05 worktree",
+      "passed": true
+    },
+    {
+      "name": "SQL/channel/locks/two JVMs",
+      "passed": true
+    },
+    {
+      "name": "SQL same final package",
+      "passed": true
+    },
+    {
+      "name": "SQL original protected rows unchanged",
+      "passed": true
+    },
+    {
+      "name": "test permissions",
+      "passed": true
+    },
+    {
+      "name": "test exact 48-table DML",
+      "passed": true
+    },
+    {
+      "name": "test no DDL/history/A/system/grant",
+      "passed": true
+    },
+    {
+      "name": "development permissions",
+      "passed": true
+    },
+    {
+      "name": "development exact 48-table DML",
+      "passed": true
+    },
+    {
+      "name": "development no DDL/history/A/system/grant",
+      "passed": true
+    },
+    {
+      "name": "refund verification",
+      "passed": true
+    },
+    {
+      "name": "original request new JVM recovery",
+      "passed": true
+    },
+    {
+      "name": "fresh actual A reconciliation",
+      "passed": true
+    },
+    {
+      "name": "actual A caller/ports/default Java restored",
+      "passed": true
+    },
+    {
+      "name": "actual A same final B package",
+      "passed": true
+    },
+    {
+      "name": "original tested A runtime and contract",
+      "passed": true
+    },
+    {
+      "name": "actual A reconciliation",
+      "passed": true
+    },
+    {
+      "name": "actual A reconciliation-recover",
+      "passed": true
+    },
+    {
+      "name": "actual A refund-offline",
+      "passed": true
+    },
+    {
+      "name": "actual A refund-release-offline",
+      "passed": true
+    },
+    {
+      "name": "actual A refund-release-recover",
+      "passed": true
+    },
+    {
+      "name": "actual A refund-sync-live",
+      "passed": true
+    },
+    {
+      "name": "actual A refund-sync-recover",
+      "passed": true
+    },
+    {
+      "name": "owned A real restart",
+      "passed": true
+    },
+    {
+      "name": "strict refund SQL assertions",
+      "passed": true
+    },
+    {
+      "name": "inventory/HTTP/controls assertions",
+      "passed": true
+    },
+    {
+      "name": "actual B HTTP browser",
+      "passed": true
+    },
+    {
+      "name": "browser process cleanup",
+      "passed": true
+    },
+    {
+      "name": "browser same final package/owned ports released",
+      "passed": true
+    },
+    {
+      "name": "browser desktop/narrow/readonly/original lost-response replay",
+      "passed": true
+    },
+    {
+      "name": "proof-aware B04 handoff audit",
+      "passed": true
+    },
+    {
+      "name": "actual HTTP frozen contract owner-http.json",
+      "passed": true
+    },
+    {
+      "name": "actual HTTP frozen contract refund-detail-http.json",
+      "passed": true
+    },
+    {
+      "name": "actual HTTP frozen contract reconciliation-detail-http.json",
+      "passed": true
+    },
+    {
+      "name": "payment-closing/verify",
+      "passed": true
+    },
+    {
+      "name": "payment-closing/recover",
+      "passed": true
+    },
+    {
+      "name": "settlement/verify",
+      "passed": true
+    },
+    {
+      "name": "settlement/recover",
+      "passed": true
+    },
+    {
+      "name": "fulfillment/verify",
+      "passed": true
+    },
+    {
+      "name": "fulfillment/recover",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V10_1__payment_receipt_integrity.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V10__payment_and_simulated_channel.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V11__trusted_payment_and_trade_messages.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V12__payment_root_close_proof.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V13__group_completion_and_fulfillment.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V14__reconciliation_and_refund_obligations.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V15__independent_simulated_refunds.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V16__trusted_refund_sync.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V17__refund_release_and_operations.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V18__refund_check_schedule.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V1__database_boundary.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V2__identity.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V3__product_authority.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V4__reliable_product_sync.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V5__inventory_foundation.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V6__inventory_request_audit.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V7__local_order_reservation.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V8__trade_reservation_recovery.sql",
+      "passed": true
+    },
+    {
+      "name": "V1-V18 checksum unchanged V9__unpaid_close_and_order_operations.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V10_1__payment_receipt_integrity.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V10__payment_and_simulated_channel.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V11__trusted_payment_and_trade_messages.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V12__payment_root_close_proof.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V13__group_completion_and_fulfillment.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V14__reconciliation_and_refund_obligations.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V1__database_boundary.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V2__identity.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V3__product_authority.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V4__reliable_product_sync.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V5__inventory_foundation.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V6__inventory_request_audit.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V7__local_order_reservation.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V8__trade_reservation_recovery.sql",
+      "passed": true
+    },
+    {
+      "name": "applied migration unchanged V9__unpaid_close_and_order_operations.sql",
+      "passed": true
+    },
+    {
+      "name": "all pre-refund-suite funds/work/refund/HELD/guard/channel retained",
+      "passed": true
+    },
+    {
+      "name": "main roadmap only authorized D26-D28 rows added",
+      "passed": true
+    },
+    {
+      "name": "B04 worktree unchanged",
+      "passed": true
+    },
+    {
+      "name": "A head and prior external config changes preserved",
+      "passed": true
+    },
+    {
+      "name": "A contract unchanged",
+      "passed": true
+    },
+    {
+      "name": "actual A runtime artifact unchanged",
+      "passed": true
+    },
+    {
+      "name": "106 or more JUnit, all passing",
+      "passed": true
+    },
+    {
+      "name": "ordinary default startup",
+      "passed": true
+    },
+    {
+      "name": "ordinary startup same package and clean stop",
+      "passed": true
+    },
+    {
+      "name": "ordinary excludes Flyway/verification",
+      "passed": true
+    },
+    {
+      "name": "ordinary Java21 bytecode",
+      "passed": true
+    },
+    {
+      "name": "one unchanged Java8 A contract dependency",
+      "passed": true
+    },
+    {
+      "name": "A contract Java8 bytecode",
+      "passed": true
+    },
+    {
+      "name": "new admission off, recovery on, scheduler on",
+      "passed": true
+    },
+    {
+      "name": "joint serial runner",
+      "passed": true
+    },
+    {
+      "name": "joint same verification/application package",
+      "passed": true
+    },
+    {
+      "name": "all seven joint phases",
+      "passed": true
+    },
+    {
+      "name": "fresh reconciliation SQL",
+      "passed": true
+    },
+    {
+      "name": "reconciliation same package/old facts retained",
+      "passed": true
+    },
+    {
+      "name": "reconciliation faults",
+      "passed": true
+    },
+    {
+      "name": "original completion new JVM",
+      "passed": true
+    },
+    {
+      "name": "in-window PAID/A CANCELLED safety",
+      "passed": true
+    },
+    {
+      "name": "cancelled anomaly retained no blind refund/release",
+      "passed": true
+    },
+    {
+      "name": "actual A none",
+      "passed": true
+    },
+    {
+      "name": "actual A none environment/owned ports/Java restored",
+      "passed": true
+    },
+    {
+      "name": "actual A none final B/A packages",
+      "passed": true
+    },
+    {
+      "name": "actual A none terminal",
+      "passed": true
+    },
+    {
+      "name": "actual A none per-order conservation",
+      "passed": true
+    },
+    {
+      "name": "none exact three owned members and original amounts",
+      "passed": true
+    },
+    {
+      "name": "none terminal inventory",
+      "passed": true
+    },
+    {
+      "name": "actual A partial",
+      "passed": true
+    },
+    {
+      "name": "actual A partial environment/owned ports/Java restored",
+      "passed": true
+    },
+    {
+      "name": "actual A partial final B/A packages",
+      "passed": true
+    },
+    {
+      "name": "actual A partial terminal",
+      "passed": true
+    },
+    {
+      "name": "actual A partial per-order conservation",
+      "passed": true
+    },
+    {
+      "name": "partial exact three owned members and original amounts",
+      "passed": true
+    },
+    {
+      "name": "partial terminal inventory",
+      "passed": true
+    },
+    {
+      "name": "actual A all-paid-competition",
+      "passed": true
+    },
+    {
+      "name": "actual A all-paid-competition environment/owned ports/Java restored",
+      "passed": true
+    },
+    {
+      "name": "actual A all-paid-competition final B/A packages",
+      "passed": true
+    },
+    {
+      "name": "actual A all-paid-competition terminal",
+      "passed": true
+    },
+    {
+      "name": "actual A all-paid-competition per-order conservation",
+      "passed": true
+    },
+    {
+      "name": "all-paid-competition exact three owned members and original amounts",
+      "passed": true
+    },
+    {
+      "name": "all-paid-competition terminal inventory",
+      "passed": true
+    },
+    {
+      "name": "exact A quota and accepted payment counts",
+      "passed": true
+    },
+    {
+      "name": "quota exact final package and three cases",
+      "passed": true
+    },
+    {
+      "name": "aggregate original regressions",
+      "passed": true
+    },
+    {
+      "name": "regressions same final package/old protected records",
+      "passed": true
+    },
+    {
+      "name": "all pre-reconciliation core facts retained at final",
+      "passed": true
+    },
+    {
+      "name": "B055 final protected facts retained",
+      "passed": true
+    },
+    {
+      "name": "B056-start A external changes protected",
+      "passed": true
+    },
+    {
+      "name": "Git whitespace check",
+      "passed": true
+    },
+    {
+      "name": "B055 ordinary Java business sources unchanged",
+      "passed": true
+    },
+    {
+      "name": "B055 frontend sources unchanged",
+      "passed": true
+    },
+    {
+      "name": "frontend production build",
+      "passed": true
+    }
+  ],
+  "evidence": {
+    "SQL/channel/locks/two JVMs": {
+      "path": "target/refund/b055-b056-20261011-01-sql/report.json",
+      "sha256": "44cce49264f20c9d5080d0da3445f12b86ce0f83238cf0148fba17cebfa17e7d"
+    },
+    "test permissions": {
+      "path": "target/refund/b055-b056-20261011-01-sql/test-permissions.txt",
+      "sha256": "9863e0de706971c399bd703e992fb5ea10ef674f2d1c1601b0d37f3ffcdffd45"
+    },
+    "development permissions": {
+      "path": "target/refund/b055-b056-20261011-01-sql/development-permissions.txt",
+      "sha256": "e2f0ba500490a99b44dba00ab3ece2ef55e09de6d86c939b52d97e62ec02eef0"
+    },
+    "refund verification": {
+      "path": "target/refund/b055-b056-20261011-01-sql/verify.txt",
+      "sha256": "5d9743fb581bc7818bf4ea44804f15826fb8f65f6c7cc3920d71ae6a0c806abb"
+    },
+    "original request new JVM recovery": {
+      "path": "target/refund/b055-b056-20261011-01-sql/recover.txt",
+      "sha256": "67d1ec0343f00cd97ef6e59cfcf08ca6d46766cefde54a86694577bebe55887a"
+    },
+    "fresh actual A reconciliation": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-partial/report.json",
+      "sha256": "284e18fef16a491b2869873716a119fe3e31891df7c994aac7d6a6b79d1f4ef2"
+    },
+    "actual A reconciliation": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-partial/reconciliation.txt",
+      "sha256": "6facb55882860721fddb9e43428d38b9377dc202321b0c393229ee3288285589"
+    },
+    "actual A reconciliation-recover": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-partial/reconciliation-recover.txt",
+      "sha256": "49aaa8e7edeca03a4ac18eda34334098beed57d47d778acecf7e6c4b7b375b47"
+    },
+    "actual A refund-offline": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-partial/refund-offline.txt",
+      "sha256": "e6f350df029eeaa7dd810df49a5a32eb419852184dc91832e8f6be2006d2ab07"
+    },
+    "actual A refund-release-offline": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-partial/refund-release-offline.txt",
+      "sha256": "733709bfa26e1280b97f42b770f2bddc752e9e552a56a1cf11e2ad015361c784"
+    },
+    "actual A refund-release-recover": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-partial/refund-release-recover.txt",
+      "sha256": "733709bfa26e1280b97f42b770f2bddc752e9e552a56a1cf11e2ad015361c784"
+    },
+    "actual A refund-sync-live": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-partial/refund-sync-live.txt",
+      "sha256": "3fee87667d4c17ba7a4ff50eb92d1b16ce0f04eb89195921172aeee85a919e10"
+    },
+    "actual A refund-sync-recover": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-partial/refund-sync-recover.txt",
+      "sha256": "e9c0d6026dcd56f3310162618cfa22b5d3b243d8027f32fd3e9fa5639992e803"
+    },
+    "owned A real restart": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-partial/refund-outage-processes.json",
+      "sha256": "4cd8b868c678db2cfb8d9133728bb2952edf5c3e6568def7b7ca9ffb9ebcbbd7"
+    },
+    "strict refund SQL assertions": {
+      "path": "target/refund/b055-b056-20261011-01-sql/sync.txt",
+      "sha256": "6b8a352c7cf7767de2c7b04af69eca9f5fb5b493f52688d843dc0b983cf46f9c"
+    },
+    "inventory/HTTP/controls assertions": {
+      "path": "target/refund/b055-b056-20261011-01-sql/release.txt",
+      "sha256": "b7ec31c0d2765c45fc33b0e720faeae40e7c7857d0bc4493efff913b18d95ebd"
+    },
+    "actual B HTTP browser": {
+      "path": "target/refund/b055-b056-20261011-01-browser/browser.json",
+      "sha256": "b1d28aaaf3f3880acd94fc093ac2e1d81af7243f95d7d4b925a2fbf292ca17dc"
+    },
+    "browser process cleanup": {
+      "path": "target/refund/b055-b056-20261011-01-browser/report.json",
+      "sha256": "18e34cc9e38e7dfa7200bebd50e9413a00f112f494a03de4dac84440c147bde2"
+    },
+    "proof-aware B04 handoff audit": {
+      "path": "target/b04-handoff/b055-b056-20261011-01-handoff/snapshot.json",
+      "sha256": "3f4f362d521db00bf83de46375cfcb9404a1a38a3cbd3a4f0d48467238637778"
+    },
+    "payment-closing/verify": {
+      "path": "target/payment-closing/b055-b056-20261011-01-closing-regression/verify.txt",
+      "sha256": "7ea42e08960c8ad901a8f87ed657f3ccd4ad5b09b040950bfb6a9915f63c513e"
+    },
+    "payment-closing/recover": {
+      "path": "target/payment-closing/b055-b056-20261011-01-closing-regression/recover.txt",
+      "sha256": "c83dce2257e97cb2135e3e3cae3d9fde1b6eef0573bcade04afca44f5a9f4ea0"
+    },
+    "settlement/verify": {
+      "path": "target/settlement/b055-b056-20261011-01-settlement-regression/verify.txt",
+      "sha256": "fda7c07fa2dbfb093b9e24c71d569ae074184a8981cc568ff556fe44077abd4c"
+    },
+    "settlement/recover": {
+      "path": "target/settlement/b055-b056-20261011-01-settlement-regression/recover.txt",
+      "sha256": "52073fc03af855eea23fe03cf53d483469dffb204a1e98b76b1b26ba31f9bda5"
+    },
+    "fulfillment/verify": {
+      "path": "target/fulfillment/b055-b056-20261011-01-fulfillment-regression/verify.txt",
+      "sha256": "7a6d8c08b0ec4d281fc098cb627c984ae1ccec870351f2c94e1f5b13d1ef46dc"
+    },
+    "fulfillment/recover": {
+      "path": "target/fulfillment/b055-b056-20261011-01-fulfillment-regression/recover.txt",
+      "sha256": "9938cbc1814d3a5c89ebbdd90398af3956d73f09560221960177c13bf898e92a"
+    },
+    "final protected snapshot": {
+      "path": "target/refund/b055-b056-20261011-01-final/after-protected.txt",
+      "sha256": "91200197cb661cf5afc3f72d914c4708a2fc37032047b79da6e19e9f660f7db2"
+    },
+    "ordinary default startup": {
+      "path": "target/refund/b055-b056-20261011-01-startup/report.json",
+      "sha256": "004a1e37ef583b419738a78789711c7df1544746923763454b38ca54904fd797"
+    },
+    "joint serial runner": {
+      "path": "target/b05-joint/b056-20261011-01/report.json",
+      "sha256": "54ce182cfed611ca0e3b5fe4779fb9c1aa324cea3fea750a33d586be92d0cec9"
+    },
+    "fresh reconciliation SQL": {
+      "path": "target/reconciliation/b055-b056-20261011-01-reconciliation/report.json",
+      "sha256": "a0afff97a91610f300f1567fd15b133cde44373e0adc265d8ba12bc1b7333c8d"
+    },
+    "reconciliation faults": {
+      "path": "target/reconciliation/b055-b056-20261011-01-reconciliation/verify.txt",
+      "sha256": "02b9876aa4d40b193eb08e59b6dafffed7d7fac4d5a3fcc7f4f47803327cfc66"
+    },
+    "original completion new JVM": {
+      "path": "target/reconciliation/b055-b056-20261011-01-reconciliation/recover.txt",
+      "sha256": "6da956b0eb2bc7f90b2441dfd768aeac04b7d5c89ba70d04d4a39bf2a16cac8a"
+    },
+    "in-window PAID/A CANCELLED safety": {
+      "path": "target/reconciliation/b055-b056-20261011-01-reconciliation/cancelled-in-window-isolation-conservation.json",
+      "sha256": "b0fd877ee0cfe9c181390034c694fe30dd96765b5c7d00e9ba8042bdecd5c86c"
+    },
+    "actual A none": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-none/report.json",
+      "sha256": "e37aa51a96cc6d4d6158303fafb393a1bfffd1f68578a1b70ba7813a5098d94d"
+    },
+    "actual A none terminal": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-none/reconciliation-recover.txt",
+      "sha256": "44bd4899e550b6e2d9c4c4859971621ab6e7795223147dd5df6cfa27dc7a28cb"
+    },
+    "actual A none per-order conservation": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-none/reconciliation-recover-conservation.json",
+      "sha256": "fc51d4c634bdd01961d01ad6dd469c0f4e584150bbc9c519967b564fe0538b1b"
+    },
+    "actual A partial": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-partial/report.json",
+      "sha256": "284e18fef16a491b2869873716a119fe3e31891df7c994aac7d6a6b79d1f4ef2"
+    },
+    "actual A partial terminal": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-partial/refund-sync-recover.txt",
+      "sha256": "e9c0d6026dcd56f3310162618cfa22b5d3b243d8027f32fd3e9fa5639992e803"
+    },
+    "actual A partial per-order conservation": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-partial/refund-sync-recover-conservation.json",
+      "sha256": "4c2d978d66b4136a2cd0cbfa9c955be2117f98db0f1d79b88eb7a15d0b694b50"
+    },
+    "actual A all-paid-competition": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-completed/report.json",
+      "sha256": "b386a51bdfbf37f7c00cfbcbe99d6d58c2156929bdf5d556c7617edb373b7618"
+    },
+    "actual A all-paid-competition terminal": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-completed/reconciliation-completed.txt",
+      "sha256": "5789f98d20f556eec1881875d8d1367a09195eb2b77c8b23746bcf1db647be0f"
+    },
+    "actual A all-paid-competition per-order conservation": {
+      "path": "target/b03-readiness/b055-b056-20261011-01-completed/reconciliation-completed-conservation.json",
+      "sha256": "59f3542ed36100966c5ddc93dbf7f8824427fe466e2cebd313bf7974113b1f11"
+    },
+    "exact A quota and accepted payment counts": {
+      "path": "target/b05-joint/b056-20261011-quota-01/report.json",
+      "sha256": "7178204724539222e44adeb538fd5b526784429e8ad14d0bf7007ac27b620cc0"
+    },
+    "aggregate original regressions": {
+      "path": "target/refund/b055-b056-20261011-01-final/report.json",
+      "sha256": "c88e646953cb19038a85e5f88c1e43b2940e9d0e1cbf3b6c97fca01bb64c8e13"
+    },
+    "frontend production build": {
+      "path": "target/b05-joint/b056-frontend-build.log",
+      "sha256": "40b9a76c9d56cb92c3ffdff6c304cca8c92588c2f7d25959d7e9a3d4d2db946a"
+    }
+  },
+  "reproduction": "docs/tests/run-b05-joint.ps1 and docs/b05-b06-handoff.md"
+}

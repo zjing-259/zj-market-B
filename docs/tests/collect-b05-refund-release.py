@@ -1,0 +1,71 @@
+"""Collect immutable B-05.5 evidence. Does not execute business work or rewrite old reports."""
+from pathlib import Path
+import argparse,hashlib,json,re,subprocess,zipfile,io,xml.etree.ElementTree as ET
+ROOT=Path(__file__).resolve().parents[2]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def git(path,*args):return subprocess.check_output(['git','-C',str(path),*args],text=True).strip()
+def main():
+ p=argparse.ArgumentParser();p.add_argument('--run-name',required=True);p.add_argument('--sql-batch',required=True);p.add_argument('--actual-batch',required=True);p.add_argument('--regression-prefix',required=True);p.add_argument('--startup-batch',required=True);p.add_argument('--protected-after',required=True);p.add_argument('--browser-batch',required=True);p.add_argument('--audit-batch',required=True);a=p.parse_args()
+ for k,v in vars(a).items():
+  if k=='protected_after':continue
+  if not re.fullmatch(r'[A-Za-z0-9-]+',v):p.error('Simple new batch names only')
+ out=ROOT/'target/refund'/a.run_name;out.mkdir(parents=True,exist_ok=False)
+ result={'stage':'B-05.5','status':'RUNNING','checks':[],'evidence':{},'scope':'simulated funds only; actual MySQL/channel/locks/two JVMs and fresh actual A eligibility; refund signed MQ/RPC included; inventory release, buyer/operator pages and query-only controls included; full B056 matrix remains later'}
+ def check(name,yes):result['checks'].append({'name':name,'passed':bool(yes)})
+ def report(label,path):
+  raw=path.read_bytes();obj=json.loads(raw);result['evidence'][label]={'path':str(path),'sha256':hashlib.sha256(raw).hexdigest()};check(label,obj['status']=='PASSED');return obj
+ def textreport(label,path):
+  text=path.read_text(encoding='utf-8-sig');result['evidence'][label]={'path':str(path),'sha256':sha(path)};check(label,'status=PASSED' in text.splitlines());return text
+ try:
+  check('actual b-05 worktree',git(ROOT,'branch','--show-current')=='b-05' and git(ROOT,'rev-parse','HEAD')=='53ad32d222cdcb1b330cf07a53b2fd64e02ccccf')
+  jar=ROOT/'zj-market-verification/target/zj-market-verification.jar';current=sha(jar);result['verificationJarSha256']=current
+  sql=ROOT/'target/refund'/a.sql_batch;s=report('SQL/channel/locks/two JVMs',sql/'report.json');check('SQL same final package',s['verificationJarSha256'].lower()==current);check('SQL original protected rows unchanged',s['oldProtectedRowsMissingOrChanged']==0)
+  for label in ['test','development']:
+   text=textreport(label+' permissions',sql/(label+'-permissions.txt'));grants=[x for x in text.splitlines() if x.startswith('grant=GRANT SELECT, INSERT, UPDATE, DELETE ON ')]
+   check(label+' exact 48-table DML',len(grants)==48 and all('flyway_schema_history' not in g for g in grants));check(label+' no DDL/history/A/system/grant','runtimeDDL/history/A/system/grant=DENIED' in text)
+  textreport('refund verification',sql/'verify.txt');textreport('original request new JVM recovery',sql/'recover.txt')
+  live=ROOT/'target/b03-readiness'/a.actual_batch;ar=report('fresh actual A reconciliation',live/'report.json');check('actual A caller/ports/default Java restored',all(ar.get(k) for k in ['environmentRestored','ownedPortsReleased','defaultJavaUnchanged']))
+  provenance=dict(x.split('=',1) for x in (live/'provenance.txt').read_text(encoding='utf-8-sig').splitlines() if '=' in x);check('actual A same final B package',provenance['B-verification-jar-sha256'].lower()==current)
+  check('original tested A runtime and contract',provenance['A-jar-sha256'].lower()=='223a02521120f6d83cb58220e7cff08839a5b6bcbac9bc5c00bca42f8e6c8392' and provenance['A-contract-sha256'].lower()=='83b02a7ebf5e80b5ef4d1b03936e6b1ca33eed32f6d9c68b451e855c6192d7dd')
+  for mode in ['reconciliation','reconciliation-recover']:textreport('actual A '+mode,live/(mode+'.txt'))
+  for mode in ['refund-offline','refund-release-offline','refund-release-recover','refund-sync-live','refund-sync-recover']:textreport('actual A '+mode,live/(mode+'.txt'))
+  report('owned A real restart',live/'refund-outage-processes.json')
+  textreport('strict refund SQL assertions',sql/'sync.txt')
+  textreport('inventory/HTTP/controls assertions',sql/'release.txt')
+  browser=report('actual B HTTP browser',ROOT/'target/refund'/a.browser_batch/'browser.json');br=report('browser process cleanup',ROOT/'target/refund'/a.browser_batch/'report.json');check('browser same final package/owned ports released',br['verificationJarSha256'].lower()==current and br['ownedPortsReleased']);check('browser desktop/narrow/readonly/original lost-response replay',browser['desktop'] and browser['readBusinessWrites']==0 and browser['lostResponseOriginalBodyReplay'] and not browser['mobileOverflow'] and not browser['pageErrors'])
+  report('proof-aware B04 handoff audit',ROOT/'target/b04-handoff'/a.audit_batch/'snapshot.json')
+  spec=json.loads((ROOT/'docs/b05-http-api.json').read_text(encoding='utf-8'));import importlib.util
+  module_spec=importlib.util.spec_from_file_location('b05_schema_checks',ROOT/'docs/tests/validate-b05-design.py');validator=importlib.util.module_from_spec(module_spec);module_spec.loader.exec_module(validator)
+  for name,schema in [('owner-http.json','OrderRefundViewResponse'),('refund-detail-http.json','RefundDetailResponse'),('reconciliation-detail-http.json','ReconciliationDetailResponse')]:
+   check('actual HTTP frozen contract '+name,validator.validate(spec,{'$ref':'#/components/schemas/'+schema},json.loads((sql/name).read_text(encoding='utf-8'))))
+  for folder in ['payment-closing','settlement','fulfillment']:
+   suffix={'payment-closing':'closing','settlement':'settlement','fulfillment':'fulfillment'}[folder]
+   for mode in ['verify','recover']:textreport(folder+'/'+mode,ROOT/'target'/folder/(a.regression_prefix+'-'+suffix+'-regression')/(mode+'.txt'))
+  migrations=json.loads((ROOT/'target/refund/b055-migration-sha256.json').read_text(encoding='utf-8'))
+  for path,h in migrations.items():check('V1-V18 checksum unchanged '+Path(path).name,sha(ROOT/path)==h)
+  baseline=json.loads((ROOT/'target/refund/b053-baseline/before.json').read_text(encoding='utf-8'))
+  for path,h in baseline['files'].items():
+   if '/db/migration/' in path.replace('\\','/') and path.endswith('.sql'):check('applied migration unchanged '+Path(path).name,sha(ROOT/path)==h)
+  initial=set((ROOT/'target/refund/b055-20261011-sql-01/before-protected.txt').read_text(encoding='utf-8-sig').splitlines());protected=ROOT/a.protected_after;result['evidence']['final protected snapshot']={'path':str(protected),'sha256':sha(protected)};final=set(protected.read_text(encoding='utf-8-sig').splitlines());check('all pre-B055 funds/work/refund/HELD/guard/channel retained',initial<=final);result['originalProtectedRows']=len(initial);result['originalProtectedMissingOrChanged']=len(initial-final)
+  main=Path('D:/Java/zj-market/docs/development-roadmap.md');boundary=json.loads((ROOT/'target/refund/b055-main-roadmap-boundary.json').read_text(encoding='utf-8'));raw=main.read_bytes();lines=raw.splitlines(keepends=True);keys=[b'| B05-D'+str(n).encode()+b' |' for n in range(21,26)];stripped=b''.join(line for line in lines if not any(line.startswith(key) for key in keys));check('main roadmap only authorized D21-D25 rows added',all(sum(line.startswith(key) for line in lines)==1 for key in keys) and hashlib.sha256(stripped).hexdigest()==boundary['beforeSha256'])
+  check('B04 worktree unchanged',git(Path('D:/Java/zj-market-b-04'),'status','--porcelain')=='')
+  external=json.loads((ROOT/'target/refund/b055-external-a-before.json').read_text(encoding='utf-8'));a_root=Path('D:/Java/group-buy-market');check('A head and prior external config changes preserved',git(a_root,'rev-parse','HEAD')==external['head'] and all(sha(a_root/f)==h for f,h in external['files'].items()));check('A contract unchanged',sha(a_root/'docs/ab-api-contract.md')==external['contractSha256']);result['externalAStatus']=git(a_root,'status','--porcelain');check('actual A runtime artifact unchanged',sha(a_root/'group-buy-market-app/target/group-buy-market-app.jar')==external['runtimeJarSha256'])
+  counts={'tests':0,'failures':0,'errors':0,'skipped':0}
+  for path in (ROOT/'zj-market-app/target/surefire-reports').glob('TEST-*.xml'):
+   suite=ET.parse(path).getroot()
+   for key in counts:counts[key]+=int(suite.attrib.get(key,0))
+  result['junit']=counts;check('106 or more JUnit, all passing',counts['tests']>=106 and all(counts[k]==0 for k in ['failures','errors','skipped']))
+  ordinary=ROOT/'zj-market-app/target/zj-market-app-exec.jar';startup=report('ordinary default startup',ROOT/'target/refund'/a.startup_batch/'report.json');check('ordinary startup same package and clean stop',startup['applicationJarSha256'].lower()==sha(ordinary) and startup['ownedProcessStopped'] and startup['defaultJavaUnchanged']);result['applicationJarSha256']=sha(ordinary)
+  with zipfile.ZipFile(ordinary) as z:
+   check('ordinary excludes Flyway/verification',not any('flyway' in n.lower() or 'verification' in n.lower() for n in z.namelist()))
+   check('ordinary Java21 bytecode',int.from_bytes(z.read('BOOT-INF/classes/cn/zj/zjmarket/ZjMarketApplication.class')[6:8],'big')==65)
+   contracts=[n for n in z.namelist() if re.search(r'/group-buy-market-contract-[^/]+\.jar$',n)];check('one unchanged Java8 A contract dependency',len(contracts)==1)
+   if len(contracts)==1:
+    with zipfile.ZipFile(io.BytesIO(z.read(contracts[0]))) as contract:
+     classes=[n for n in contract.namelist() if n.endswith('.class')];check('A contract Java8 bytecode',bool(classes) and all(int.from_bytes(contract.read(n)[6:8],'big')==52 for n in classes))
+   props=z.read('BOOT-INF/classes/application.properties').decode();check('new admission off, recovery on, scheduler on','b.refund.enabled=${B_REFUND_ENABLED:false}' in props and 'b.refund.recovery-enabled=${B_REFUND_RECOVERY_ENABLED:true}' in props and 'b.refund.scheduler-enabled=${B_REFUND_SCHEDULER_ENABLED:true}' in props)
+  check('Git whitespace check',subprocess.run(['git','diff','--check'],cwd=ROOT,capture_output=True).returncode==0)
+  result['frontendSourceSha256']={str(p.relative_to(ROOT)):sha(p) for p in (ROOT/'frontend/src').rglob('*') if p.is_file()};result['sourceSha256']={str(p.relative_to(ROOT)):sha(p) for p in ROOT.rglob('*.java') if 'target' not in p.parts};result['gitStatus']=git(ROOT,'status','--short');result['status']='PASSED' if all(c['passed'] for c in result['checks']) else 'FAILED'
+ except Exception as e:result['status']='FAILED';result['errorType']=type(e).__name__;result['error']=str(e)
+ (out/'report.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf-8');print('B-05.5 delivery: '+result['status']+'; '+str(out/'report.json'));return 0 if result['status']=='PASSED' else 1
+if __name__=='__main__':raise SystemExit(main())
