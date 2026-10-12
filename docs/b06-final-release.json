@@ -1,0 +1,119 @@
+{
+  "format": 1,
+  "stage": "B-06.7",
+  "status": "LOCAL_TESTED_WINDOWS_FINAL_DELIVERY",
+  "stageCompletion": true,
+  "generatedAt": "2026-10-12T08:20:28.383568+00:00",
+  "images": {
+    "a": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+    "b": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+    "web": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754"
+  },
+  "allRuntimeImages": {
+    "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+    "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+    "namesrv": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+    "broker": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+    "marketing-a": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+    "market-b": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+    "web": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754"
+  },
+  "maintenanceImage": "sha256:bf881865565e5b000e5d256f229993f7d19eb144e86410e504d8b83ef7a1cb43",
+  "sdkImage": "sha256:1f155852e8ab82d7005171d17a5d4431c7e2d105ac941d7fa0e9dcbc21eee4eb",
+  "schemaProtocol": "B V1-V18 (19 migrations); opaque rosterVersion preserved",
+  "compatibility": "Same tested business jar packaging rollback only; unknown older business binaries rejected",
+  "baselineHead": "2eae6a23a23a505fd19a70a7de037d6ed07e9cbb",
+  "branch": "b-06",
+  "uncommittedWorktree": true,
+  "gitPublished": false,
+  "registryPublished": false,
+  "linuxVmValidated": false,
+  "finalBrowserChecks": 24,
+  "finalAccountingChecks": 11,
+  "finalRecoveryChecks": 40,
+  "deliveryGuardTests": 6,
+  "deliveryGuardLogSha256": "f0614fa3bef65b6cd4ecade9a66592685b008c6d5ea358fddc29f4657f2abc53",
+  "finalPackagingChecks": 33,
+  "finalMaintenanceChecks": 9,
+  "applicationTests": {
+    "count": 111,
+    "execution": "Historical B065 JUnit; existing result and actual image bytes rechecked, not rerun in B067"
+  },
+  "evidence": {
+    "B-06.0": {
+      "path": "docs/tests/b06-baseline-closeout-20261011.json",
+      "sha256": "311eebddd0c34f155656ea4e052cae9ce548e6b2e71cd56cf38ebddcb5a4b5f4",
+      "status": "PASSED_BASELINE_AND_DEPLOYMENT_DESIGN",
+      "historical": true
+    },
+    "B-06.1": {
+      "path": "docs/tests/b06-images-acceptance.json",
+      "sha256": "6b2aa5dae5f3ca44c522793bfd0654386376b837e0670c7cd06cb7f72bec174c",
+      "status": "PASSED_WINDOWS_IMAGES_NETWORK_CONFIGURATION",
+      "historical": true
+    },
+    "B-06.2": {
+      "path": "docs/tests/b06-startup-acceptance.json",
+      "sha256": "1eb7569546c1a972cc699b4749c1e8c9d018f72670d25d518b1541094e4b8cc3",
+      "status": "PASSED_WINDOWS_DATA_INITIALIZATION_CONTROLLED_STARTUP",
+      "historical": true
+    },
+    "B-06.3": {
+      "path": "docs/tests/b06-normal-acceptance.json",
+      "sha256": "8d45d3ce77931bffc7c0d3ee7e1daef8bc03209161fa7dc915cd3f96984200e0",
+      "status": "PASSED_WINDOWS_REAL_BROWSER_NORMAL_FLOW",
+      "historical": true
+    },
+    "B-06.4": {
+      "path": "docs/tests/b06-observability-acceptance.json",
+      "sha256": "cac6194795ecfd66f43f83a169a31e105b4fd18eeee321af11ee249358ef35ad",
+      "status": "PASSED_WINDOWS_DOCKER",
+      "historical": true
+    },
+    "B-06.5": {
+      "path": "docs/tests/b06-fault-acceptance.json",
+      "sha256": "79c347dec285310c68d9f9be1ca26e2c6dca279ddb18bead3e4d1595de10b28f",
+      "status": "PASSED_WINDOWS_DOCKER_FAULT_AND_RECOVERY",
+      "historical": true
+    },
+    "B-06.6": {
+      "path": "docs/tests/b06-backup-acceptance.json",
+      "sha256": "01224a4a1177e6d15f83552f2cf2e7eb1c496ae0d77ec01f0007aa65db84b210",
+      "status": "PASSED_WINDOWS_DOCKER_BACKUP_RESTORE_PACKAGING_ROLLBACK",
+      "historical": true
+    },
+    "B-06.7": {
+      "path": "docs/tests/b06-final-acceptance.json",
+      "sha256": "fd4cf206e880f9c14a2c9545f5f6b0771f0d838e0c7870cddc17c5f2b7844d89",
+      "status": "PASSED_WINDOWS_FINAL_PINNED_CANDIDATE",
+      "historical": false
+    }
+  },
+  "sourceSha256": {
+    "deploy/b06/DELIVERY.md": "e1b224c283b67cbadb6ffa19b87f0f03f766989d2147be865662da599eeca233",
+    "deploy/b06/compose.yml": "ed2e51c82260b63bb0500ae3f1d68d6bad6d1f855ff2f9ae601d223af3065fb4",
+    "docs/tests/b06-normal-browser.mjs": "1cb143d33c0d2fe694cdb7a9a3a34ccdb91ec3dd46b36b6c3511b2da3ff3ab6e",
+    "docs/tests/collect-b06-delivery.py": "693ef72c9373c12d259cc5c4f29f0468d4cdd36b316b2ae500274f35dc7529fc",
+    "docs/tests/collect-b06-normal.py": "5933c77caf7f7ef26c327097ba12d2594c64f94eece1b0efb89cfc3a9820b31f",
+    "docs/tests/run-b06-final.py": "ddb1f2bf2f9bc9a88b9ca75b2c86dd261db783545912ca425237bebf66c079dc",
+    "docs/tests/test-b06-delivery.py": "53ef1c275d0683dbd930599406b28bdf9ebffcf0586dbc49cefd7b62f5c341d3",
+    "scripts/b06-delivery.py": "ee35637a0b2ea2e6e07710ef00067a8b8911cb62953781c124d52e24ecb10672"
+  },
+  "historicalProvenance": "Each stage retains exact run/source/image hashes. B063 ran earlier B image; B067 reruns complete real browser on final B065 image. Shared browser/collector isolation arguments added only for B067; old reports are unchanged. B067 freshly restores sealed backup, repeats message/release recovery and full browser; full destructive B065 matrix is referenced, not rerun.",
+  "originalFinancialSha256": "a0756fb03a615c75e8dc1cffbb57e42bcb18f134d3040b9bc9ee4c3355af546a",
+  "originalChannelSha256": "6d1ca15a547f2174b4f671c1858751382fab2f20bc00c714186e3f9219d75ad9",
+  "finalRawRecoverySha256": "40ec9e3497c9b9295e3935c09edf30ff6d9e5d0d7d8b6984a907521d0a8df42b",
+  "privateInputs": [
+    "Sealed B066 backup, full secrets and immutable images; never public",
+    "Pinned A original binary/contract/doc for fresh source builds; exact source build commit unproven"
+  ],
+  "limits": [
+    "Windows Docker Linux/amd64 only; Linux VM/LAN other clients not validated",
+    "No genuine third-party money, shipment/receipt, partial refund or generic REVIEW clearing",
+    "Local unencrypted protected backup; no offhost, PITR, online backup, power loss or disk loss",
+    "No arbitrary older business binary rollback or schema downgrade",
+    "Watch manual; local alerts only; MQ consumer lag not collected",
+    "Windows-specific paths/context/resource/ACL checks require explicit Linux port and retest",
+    "All original failed batches, audits, quarantines and closed historical reviews retained"
+  ]
+}

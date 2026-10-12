@@ -42,4 +42,18 @@ class SettlementTests {
  @Test void refundRejectsExtraFieldsInvalidStatesAndVersions()throws Exception{String wire=refund();for(String bad:List.of(wire.replace("SUCCEEDED","UNKNOWN"),wire.replace("\"refundVersion\":\"2\"","\"refundVersion\":2"),wire.replace("\"refundVersion\":\"2\"","\"refundVersion\":\"0\""),wire.replace("\"refundVersion\":\"2\"","\"refundVersion\":\"9223372036854775808\""),wire.replace("\"refundId\":\"refund\"","\"refundId\":\"refund\",\"paymentId\":\"payment\""))){assertThrows(RuntimeException.class,()->reader.decode(signed(bad,"results","EVENT_PROCESSING_RESULT")));}}
  @Test void productReaderDoesNotApplyRefundReceipt()throws Exception{var store=mock(IProductSyncRepository.class);assertTrue(new SyncResultReader(settings,store,Map.of("key",SECRET)).receive(signed(refund(),"results","EVENT_PROCESSING_RESULT")));verifyNoInteractions(store);}
  @Test void refundSignatureAndMetadataRemainRequired()throws Exception{var m=signed(refund(),"results","EVENT_PROCESSING_RESULT");reader.receive(m,"wrong","s01","c01");verify(repo,never()).receive(any());verify(repo).quarantine(any(),any(),any(),any(),any(),any(),eq("MESSAGE_METADATA_INVALID"));}
+ String reconciliation(String rosterVersion)throws Exception{
+  var json=new com.fasterxml.jackson.databind.ObjectMapper();var e=(com.fasterxml.jackson.databind.node.ObjectNode)json.readTree(PAYMENT);e.put("eventType","TEAM_RECONCILIATION_REQUIRED");e.putNull("correlationId");var p=json.createObjectNode();p.put("teamId","team");p.put("activityId","1");p.put("teamVersion","3");p.putArray("outTradeNoList").add("order");p.put("reconciliationId","recon");p.put("rosterVersion",rosterVersion);p.put("validEndTime","2026-10-10T00:00:00.000Z");e.set("payload",p);return e.toString();
+ }
+ @Test void reconciliationRosterVersionIsOpaqueAndKeepsOriginalSignedWire()throws Exception{
+  for(String version:List.of("633ba492dd554dec4178245618ebfa01aabf6b3fcb518a6ec3f3e5f665e822ca","roster-v1")){
+   var m=signed(reconciliation(version),"teams","TEAM_RECONCILIATION_REQUIRED");var r=reader.decode(m);assertEquals("TEAM_RECONCILIATION_REQUIRED",r.type());assertEquals(ContractCodec.sha256(m.body()),r.hash());reader.receive(m);verify(repo).receive(r);
+  }
+ }
+ @Test void reconciliationOpaqueIdDoesNotRelaxOtherTrustOrVersionRules()throws Exception{
+  for(String version:List.of(""," "," roster","roster ","x".repeat(65)))assertThrows(RuntimeException.class,()->reader.decode(signed(reconciliation(version),"teams","TEAM_RECONCILIATION_REQUIRED")));
+  String good=reconciliation("opaque");for(String bad:List.of(good.replace("\"rosterVersion\":\"opaque\"","\"rosterVersion\":7"),good.replace("\"teamVersion\":\"3\"","\"teamVersion\":\"9223372036854775808\""),good.replace("\"activityId\":\"1\"","\"activityId\":\"opaque\"")))assertThrows(RuntimeException.class,()->reader.decode(signed(bad,"teams","TEAM_RECONCILIATION_REQUIRED")));
+  var m=signed(good,"teams","TEAM_RECONCILIATION_REQUIRED");reader.receive(new SyncBadMessage(m.topic(),m.tag(),m.keyId(),"invalid",m.body(),null));verify(repo,never()).receive(any());verify(repo).quarantine(any(),any(),any(),any(),any(),any(),eq("SIGNATURE_INVALID"));
+ }
+
 }

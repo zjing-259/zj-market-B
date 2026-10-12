@@ -1,0 +1,504 @@
+{
+  "stage": "B-06.7",
+  "status": "PASSED_WINDOWS_FINAL_PINNED_CANDIDATE",
+  "stageCompletion": true,
+  "generatedAt": "2026-10-12T08:20:12.792494+00:00",
+  "runName": "b063-final-final-20261012-01",
+  "scope": "Windows Docker; real Edge TLS verification enabled; dedicated resolver; simulated funds only",
+  "browserChecks": [
+    "trusted-https-web-locks-b06buyer",
+    "trusted-https-web-locks-b06buyer2",
+    "trusted-https-web-locks-b06operator",
+    "secure-http-only-refresh-cookie",
+    "real-page-reload-session-refresh",
+    "homepage-select-success",
+    "stable-payment-root-failed-attempt-retry",
+    "trusted-simulated-amount-dd2a5323-9053-4c2e-86a8-4f3e5f138e7f",
+    "trusted-simulated-amount-6a455986-f43d-4eee-85d1-f900814fd169",
+    "reload-no-business-writes-completed-dd2a5323-9053-4c2e-86a8-4f3e5f138e7f",
+    "reload-no-business-writes-completed-6a455986-f43d-4eee-85d1-f900814fd169",
+    "actual-open-join-one-team",
+    "homepage-select-expiry",
+    "trusted-simulated-amount-7d63a019-ce8e-4a23-99cd-98b61f48d9e5",
+    "partial-team-waits-natural-expiry",
+    "homepage-select-cancel",
+    "reload-no-business-writes-unpaid-cancelled",
+    "other-buyer-order-hidden",
+    "buyer-cannot-read-operator-api",
+    "foreign-origin-rejected",
+    "reload-no-business-writes-natural-expiry-refund",
+    "buyer-mobile-no-overflow",
+    "reload-no-business-writes-operator-refund",
+    "browser-no-page-errors"
+  ],
+  "accountingChecks": [
+    "success-stock-conservation",
+    "funds-stock-unique-dd2a5323-9053-4c2e-86a8-4f3e5f138e7f",
+    "funds-stock-unique-6a455986-f43d-4eee-85d1-f900814fd169",
+    "success-actual-A-quota-terminal",
+    "expiry-stock-conservation",
+    "funds-stock-unique-7d63a019-ce8e-4a23-99cd-98b61f48d9e5",
+    "expiry-actual-A-quota-terminal",
+    "cancel-stock-conservation",
+    "funds-stock-unique-b1ea0ea4-a01c-46fa-b3db-0c3cde598a84",
+    "cancel-actual-A-quota-terminal",
+    "seven-services-healthy-no-observed-oom"
+  ],
+  "facts": {
+    "success": {
+      "goodsId": "1b60cb72-fd11-480a-b3cd-c117bd4cf855",
+      "inventory": {
+        "sold": 2,
+        "reserved": 0,
+        "available": 8
+      },
+      "orders": [
+        {
+          "orderId": "dd2a5323-9053-4c2e-86a8-4f3e5f138e7f",
+          "review": 0,
+          "status": "GROUP_COMPLETED",
+          "payments": 1,
+          "lastError": null,
+          "paidAmount": 90.0,
+          "reservation": "CONFIRMED",
+          "fulfillments": 1,
+          "confirmLedgers": 1,
+          "refundedAmount": 0,
+          "releaseLedgers": 0,
+          "channelSuccesses": 1,
+          "refundReleaseRows": 0,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 1,
+            "refundedAmount": 0,
+            "paidTimeMatches": 1,
+            "refundSuccesses": 0
+          },
+          "aAcceptedFacts": {
+            "refundId": null,
+            "paymentId": "06b7c5fd-4631-4fea-92dd-178758568512",
+            "paidAmount": 90.0,
+            "refundAmount": null,
+            "refundStatus": null
+          }
+        },
+        {
+          "orderId": "6a455986-f43d-4eee-85d1-f900814fd169",
+          "review": 0,
+          "status": "GROUP_COMPLETED",
+          "payments": 1,
+          "lastError": null,
+          "paidAmount": 90.0,
+          "reservation": "CONFIRMED",
+          "fulfillments": 1,
+          "confirmLedgers": 1,
+          "refundedAmount": 0,
+          "releaseLedgers": 0,
+          "channelSuccesses": 1,
+          "refundReleaseRows": 0,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 1,
+            "refundedAmount": 0,
+            "paidTimeMatches": 1,
+            "refundSuccesses": 0
+          },
+          "aAcceptedFacts": {
+            "refundId": null,
+            "paymentId": "808cfa08-affd-4f53-acd0-9f12229805d6",
+            "paidAmount": 90.0,
+            "refundAmount": null,
+            "refundStatus": null
+          }
+        }
+      ],
+      "exactAQuota": {
+        "paid": 2,
+        "reserved": 2
+      },
+      "aTeam": {
+        "locked": 2,
+        "status": "COMPLETED",
+        "target": 2,
+        "teamId": "3daee3c7-44b1-4c13-a03e-a9269bdeb376",
+        "expired": false,
+        "complete": 2
+      }
+    },
+    "expiry": {
+      "goodsId": "df03c06b-d1fa-4ba0-8887-706992dfb420",
+      "inventory": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      },
+      "orders": [
+        {
+          "orderId": "7d63a019-ce8e-4a23-99cd-98b61f48d9e5",
+          "review": 1,
+          "status": "CLOSED",
+          "payments": 1,
+          "lastError": "TEAM_FAILED",
+          "paidAmount": 90.0,
+          "reservation": "RELEASED",
+          "fulfillments": 0,
+          "confirmLedgers": 0,
+          "refundedAmount": 90.0,
+          "releaseLedgers": 1,
+          "channelSuccesses": 1,
+          "refundReleaseRows": 1,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 1,
+            "refundedAmount": 90.0,
+            "paidTimeMatches": 1,
+            "refundSuccesses": 1
+          },
+          "aAcceptedFacts": {
+            "refundId": "b5bedab6-3fe2-4118-95d0-6dba70e02e51",
+            "paymentId": "6af7183d-08d9-4a15-b391-7e1e177b2cd6",
+            "paidAmount": 90.0,
+            "refundAmount": 90.0,
+            "refundStatus": "SUCCEEDED"
+          }
+        }
+      ],
+      "exactAQuota": {
+        "paid": 1,
+        "reserved": 1
+      },
+      "reconciliation": {
+        "state": "RESOLVED",
+        "members": 1,
+        "finalized": 1,
+        "submission": "ACKNOWLEDGED"
+      },
+      "aTeam": {
+        "locked": 1,
+        "status": "FAILED",
+        "target": 2,
+        "teamId": "8277f059-bf9c-4365-b367-da571a759373",
+        "expired": true,
+        "complete": 1
+      }
+    },
+    "cancel": {
+      "goodsId": "c74ef86a-0ea8-408b-99ee-c7354ceac931",
+      "inventory": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      },
+      "orders": [
+        {
+          "orderId": "b1ea0ea4-a01c-46fa-b3db-0c3cde598a84",
+          "review": 0,
+          "status": "CLOSED",
+          "payments": 0,
+          "lastError": null,
+          "paidAmount": 0,
+          "reservation": "RELEASED",
+          "fulfillments": 0,
+          "confirmLedgers": 0,
+          "refundedAmount": 0,
+          "releaseLedgers": 1,
+          "channelSuccesses": 0,
+          "refundReleaseRows": 0,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 0,
+            "refundedAmount": 0,
+            "paidTimeMatches": 0,
+            "refundSuccesses": 0
+          },
+          "aAcceptedFacts": {
+            "refundId": null,
+            "paymentId": null,
+            "paidAmount": null,
+            "refundAmount": null,
+            "refundStatus": null
+          }
+        }
+      ],
+      "exactAQuota": {
+        "paid": 0,
+        "reserved": 0
+      },
+      "aTeam": {
+        "locked": 0,
+        "status": "FORMING",
+        "target": 2,
+        "teamId": "b3892b5e-e291-4127-bc89-87a1eb43bcf5",
+        "expired": false,
+        "complete": 0
+      }
+    }
+  },
+  "rawBrowserReportSha256": "fbb762f7d5b98f94f2104eeb539962d7483d9d78dc2529553dd03c7f8bbd8a43",
+  "sourceSha256": {
+    "scripts/open-b06-browser.ps1": "34e557dd850060aefa6c8d9d93fc5c7c34d449f8e17cd6116b3c22a5f24cb831",
+    "docs/tests/b06-normal-browser.mjs": "1cb143d33c0d2fe694cdb7a9a3a34ccdb91ec3dd46b36b6c3511b2da3ff3ab6e",
+    "docs/tests/run-b06-normal.py": "8c090a7b5c44cfd1ec658ab01cff3744ff94ccba6c242317a514b63cd9df18f6",
+    "docs/tests/collect-b06-normal.py": "5933c77caf7f7ef26c327097ba12d2594c64f94eece1b0efb89cfc3a9820b31f"
+  },
+  "images": {
+    "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+    "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+    "namesrv": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+    "broker": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+    "marketing-a": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+    "market-b": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+    "web": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754"
+  },
+  "screenshots": {
+    "completed-6a455986-f43d-4eee-85d1-f900814fd169.png": "ed48dfbe2d91e9182f7a7a6a8eb3412ce9d5d1cc2d575227cbb2e8fd705edfc0",
+    "completed-dd2a5323-9053-4c2e-86a8-4f3e5f138e7f.png": "9504749d8f74433053fb232452dfdd83ef0ec4d3300e533ab7a6ea91e2464e4c",
+    "homepage-selection.png": "c1f620d8b5234e24af024b932ed34c3a3c04b8a8d5f109ffbe12e50ae6c55906",
+    "natural-expiry-refund.png": "ea75bb747fac4dfa69e6d250d5bd4e69410ae328ac642b8b3a3bf2f4a16da27b",
+    "operator-reconciliations.png": "3861712c7f706a9cbd38d1812831ebe878e517cbc33d2e08a72ef1801ee5ad5e",
+    "operator-refund.png": "0a20f053b7254f82d37c552589334199306921edd4a32677faaeb0fd33c603c9",
+    "operator-stock.png": "684c34c561c512a0beddcb57bd1fa293efc2363e83aeee95f261d56fb7761732",
+    "refund-mobile.png": "3640b420faf3faea9c224c0d6eb3cd9da60c7b8c6c837854625e715127a140a7",
+    "unpaid-cancelled.png": "21b6cc8aab7cb4be58e6106650abaa027f0edcd51214b43eacce0261f04f3020"
+  },
+  "linuxVmValidated": false,
+  "gitPublished": false,
+  "restoredProject": "zj-market-b066-final-20261012-01",
+  "sourceBackupRun": "b066-20261012-02",
+  "sourceBackupManifestSha256": "e1b230fd5316987cfe5370dc2fb2db156dac34dfca55dfcc51123b8b72528459",
+  "recoveryRun": "b066-final-20261012-01",
+  "rawRecoveryReportSha256": "40ec9e3497c9b9295e3935c09edf30ff6d9e5d0d7d8b6984a907521d0a8df42b",
+  "recoveryChecks": [
+    {
+      "name": "source-ready-capacity-images-volumes-owned",
+      "status": "PASSED",
+      "at": "2026-10-12T08:08:29.650482+00:00"
+    },
+    {
+      "name": "normal-stopped-web",
+      "status": "PASSED",
+      "at": "2026-10-12T08:08:48.969902+00:00"
+    },
+    {
+      "name": "normal-stopped-market-b",
+      "status": "PASSED",
+      "at": "2026-10-12T08:08:52.247064+00:00"
+    },
+    {
+      "name": "normal-stopped-marketing-a",
+      "status": "PASSED",
+      "at": "2026-10-12T08:08:55.427584+00:00"
+    },
+    {
+      "name": "normal-stopped-broker",
+      "status": "PASSED",
+      "at": "2026-10-12T08:09:01.164199+00:00"
+    },
+    {
+      "name": "normal-stopped-namesrv",
+      "status": "PASSED",
+      "at": "2026-10-12T08:09:04.114381+00:00"
+    },
+    {
+      "name": "normal-stopped-redis",
+      "status": "PASSED",
+      "at": "2026-10-12T08:09:04.740464+00:00"
+    },
+    {
+      "name": "mysql-normal-slow-shutdown",
+      "status": "PASSED",
+      "at": "2026-10-12T08:09:07.440299+00:00"
+    },
+    {
+      "name": "backup-complete-and-all-hashes-before-restore",
+      "status": "PASSED",
+      "at": "2026-10-12T08:09:17.673857+00:00"
+    },
+    {
+      "name": "empty-volume-restored-byte-metadata-mysql-data",
+      "status": "PASSED",
+      "at": "2026-10-12T08:09:29.506285+00:00"
+    },
+    {
+      "name": "empty-volume-restored-byte-metadata-redis-data",
+      "status": "PASSED",
+      "at": "2026-10-12T08:09:31.353239+00:00"
+    },
+    {
+      "name": "empty-volume-restored-byte-metadata-broker-store",
+      "status": "PASSED",
+      "at": "2026-10-12T08:10:20.835523+00:00"
+    },
+    {
+      "name": "empty-volume-restored-byte-metadata-broker-logs",
+      "status": "PASSED",
+      "at": "2026-10-12T08:10:22.766666+00:00"
+    },
+    {
+      "name": "empty-volume-restored-byte-metadata-namesrv-logs",
+      "status": "PASSED",
+      "at": "2026-10-12T08:10:24.164035+00:00"
+    },
+    {
+      "name": "actual-restore-middleware-networks-isolated",
+      "status": "PASSED",
+      "at": "2026-10-12T08:11:34.993259+00:00"
+    },
+    {
+      "name": "all-a-b-tables-and-flyway-exact-after-empty-volume-restore",
+      "status": "PASSED",
+      "at": "2026-10-12T08:11:35.935459+00:00"
+    },
+    {
+      "name": "funds-inventory-ledgers-quotas-inbox-exact-before-workers",
+      "status": "PASSED",
+      "at": "2026-10-12T08:11:36.127723+00:00"
+    },
+    {
+      "name": "restored-schema-history-minimal-grants-locked-migrators",
+      "status": "PASSED",
+      "at": "2026-10-12T08:11:39.316078+00:00"
+    },
+    {
+      "name": "strict-https-identity-product-sync-signed-rpc-after-restore",
+      "status": "PASSED",
+      "at": "2026-10-12T08:12:30.984132+00:00"
+    },
+    {
+      "name": "restored-financials-stable-after-original-workers",
+      "status": "PASSED",
+      "at": "2026-10-12T08:12:31.168842+00:00"
+    },
+    {
+      "name": "restored-new-purchase-checkout-and-cancel-close-release",
+      "status": "PASSED",
+      "at": "2026-10-12T08:12:54.687158+00:00"
+    },
+    {
+      "name": "actual-channel-money-and-original-requests-stable-after-restored-workers",
+      "status": "PASSED",
+      "at": "2026-10-12T08:12:54.864545+00:00"
+    },
+    {
+      "name": "original-signed-event-two-deliveries-actually-consumed",
+      "status": "PASSED",
+      "at": "2026-10-12T08:13:04.122472+00:00"
+    },
+    {
+      "name": "original-duplicate-no-new-charge-refund-stock-quota-or-inbox",
+      "status": "PASSED",
+      "at": "2026-10-12T08:13:04.331214+00:00"
+    },
+    {
+      "name": "original-replay-actual-channel-money-and-request-facts-stable",
+      "status": "PASSED",
+      "at": "2026-10-12T08:13:04.545522+00:00"
+    },
+    {
+      "name": "candidate-and-rollback-original-business-jar",
+      "status": "PASSED",
+      "at": "2026-10-12T08:13:05.288607+00:00",
+      "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b"
+    },
+    {
+      "name": "candidate-and-rollback-original-business-jar",
+      "status": "PASSED",
+      "at": "2026-10-12T08:13:05.844671+00:00",
+      "image": "sha256:c0e8514aa54c7ff367226b5486bd4050ba8b16b2e1f24388a8465815a7fe0dcb"
+    },
+    {
+      "name": "compatible-package-runtime-contract-preserved",
+      "status": "PASSED",
+      "at": "2026-10-12T08:13:06.087353+00:00"
+    },
+    {
+      "name": "incompatible-release-refused-before-mutation",
+      "status": "PASSED",
+      "at": "2026-10-12T08:13:06.088498+00:00"
+    },
+    {
+      "name": "distinct-compatible-candidate-opened",
+      "status": "PASSED",
+      "at": "2026-10-12T08:14:00.236207+00:00"
+    },
+    {
+      "name": "unhealthy-release-refused-with-gate-closed",
+      "status": "PASSED",
+      "at": "2026-10-12T08:14:25.361229+00:00"
+    },
+    {
+      "name": "failure-gate-actual-https-mutations-rejected",
+      "status": "PASSED",
+      "at": "2026-10-12T08:14:25.452538+00:00"
+    },
+    {
+      "name": "rollback-restores-exact-original-image-and-funds",
+      "status": "PASSED",
+      "at": "2026-10-12T08:14:46.893063+00:00"
+    },
+    {
+      "name": "rollback-actual-channel-money-and-original-facts-stable",
+      "status": "PASSED",
+      "at": "2026-10-12T08:14:47.066254+00:00"
+    },
+    {
+      "name": "rollback-schema-history-unchanged-no-downgrade",
+      "status": "PASSED",
+      "at": "2026-10-12T08:15:04.246981+00:00"
+    },
+    {
+      "name": "final-candidate-real-browser-and-accounting",
+      "status": "PASSED",
+      "at": "2026-10-12T08:18:07.458949+00:00"
+    },
+    {
+      "name": "original-restored-open-ready",
+      "status": "PASSED",
+      "at": "2026-10-12T08:20:10.508236+00:00"
+    },
+    {
+      "name": "original-funds-stock-quotas-inbox-preserved",
+      "status": "PASSED",
+      "at": "2026-10-12T08:20:10.733367+00:00"
+    },
+    {
+      "name": "original-actual-channel-funds-and-request-hashes-preserved",
+      "status": "PASSED",
+      "at": "2026-10-12T08:20:10.915360+00:00"
+    },
+    {
+      "name": "hosts-shared-containers-context-original-networks-unchanged",
+      "status": "PASSED",
+      "at": "2026-10-12T08:20:11.144736+00:00"
+    }
+  ],
+  "finalAcceptanceSourceSha256": {
+    "docs/tests/run-b06-final.py": "ddb1f2bf2f9bc9a88b9ca75b2c86dd261db783545912ca425237bebf66c079dc",
+    "docs/tests/b06-normal-browser.mjs": "1cb143d33c0d2fe694cdb7a9a3a34ccdb91ec3dd46b36b6c3511b2da3ff3ab6e",
+    "docs/tests/collect-b06-normal.py": "5933c77caf7f7ef26c327097ba12d2594c64f94eece1b0efb89cfc3a9820b31f"
+  },
+  "originalRestored": true,
+  "originalFinancialSha256": "a0756fb03a615c75e8dc1cffbb57e42bcb18f134d3040b9bc9ee4c3355af546a",
+  "originalChannelSha256": "6d1ca15a547f2174b4f671c1858751382fab2f20bc00c714186e3f9219d75ad9",
+  "originalExternalUnchanged": true,
+  "originalObservationComplete": true,
+  "activeAlerts": 0,
+  "newEnvironmentScope": "Fresh empty named volumes restored from sealed backup; B062 blank business database initialization is separate historical evidence",
+  "allRecoveryJournalsEmpty": true
+}

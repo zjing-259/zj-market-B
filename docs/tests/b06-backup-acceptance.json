@@ -1,0 +1,997 @@
+{
+  "stage": "B-06.6",
+  "status": "PASSED_WINDOWS_DOCKER_BACKUP_RESTORE_PACKAGING_ROLLBACK",
+  "stageCompletion": true,
+  "generatedAt": "2026-10-12T07:49:34.388319+00:00",
+  "guardTests": 16,
+  "privateAclTests": 1,
+  "privateAclProof": {
+    "at": "2026-10-12T07:49:23.4586404+00:00",
+    "complete": true,
+    "helperSha256": "2724810f80b294b947dad7060b0f36d0e791cb48bc55f354266778dc6e8ec388",
+    "items": [
+      {
+        "scope": "private-root",
+        "inheritanceProtected": true,
+        "allowedRules": 3,
+        "unexpectedRules": 0,
+        "expectedPrincipals": "CurrentUser,SYSTEM,Administrators",
+        "fullControl": true
+      },
+      {
+        "scope": "runtime",
+        "inheritanceProtected": true,
+        "allowedRules": 3,
+        "unexpectedRules": 0,
+        "expectedPrincipals": "CurrentUser,SYSTEM,Administrators",
+        "fullControl": true
+      },
+      {
+        "scope": "control",
+        "inheritanceProtected": true,
+        "allowedRules": 3,
+        "unexpectedRules": 0,
+        "expectedPrincipals": "CurrentUser,SYSTEM,Administrators",
+        "fullControl": true
+      },
+      {
+        "scope": "observability",
+        "inheritanceProtected": true,
+        "allowedRules": 3,
+        "unexpectedRules": 0,
+        "expectedPrincipals": "CurrentUser,SYSTEM,Administrators",
+        "fullControl": true
+      },
+      {
+        "scope": "backup-02",
+        "inheritanceProtected": true,
+        "allowedRules": 3,
+        "unexpectedRules": 0,
+        "expectedPrincipals": "CurrentUser,SYSTEM,Administrators",
+        "fullControl": true
+      },
+      {
+        "scope": "restore-03",
+        "inheritanceProtected": true,
+        "allowedRules": 3,
+        "unexpectedRules": 0,
+        "expectedPrincipals": "CurrentUser,SYSTEM,Administrators",
+        "fullControl": true
+      },
+      {
+        "scope": "interrupted-04",
+        "inheritanceProtected": true,
+        "allowedRules": 3,
+        "unexpectedRules": 0,
+        "expectedPrincipals": "CurrentUser,SYSTEM,Administrators",
+        "fullControl": true
+      },
+      {
+        "scope": "runtime-values",
+        "inheritanceProtected": false,
+        "allowedRules": 3,
+        "unexpectedRules": 0,
+        "expectedPrincipals": "CurrentUser,SYSTEM,Administrators",
+        "fullControl": true
+      },
+      {
+        "scope": "demo-accounts",
+        "inheritanceProtected": false,
+        "allowedRules": 3,
+        "unexpectedRules": 0,
+        "expectedPrincipals": "CurrentUser,SYSTEM,Administrators",
+        "fullControl": true
+      },
+      {
+        "scope": "observer-principal",
+        "inheritanceProtected": false,
+        "allowedRules": 3,
+        "unexpectedRules": 0,
+        "expectedPrincipals": "CurrentUser,SYSTEM,Administrators",
+        "fullControl": true
+      },
+      {
+        "scope": "archived-values",
+        "inheritanceProtected": false,
+        "allowedRules": 3,
+        "unexpectedRules": 0,
+        "expectedPrincipals": "CurrentUser,SYSTEM,Administrators",
+        "fullControl": true
+      },
+      {
+        "scope": "restored-values",
+        "inheritanceProtected": false,
+        "allowedRules": 3,
+        "unexpectedRules": 0,
+        "expectedPrincipals": "CurrentUser,SYSTEM,Administrators",
+        "fullControl": true
+      }
+    ]
+  },
+  "batches": {
+    "coldBackup": {
+      "runName": "b066-20261012-02",
+      "checks": [
+        {
+          "name": "source-ready-capacity-images-volumes-owned",
+          "status": "PASSED",
+          "at": "2026-10-12T07:19:12.117977+00:00"
+        },
+        {
+          "name": "normal-stopped-web",
+          "status": "PASSED",
+          "at": "2026-10-12T07:19:30.376983+00:00"
+        },
+        {
+          "name": "normal-stopped-market-b",
+          "status": "PASSED",
+          "at": "2026-10-12T07:19:33.426380+00:00"
+        },
+        {
+          "name": "normal-stopped-marketing-a",
+          "status": "PASSED",
+          "at": "2026-10-12T07:19:36.600140+00:00"
+        },
+        {
+          "name": "normal-stopped-broker",
+          "status": "PASSED",
+          "at": "2026-10-12T07:19:41.619515+00:00"
+        },
+        {
+          "name": "normal-stopped-namesrv",
+          "status": "PASSED",
+          "at": "2026-10-12T07:19:44.629092+00:00"
+        },
+        {
+          "name": "normal-stopped-redis",
+          "status": "PASSED",
+          "at": "2026-10-12T07:19:45.233630+00:00"
+        },
+        {
+          "name": "mysql-normal-slow-shutdown",
+          "status": "PASSED",
+          "at": "2026-10-12T07:19:48.336964+00:00"
+        },
+        {
+          "name": "cold-archive-mysql-data",
+          "status": "PASSED",
+          "at": "2026-10-12T07:19:53.910482+00:00"
+        },
+        {
+          "name": "cold-archive-redis-data",
+          "status": "PASSED",
+          "at": "2026-10-12T07:19:54.309663+00:00"
+        },
+        {
+          "name": "cold-archive-broker-store",
+          "status": "PASSED",
+          "at": "2026-10-12T07:20:17.974530+00:00"
+        },
+        {
+          "name": "cold-archive-broker-logs",
+          "status": "PASSED",
+          "at": "2026-10-12T07:20:18.646868+00:00"
+        },
+        {
+          "name": "cold-archive-namesrv-logs",
+          "status": "PASSED",
+          "at": "2026-10-12T07:20:19.076055+00:00"
+        },
+        {
+          "name": "complete-set-hash-verified",
+          "status": "PASSED",
+          "at": "2026-10-12T07:20:54.596693+00:00"
+        },
+        {
+          "name": "backup-complete-and-all-hashes-before-restore",
+          "status": "PASSED",
+          "at": "2026-10-12T07:20:57.988450+00:00"
+        },
+        {
+          "name": "empty-volume-restored-byte-metadata-mysql-data",
+          "status": "PASSED",
+          "at": "2026-10-12T07:21:07.480796+00:00"
+        },
+        {
+          "name": "empty-volume-restored-byte-metadata-redis-data",
+          "status": "PASSED",
+          "at": "2026-10-12T07:21:08.923139+00:00"
+        },
+        {
+          "name": "empty-volume-restored-byte-metadata-broker-store",
+          "status": "PASSED",
+          "at": "2026-10-12T07:21:56.986855+00:00"
+        },
+        {
+          "name": "empty-volume-restored-byte-metadata-broker-logs",
+          "status": "PASSED",
+          "at": "2026-10-12T07:21:58.882625+00:00"
+        },
+        {
+          "name": "empty-volume-restored-byte-metadata-namesrv-logs",
+          "status": "PASSED",
+          "at": "2026-10-12T07:22:00.259352+00:00"
+        },
+        {
+          "name": "actual-restore-middleware-networks-isolated",
+          "status": "PASSED",
+          "at": "2026-10-12T07:23:11.914439+00:00"
+        },
+        {
+          "name": "all-a-b-tables-and-flyway-exact-after-empty-volume-restore",
+          "status": "PASSED",
+          "at": "2026-10-12T07:23:12.777634+00:00"
+        },
+        {
+          "name": "funds-inventory-ledgers-quotas-inbox-exact-before-workers",
+          "status": "PASSED",
+          "at": "2026-10-12T07:23:12.986286+00:00"
+        },
+        {
+          "name": "restored-schema-history-minimal-grants-locked-migrators",
+          "status": "PASSED",
+          "at": "2026-10-12T07:23:16.280479+00:00"
+        },
+        {
+          "name": "strict-https-identity-product-sync-signed-rpc-after-restore",
+          "status": "PASSED",
+          "at": "2026-10-12T07:24:08.433314+00:00"
+        },
+        {
+          "name": "restored-financials-stable-after-original-workers",
+          "status": "PASSED",
+          "at": "2026-10-12T07:24:08.636005+00:00"
+        },
+        {
+          "name": "restored-new-purchase-checkout-and-cancel-close-release",
+          "status": "PASSED",
+          "at": "2026-10-12T07:24:34.615751+00:00"
+        },
+        {
+          "name": "original-signed-event-two-deliveries-actually-consumed",
+          "status": "PASSED",
+          "at": "2026-10-12T07:24:45.844833+00:00"
+        },
+        {
+          "name": "original-duplicate-no-new-charge-refund-stock-quota-or-inbox",
+          "status": "PASSED",
+          "at": "2026-10-12T07:24:46.058858+00:00"
+        },
+        {
+          "name": "candidate-and-rollback-original-business-jar",
+          "status": "PASSED",
+          "at": "2026-10-12T07:24:46.957874+00:00",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b"
+        },
+        {
+          "name": "candidate-and-rollback-original-business-jar",
+          "status": "PASSED",
+          "at": "2026-10-12T07:24:47.593380+00:00",
+          "image": "sha256:c0e8514aa54c7ff367226b5486bd4050ba8b16b2e1f24388a8465815a7fe0dcb"
+        },
+        {
+          "name": "incompatible-release-refused-before-mutation",
+          "status": "PASSED",
+          "at": "2026-10-12T07:24:47.594885+00:00"
+        },
+        {
+          "name": "distinct-compatible-candidate-opened",
+          "status": "PASSED",
+          "at": "2026-10-12T07:25:42.402224+00:00"
+        },
+        {
+          "name": "unhealthy-release-refused-with-gate-closed",
+          "status": "PASSED",
+          "at": "2026-10-12T07:26:07.605720+00:00"
+        },
+        {
+          "name": "failure-gate-actual-https-mutations-rejected",
+          "status": "PASSED",
+          "at": "2026-10-12T07:26:07.701301+00:00"
+        },
+        {
+          "name": "rollback-restores-exact-original-image-and-funds",
+          "status": "PASSED",
+          "at": "2026-10-12T07:26:29.518290+00:00"
+        },
+        {
+          "name": "rollback-schema-history-unchanged-no-downgrade",
+          "status": "PASSED",
+          "at": "2026-10-12T07:26:46.631351+00:00"
+        },
+        {
+          "name": "original-restored-open-ready",
+          "status": "PASSED",
+          "at": "2026-10-12T07:28:50.132077+00:00"
+        },
+        {
+          "name": "original-funds-stock-quotas-inbox-preserved",
+          "status": "PASSED",
+          "at": "2026-10-12T07:28:50.329504+00:00"
+        },
+        {
+          "name": "hosts-shared-containers-context-original-networks-unchanged",
+          "status": "PASSED",
+          "at": "2026-10-12T07:28:50.565216+00:00"
+        }
+      ],
+      "startedAt": "2026-10-12T07:19:03.994161+00:00",
+      "finishedAt": "2026-10-12T07:28:50.568685+00:00",
+      "sourceSha256": {
+        "scripts/b06-backup.py": "2586b74d8197ce6f398d864e0f46074752fa137259ff1344f6d839426b099bc4",
+        "scripts/build-b06-recovery-tools.py": "234925290fdb19347c362485d4f2e52ff4921f41547ceffa8bf650cef7c9f9c4",
+        "deploy/b06/verification/RecoveryReplayProbe.java": "eb13e7930834e79097d51c8ef02c4e3660965cdd7597c687d3a1473123c70b41",
+        "docs/tests/test-b06-backup.py": "23ced22284d6979b6179e9319300a51d739e0844b8a3cfaa1b7e3f68a9fcdde5",
+        "docs/tests/b06-recovery-gate.mjs": "b403987023cdf4765c31310fc319da26472bf6d4c851a87550a58bf8b2c66145"
+      },
+      "rawReportSha256": "2ffa71954ac2efd3bbc4e1501c6e445862884dd0c6755309612725da95c387c6"
+    },
+    "existingBackupRestore": {
+      "runName": "b066-20261012-03",
+      "checks": [
+        {
+          "name": "source-ready-capacity-images-volumes-owned",
+          "status": "PASSED",
+          "at": "2026-10-12T07:31:53.330766+00:00"
+        },
+        {
+          "name": "normal-stopped-web",
+          "status": "PASSED",
+          "at": "2026-10-12T07:32:11.666493+00:00"
+        },
+        {
+          "name": "normal-stopped-market-b",
+          "status": "PASSED",
+          "at": "2026-10-12T07:32:14.762512+00:00"
+        },
+        {
+          "name": "normal-stopped-marketing-a",
+          "status": "PASSED",
+          "at": "2026-10-12T07:32:17.907730+00:00"
+        },
+        {
+          "name": "normal-stopped-broker",
+          "status": "PASSED",
+          "at": "2026-10-12T07:32:22.595795+00:00"
+        },
+        {
+          "name": "normal-stopped-namesrv",
+          "status": "PASSED",
+          "at": "2026-10-12T07:32:25.598827+00:00"
+        },
+        {
+          "name": "normal-stopped-redis",
+          "status": "PASSED",
+          "at": "2026-10-12T07:32:26.289134+00:00"
+        },
+        {
+          "name": "mysql-normal-slow-shutdown",
+          "status": "PASSED",
+          "at": "2026-10-12T07:32:28.505482+00:00"
+        },
+        {
+          "name": "backup-complete-and-all-hashes-before-restore",
+          "status": "PASSED",
+          "at": "2026-10-12T07:32:43.092865+00:00"
+        },
+        {
+          "name": "empty-volume-restored-byte-metadata-mysql-data",
+          "status": "PASSED",
+          "at": "2026-10-12T07:32:54.097942+00:00"
+        },
+        {
+          "name": "empty-volume-restored-byte-metadata-redis-data",
+          "status": "PASSED",
+          "at": "2026-10-12T07:32:55.962291+00:00"
+        },
+        {
+          "name": "empty-volume-restored-byte-metadata-broker-store",
+          "status": "PASSED",
+          "at": "2026-10-12T07:33:44.559315+00:00"
+        },
+        {
+          "name": "empty-volume-restored-byte-metadata-broker-logs",
+          "status": "PASSED",
+          "at": "2026-10-12T07:33:46.374205+00:00"
+        },
+        {
+          "name": "empty-volume-restored-byte-metadata-namesrv-logs",
+          "status": "PASSED",
+          "at": "2026-10-12T07:33:48.020590+00:00"
+        },
+        {
+          "name": "actual-restore-middleware-networks-isolated",
+          "status": "PASSED",
+          "at": "2026-10-12T07:34:57.632099+00:00"
+        },
+        {
+          "name": "all-a-b-tables-and-flyway-exact-after-empty-volume-restore",
+          "status": "PASSED",
+          "at": "2026-10-12T07:34:58.498023+00:00"
+        },
+        {
+          "name": "funds-inventory-ledgers-quotas-inbox-exact-before-workers",
+          "status": "PASSED",
+          "at": "2026-10-12T07:34:58.672298+00:00"
+        },
+        {
+          "name": "restored-schema-history-minimal-grants-locked-migrators",
+          "status": "PASSED",
+          "at": "2026-10-12T07:35:01.364963+00:00"
+        },
+        {
+          "name": "strict-https-identity-product-sync-signed-rpc-after-restore",
+          "status": "PASSED",
+          "at": "2026-10-12T07:35:52.870472+00:00"
+        },
+        {
+          "name": "restored-financials-stable-after-original-workers",
+          "status": "PASSED",
+          "at": "2026-10-12T07:35:53.072721+00:00"
+        },
+        {
+          "name": "restored-new-purchase-checkout-and-cancel-close-release",
+          "status": "PASSED",
+          "at": "2026-10-12T07:36:16.565766+00:00"
+        },
+        {
+          "name": "actual-channel-money-and-original-requests-stable-after-restored-workers",
+          "status": "PASSED",
+          "at": "2026-10-12T07:36:16.779504+00:00"
+        },
+        {
+          "name": "original-signed-event-two-deliveries-actually-consumed",
+          "status": "PASSED",
+          "at": "2026-10-12T07:36:24.715060+00:00"
+        },
+        {
+          "name": "original-duplicate-no-new-charge-refund-stock-quota-or-inbox",
+          "status": "PASSED",
+          "at": "2026-10-12T07:36:24.941510+00:00"
+        },
+        {
+          "name": "original-replay-actual-channel-money-and-request-facts-stable",
+          "status": "PASSED",
+          "at": "2026-10-12T07:36:25.132342+00:00"
+        },
+        {
+          "name": "candidate-and-rollback-original-business-jar",
+          "status": "PASSED",
+          "at": "2026-10-12T07:36:25.861946+00:00",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b"
+        },
+        {
+          "name": "candidate-and-rollback-original-business-jar",
+          "status": "PASSED",
+          "at": "2026-10-12T07:36:26.360902+00:00",
+          "image": "sha256:c0e8514aa54c7ff367226b5486bd4050ba8b16b2e1f24388a8465815a7fe0dcb"
+        },
+        {
+          "name": "compatible-package-runtime-contract-preserved",
+          "status": "PASSED",
+          "at": "2026-10-12T07:36:26.580690+00:00"
+        },
+        {
+          "name": "incompatible-release-refused-before-mutation",
+          "status": "PASSED",
+          "at": "2026-10-12T07:36:26.581918+00:00"
+        },
+        {
+          "name": "distinct-compatible-candidate-opened",
+          "status": "PASSED",
+          "at": "2026-10-12T07:37:20.727695+00:00"
+        },
+        {
+          "name": "unhealthy-release-refused-with-gate-closed",
+          "status": "PASSED",
+          "at": "2026-10-12T07:37:45.834034+00:00"
+        },
+        {
+          "name": "failure-gate-actual-https-mutations-rejected",
+          "status": "PASSED",
+          "at": "2026-10-12T07:37:45.929125+00:00"
+        },
+        {
+          "name": "rollback-restores-exact-original-image-and-funds",
+          "status": "PASSED",
+          "at": "2026-10-12T07:38:07.674776+00:00"
+        },
+        {
+          "name": "rollback-actual-channel-money-and-original-facts-stable",
+          "status": "PASSED",
+          "at": "2026-10-12T07:38:07.858210+00:00"
+        },
+        {
+          "name": "rollback-schema-history-unchanged-no-downgrade",
+          "status": "PASSED",
+          "at": "2026-10-12T07:38:24.975233+00:00"
+        },
+        {
+          "name": "original-restored-open-ready",
+          "status": "PASSED",
+          "at": "2026-10-12T07:40:29.456040+00:00"
+        },
+        {
+          "name": "original-funds-stock-quotas-inbox-preserved",
+          "status": "PASSED",
+          "at": "2026-10-12T07:40:29.667272+00:00"
+        },
+        {
+          "name": "original-actual-channel-funds-and-request-hashes-preserved",
+          "status": "PASSED",
+          "at": "2026-10-12T07:40:29.848897+00:00"
+        },
+        {
+          "name": "hosts-shared-containers-context-original-networks-unchanged",
+          "status": "PASSED",
+          "at": "2026-10-12T07:40:30.082331+00:00"
+        }
+      ],
+      "startedAt": "2026-10-12T07:31:25.361543+00:00",
+      "finishedAt": "2026-10-12T07:40:30.085794+00:00",
+      "sourceSha256": {
+        "scripts/b06-backup.py": "a000027f4dc0b5fbdedf6f7eb93251f9512f5e886a26a36b33a856e7e960bb57",
+        "scripts/build-b06-recovery-tools.py": "234925290fdb19347c362485d4f2e52ff4921f41547ceffa8bf650cef7c9f9c4",
+        "deploy/b06/verification/RecoveryReplayProbe.java": "eb13e7930834e79097d51c8ef02c4e3660965cdd7597c687d3a1473123c70b41",
+        "docs/tests/test-b06-backup.py": "56f77b6a4ffc0d71624ae666b10955cf3d2babfa8fecd7b4270b3cee8fcc2ec7",
+        "docs/tests/b06-recovery-gate.mjs": "b403987023cdf4765c31310fc319da26472bf6d4c851a87550a58bf8b2c66145"
+      },
+      "rawReportSha256": "1a116480a32388d33399b178650343eb4eb16566cc061cfc2bde5cc344fb1454"
+    },
+    "interruptedRecovery": {
+      "runName": "b066-20261012-04",
+      "checks": [
+        {
+          "name": "source-ready-capacity-images-volumes-owned",
+          "status": "PASSED",
+          "at": "2026-10-12T07:45:19.597181+00:00"
+        },
+        {
+          "name": "normal-stopped-web",
+          "status": "PASSED",
+          "at": "2026-10-12T07:45:37.833367+00:00"
+        },
+        {
+          "name": "normal-stopped-market-b",
+          "status": "PASSED",
+          "at": "2026-10-12T07:45:40.967371+00:00"
+        },
+        {
+          "name": "normal-stopped-marketing-a",
+          "status": "PASSED",
+          "at": "2026-10-12T07:45:44.104225+00:00"
+        },
+        {
+          "name": "normal-stopped-broker",
+          "status": "PASSED",
+          "at": "2026-10-12T07:45:50.355153+00:00"
+        },
+        {
+          "name": "normal-stopped-namesrv",
+          "status": "PASSED",
+          "at": "2026-10-12T07:45:53.361435+00:00"
+        },
+        {
+          "name": "normal-stopped-redis",
+          "status": "PASSED",
+          "at": "2026-10-12T07:45:54.016977+00:00"
+        },
+        {
+          "name": "original-restored-open-ready",
+          "status": "PASSED",
+          "at": "2026-10-12T07:47:49.243498+00:00"
+        },
+        {
+          "name": "original-funds-stock-quotas-inbox-preserved",
+          "status": "PASSED",
+          "at": "2026-10-12T07:47:49.439898+00:00"
+        },
+        {
+          "name": "original-actual-channel-funds-and-request-hashes-preserved",
+          "status": "PASSED",
+          "at": "2026-10-12T07:47:49.630175+00:00"
+        },
+        {
+          "name": "hosts-shared-containers-context-original-networks-unchanged",
+          "status": "PASSED",
+          "at": "2026-10-12T07:47:49.856023+00:00"
+        }
+      ],
+      "startedAt": "2026-10-12T07:45:11.711176+00:00",
+      "finishedAt": "2026-10-12T07:47:49.877536+00:00",
+      "sourceSha256": {
+        "scripts/b06-backup.py": "a000027f4dc0b5fbdedf6f7eb93251f9512f5e886a26a36b33a856e7e960bb57",
+        "scripts/build-b06-recovery-tools.py": "234925290fdb19347c362485d4f2e52ff4921f41547ceffa8bf650cef7c9f9c4",
+        "deploy/b06/verification/RecoveryReplayProbe.java": "eb13e7930834e79097d51c8ef02c4e3660965cdd7597c687d3a1473123c70b41",
+        "docs/tests/test-b06-backup.py": "56f77b6a4ffc0d71624ae666b10955cf3d2babfa8fecd7b4270b3cee8fcc2ec7",
+        "docs/tests/b06-recovery-gate.mjs": "b403987023cdf4765c31310fc319da26472bf6d4c851a87550a58bf8b2c66145"
+      },
+      "rawReportSha256": "e8e98a60b9263f9c83804d297259a55183a4d9ce74aad3dc5117c270f02c6305"
+    }
+  },
+  "backup": {
+    "runName": "b066-20261012-02",
+    "format": 2,
+    "consistentPointAt": "2026-10-12T07:19:48.338168+00:00",
+    "manifestSha256": "e1b230fd5316987cfe5370dc2fb2db156dac34dfca55dfcc51123b8b72528459",
+    "fileCount": 91,
+    "archiveBytes": 3933562408,
+    "volumes": [
+      "mysql-data",
+      "redis-data",
+      "broker-store",
+      "broker-logs",
+      "namesrv-logs"
+    ],
+    "images": [
+      "sha256:1f155852e8ab82d7005171d17a5d4431c7e2d105ac941d7fa0e9dcbc21eee4eb",
+      "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+      "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+      "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+      "sha256:7a30f63466c53b356acdb9004a96fbd39a0513185b20de54682de64fe4a3555d",
+      "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+      "sha256:bf881865565e5b000e5d256f229993f7d19eb144e86410e504d8b83ef7a1cb43",
+      "sha256:c0e8514aa54c7ff367226b5486bd4050ba8b16b2e1f24388a8465815a7fe0dcb",
+      "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b"
+    ],
+    "businessDumpSha256": "fbd8ec0c6983dbfc436ec8f49dba9ce4e7772f02238d3a76fe164c92831c69dd",
+    "schemaFingerprint": "1bbd847a64b784f9f22facc238e1e8b372428f1a5e50fa1fe779e1e9ea316ee7",
+    "migrationHistoryHash": "6fce73b5216393658902305bacdf262f80294dedec4a4a7676e6c0ba897928df",
+    "pendingAtPoint": "trade_inbox\tDONE\t71\ntrade_inbox\tWAITING_DEPENDENCY\t4\ntrade_work\tDEFERRED_B05\t1\ntrade_work\tDONE\t36\n",
+    "protection": "private local NTFS ACL; not encrypted/off-host"
+  },
+  "restoreProvenance": {
+    "runName": "b066-20261012-03",
+    "sourceBackupManifestSha256": "e1b230fd5316987cfe5370dc2fb2db156dac34dfca55dfcc51123b8b72528459",
+    "manifestSha256": "055691196d8ac53cca4eccdbe9a81063a1d5457bd100939f1b08e75ed6f098d2",
+    "originalVolumesNeverOverwritten": true,
+    "newVolumesAndNetworksOnly": true,
+    "sameOriginalSignedEvent": true
+  },
+  "releaseImages": {
+    "candidate": "sha256:c0e8514aa54c7ff367226b5486bd4050ba8b16b2e1f24388a8465815a7fe0dcb",
+    "rollback": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b"
+  },
+  "releaseScope": "Distinct image IDs with the same tested business jar and runtime contract; compatible packaging rollback only, no unknown older application version",
+  "channelTotalsAtCloseout": {
+    "paidRoots": 26,
+    "channelPaid": 2340.0,
+    "refundedRoots": 8,
+    "channelRefunded": 720.0
+  },
+  "financialSha256AtCloseout": "a0756fb03a615c75e8dc1cffbb57e42bcb18f134d3040b9bc9ee4c3355af546a",
+  "channelSha256AtCloseout": "6d1ca15a547f2174b4f671c1858751382fab2f20bc00c714186e3f9219d75ad9",
+  "timings": {
+    "coldPointToSealedBackupSeconds": 66.257,
+    "sealedBackupToFreshRestoreReadySeconds": 194.042,
+    "existingBackupRestoreSecondsAfterCurrentSourceQuiesced": 204.567,
+    "compatiblePackageSwitchSeconds": 37.364,
+    "failedPackageRollbackSeconds": 38.636,
+    "fullDrillWebStoppedToOriginalReadySeconds": 560.191,
+    "existingBackupDrillWebStoppedToOriginalReadySeconds": 498.418,
+    "independentRecoveryWebStoppedToOriginalReadySeconds": 132.025
+  },
+  "finalObservation": {
+    "at": "2026-10-12T07:49:31.854237+00:00",
+    "sampleEpoch": 1791791371.8542502,
+    "project": "zj-market-b06",
+    "health": {
+      "mysql": {
+        "project": "zj-market-b06",
+        "service": "mysql",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+        "restartCount": 0,
+        "ok": true
+      },
+      "redis": {
+        "project": "zj-market-b06",
+        "service": "redis",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+        "restartCount": 0,
+        "ok": true
+      },
+      "namesrv": {
+        "project": "zj-market-b06",
+        "service": "namesrv",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+        "restartCount": 0,
+        "ok": true
+      },
+      "broker": {
+        "project": "zj-market-b06",
+        "service": "broker",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+        "restartCount": 0,
+        "ok": true
+      },
+      "marketing-a": {
+        "project": "zj-market-b06",
+        "service": "marketing-a",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+        "restartCount": 0,
+        "ok": true
+      },
+      "market-b": {
+        "project": "zj-market-b06",
+        "service": "market-b",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+        "restartCount": 0,
+        "ok": true
+      },
+      "web": {
+        "project": "zj-market-b06",
+        "service": "web",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+        "restartCount": 0,
+        "ok": true
+      },
+      "https": {
+        "ok": true,
+        "scope": "strict TLS gateway liveness; not business admission"
+      }
+    },
+    "databaseStatus": "OK",
+    "queues": {
+      "b_payment_task": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_payment_task",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_trade_coordination": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_trade_coordination",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_trade_work": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_trade_work",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 1
+      },
+      "b_trade_inbox": {
+        "due": 4,
+        "kind": "queue",
+        "queue": "b_trade_inbox",
+        "review": 0,
+        "pending": 4,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0.448,
+        "oldestPendingSeconds": 59548.439,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_trade_outbox": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_trade_outbox",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 24,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_sim_notification": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_sim_notification",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 30,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_reconciliation_task": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_reconciliation_task",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_refund_task": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_refund_task",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_sim_refund_notification": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_sim_refund_notification",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_product_outbox": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_product_outbox",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "ab_outbox": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "ab_outbox",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": 4,
+        "recordedFailures": null,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "ab_waiting_dependency": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "ab_waiting_dependency",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": false,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": null,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": null,
+        "recordedDependencyChecks": 0,
+        "historicalSettledHandoffs": 0
+      }
+    },
+    "obligations": {
+      "kind": "obligations",
+      "heldInventory": 0,
+      "paymentAwaitingA": 0,
+      "refundUnfinished": 0,
+      "activeOrderReview": 0,
+      "pendingFulfillment": 18,
+      "aQuarantineReceipts": 0,
+      "activePaymentReview": 0,
+      "tradeQuarantineReceipts": 21,
+      "syncQuarantineUnreplayed": 0,
+      "historicalClosedRefundReview": 8,
+      "historicalClosedUnpaidReview": 1,
+      "nonReconciliationBlocksActive": 0,
+      "paymentAwaitingAOldestSeconds": 0,
+      "refundUnfinishedOldestSeconds": 0
+    },
+    "brokerLag": "NOT_COLLECTED",
+    "databaseNowMs": 1791791373303,
+    "databaseTlsCipher": "TLS_AES_256_GCM_SHA384",
+    "durationSeconds": 1.708,
+    "complete": true
+  },
+  "activeAlertsAtCloseout": 0,
+  "allRecoveryJournalsEmpty": true,
+  "sourceProvenance": "02 cold backup ran before controller recovery/channel hardening; 03 independent restore and 04 independent executor recovery use current source. Per-batch exact source hashes retained; ordinary application images and migrations unchanged. D50 ACL helper repaired after 03 and verified by a real broken-module-path regression plus 12 actual private ACL scopes.",
+  "originalImages": {
+    "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+    "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+    "namesrv": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+    "broker": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+    "marketing-a": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+    "market-b": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+    "web": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754"
+  },
+  "currentSourceSha256": {
+    "scripts/b06-backup.py": "a000027f4dc0b5fbdedf6f7eb93251f9512f5e886a26a36b33a856e7e960bb57",
+    "scripts/build-b06-recovery-tools.py": "234925290fdb19347c362485d4f2e52ff4921f41547ceffa8bf650cef7c9f9c4",
+    "deploy/b06/verification/RecoveryReplayProbe.java": "eb13e7930834e79097d51c8ef02c4e3660965cdd7597c687d3a1473123c70b41",
+    "docs/tests/test-b06-backup.py": "56f77b6a4ffc0d71624ae666b10955cf3d2babfa8fecd7b4270b3cee8fcc2ec7",
+    "docs/tests/b06-recovery-gate.mjs": "b403987023cdf4765c31310fc319da26472bf6d4c851a87550a58bf8b2c66145",
+    "docs/tests/run-b06-backup-interrupted.py": "6944d5623808231a4bf365f347b886344f5f0d07a143b0b0674cfbfe35763913",
+    "docs/tests/collect-b06-backup.py": "2c605ed62d389c70b6a08ae4c134edccb21b73ef7412c720e1b5c2377e5c059b",
+    "scripts/prepare-b06-secrets.py": "2724810f80b294b947dad7060b0f36d0e791cb48bc55f354266778dc6e8ec388",
+    "docs/tests/test-b06-private-acl.py": "cd533e1c772604d7041c932b3f63fb84c04ca788230812cf2baf58be65d7a07f"
+  },
+  "limits": [
+    "Windows Docker only; Linux VM not validated",
+    "Local NTFS protected unencrypted backup; no off-host disaster recovery",
+    "RPO is the fully stopped consistency point; later original transactions excluded",
+    "Finite timings include copy/hash/image load/probes, not SLA or pure startup",
+    "No online backup, scheduled retention deletion, binlog PITR, host power loss or disk damage test",
+    "No database downgrade, arbitrary older business release or real external payment funds",
+    "Immutable backups and stopped clone volumes retained; restore drill does not overwrite or promote original database",
+    "Full table equality checked before workers/new restore-fixture orders; later isolated unpaid checkout/cancel is legitimate new work",
+    "No new ordinary application build/JUnit/browser suite; B065 image jar remains the verified artifact"
+  ],
+  "linuxVmValidated": false,
+  "gitPublished": false
+}

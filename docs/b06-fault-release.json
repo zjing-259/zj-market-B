@@ -1,0 +1,91 @@
+{
+  "stage": "B-06.5",
+  "generatedAt": "2026-10-12T06:46:52.940948+00:00",
+  "status": "LOCAL_TESTED_WINDOWS_DOCKER",
+  "runName": "b065-20261012-07",
+  "images": {
+    "a": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+    "b": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+    "web": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754"
+  },
+  "maintenanceImage": "sha256:bf881865565e5b000e5d256f229993f7d19eb144e86410e504d8b83ef7a1cb43",
+  "faultTools": {
+    "transport": {
+      "id": "sha256:12292991ab3e87d204cdd36b21b8456662904ef7af327349612656aabb692ff5",
+      "tag": "zj-market-b06/fault-transport:bfd6f460b1502b3e",
+      "parent": "sha256:1f155852e8ab82d7005171d17a5d4431c7e2d105ac941d7fa0e9dcbc21eee4eb",
+      "source": "FaultTransportProbe.java",
+      "sourceSha256": "513df0459ae6aa2bb4c6f91102b7c2c790abbe792d175de4cfca8526f2adf455",
+      "inputs": {
+        ".dockerignore": "5da7e374f635b319798b1ae93ac8ab7e04b086ebb51d74929f4bbf3d79e0e64b",
+        "Dockerfile": "dea3924a2cf8c299bb241d5bbcdb6b3d2d7f1f6fd619a98ade3dfdf4511baadb",
+        "classes\\FaultTransportProbe.class": "e204de857fb263f6134580238062de90dc03f6e6c91a98f92f83cfcb9af49d21"
+      }
+    },
+    "refund": {
+      "id": "sha256:d09460f22ec5f3aa4e2b25b03bde6e6149c3ab63b4753e8402d2ba35458f43e9",
+      "tag": "zj-market-b06/fault-refund:3169481050bdfea9",
+      "parent": "sha256:bf881865565e5b000e5d256f229993f7d19eb144e86410e504d8b83ef7a1cb43",
+      "source": "RefundFaultProbe.java",
+      "sourceSha256": "5cd44e71867d33dd9e9195f0c09e01c3e19c20fd1a2c80f6bd9ce5d83e58d093",
+      "inputs": {
+        ".dockerignore": "5da7e374f635b319798b1ae93ac8ab7e04b086ebb51d74929f4bbf3d79e0e64b",
+        "Dockerfile": "4ed2946dbb8487a6257d9847cbaf25fd7f1436b66fcc99a9ab9041121f3f9fa3",
+        "classes\\RefundFaultProbe$1.class": "5538f19b9600be354396093b6a9898245c1b1640d94c83cc4f5b2383d23e9b21",
+        "classes\\RefundFaultProbe.class": "d54b7d5d7ba800cf6d704df28de2f4947f263130a3f34f9820e59b2127c2c42e"
+      }
+    }
+  },
+  "applicationTests": {
+    "tests": 111,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "packagingChecks": 33,
+  "maintenanceChecks": 9,
+  "sourceSha256": {
+    "scripts/b06-faults.py": "3342e93e85ee9035cb6f6a2c48f4484b063e4c0fda4b08734aa1c8d116f3fed8",
+    "scripts/build-b06-fault-tools.py": "620ef475cd5ad306531752e680f65b4f88d8b5cfa3602b3e9d7d68a1c44e8cbc",
+    "docs/tests/run-b06-faults.py": "6c430334a856ffe5b7b9bc9b6c5c3fdac94d55c074687317ede437e3e60f180c",
+    "docs/tests/b06-fault-client.mjs": "6bf1e756c3002c6824a34c0e3a596c3d855319fcd5c1da882193677593b359cc",
+    "deploy/b06/verification/FaultTransportProbe.java": "513df0459ae6aa2bb4c6f91102b7c2c790abbe792d175de4cfca8526f2adf455",
+    "deploy/b06/verification/RefundFaultProbe.java": "5cd44e71867d33dd9e9195f0c09e01c3e19c20fd1a2c80f6bd9ce5d83e58d093",
+    "zj-market-infrastructure/src/main/java/cn/zj/zjmarket/infrastructure/gateway/mq/TradeMessageReader.java": "9dc560f7eeba1f792032e821742f3b22543e5a6b23e6016136ee5da300ec21de",
+    "zj-market-app/src/test/java/cn/zj/zjmarket/test/payment/SettlementTests.java": "2f18b0e6d5f6d3b9338cd5146206052186c08312efa8e7673b9631aa10601774",
+    "docs/tests/collect-b06-faults.py": "1aa40b66544f8542b26df2fbcfce4558f5c02ec1f3f6ce64e6f3cf4e5dbdd68f",
+    "docs/tests/test-b06-faults.py": "de004fd589f60134e1f6914b31a7811da3a91c4eb1b51f6d4ff6e6ab37d902ca",
+    "docs/tests/run-b06-interrupted-recovery.py": "0f7bb89e72954e18785a4dd052d687b7f4f6e6353074e95244357e49dee48960",
+    "docs/tests/run-b06-runtime-gap.py": "121cc7f6b0f10e29c4ac7ba4801b8a2f0ab1f83723ea0dde3a2525203bc0ba66",
+    "scripts/b06-observability.py": "120ddd53cd9d994fa728e532e511eec09758d4f47e7170d4dc663e435f70e15d",
+    "docs/tests/test-b06-observability.py": "112defb9e6f1f5543f797e6ebc45a232e3dbbd0e2929977ff4efcd9ee44058f3",
+    "docs/tests/test-b06-trade-work-history.py": "fc1db213c7b108a8e6f957582ee75fc8b04db57c866914e02d21f617064f40c1"
+  },
+  "artifactSha256": {
+    "zj-market-app/target/zj-market-app-exec.jar": "15416a1fca51c9f0029c934908ef15029d422f05681e6527e96bcfe85c46ef1a",
+    "zj-market-verification/target/zj-market-verification.jar": "3242329dcc96b75e7489d0bb6cd372a4e0a303fa1b7b55a46783aad09574cca7",
+    "deploy/b06/compose.yml": "ed2e51c82260b63bb0500ae3f1d68d6bad6d1f855ff2f9ae601d223af3065fb4",
+    "docs/tests/b06-fault-acceptance.json": "79c347dec285310c68d9f9be1ca26e2c6dca279ddb18bead3e4d1595de10b28f"
+  },
+  "ordinaryChange": "TradeMessageReader.rosterVersion uses strict opaque ID <=64 per original contract; signatures/other versions/funds rules unchanged",
+  "originalASourceClaim": "Frozen original binary retained; exact original source commit remains unknown",
+  "linuxVmValidated": false,
+  "gitPublished": false,
+  "stageCompletion": true,
+  "observerHistoryClassification": {
+    "decision": "B06-D44",
+    "relationalTests": 3,
+    "negativeTerminalOrBindingCases": 30,
+    "observerTests": 7,
+    "actualMySqlSelectOnlyTlsVerified": true,
+    "historicalSettledHandoffs": 1,
+    "activeTradeWork": 0,
+    "retainedOriginalRows": true,
+    "scope": "Post-matrix observer-only correction; application images and business matrix sources unchanged"
+  },
+  "independentRecoveries": {
+    "nameserver": "b065-20261012-recovery-03",
+    "runtimeGap": "b065-20261012-runtime-gap-02"
+  },
+  "decisions": "B06-D36 through B06-D44"
+}

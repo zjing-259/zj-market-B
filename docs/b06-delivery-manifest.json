@@ -1,0 +1,24 @@
+{
+  "format": 1,
+  "stage": "B-06.7",
+  "status": "FINAL_PUBLIC_DELIVERY_INDEX",
+  "releasePath": "docs/b06-final-release.json",
+  "releaseSha256": "d9ccf5125207b70790cc77eb10f9bd5e4a59a4ff5cf679d90874fc85316c9c30",
+  "manual": "deploy/b06/DELIVERY.md",
+  "publicPackage": ".local/b06/delivery/b067-20261012-01/zj-market-b06-public.zip",
+  "packageVerification": "Sibling manifest.json and COMPLETE.json bind ZIP SHA256 and all file hashes; no self-referential hash in this index",
+  "privateBackup": ".local/b06/backups/b066-20261012-02",
+  "privateBackupManifestSha256": "e1b230fd5316987cfe5370dc2fb2db156dac34dfca55dfcc51123b8b72528459",
+  "privateOriginalAInputManifest": "docs/b06-a-release-manifest.json",
+  "allRuntimeImages": {
+    "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+    "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+    "namesrv": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+    "broker": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+    "marketing-a": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+    "market-b": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+    "web": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754"
+  },
+  "gitPublished": false,
+  "linuxVmValidated": false
+}

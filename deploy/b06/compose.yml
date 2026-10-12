@@ -1,0 +1,489 @@
+name: zj-market-b06
+services:
+  mysql:
+    image: mysql@sha256:f496c25da703053a6e0717f1d52092205775304ea57535cc9fcaa6f35867800b
+    platform: linux/amd64
+    mem_limit: 768m
+    cpus: 2
+    restart: unless-stopped
+    networks:
+    - data
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+    security_opt:
+    - no-new-privileges:true
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql-root
+      TZ: UTC
+    secrets:
+    - source: mysql-root
+      target: mysql-root
+    - source: mysql-health.cnf
+      target: mysql-health.cnf
+    - source: mysql-ca.pem
+      target: mysql-ca.pem
+    - source: mysql.pem
+      target: mysql.pem
+    - source: mysql-key.pem
+      target: mysql-key.pem
+    volumes:
+    - mysql-data:/var/lib/mysql
+    - type: bind
+      source: ./config/mysql.cnf
+      target: /etc/b06/mysql.cnf
+      read_only: true
+      bind:
+        create_host_path: false
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - MYSQL_PWD=$$(cat /run/secrets/mysql-root) mysql -uroot -Nse "SELECT 1" >/dev/null
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 60s
+    entrypoint:
+    - bash
+    - -c
+    command:
+    - cp /etc/b06/mysql.cnf /tmp/b06.cnf && chmod 644 /tmp/b06.cnf && exec docker-entrypoint.sh
+      mysqld --defaults-extra-file=/tmp/b06.cnf
+  redis:
+    image: redis@sha256:5443f35e8fc8fc8496964b8e8ea39abaf99434d7e1741e514f7f56906b1c9ff0
+    platform: linux/amd64
+    mem_limit: 256m
+    cpus: 2
+    restart: unless-stopped
+    networks:
+    - redis
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+    security_opt:
+    - no-new-privileges:true
+    command:
+    - redis-server
+    - /run/secrets/redis.conf
+    secrets:
+    - source: redis.conf
+      target: redis.conf
+    - source: redis-password
+      target: redis-password
+    volumes:
+    - redis-data:/data
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - REDISCLI_AUTH=$$(cat /run/secrets/redis-password) redis-cli --no-auth-warning
+        ping | grep -q PONG
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 30s
+  namesrv:
+    image: docker.1panel.live/apache/rocketmq@sha256:c0ffc9f5abd3ee8fb59682f9f2c84abba031f0a83500d60a7330ade2d9b7ccca
+    platform: linux/amd64
+    mem_limit: 384m
+    cpus: 2
+    restart: unless-stopped
+    networks:
+    - mq
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+    security_opt:
+    - no-new-privileges:true
+    entrypoint:
+    - sh
+    - -c
+    command:
+    - exec java -Xms64m -Xmx192m -XX:MaxDirectMemorySize=192m -Dtls.server.mode=enforcing
+      -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.config.file=/etc/b06/tls.properties
+      -cp "$$ROCKETMQ_HOME/conf:$$ROCKETMQ_HOME/lib/*" org.apache.rocketmq.namesrv.NamesrvStartup
+    secrets:
+    - source: mq.pem
+      target: mq.pem
+    - source: mq-key.pem
+      target: mq-key.pem
+    volumes:
+    - namesrv-logs:/home/rocketmq/logs
+    - type: bind
+      source: ./config/mq-tls-server.properties
+      target: /etc/b06/tls.properties
+      read_only: true
+      bind:
+        create_host_path: false
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - bash -c "echo > /dev/tcp/127.0.0.1/9876"
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 30s
+    depends_on:
+      mq-permissions:
+        condition: service_completed_successfully
+  broker:
+    image: docker.1panel.live/apache/rocketmq@sha256:c0ffc9f5abd3ee8fb59682f9f2c84abba031f0a83500d60a7330ade2d9b7ccca
+    platform: linux/amd64
+    mem_limit: 1280m
+    cpus: 2
+    restart: unless-stopped
+    networks:
+    - mq
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+    security_opt:
+    - no-new-privileges:true
+    entrypoint:
+    - sh
+    - -c
+    command:
+    - exec java -Xms64m -Xmx640m -XX:MaxDirectMemorySize=128m -Dtls.server.mode=enforcing
+      -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.config.file=/etc/b06/tls.properties
+      -cp "$$ROCKETMQ_HOME/conf:$$ROCKETMQ_HOME/lib/*" org.apache.rocketmq.broker.BrokerStartup
+      -c /etc/b06/broker.conf
+    secrets:
+    - source: mq.pem
+      target: mq.pem
+    - source: mq-key.pem
+      target: mq-key.pem
+    - source: plain_acl.yml
+      target: plain_acl.yml
+    volumes:
+    - broker-logs:/home/rocketmq/logs
+    - type: bind
+      source: ./config/mq-tls-server.properties
+      target: /etc/b06/tls.properties
+      read_only: true
+      bind:
+        create_host_path: false
+    - broker-store:/home/rocketmq/store
+    - type: bind
+      source: ./config/broker.conf
+      target: /etc/b06/broker.conf
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ${B06_SECRET_DIR:?Set B06_SECRET_DIR}/plain_acl.yml
+      target: /home/rocketmq/rocketmq-4.9.7/conf/plain_acl.yml
+      read_only: true
+      bind:
+        create_host_path: false
+    depends_on:
+      namesrv:
+        condition: service_healthy
+      mq-permissions:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - bash -c "echo > /dev/tcp/127.0.0.1/10911"
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 30s
+  marketing-a:
+    image: ${B06_A_IMAGE:?Build images and load release.env}
+    platform: linux/amd64
+    mem_limit: 768m
+    cpus: 2
+    restart: unless-stopped
+    networks:
+    - rpc
+    - data
+    - mq
+    - redis
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+    security_opt:
+    - no-new-privileges:true
+    user: 10001:10001
+    read_only: true
+    cap_drop:
+    - ALL
+    tmpfs:
+    - /tmp:rw,noexec,nosuid,size=128m
+    stop_grace_period: 45s
+    environment:
+      JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true
+        -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties
+        -Duser.home=/tmp -Ddubbo.application.qos-enable=false
+      TZ: UTC
+    volumes:
+    - type: bind
+      source: ./config/a.properties
+      target: /etc/b06/application.properties
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ./config/mq-tls-client.properties
+      target: /etc/b06/mq-tls.properties
+      read_only: true
+      bind:
+        create_host_path: false
+    healthcheck:
+      test:
+      - CMD
+      - java
+      - -cp
+      - /app
+      - HealthProbe
+      - http://127.0.0.1:8080/internal/health/live
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 90s
+    command:
+    - --spring.config.location=file:/etc/b06/application.properties,file:/run/secrets/a.properties
+    secrets:
+    - source: mysql-trust.p12
+      target: mysql-trust.p12
+    - source: mq.pem
+      target: mq.pem
+    - source: a.properties
+      target: a.properties
+    - source: rpc-server.pem
+      target: rpc-server.pem
+    - source: rpc-server-key.pem
+      target: rpc-server-key.pem
+    - source: rpc-client-ca.pem
+      target: rpc-client-ca.pem
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      broker:
+        condition: service_healthy
+  market-b:
+    image: ${B06_B_IMAGE:?Build images and load release.env}
+    platform: linux/amd64
+    mem_limit: 1024m
+    cpus: 2
+    restart: unless-stopped
+    networks:
+    - rpc
+    - data
+    - mq
+    - edge
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+    security_opt:
+    - no-new-privileges:true
+    user: 10001:10001
+    read_only: true
+    cap_drop:
+    - ALL
+    tmpfs:
+    - /tmp:rw,noexec,nosuid,size=128m
+    stop_grace_period: 45s
+    environment:
+      JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true
+        -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties
+        -Duser.home=/tmp -Ddubbo.application.qos-enable=false
+      TZ: UTC
+    volumes:
+    - type: bind
+      source: ./config/b.properties
+      target: /etc/b06/application.properties
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ./config/mq-tls-client.properties
+      target: /etc/b06/mq-tls.properties
+      read_only: true
+      bind:
+        create_host_path: false
+    healthcheck:
+      test:
+      - CMD
+      - java
+      - -cp
+      - /app
+      - HealthProbe
+      - http://127.0.0.1:8080/internal/health/live
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 90s
+    command:
+    - --spring.config.additional-location=file:/etc/b06/application.properties,file:/run/secrets/b.properties
+    secrets:
+    - source: mysql-trust.p12
+      target: mysql-trust.p12
+    - source: mq.pem
+      target: mq.pem
+    - source: b.properties
+      target: b.properties
+    - source: rpc-client.pem
+      target: rpc-client.pem
+    - source: rpc-client-key.pem
+      target: rpc-client-key.pem
+    - source: rpc-server-ca.pem
+      target: rpc-server-ca.pem
+    - source: identity-key.pem
+      target: identity-key.pem
+    - source: identity-public.pem
+      target: identity-public.pem
+    depends_on:
+      mysql:
+        condition: service_healthy
+      marketing-a:
+        condition: service_healthy
+      broker:
+        condition: service_healthy
+  web:
+    image: ${B06_WEB_IMAGE:?Build images and load release.env}
+    platform: linux/amd64
+    mem_limit: 128m
+    cpus: 2
+    restart: unless-stopped
+    networks:
+    - edge
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+    security_opt:
+    - no-new-privileges:true
+    user: 101:101
+    read_only: true
+    cap_drop:
+    - ALL
+    tmpfs:
+    - /tmp:rw,noexec,nosuid,size=32m
+    ports:
+    - ${B06_BIND_IP:-127.0.0.1}:443:8443
+    secrets:
+    - source: web.pem
+      target: web-cert.pem
+    - source: web-key.pem
+      target: web-key.pem
+    - source: web-ca.pem
+      target: web-ca.pem
+    depends_on:
+      market-b:
+        condition: service_healthy
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - curl --fail --silent --cacert /run/secrets/web-ca.pem https://zj-market.test:8443/healthz
+        | grep -q UP
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 30s
+    extra_hosts:
+    - zj-market.test:127.0.0.1
+    volumes:
+    - type: bind
+      source: ${B06_ADMISSION_FILE:-./config/admission-maintenance.conf}
+      target: /etc/b06/admission.conf
+      read_only: true
+      bind:
+        create_host_path: false
+  mq-permissions:
+    image: docker.1panel.live/apache/rocketmq@sha256:c0ffc9f5abd3ee8fb59682f9f2c84abba031f0a83500d60a7330ade2d9b7ccca
+    platform: linux/amd64
+    user: 0:0
+    network_mode: none
+    restart: 'no'
+    entrypoint:
+    - sh
+    - -c
+    command:
+    - chown -R 3000:3000 /b06/namesrv-logs /b06/broker-logs /b06/store
+    volumes:
+    - namesrv-logs:/b06/namesrv-logs
+    - broker-logs:/b06/broker-logs
+    - broker-store:/b06/store
+    mem_limit: 64m
+    security_opt:
+    - no-new-privileges:true
+networks:
+  edge: {}
+  rpc:
+    internal: true
+  data:
+    internal: true
+  redis:
+    internal: true
+  mq:
+    internal: true
+volumes:
+  mysql-data: {}
+  redis-data: {}
+  broker-store: {}
+  broker-logs: {}
+  namesrv-logs: {}
+secrets:
+  mysql-root:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/mysql-root
+  mysql-health.cnf:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/mysql-health.cnf
+  mysql-ca.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/mysql-ca.pem
+  mysql.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/mysql.pem
+  mysql-key.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/mysql-key.pem
+  redis.conf:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/redis.conf
+  redis-password:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/redis-password
+  mq.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/mq.pem
+  mq-key.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/mq-key.pem
+  plain_acl.yml:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/plain_acl.yml
+  mysql-trust.p12:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/mysql-trust.p12
+  a.properties:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/a.properties
+  rpc-server.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/rpc-server.pem
+  rpc-server-key.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/rpc-server-key.pem
+  rpc-client-ca.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/rpc-client-ca.pem
+  b.properties:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/b.properties
+  rpc-client.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/rpc-client.pem
+  rpc-client-key.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/rpc-client-key.pem
+  rpc-server-ca.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/rpc-server-ca.pem
+  identity-key.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/identity-key.pem
+  identity-public.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/identity-public.pem
+  web.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/web.pem
+  web-key.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/web-key.pem
+  web-ca.pem:
+    file: ${B06_SECRET_DIR:?Set B06_SECRET_DIR to external private materials}/web-ca.pem

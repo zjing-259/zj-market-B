@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "status": "PASSED_WINDOWS_IMAGES_NETWORK_CONFIGURATION",
+  "stageCompletion": true,
+  "stage": "B-06.1",
+  "scope": "Windows Docker Desktop Linux/amd64 substitutes for Linux server for this stage; no full business deployment acceptance",
+  "git": {
+    "branch": "b-06",
+    "baselineHead": "2eae6a23a23a505fd19a70a7de037d6ed07e9cbb",
+    "workingTreeChangesUncommitted": true,
+    "published": false
+  },
+  "junit": {
+    "tests": 107,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "frontend": {
+    "status": "PASSED",
+    "modules": 42,
+    "commands": [
+      "npm ci",
+      "npm run build"
+    ]
+  },
+  "imagePackaging": {
+    "status": "PASSED",
+    "checks": 33,
+    "rawReport": ".local/b06/packaging/b061-packaging02/report.json",
+    "sha256": "BE3BD907E651B0688DE8B380CCA420E7236F45E85D4E346A57DDAA5918280694"
+  },
+  "containerSecurity": {
+    "status": "PASSED",
+    "checks": [
+      {
+        "name": "compose-config",
+        "status": "PASSED"
+      },
+      {
+        "name": "middleware-start",
+        "status": "PASSED"
+      },
+      {
+        "name": "mysql-secure-config",
+        "status": "PASSED"
+      },
+      {
+        "name": "empty-a-security-fixture",
+        "status": "PASSED"
+      },
+      {
+        "name": "redis-auth-required",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-admin-topics",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-route-vip-send-pull",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-b-publish",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-wrong-secret",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-denied-topic",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-plaintext-rejected",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-untrusted-ca",
+        "status": "PASSED"
+      },
+      {
+        "name": "unpinned-namesrv-start",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-other-leaf-positive-control",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-same-ca-unpinned-leaf-rejected",
+        "status": "PASSED"
+      },
+      {
+        "name": "a-container-start",
+        "status": "PASSED"
+      },
+      {
+        "name": "a-jdbc-encrypted-session",
+        "status": "PASSED"
+      },
+      {
+        "name": "a-legacy-http-guard",
+        "status": "PASSED"
+      },
+      {
+        "name": "rpc-mtls-signed-validation",
+        "status": "PASSED"
+      },
+      {
+        "name": "rpc-invalid-hmac",
+        "status": "PASSED"
+      },
+      {
+        "name": "rpc-no-client-certificate",
+        "status": "PASSED"
+      },
+      {
+        "name": "rpc-untrusted-client",
+        "status": "PASSED"
+      },
+      {
+        "name": "rpc-plaintext-rejected",
+        "status": "PASSED"
+      },
+      {
+        "name": "b-web-container-start",
+        "status": "PASSED"
+      },
+      {
+        "name": "https-health",
+        "status": "PASSED"
+      },
+      {
+        "name": "https-spa",
+        "status": "PASSED"
+      },
+      {
+        "name": "https-api-404-not-spa",
+        "status": "PASSED"
+      },
+      {
+        "name": "internal-health-not-public",
+        "status": "PASSED"
+      },
+      {
+        "name": "https-wrong-ca",
+        "status": "PASSED"
+      },
+      {
+        "name": "https-wrong-hostname",
+        "status": "PASSED"
+      }
+    ],
+    "rawReport": ".local/b06/verification/b061-security08/report.json",
+    "sha256": "EC6DDA6DCFA29AFF4748636EA8E9883EFC1651324D94A5E891E0309454E771A2",
+    "cleanupExitCode": 0
+  },
+  "windowsHostHttps": {
+    "status": "PASSED",
+    "strictCaAndHostname": true,
+    "rawReport": ".local/b06/host-check/b061-host01/report.json",
+    "sha256": "AAB4DA749D13844F646DFA2F510608BEA7170CEB8704AAE0E73B0F5F092CC435",
+    "osTrustStoreChanged": false,
+    "schannelDiagnostic": "Native curl revocation status unknown; not bypassed. Strict Node custom-CA host verification passed."
+  },
+  "repeatImageBuild": {
+    "status": "PASSED",
+    "sameReleaseManifest": true,
+    "rawReport": ".local/b06/build/replay-final.json",
+    "sha256": "B83C8EABA22F0F89C8C0120631AB3430CF5F3CCEC471A04F463CE83E62DA3D04"
+  },
+  "materialsSafety": {
+    "status": "PASSED",
+    "windowsAclRestricted": true,
+    "overwriteRejected": true,
+    "caPrivateKeysMounted": false
+  },
+  "imageManifest": {
+    "path": "docs/b06-image-release.json",
+    "sha256": "8519FABCAFAF1B09C6E4CF76E24E1DC34B263F5086EC97B7DEE1FF28D559A99B",
+    "localImages": {
+      "a": {
+        "tag": "zj-market-b06/a:a561832f50cbc8d3",
+        "id": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+        "base": "eclipse-temurin@sha256:66a7b358772dfdcc1486919a5ede66d6c7275f203a5fefddb39565c2a151a485",
+        "architecture": "amd64",
+        "os": "linux"
+      },
+      "b": {
+        "tag": "zj-market-b06/b:89c32404cd502041",
+        "id": "sha256:00d8a2f2459278c2a6a56038fd7e7c5461a324fd264ed7d3eb462c0259b3b1d0",
+        "base": "eclipse-temurin@sha256:f04fb34e053148344e83317976114ec3f37e4b830ec8bdab5a2fe3cecd7d010b",
+        "architecture": "amd64",
+        "os": "linux"
+      },
+      "web": {
+        "tag": "zj-market-b06/web:69a85c52e1e9158d",
+        "id": "sha256:899d9f2c875c4ce59a7d68ba796e647386c8c8c1a0176fc66507314d9176c9e2",
+        "base": "nginx@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236",
+        "architecture": "amd64",
+        "os": "linux"
+      }
+    }
+  },
+  "originalAUnchanged": true,
+  "aDerivation": {
+    "originalSha256": "223A02521120F6D83CB58220E7CFF08839A5B6BCBAC9BC5C00BCA42F8E6C8392",
+    "derivedSha256": "304A11A674FD82D07A4F2C8338D602294D82452FBE853FFBC4DD2EDCA167E180",
+    "unaffectedJarEntriesIdentical": true,
+    "contractUnchanged": true,
+    "java8Overlay": true,
+    "exactOriginalBuildSourceCommit": null
+  },
+  "standaloneRootDockerfile": {
+    "status": "BUILD_PASSED",
+    "imageId": "sha256:4e1daac98d60516497e8682e4953826d6ed71784611ed804a513115fc4a34503"
+  },
+  "priorAttemptsPreserved": [
+    {
+      "runName": "b061-security",
+      "status": "FAILED",
+      "error": "mq-admin-topics failed; see private evidence",
+      "reportSha256": "13C8EB868FB48269420D226583F6DDD0A13582BBCF492A1C453E3E5CE60C1477"
+    },
+    {
+      "runName": "b061-security02",
+      "status": "FAILED",
+      "error": "mq-plaintext-rejected failed; see private evidence",
+      "reportSha256": "4B689176CD2A2662DD4BB0AC32CAB3F8F01E33D5197FECE018CE89B58D308871"
+    },
+    {
+      "runName": "b061-security03",
+      "status": "FAILED",
+      "error": "mq-plaintext-rejected failed; see private evidence",
+      "reportSha256": "7B93F92D8AB86E218F3C85681E4E06C918A83F10F955D07016E1B790CFE801E4"
+    },
+    {
+      "runName": "b061-security04",
+      "status": "FAILED",
+      "error": "mq-other-leaf-positive-control failed; see private evidence",
+      "reportSha256": "D26DA380FCE81620C6371769BF5DDFEA997237176F2A43C1F4D864C536B8E558"
+    },
+    {
+      "runName": "b061-security05",
+      "status": "FAILED",
+      "error": "rpc-plaintext-rejected failed; see private evidence",
+      "reportSha256": "CB98755D2347350A28AFBCE2C1FAE448E93CFB9ABCC4D960ACD254807BA3FC6E"
+    },
+    {
+      "runName": "b061-security06",
+      "status": "FAILED",
+      "error": "rpc-plaintext-rejected failed; see private evidence",
+      "reportSha256": "D6D7ECD416BF5616F211956DB4E552A20A9873A9ABFFF973D03F7A83B4C66DB2"
+    },
+    {
+      "runName": "b061-security07",
+      "status": "FAILED",
+      "error": "b-web-container-start failed; see private evidence",
+      "reportSha256": "875CF5D0C6639D80BD0F3D5FFB340F93F77A6F49C1613D8117233CF631877129"
+    }
+  ],
+  "existingContainers": {
+    "total": 17,
+    "running": [
+      "ab-v2-broker-1",
+      "ab-v2-namesrv-1",
+      "redis-test",
+      "mysql",
+      "redis"
+    ],
+    "sharedContainersStoppedOrModified": false,
+    "allOwnedTestContainersAndNetworksRemoved": true,
+    "ownedTestVolumesRetainedForDiagnosis": true
+  },
+  "sourceAndConfigSha256": {
+    ".dockerignore": "67C44A024359DE4786780221D5B8C65B6212AFCA29DB77B751EDBB97B2CCA41D",
+    "deploy/b06/a-overlay/LivenessController.java": "2CF6A4D415EB75A46D36CE0A1B476A6B973710418D1892116325ADA564736954",
+    "deploy/b06/a-overlay/RedisClientConfig.java": "4FDDB2EC0016F88BC6799FC7ECEE743CB07659D02BE1F83256D093E3367939EB",
+    "deploy/b06/compose.yml": "DD05C14E1355C4763D0E1C434A180B942BFED977A29E99A442C241D903AFDDB7",
+    "deploy/b06/config/a.properties": "C9B0FFB2470C38C39EA3439F28A84678A1C32E29D240AAC7A783406394E62959",
+    "deploy/b06/config/b.properties": "B3E86AEB2324816300F00D0F2EBAA770BCA703BE267B93B4763C739557BB9638",
+    "deploy/b06/config/broker.conf": "EA8F2439C0F9659885B8257891F3F51012630F49DBD7335BB7F8963A364FBB36",
+    "deploy/b06/config/mq-tls-client.properties": "DB6A92B7B254902C6A8BF8A0B1994093D383D312CB73BB6FD117334AE7C936FB",
+    "deploy/b06/config/mq-tls-server.properties": "20ACB2ECA22A5D0AF7BCC9E1D7D3394A7958DD2CDEFCC713CFDF00F4E628166F",
+    "deploy/b06/config/mysql.cnf": "DC9B03FDC5E62DB3B820FD237DCE2C2A9EE97D5B7FD19EDA4BDEC1539DE3330A",
+    "deploy/b06/images/HealthProbe.java": "C97B816CB561A81605793F014B8BC6E9A9AE3993F67C4B79DC8FCF7A5B0C635F",
+    "deploy/b06/images/java.Dockerfile": "95AB77A2CCCBAC02760495BDCEDE968BEBF833B3F1A492D9C366FCEC64B3802D",
+    "deploy/b06/images/web.Dockerfile": "F031C31C7466C4DCBF68F706555B02297C484FAC00AB7A175683D713F98631AB",
+    "deploy/b06/images.lock.json": "7F51B1E26890A97D6CEBE27AA8AD32AD54B3A3A249982832E85814822154045A",
+    "deploy/b06/nginx.conf": "AC0E531358AF42641FF49A47AB6E8C8184F27858DD5703A70A873EB0F7D4C9F4",
+    "deploy/b06/README.md": "5233CEFD50B8E9166F80B7E3CA12F8AAA671B340F3F72A0E1394F0444EA33D0F",
+    "deploy/b06/verification/Dockerfile": "AB988232FE624DD3C5D58B1F7C9935BF4E20EFAE25D1FD6800D9789E420FA06E",
+    "deploy/b06/verification/SecurityProbe.java": "7EFD97AEBE4DA001E0564F09F9257E4D087BC45604E0EA55AF6AA02ADFEC46D4",
+    "Dockerfile": "23A48CD17D670A60A50155F22126C8A58C6EBDF53089290EFFDF14349F473A85",
+    "docs/tests/b06-host-https.mjs": "1DCFC5FEF4F7CCB1CAC25438895DA863C7DB1377EBBBF592DD7B2D8ED7F39DF6",
+    "docs/tests/collect-b06-baseline.py": "9C012C4613888A957417847A3E2ED81EA927FC2F9956424C33E961EB52E2FB58",
+    "docs/tests/run-b06-security.py": "3BCB1453BAF34434508E8E6755A5D327C6D643717A455B537D508C5E868F8BB2",
+    "docs/tests/verify-b06-packaging.py": "6381A9244611F39E6B89386ECCD1DC1C2AC3214C7D0B241D11EFF78F1B1ED164",
+    "scripts/build-b06-images.py": "EF8DFA00020B9480E060165392563DF51E7009650A79A3AA0EA03FBBB17D9AD1",
+    "scripts/build-b06-tools.py": "E5116EDA2CE809127A8F3A40739675ACD71651CC6B7B93DF3A5FB5889F38815D",
+    "scripts/prepare-b06-images.py": "758B6BB04326F0D9DE428E0D7F0D3772033090219DD8A610ABD099185ADADCC3",
+    "scripts/prepare-b06-secrets.py": "ECE2BBB08F0A3FDD42E97412C01EA9D5DE85D1361C4E9AFFE0A4BC4BA08764A7",
+    "scripts/requirements-b06.txt": "E9F5946A332147BBF9C8147D146850CEB0AAA6B1AE6A3A406160F29EE33DF207",
+    "zj-market-app/src/main/java/cn/zj/zjmarket/app/health/LivenessController.java": "B1B2DF6BAAD6B5021D189CED979BF9BD6DFC69B383024FFBEF6AB540B78AA27A",
+    "zj-market-app/src/main/java/cn/zj/zjmarket/ZjMarketApplication.java": "809E5723885DD5AE1D8FC7B0E84997A0D49DC6E7D00F4EF9C6A212F3C52DBA3F",
+    "zj-market-app/src/test/java/cn/zj/zjmarket/test/app/ZjMarketApplicationTests.java": "0B38B1ACD41C541A7B6A6B5C3423FB18C700D006D3FC04A3D2C05D8D14555F2B"
+  },
+  "notPerformed": [
+    "Full A/B business schema initialization and 48-table runtime grants (.2)",
+    "B with all external/business capabilities enabled (.2)",
+    "Full-stack resource admission (.2)",
+    "OS root trust/hosts installation or real HTTPS browser identity flow (.3)",
+    "Linux VM deployment",
+    "Git commit/merge/push or registry publication"
+  ],
+  "limitations": [
+    "Redis is authenticated on A-only internal network; no Redis transport TLS claim",
+    "MQ4.9.7 leaf certificate pinning, not SDK DNS hostname verification; leaf rotation must update trust",
+    "A source build provenance remains unproven; pinned prebuilt input plus versioned limited overlay only",
+    "Empty A security fixture intentionally has no business tables; scheduler missing-table diagnostics are not a business-ready claim",
+    "B security fixture disables database/identity/RPC/MQ; full bootstrap schema/permission readiness is .2"
+  ]
+}

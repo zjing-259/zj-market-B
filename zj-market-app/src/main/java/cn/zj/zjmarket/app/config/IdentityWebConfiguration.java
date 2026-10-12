@@ -24,12 +24,12 @@ public class IdentityWebConfiguration {
     @Bean IBrowserAuthPort browserAuth(IdentitySettings settings,
        @Value("${b.identity.rate.ip-limit:20}")int ip,@Value("${b.identity.rate.login-limit:5}")int login,
        @Value("${b.identity.rate.window-seconds:60}")long seconds){return new BrowserAuth(settings,new LoginRateLimiter(ip,login,seconds));}
-    @Bean SecurityFilterChain apiSecurity(HttpSecurity http,IdentitySettings settings,ObjectProvider<IIdentityService> service,IBrowserAuthPort browser)throws Exception {
+    @Bean SecurityFilterChain apiSecurity(HttpSecurity http,IdentitySettings settings,ObjectProvider<IIdentityService> service,IBrowserAuthPort browser,@org.springframework.beans.factory.annotation.Value("${b.observability.request-logging-enabled:false}") boolean requestLogging)throws Exception {
         http.csrf(csrf -> csrf.disable()).cors(cors -> cors.disable()).formLogin(login -> login.disable()).httpBasic(basic -> basic.disable())
             .logout(logout -> logout.disable()).requestCache(cache -> cache.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-            .addFilterBefore(new IdentityHttpFilter(settings,service,(BrowserAuth)browser),AnonymousAuthenticationFilter.class);
+            .addFilterBefore(new IdentityHttpFilter(settings,service,(BrowserAuth)browser,requestLogging),AnonymousAuthenticationFilter.class);
         return http.build();
     }
 }

@@ -1,0 +1,637 @@
+{
+  "schemaVersion": 1,
+  "stage": "B-06.0",
+  "date": "2026-10-11",
+  "status": "PARTIAL_ENVIRONMENT_PENDING",
+  "sourceBuildChecks": "PASSED",
+  "worktree": "D:\\Java\\zj-market-b-06",
+  "branch": "b-06",
+  "head": "2eae6a23a23a505fd19a70a7de037d6ed07e9cbb",
+  "tests": {
+    "tests": 106,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "sourceChanges": [],
+  "artifacts": [
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-app\\target\\zj-market-app-exec.jar",
+      "sha256": "3DF29A0FADA199109E9AAC5182010A6D89067A594AF49E05A5799F0A0CE14B18",
+      "bytes": 63846206
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-verification\\target\\zj-market-verification.jar",
+      "sha256": "0D8C7F08FD522AEC585082E0DCF619ED0B95D4AB639AB424A647AD6C5A5247E6",
+      "bytes": 65027797
+    },
+    {
+      "path": "D:\\Java\\group-buy-market\\group-buy-market-app\\target\\group-buy-market-app.jar",
+      "sha256": "223A02521120F6D83CB58220E7CFF08839A5B6BCBAC9BC5C00BCA42F8E6C8392",
+      "bytes": 75164636
+    },
+    {
+      "path": "D:\\Java\\group-buy-market\\docs\\ab-api-contract.md",
+      "sha256": "83B02A7EBF5E80B5EF4D1B03936E6B1CA33EED32F6D9C68B451E855C6192D7DD",
+      "bytes": 42519
+    }
+  ],
+  "embeddedContractSha256": "EEB3E9EC8D73E4C4CED28A86104004AD43CC075B793C2149D7625248FD0604DB",
+  "contractBytecodeMajor": 52,
+  "bBytecodeMajor": 65,
+  "ordinaryJarExcludesVerificationAndFlyway": true,
+  "frontendArtifacts": [
+    {
+      "path": "D:\\Java\\zj-market-b-06\\frontend\\dist\\assets\\index-CKtn212S.js",
+      "sha256": "E57ACF2478729CEA6F3A79A6DD81A6C575F3EBDB42A60AB6BA25FB1DA893BCE0",
+      "bytes": 145330
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\frontend\\dist\\assets\\index-DxsalV1t.css",
+      "sha256": "020695AF5556997DCB6A68EF405026FB8CE422D921B3C05D739A0D90A93FB8B2",
+      "bytes": 5671
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\frontend\\dist\\index.html",
+      "sha256": "87EBDE735ADEF2D3EF44F0FC67BD71722541AA81C9B4D081998CDD48C82D58E9",
+      "bytes": 367
+    }
+  ],
+  "migrationsUnchangedFromHead": true,
+  "migrations": [
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V10_1__payment_receipt_integrity.sql",
+      "sha256": "A6643DB499EAB2017D291E3850E10695EA0B0B499664FB583A78806918665FCC",
+      "bytes": 391
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V10__payment_and_simulated_channel.sql",
+      "sha256": "09FB9B6C156E48461FD81C373D8D2639CDBC6CB58332141EC198E1259577D358",
+      "bytes": 10569
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V11__trusted_payment_and_trade_messages.sql",
+      "sha256": "8400C406AA94ED47A31043B8391E78841732A54AC3ADFBF2DBA912D70A39C1C6",
+      "bytes": 4662
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V12__payment_root_close_proof.sql",
+      "sha256": "B03531A26BA7E074B566D48EC86F5A7AC336FE1CFB6ED8DEE92D9AF161461ABF",
+      "bytes": 1909
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V13__group_completion_and_fulfillment.sql",
+      "sha256": "AE8229B349DB7C6A9BFF17D2F636110DE5D8266C079617C443049D3F6974CA2E",
+      "bytes": 1263
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V14__reconciliation_and_refund_obligations.sql",
+      "sha256": "0ADF4945A622158D3576F57269A2E27D250C05DF883C85C6115A637E254908A3",
+      "bytes": 7002
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V15__independent_simulated_refunds.sql",
+      "sha256": "28D7CA403E54F257AD93899CE0E9B7C30B3C582DFF4058129CC1C7DBA396F65F",
+      "bytes": 6742
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V16__trusted_refund_sync.sql",
+      "sha256": "C12534969AF82502487276B8CBC552EF9E62F48779A99E3D4DDFE5B843AC07FA",
+      "bytes": 2685
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V17__refund_release_and_operations.sql",
+      "sha256": "8272DE979150529D34134E3C63E2714CB375230A9427C3D2661B8C92FBA4C7FC",
+      "bytes": 2507
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V18__refund_check_schedule.sql",
+      "sha256": "2C4DDEEBB872C62186E7D85CDF734C397BC729FB75B4332C14556AB06B7EE7F7",
+      "bytes": 218
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V1__database_boundary.sql",
+      "sha256": "E15907B5E0E6EFB4CEF7CF014B936419885A11BA142DB32766F51FE913E8BCCF",
+      "bytes": 267
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V2__identity.sql",
+      "sha256": "FA9E3656F319516F668E5144532475ED5C62BEE7737B03D594EA35CC301DDDE4",
+      "bytes": 1379
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V3__product_authority.sql",
+      "sha256": "09A93FB70B5114638C53EF8ECC9B5497FBFAF31139F29CB289A42B3740502813",
+      "bytes": 2246
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V4__reliable_product_sync.sql",
+      "sha256": "B1D56616314C4721722D87E7E2330492C3FE85061EED4387E45A25DB56848150",
+      "bytes": 3276
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V5__inventory_foundation.sql",
+      "sha256": "391597B09115DB1FDC6C88E233E7C6AD539469DF3AFCF9F651C98CA9F2D245D4",
+      "bytes": 3649
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V6__inventory_request_audit.sql",
+      "sha256": "848970F67A8B84EFE69D5C862B8ECF72CA7A1FDB1F219DCA4D9F7EA4E4F24FF3",
+      "bytes": 515
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V7__local_order_reservation.sql",
+      "sha256": "9C13B9CCC931F76FDCF2C18B11009B277CB3A7D1582DB6518DE2FBCFEF14BF7D",
+      "bytes": 7716
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V8__trade_reservation_recovery.sql",
+      "sha256": "BD907735FD1D43A1016D1C2BBD7E66C75DF57E39EBBDE0D2ABC91AFF999A749B",
+      "bytes": 1942
+    },
+    {
+      "path": "D:\\Java\\zj-market-b-06\\zj-market-infrastructure\\src\\main\\resources\\db\\migration\\V9__unpaid_close_and_order_operations.sql",
+      "sha256": "57AAE3282DE2322F6615331EDD375B0C48832A7A97D55DCF470A55650B97B071",
+      "bytes": 1945
+    }
+  ],
+  "persistentDocumentInventory": [
+    {
+      "path": "docs/adr/0001-domain-service-module-layout.md",
+      "sha256": "4AA7F83F99D5053FD6821525F808FB3C3CFF469EB80454C84AA731A5F0862710",
+      "bytes": 912
+    },
+    {
+      "path": "docs/b-startup.md",
+      "sha256": "8DEBD5EAC36A50F128341A58C792036094E39B374D74E58041F26F1F7B2CFAF7",
+      "bytes": 31275
+    },
+    {
+      "path": "docs/b02-development.md",
+      "sha256": "8E58CA16F9F76898BBA03D9C48267AF783EF1D79EFAC38DE61C453C44648CD7C",
+      "bytes": 94221
+    },
+    {
+      "path": "docs/b02-http-api.json",
+      "sha256": "A1E77E0D0F744FF537AB907FBEA482FC19270963339F75082154A50721B4B56F",
+      "bytes": 134716
+    },
+    {
+      "path": "docs/b03-development.md",
+      "sha256": "7CA728A3ACE9CAC5CF996E1B446324CAEE222752E2A531867CEF68861FB9DC9D",
+      "bytes": 132148
+    },
+    {
+      "path": "docs/b03-http-api.json",
+      "sha256": "75819C76F6199D61E5ECD0656C2664DAA20ED3254247F36FB50BF7640EED7EE6",
+      "bytes": 85490
+    },
+    {
+      "path": "docs/b03-joint-design.md",
+      "sha256": "CCEBBA6F9D131A5AAB0DA0054BCBA5030CF1AC853591AEB47DD753C660D7083F",
+      "bytes": 39816
+    },
+    {
+      "path": "docs/b03-payment-handoff.md",
+      "sha256": "6C1504E2FFB1177B05CB8B68E9DED77F78EC23F73CA18D8DEF218BB63B6375FB",
+      "bytes": 12443
+    },
+    {
+      "path": "docs/b04-b05-handoff.md",
+      "sha256": "7DED5BB820C3DB15D1B198C18C9B8ECC59DD1A08E46C102812613A9E3CCFC886",
+      "bytes": 18496
+    },
+    {
+      "path": "docs/b04-development.md",
+      "sha256": "81D206FE73AECDF0D1FC1F2AC38283D69865ACCB242B51B934E3F26E381B6593",
+      "bytes": 80601
+    },
+    {
+      "path": "docs/b04-http-api.json",
+      "sha256": "B9D5D414AABE0A48211EB8BAD55C5793B26B6008D0A0A64EE60D25E9B61ADFE0",
+      "bytes": 39561
+    },
+    {
+      "path": "docs/b04-joint-design.md",
+      "sha256": "5086A50FB7D0FF2BCAC4721F975DF5DC690BD410E92B2472FB5E613606BFE059",
+      "bytes": 34881
+    },
+    {
+      "path": "docs/b05-b06-handoff.md",
+      "sha256": "0697B0891F70512F20F5F8901CD14859958912522614ABC0C434B88B622AB910",
+      "bytes": 7610
+    },
+    {
+      "path": "docs/b05-development.md",
+      "sha256": "F1150B69D8173D4658B68054D9FD90B0A1A0131E279F59D5CCE2AA80B2509018",
+      "bytes": 79242
+    },
+    {
+      "path": "docs/b05-http-api.json",
+      "sha256": "6E8E399ACDF31AB77768D322EA53C2FF61040BF29B2994082205E936BAE28A41",
+      "bytes": 40247
+    },
+    {
+      "path": "docs/b05-joint-design.md",
+      "sha256": "7572DE87B357BA01AF3B197012BE58137476A364B240265C421EDC8BDF63545C",
+      "bytes": 35825
+    },
+    {
+      "path": "docs/development-roadmap.md",
+      "sha256": "84C42B1472373B6E8F9E0EBFB0B93A308B94C4B0F4B8E0489FC8EC051E5557C9",
+      "bytes": 156822
+    },
+    {
+      "path": "docs/phase1-architecture.md",
+      "sha256": "E90A19F26F22A0BF3044EA0C0456BF0997481A41DFA88DD1A30E2D922E865ABB",
+      "bytes": 11604
+    },
+    {
+      "path": "docs/phase1-database.md",
+      "sha256": "2673059619F1DE1156AF16E5D098B4BFC14352678AAF03FAD46ADBA163E16DF2",
+      "bytes": 16004
+    },
+    {
+      "path": "docs/phase1-environment.md",
+      "sha256": "309DB6DA59209E42761B61EA83DCACF899CC349267F8C26A8C52612630DDDBCC",
+      "bytes": 9990
+    },
+    {
+      "path": "docs/phase1-revalidation.md",
+      "sha256": "91E8FBC4942B48D9C9D22605E1334871B17666A5C926344775D4E775C88FF9FF",
+      "bytes": 6216
+    },
+    {
+      "path": "docs/project-layout.md",
+      "sha256": "5E0E91BE0F4AEF418708962B67357626636ED2DC4C2DB965CB06155CEE29F870",
+      "bytes": 14745
+    },
+    {
+      "path": "docs/session-handoff.md",
+      "sha256": "976AE01FDD886E5A084C5BEB11263826345F14DE0FE64D4CA2D1403F2BD4A4DD",
+      "bytes": 56728
+    },
+    {
+      "path": "docs/tests/b02-browser.mjs",
+      "sha256": "7DB77E6D27DDE3A2898ABC8C078A9CB9197DD9689DDE10D0A9BA97E23FC49832",
+      "bytes": 6186
+    },
+    {
+      "path": "docs/tests/b02-products-browser.mjs",
+      "sha256": "4DB91BD3F5AC5B37267AB76E916F90580108EFEDC5D3CE108CF68D48F045DDE7",
+      "bytes": 7242
+    },
+    {
+      "path": "docs/tests/b02-sync-browser.mjs",
+      "sha256": "CBA7F50AA5752D6998214436907754CC80921631F3E520A2CBC37DE37D84FBB7",
+      "bytes": 4242
+    },
+    {
+      "path": "docs/tests/b02-trial-browser.mjs",
+      "sha256": "E2D64C8143058E2D5ADC2BCBF998A049860805B8036586F0EBAFC7D1ECB13B89",
+      "bytes": 10688
+    },
+    {
+      "path": "docs/tests/b03-closes-browser.mjs",
+      "sha256": "2631D0F17CE9731C2A0ADC1892F7FF5984F4A713638E2041C35E053B3EDD7A99",
+      "bytes": 6222
+    },
+    {
+      "path": "docs/tests/b03-inventory-browser.mjs",
+      "sha256": "6EBCD11C9D0BB31744CA239335794FA76E9561FFFDD0B0CC9B5F123F4B3BC3C6",
+      "bytes": 8332
+    },
+    {
+      "path": "docs/tests/b03-orders-browser.mjs",
+      "sha256": "4AB0D7F9C8C048ED7272FE3DE14E62BDED018DE37C4621967972EBAE102CD33B",
+      "bytes": 5390
+    },
+    {
+      "path": "docs/tests/b03-trades-browser.mjs",
+      "sha256": "AA1851B9BAB704E28297A5E9FA8E1A5F1C8E8CA848724AB2E1AA42B02CC975FB",
+      "bytes": 5106
+    },
+    {
+      "path": "docs/tests/b04-fulfillment-browser.mjs",
+      "sha256": "C917EA91B22119328C6DD25F4CB89D520687F5EA3E89D050A8D828BFBD2428A6",
+      "bytes": 3313
+    },
+    {
+      "path": "docs/tests/b04-payments-browser.mjs",
+      "sha256": "DFE27515E371EFC1A903845A148E106F2AA843A9DFEF901D35856232BFE8E0F9",
+      "bytes": 6006
+    },
+    {
+      "path": "docs/tests/b04-settlement-browser.mjs",
+      "sha256": "2FF3A1B1C2A0114F885547384FD476A543E3F22611770501A668124DBCD32AC4",
+      "bytes": 3487
+    },
+    {
+      "path": "docs/tests/b05-joint-acceptance.json",
+      "sha256": "2DCA3BDAE14492BEFE60ACED31A5F31C6715D224A640240FDE1919342D47E98C",
+      "bytes": 82169
+    },
+    {
+      "path": "docs/tests/b05-refund-browser.mjs",
+      "sha256": "D3F5207DA3176CBC05616ECD53CD399783FE17CB02FDCE96FAC75963130D6A28",
+      "bytes": 5211
+    },
+    {
+      "path": "docs/tests/check-b03-delivery.ps1",
+      "sha256": "42EA4C469BB1A627631C9AB4CD16845C929373DFF43D8E8829ED8B298FE2FD7C",
+      "bytes": 3803
+    },
+    {
+      "path": "docs/tests/collect-b05-joint.py",
+      "sha256": "CD0527415D0FEAF2E7F48FE50A64EB9831CB76649BB58DFE72DD8DA260070391",
+      "bytes": 19574
+    },
+    {
+      "path": "docs/tests/collect-b05-quota.py",
+      "sha256": "71236C4A5C9C70CA24D8BFCC189822A62799304CFCD08AF097C10DD9702EA19B",
+      "bytes": 3598
+    },
+    {
+      "path": "docs/tests/collect-b05-reconciliation.py",
+      "sha256": "1C1927D03EBD3970B1FC4504084F28A55A385C3F53DB148718C8641C1721CD5E",
+      "bytes": 10400
+    },
+    {
+      "path": "docs/tests/collect-b05-refund-release.py",
+      "sha256": "3E49F3F39A63055E6E25AB2C511C4F6E962A86D5B211EB678D88EC464E861E12",
+      "bytes": 10857
+    },
+    {
+      "path": "docs/tests/collect-b05-refund-sync.py",
+      "sha256": "932DD5D1BAF247CED42D4D7765AAB7873ACA7E6F74EE4E828680B4D17778596C",
+      "bytes": 8940
+    },
+    {
+      "path": "docs/tests/collect-b05-refund.py",
+      "sha256": "D10E0A914D7E5255579E355B5363E955601E75F169426918CD9B9088ED3402B3",
+      "bytes": 8755
+    },
+    {
+      "path": "docs/tests/run-b01-database.ps1",
+      "sha256": "18B9E19B2741AE531BE36467175593A8858D192C91D9D8C2F0CF3F5F5B364D4C",
+      "bytes": 3005
+    },
+    {
+      "path": "docs/tests/run-b01-environment.ps1",
+      "sha256": "EE63C0BAE0817B4F4C6B162584F18DA507C739FB5968E50543D93124F45C2574",
+      "bytes": 8716
+    },
+    {
+      "path": "docs/tests/run-b02-acceptance.ps1",
+      "sha256": "08A80F471B91F4D92CDEEAAEB33E129462F14B50D7F17609ECCE0F0286CFBE6F",
+      "bytes": 6895
+    },
+    {
+      "path": "docs/tests/run-b02-browser.ps1",
+      "sha256": "58C160FF92788F30226238377EDAF0D318525193AD872E726A2E58383DD4D08F",
+      "bytes": 5451
+    },
+    {
+      "path": "docs/tests/run-b02-identity.ps1",
+      "sha256": "12DF2DA5659EB9512159C8914CFCE83154214B15A50C5C33730E8D6CE6798556",
+      "bytes": 1768
+    },
+    {
+      "path": "docs/tests/run-b02-products-browser.ps1",
+      "sha256": "9923828F5C061E60EE2E7E236436505320AE6C63E38D00DBF3E27054F7061F24",
+      "bytes": 6343
+    },
+    {
+      "path": "docs/tests/run-b02-products.ps1",
+      "sha256": "EFCE186D4226B420C93788FEC424EB16CB392AEA3917FE7E42AD9381E98BE686",
+      "bytes": 2031
+    },
+    {
+      "path": "docs/tests/run-b02-sync-browser.ps1",
+      "sha256": "2A5EDB695345874D712CCDEC12EAEEE3B2666128FC081D9EC22BAD9143C081F3",
+      "bytes": 6871
+    },
+    {
+      "path": "docs/tests/run-b02-sync.ps1",
+      "sha256": "4BD4706EB3867AB7C9A3642A43164976713320865413865CBC68ECE70980BE97",
+      "bytes": 9838
+    },
+    {
+      "path": "docs/tests/run-b02-trial-browser.ps1",
+      "sha256": "614186A82C17464F4E4045B1A9B04282E1593B427DEA7E9BFE8FE7FDE9CA0DFC",
+      "bytes": 5946
+    },
+    {
+      "path": "docs/tests/run-b02-trial.ps1",
+      "sha256": "F7C7B0C2CD12D93529BD841E0A1BAE09F7EA4B7514F897B44754AFB532F5B5EF",
+      "bytes": 11682
+    },
+    {
+      "path": "docs/tests/run-b03-acceptance.ps1",
+      "sha256": "48E9232855B6E506377DD07D76362BABDE6F322F7E4E04BB2AA566CAE51A0E07",
+      "bytes": 7678
+    },
+    {
+      "path": "docs/tests/run-b03-closes.ps1",
+      "sha256": "5A4DADF75B4E706EEFD8235ED5301188F376CA63EE720C243AC501950509F6E7",
+      "bytes": 2029
+    },
+    {
+      "path": "docs/tests/run-b03-inventory-browser.ps1",
+      "sha256": "9BDFE2CB57A605940584D9E402C49BA765818D80934FAF4468CCD4BFC4DC957D",
+      "bytes": 7904
+    },
+    {
+      "path": "docs/tests/run-b03-inventory.ps1",
+      "sha256": "2FE218ED3F5949ED5B8D548A5F6113C1E5685C432C689A89D0124153F8CF447B",
+      "bytes": 2032
+    },
+    {
+      "path": "docs/tests/run-b03-joint-faults.ps1",
+      "sha256": "91EB7A1ACDC8A2FB3A83141B07A093CB1AC091220E38BCCC01AD97A0CB511BCC",
+      "bytes": 2035
+    },
+    {
+      "path": "docs/tests/run-b03-orders-browser.ps1",
+      "sha256": "5BC9D162EAA7C36DBF45C8D8CFF90FE9D6E8432EC044218A0BA14E8473C23F6D",
+      "bytes": 8795
+    },
+    {
+      "path": "docs/tests/run-b03-orders.ps1",
+      "sha256": "3C908B42C8CF604F991F77997F57A43B3E01F19B334B85DE84F9C67A1C0DBAA7",
+      "bytes": 2029
+    },
+    {
+      "path": "docs/tests/run-b03-readiness.ps1",
+      "sha256": "D75617F384C407CA15D084F8A174E3701285C03ACD4AD57D10DA972E20B1EA19",
+      "bytes": 23008
+    },
+    {
+      "path": "docs/tests/run-b03-trades.ps1",
+      "sha256": "364F64E3848F9C52FE08393A15FB12DC84AB17706668AAB885368D78CAB48614",
+      "bytes": 2029
+    },
+    {
+      "path": "docs/tests/run-b04-acceptance.ps1",
+      "sha256": "93FB832795E28998DFCD42233C798DA04ABB0AF16B8298E7081A88CC68D9D09D",
+      "bytes": 9150
+    },
+    {
+      "path": "docs/tests/run-b04-fulfillment-browser.ps1",
+      "sha256": "1906CF9B807219D8C2BB13828819E02CD7B329824A4D46984BD2828A93196008",
+      "bytes": 3760
+    },
+    {
+      "path": "docs/tests/run-b04-fulfillment.ps1",
+      "sha256": "0FF05DE3F69DB7D07E3B4B1B10DF9B9ED7C3D58B0E0B4A5CFB0E8950521117CD",
+      "bytes": 3025
+    },
+    {
+      "path": "docs/tests/run-b04-handoff.ps1",
+      "sha256": "2F6C01D5AF680ACB4A450AEA998EF3A3CD26709C2D4B06EE50091E542519380B",
+      "bytes": 3018
+    },
+    {
+      "path": "docs/tests/run-b04-payment-closing.ps1",
+      "sha256": "E8074183CE1F59E9FE3169B0A0F98E9712AA1FA06BD5FE11F7534FCFFDD85B71",
+      "bytes": 3033
+    },
+    {
+      "path": "docs/tests/run-b04-payments-browser.ps1",
+      "sha256": "D12FCF7F8B0A76ED54931E5C939A6E099C44024FB036ECEECD04A3B027C14720",
+      "bytes": 3736
+    },
+    {
+      "path": "docs/tests/run-b04-payments.ps1",
+      "sha256": "C84843F177C5368229164B15432117C5AEEB04D31B882B229C04314440BFD54D",
+      "bytes": 3270
+    },
+    {
+      "path": "docs/tests/run-b04-settlement-browser.ps1",
+      "sha256": "FD365D1662F9FF70218788AF5F17D9BCC24C5ED876193CC2A6D60626A300189F",
+      "bytes": 3759
+    },
+    {
+      "path": "docs/tests/run-b04-settlement.ps1",
+      "sha256": "DD5B92F68322B57E17A60270D9716F806DF9F1D5398A9A05BB151C9F7BA50BD3",
+      "bytes": 3023
+    },
+    {
+      "path": "docs/tests/run-b05-baseline.ps1",
+      "sha256": "8734A2FF57F28081F874B90FB4ED3E8A8E623DBBBF96BED0CE4ED495FD11CBDC",
+      "bytes": 10363
+    },
+    {
+      "path": "docs/tests/run-b05-joint.ps1",
+      "sha256": "D6546FAFA2EAC192E4E1C4589E6C480AB20EE32F8F84A6D60AC466E577DD0EC0",
+      "bytes": 2952
+    },
+    {
+      "path": "docs/tests/run-b05-reconciliation.ps1",
+      "sha256": "4937EDD1FC27D1258034B09FAFF8CC4F37A5993147158FCFF5760CE561AC7901",
+      "bytes": 5833
+    },
+    {
+      "path": "docs/tests/run-b05-refund-browser.ps1",
+      "sha256": "FC89632287FDBC4D635A0B7B88B996B41AF5DB78A7F39896CAB6E4EF35292680",
+      "bytes": 5200
+    },
+    {
+      "path": "docs/tests/run-b05-refund-release-regressions.ps1",
+      "sha256": "473B692623054ADE3B499C2C55441B93E6EE82AA3FA95DD35B87272EC50B1B04",
+      "bytes": 4005
+    },
+    {
+      "path": "docs/tests/run-b05-refund-release.ps1",
+      "sha256": "D188835FFAAAF16ABA201E6C74F0FC572EEF940CDFFC4DB69230C24D580FDD2B",
+      "bytes": 8138
+    },
+    {
+      "path": "docs/tests/run-b05-refund-startup.ps1",
+      "sha256": "6CB1D4DFFE0CA9BCD7B375F0F5FB946B92394F7AB3CE9ACEC937F477BEB77738",
+      "bytes": 2707
+    },
+    {
+      "path": "docs/tests/run-b05-refund-sync.ps1",
+      "sha256": "CFCA3534E92219A8B7E93C2B878D371D8C91EB96B2171EBD5B795547EDE9716F",
+      "bytes": 7928
+    },
+    {
+      "path": "docs/tests/run-b05-refund.ps1",
+      "sha256": "1F38DE0E3803E1EC3BFA62104DA90941D0AD5FD39859B17ADF2A19DA878A2359",
+      "bytes": 7526
+    },
+    {
+      "path": "docs/tests/validate-b04-contracts.py",
+      "sha256": "7DDC1C08683142E89802EDFB1D1DA42F76C059D51A61522AC3B96A95D2124A09",
+      "bytes": 11894
+    },
+    {
+      "path": "docs/tests/validate-b05-design.py",
+      "sha256": "3519BB5719601D96DA44A520AA15F5F0F883D98A67AA108A4F1CBC943B81F5B7",
+      "bytes": 16070
+    }
+  ],
+  "aHead": "8c0a3faee01d20730f05c7a357a491bb4438027f",
+  "aStatus": [
+    "M group-buy-market-app/src/main/resources/application-dev.yml",
+    " M group-buy-market-app/src/main/resources/application-prod.yml",
+    " M group-buy-market-app/src/main/resources/application-test.yml",
+    " M group-buy-market-domain/src/main/java/cn/bugstack/domain/tag/service/TagService.java",
+    "?? docs/project-a-v1-v2-comparison.md"
+  ],
+  "linuxVm": {
+    "status": "NOT_PREPARED",
+    "source": "User reply 2026-10-11"
+  },
+  "notVerified": [
+    "Linux resources/network/SSH/clock",
+    "container images and TLS/ACL",
+    "fresh database schema and runtime grants",
+    "live A/B/MQ business flows",
+    "deployment faults and backup/restore"
+  ],
+  "scope": "Local source/build inspection only; no database/RPC/MQ calls, no VM provisioning, no secret collection.",
+  "frontendBuild": {
+    "status": "PASSED",
+    "command": "npm.cmd ci --no-audit --no-fund; npm.cmd run build",
+    "evidence": "Observed exit 0 in B-06 worktree on 2026-10-11; artifact hashes recorded",
+    "vite": "8.3.3",
+    "transformedModules": 42
+  },
+  "firstBuildFailure": {
+    "status": "FAILED",
+    "cause": "clean attempted to delete its own open target build.log on Windows",
+    "log": ".local/b06-evidence/b060-20261011-01-failed.log",
+    "logSha256": "0973EE157234F42E2E42A522005DB95885E4B919E5E304B039CC07B3761C44F5"
+  },
+  "successfulBuild": {
+    "status": "PASSED",
+    "command": "./scripts/mvn.ps1 -JavaHome 'C:/Program Files/Java/jdk-21' clean package",
+    "log": ".local/b06-evidence/b060-20261011-02-build.log",
+    "logSha256": "D938B832969D408588E128729BE6F00279DD987E61A25B13A9B4ADFA01B449EB"
+  },
+  "hostObservation": {
+    "totalMemoryBytes": 16342126592,
+    "logicalProcessors": 16,
+    "dockerClient": "24.0.7",
+    "dockerServer": "Not reachable; no daemon started",
+    "wsl": "docker-desktop and docker-desktop-data Stopped, version 2",
+    "vmware": "Directory detected only; usable installation not verified"
+  },
+  "stageCompletion": false,
+  "design": {
+    "path": "docs/b06-deployment-design.md",
+    "decisions": [
+      "B06-D4",
+      "B06-D5",
+      "B06-D6",
+      "B06-D7",
+      "B06-D8",
+      "B06-D9",
+      "B06-D10",
+      "B06-D11"
+    ],
+    "status": "DESIGNED_NOT_DEPLOYED"
+  }
+}

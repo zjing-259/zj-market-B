@@ -1,2 +1,5 @@
 /mvnw text eol=lf
 *.cmd text eol=crlf
+
+# Preserve the approved A initialization SQL bytes and its SHA256 across checkout platforms.
+deploy/b06/init/a-empty-schema.sql -text

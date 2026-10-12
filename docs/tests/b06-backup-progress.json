@@ -1,0 +1,48 @@
+{
+  "stage": "B-06.6",
+  "status": "COMPLETED_WINDOWS_DOCKER",
+  "stageCompletion": true,
+  "runName": "b066-20261012-03",
+  "previousRun": {
+    "runName": "b066-20261012-01",
+    "status": "FAILED",
+    "error": "RuntimeError: ARCHIVED_IMAGE_MISMATCH",
+    "originalRecoveryJournalEmpty": true
+  },
+  "guardTests": 16,
+  "choices": "B06-D45 through B06-D50",
+  "scope": "Windows Docker; no original volume overwrite; compatible packaging rollback only",
+  "linuxVmValidated": false,
+  "gitPublished": false,
+  "backupRunPassed": {
+    "runName": "b066-20261012-02",
+    "checks": 40,
+    "originalRecoveryJournalEmpty": true
+  },
+  "remaining": [],
+  "completedAt": "2026-10-12T07:56:16.738403+00:00",
+  "privateAclTests": 1,
+  "passedBatches": {
+    "coldBackup": {
+      "runName": "b066-20261012-02",
+      "checks": 40
+    },
+    "existingBackupRestore": {
+      "runName": "b066-20261012-03",
+      "checks": 39
+    },
+    "interruptedRecovery": {
+      "runName": "b066-20261012-04",
+      "checks": 11
+    }
+  },
+  "allRecoveryJournalsEmpty": true,
+  "actualPrivateAclScopes": 12,
+  "finalAcceptance": "docs/tests/b06-backup-acceptance.json",
+  "finalRelease": "docs/b06-backup-release.json",
+  "currentRuntime": {
+    "mode": "open",
+    "phase": "READY",
+    "activeAlerts": 0
+  }
+}

@@ -1,0 +1,8 @@
+[mysqld]
+default-time-zone=+00:00
+require_secure_transport=ON
+ssl-ca=/run/secrets/mysql-ca.pem
+ssl-cert=/run/secrets/mysql.pem
+ssl-key=/run/secrets/mysql-key.pem
+max_connections=70
+innodb_buffer_pool_size=256M

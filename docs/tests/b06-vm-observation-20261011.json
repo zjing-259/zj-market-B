@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "stage": "B-06.0",
+  "source": "User-supplied Linux console output, network screenshots and FinalShell connection statement; no agent SSH execution",
+  "status": "TARGET_SYSTEM_AND_RESOURCES_PENDING",
+  "stageCompletion": false,
+  "network": {
+    "interface": "ens33",
+    "address": "192.168.238.254/24",
+    "gateway": "192.168.238.227",
+    "assignment": "DHCP",
+    "link": "UP/LOWER_UP",
+    "hostSsh": "User confirmed FinalShell connected",
+    "otherLanClients": "NOT_VERIFIED",
+    "addressReservation": "NOT_VERIFIED"
+  },
+  "os": {
+    "name": "CentOS Linux",
+    "version": "7 (Core)",
+    "architecture": "x86_64"
+  },
+  "cpu": {
+    "vcpus": 2,
+    "hypervisor": "VMware"
+  },
+  "memory": {
+    "total": "3.7G",
+    "available": "2.8G",
+    "swapTotal": "3.9G"
+  },
+  "rootFilesystem": {
+    "total": "46G",
+    "used": "8.6G",
+    "available": "37G",
+    "dockerDataStorage": "NOT_VERIFIED"
+  },
+  "time": {
+    "zone": "Asia/Shanghai",
+    "ntpEnabled": true,
+    "ntpSynchronized": true,
+    "crossServiceSkew": "NOT_VERIFIED"
+  },
+  "docker": {
+    "clientVersion": "26.1.4",
+    "build": "5650f9b",
+    "server": "NOT_VERIFIED",
+    "compose": "Command interrupted by user Ctrl+C; no result"
+  },
+  "recommendedTarget": {
+    "os": "Ubuntu Server 24.04 LTS amd64",
+    "vcpus": 4,
+    "ramGiB": 8,
+    "diskGiB": 80,
+    "decision": "B06-D12 supplements D4; keep existing VM"
+  },
+  "notPerformed": [
+    "Remote access by agent",
+    "OS install or reinstallation",
+    "Resource changes",
+    "Docker or Compose installation",
+    "Deployment",
+    "Database/RPC/MQ operations"
+  ],
+  "sources": [
+    "https://www.centos.org/centos-linux/",
+    "https://docs.docker.com/engine/install/centos/"
+  ]
+}

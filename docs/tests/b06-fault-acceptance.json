@@ -1,0 +1,5222 @@
+{
+  "stage": "B-06.5",
+  "runName": "b065-20261012-07",
+  "status": "PASSED_WINDOWS_DOCKER_FAULT_AND_RECOVERY",
+  "startedAt": "2026-10-12T04:12:02.704251+00:00",
+  "checks": [
+    {
+      "name": "mq-stats",
+      "at": "2026-10-12T04:12:19.628243+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "rpc-signed",
+      "at": "2026-10-12T04:12:27.126125+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "actually-stopped-marketing-a",
+      "at": "2026-10-12T04:12:34.508671+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": false,
+        "ExitCode": 137,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:11:19.047045824Z",
+              "End": "2026-10-12T04:11:19.208901559Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:11:34.21323051Z",
+              "End": "2026-10-12T04:11:34.340550536Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:11:49.348104352Z",
+              "End": "2026-10-12T04:11:49.485549176Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:12:04.491074102Z",
+              "End": "2026-10-12T04:12:04.608771267Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:12:19.613800349Z",
+              "End": "2026-10-12T04:12:19.759600697Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T03:59:11.737665259Z",
+        "FinishedAt": "2026-10-12T04:12:33.77778231Z"
+      }
+    },
+    {
+      "name": "A-down-new-payment-not-accepted",
+      "at": "2026-10-12T04:12:34.743206+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": 503,
+        "code": "PAYMENT_DEPENDENCY_UNAVAILABLE",
+        "accepted": false
+      }
+    },
+    {
+      "name": "A-down-no-payment-root",
+      "at": "2026-10-12T04:12:34.931850+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "A-down-close-keeps-stock",
+      "at": "2026-10-12T04:12:35.308260+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "CLOSING",
+        "accepted": 0,
+        "payments": 0,
+        "released": 0,
+        "confirmed": 0,
+        "successful": 0,
+        "reservation": "HELD",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "A-down-independent-catalog",
+      "at": "2026-10-12T04:12:35.425222+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "healthy-marketing-a",
+      "at": "2026-10-12T04:12:57.615417+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": true,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "healthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:11:34.21323051Z",
+              "End": "2026-10-12T04:11:34.340550536Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:11:49.348104352Z",
+              "End": "2026-10-12T04:11:49.485549176Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:12:04.491074102Z",
+              "End": "2026-10-12T04:12:04.608771267Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:12:19.613800349Z",
+              "End": "2026-10-12T04:12:19.759600697Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:12:55.529338607Z",
+              "End": "2026-10-12T04:12:55.760560214Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:12:40.529068619Z",
+        "FinishedAt": "2026-10-12T04:12:33.77778231Z"
+      }
+    },
+    {
+      "name": "closed-once-aClose",
+      "at": "2026-10-12T04:13:46.396443+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "CLOSED",
+        "accepted": 0,
+        "payments": 0,
+        "released": 1,
+        "confirmed": 0,
+        "successful": 0,
+        "reservation": "RELEASED",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "lost-receipt-persisted-one-attempt",
+      "at": "2026-10-12T04:13:50.293595+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "actually-stopped-market-b",
+      "at": "2026-10-12T04:13:51.432290+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": false,
+        "ExitCode": 137,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:12:38.568303216Z",
+              "End": "2026-10-12T04:12:38.66933865Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:12:53.675481671Z",
+              "End": "2026-10-12T04:12:53.787279584Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:13:08.792857092Z",
+              "End": "2026-10-12T04:13:08.901116846Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:13:23.905932064Z",
+              "End": "2026-10-12T04:13:24.013033232Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:13:39.01819758Z",
+              "End": "2026-10-12T04:13:39.13550259Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:11:07.922576299Z",
+        "FinishedAt": "2026-10-12T04:13:50.688060423Z"
+      }
+    },
+    {
+      "name": "healthy-market-b",
+      "at": "2026-10-12T04:14:13.856390+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": true,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "healthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:12:53.675481671Z",
+              "End": "2026-10-12T04:12:53.787279584Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:13:08.792857092Z",
+              "End": "2026-10-12T04:13:08.901116846Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:13:23.905932064Z",
+              "End": "2026-10-12T04:13:24.013033232Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:13:39.01819758Z",
+              "End": "2026-10-12T04:13:39.13550259Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:14:11.593742169Z",
+              "End": "2026-10-12T04:14:11.829008014Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:13:56.593376417Z",
+        "FinishedAt": "2026-10-12T04:13:50.688060423Z"
+      }
+    },
+    {
+      "name": "lost-receipt-replay-same-attempt",
+      "at": "2026-10-12T04:14:14.551901+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paymentId": "eb1783e3-5230-460d-976c-a8f7c1376124",
+        "attemptId": "1d0dadec-bd88-499d-9edb-d04ceb4c4c1f",
+        "receiptOperationId": "d0c0544d-f342-45ec-b5ee-6a5c83f4bb98"
+      }
+    },
+    {
+      "name": "actually-stopped-broker",
+      "at": "2026-10-12T04:14:18.691944+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": false,
+        "ExitCode": 143,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:13:03.408669207Z",
+              "End": "2026-10-12T04:13:03.463322457Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:13:18.469513474Z",
+              "End": "2026-10-12T04:13:18.536435325Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:13:33.544890713Z",
+              "End": "2026-10-12T04:13:33.591407694Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:13:48.596910209Z",
+              "End": "2026-10-12T04:13:48.654730187Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:14:03.660393553Z",
+              "End": "2026-10-12T04:14:03.716012374Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T03:52:13.358956632Z",
+        "FinishedAt": "2026-10-12T04:14:18.384272715Z"
+      }
+    },
+    {
+      "name": "broker-down-local-payment-kept",
+      "at": "2026-10-12T04:14:22.198312+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "PAID_WAITING_A",
+        "accepted": 0,
+        "payments": 1,
+        "released": 0,
+        "confirmed": 0,
+        "successful": 1,
+        "reservation": "HELD",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "broker-down-durable-outbox",
+      "at": "2026-10-12T04:14:22.585292+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "actually-stopped-market-b",
+      "at": "2026-10-12T04:14:28.662484+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": false,
+        "ExitCode": 137,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:13:08.792857092Z",
+              "End": "2026-10-12T04:13:08.901116846Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:13:23.905932064Z",
+              "End": "2026-10-12T04:13:24.013033232Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:13:39.01819758Z",
+              "End": "2026-10-12T04:13:39.13550259Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:14:11.593742169Z",
+              "End": "2026-10-12T04:14:11.829008014Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:14:26.90564727Z",
+              "End": "2026-10-12T04:14:27.032345139Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:13:56.593376417Z",
+        "FinishedAt": "2026-10-12T04:14:27.847572821Z"
+      }
+    },
+    {
+      "name": "healthy-market-b",
+      "at": "2026-10-12T04:14:46.713713+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": true,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "healthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:13:23.905932064Z",
+              "End": "2026-10-12T04:13:24.013033232Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:13:39.01819758Z",
+              "End": "2026-10-12T04:13:39.13550259Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:14:11.593742169Z",
+              "End": "2026-10-12T04:14:11.829008014Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:14:26.90564727Z",
+              "End": "2026-10-12T04:14:27.032345139Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:14:44.458343784Z",
+              "End": "2026-10-12T04:14:44.676705343Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:14:29.457972013Z",
+        "FinishedAt": "2026-10-12T04:14:27.847572821Z"
+      }
+    },
+    {
+      "name": "broker-down-B-restart-keeps-payment-and-event",
+      "at": "2026-10-12T04:14:47.143594+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "healthy-broker",
+      "at": "2026-10-12T04:15:06.503792+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": true,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "healthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:13:18.469513474Z",
+              "End": "2026-10-12T04:13:18.536435325Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:13:33.544890713Z",
+              "End": "2026-10-12T04:13:33.591407694Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:13:48.596910209Z",
+              "End": "2026-10-12T04:13:48.654730187Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:14:03.660393553Z",
+              "End": "2026-10-12T04:14:03.716012374Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:15:06.398890319Z",
+              "End": "2026-10-12T04:15:06.479316437Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:14:51.398289153Z",
+        "FinishedAt": "2026-10-12T04:14:18.384272715Z"
+      }
+    },
+    {
+      "name": "first-A-accepted",
+      "at": "2026-10-12T04:15:26.638642+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "PAID_WAITING_TEAM",
+        "accepted": 1,
+        "payments": 1,
+        "released": 0,
+        "confirmed": 0,
+        "successful": 1,
+        "reservation": "HELD",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "actually-stopped-namesrv",
+      "at": "2026-10-12T04:15:32.725274+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": false,
+        "ExitCode": 143,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:14:24.30170678Z",
+              "End": "2026-10-12T04:14:24.379034206Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:14:39.387676184Z",
+              "End": "2026-10-12T04:14:39.443240963Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:14:54.448543814Z",
+              "End": "2026-10-12T04:14:54.540709973Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:15:09.546046278Z",
+              "End": "2026-10-12T04:15:09.599192997Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:15:24.604850531Z",
+              "End": "2026-10-12T04:15:24.654520982Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:01:36.166719942Z",
+        "FinishedAt": "2026-10-12T04:15:32.404079029Z"
+      }
+    },
+    {
+      "name": "fresh-client-route-unavailable",
+      "at": "2026-10-12T04:15:45.370305+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "namesrv-down-known-channel-fact-kept",
+      "at": "2026-10-12T04:15:47.320061+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "healthy-namesrv",
+      "at": "2026-10-12T04:16:09.515993+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": true,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "healthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:14:39.387676184Z",
+              "End": "2026-10-12T04:14:39.443240963Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:14:54.448543814Z",
+              "End": "2026-10-12T04:14:54.540709973Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:15:09.546046278Z",
+              "End": "2026-10-12T04:15:09.599192997Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:15:24.604850531Z",
+              "End": "2026-10-12T04:15:24.654520982Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:16:07.362732603Z",
+              "End": "2026-10-12T04:16:07.411394179Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:15:52.362236269Z",
+        "FinishedAt": "2026-10-12T04:15:32.404079029Z"
+      }
+    },
+    {
+      "name": "mq-stats",
+      "at": "2026-10-12T04:16:14.716494+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "completed-once-first",
+      "at": "2026-10-12T04:16:14.948678+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "GROUP_COMPLETED",
+        "accepted": 1,
+        "payments": 1,
+        "released": 0,
+        "confirmed": 1,
+        "successful": 1,
+        "reservation": "CONFIRMED",
+        "fulfillments": 1
+      }
+    },
+    {
+      "name": "completed-once-second",
+      "at": "2026-10-12T04:16:15.164672+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "GROUP_COMPLETED",
+        "accepted": 1,
+        "payments": 1,
+        "released": 0,
+        "confirmed": 1,
+        "successful": 1,
+        "reservation": "CONFIRMED",
+        "fulfillments": 1
+      }
+    },
+    {
+      "name": "original-paid-fact-and-outbox-unchanged",
+      "at": "2026-10-12T04:16:15.593831+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "actually-stopped-mysql",
+      "at": "2026-10-12T04:16:19.443058+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": false,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:15:04.552961151Z",
+              "End": "2026-10-12T04:15:04.629368381Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:15:19.634870001Z",
+              "End": "2026-10-12T04:15:19.697324793Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:15:34.703101447Z",
+              "End": "2026-10-12T04:15:34.76464711Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:15:49.77003642Z",
+              "End": "2026-10-12T04:15:49.844750999Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:16:04.850422748Z",
+              "End": "2026-10-12T04:16:04.932560438Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T03:53:58.959254487Z",
+        "FinishedAt": "2026-10-12T04:16:19.114685883Z"
+      }
+    },
+    {
+      "name": "database-down-public-read-fails-closed",
+      "at": "2026-10-12T04:16:24.546518+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": 503,
+        "code": "DEPENDENCY_UNAVAILABLE"
+      }
+    },
+    {
+      "name": "database-down-observation-is-unknown",
+      "at": "2026-10-12T04:16:37.042441+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "healthy-mysql",
+      "at": "2026-10-12T04:16:52.694904+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": true,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "healthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:15:19.634870001Z",
+              "End": "2026-10-12T04:15:19.697324793Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:15:34.703101447Z",
+              "End": "2026-10-12T04:15:34.76464711Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:15:49.77003642Z",
+              "End": "2026-10-12T04:15:49.844750999Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:16:04.850422748Z",
+              "End": "2026-10-12T04:16:04.932560438Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:16:52.618781273Z",
+              "End": "2026-10-12T04:16:52.662842109Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:16:37.617836338Z",
+        "FinishedAt": "2026-10-12T04:16:19.114685883Z"
+      }
+    },
+    {
+      "name": "database-pools-recovered",
+      "at": "2026-10-12T04:16:52.834781+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": 200,
+        "code": "0000"
+      }
+    },
+    {
+      "name": "database-restart-keeps-money-and-ledgers",
+      "at": "2026-10-12T04:16:53.062555+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "container-only-RPC-endpoint-pinned",
+      "at": "2026-10-12T04:17:16.260846+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "endpoint": "172.25.0.3"
+      }
+    },
+    {
+      "name": "pinned-RPC-positive-control",
+      "at": "2026-10-12T04:17:17.445094+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "rpc-network-really-disconnected",
+      "at": "2026-10-12T04:17:18.022795+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "rpc-isolation-new-payment-not-accepted",
+      "at": "2026-10-12T04:17:28.190958+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": null,
+        "transportUnknown": true
+      }
+    },
+    {
+      "name": "rpc-isolation-no-charge-no-release",
+      "at": "2026-10-12T04:17:28.745376+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "CLOSING",
+        "accepted": 0,
+        "payments": 0,
+        "released": 0,
+        "confirmed": 0,
+        "successful": 0,
+        "reservation": "HELD",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "healthy-market-b",
+      "at": "2026-10-12T04:17:33.617697+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": true,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "healthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:17:15.528028306Z",
+              "End": "2026-10-12T04:17:15.752081584Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:17:30.756982574Z",
+              "End": "2026-10-12T04:17:30.862758287Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:17:00.527128394Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      }
+    },
+    {
+      "name": "healthy-market-b",
+      "at": "2026-10-12T04:17:53.399675+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": true,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "healthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:17:52.639182856Z",
+              "End": "2026-10-12T04:17:52.877594362Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:17:37.638513906Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      }
+    },
+    {
+      "name": "closed-once-networkClose",
+      "at": "2026-10-12T04:17:53.600613+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "CLOSED",
+        "accepted": 0,
+        "payments": 0,
+        "released": 1,
+        "confirmed": 0,
+        "successful": 0,
+        "reservation": "RELEASED",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "actually-stopped-redis",
+      "at": "2026-10-12T04:17:57.943610+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": false,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:16:47.527172496Z",
+              "End": "2026-10-12T04:16:47.602655961Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:17:02.608342679Z",
+              "End": "2026-10-12T04:17:02.659938411Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:17:17.666338816Z",
+              "End": "2026-10-12T04:17:17.730426138Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:17:32.736221448Z",
+              "End": "2026-10-12T04:17:32.813832876Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:17:47.821259104Z",
+              "End": "2026-10-12T04:17:47.86989972Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T03:55:26.999667825Z",
+        "FinishedAt": "2026-10-12T04:17:57.59421562Z"
+      }
+    },
+    {
+      "name": "redis-down-new-payment-not-accepted",
+      "at": "2026-10-12T04:18:01.326575+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": 503,
+        "code": "PAYMENT_DEPENDENCY_UNAVAILABLE",
+        "accepted": false
+      }
+    },
+    {
+      "name": "redis-down-no-charge-no-release",
+      "at": "2026-10-12T04:18:01.712571+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "CLOSING",
+        "accepted": 0,
+        "payments": 0,
+        "released": 0,
+        "confirmed": 0,
+        "successful": 0,
+        "reservation": "HELD",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "healthy-redis",
+      "at": "2026-10-12T04:18:23.851185+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": true,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "healthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:17:02.608342679Z",
+              "End": "2026-10-12T04:17:02.659938411Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:17:17.666338816Z",
+              "End": "2026-10-12T04:17:17.730426138Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:17:32.736221448Z",
+              "End": "2026-10-12T04:17:32.813832876Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:17:47.821259104Z",
+              "End": "2026-10-12T04:17:47.86989972Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-12T04:18:21.713446748Z",
+              "End": "2026-10-12T04:18:21.77376793Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:18:06.71333355Z",
+        "FinishedAt": "2026-10-12T04:17:57.59421562Z"
+      }
+    },
+    {
+      "name": "closed-once-redisClose",
+      "at": "2026-10-12T04:18:24.066441+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "CLOSED",
+        "accepted": 0,
+        "payments": 0,
+        "released": 1,
+        "confirmed": 0,
+        "successful": 0,
+        "reservation": "RELEASED",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "paid-before-expiry-refundBlocked",
+      "at": "2026-10-12T04:18:55.407710+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "PAID_WAITING_TEAM",
+        "accepted": 1,
+        "payments": 1,
+        "released": 0,
+        "confirmed": 0,
+        "successful": 1,
+        "reservation": "HELD",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "paid-before-expiry-refundHealthy",
+      "at": "2026-10-12T04:19:51.661885+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "PAID_WAITING_TEAM",
+        "accepted": 1,
+        "payments": 1,
+        "released": 0,
+        "confirmed": 0,
+        "successful": 1,
+        "reservation": "HELD",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "natural-expiry-complete-eligible-refunds",
+      "at": "2026-10-12T04:21:09.076966+00:00",
+      "status": "PASSED",
+      "evidence": [
+        {
+          "sync": "NOT_CREATED",
+          "basis": "TEAM_FAILED_ACCEPTED",
+          "funds": "NONE",
+          "orderId": "8a21c571-9533-4659-bd85-7373d5769654",
+          "release": "HELD",
+          "refundId": "76e7b0cf-77b3-48a2-80c1-99dc0ca8871d",
+          "eligibility": "ELIGIBLE"
+        },
+        {
+          "sync": "NOT_CREATED",
+          "basis": "TEAM_FAILED_ACCEPTED",
+          "funds": "NONE",
+          "orderId": "ce32d725-69ce-45d1-95d3-962e17b97fa9",
+          "release": "HELD",
+          "refundId": "de54c401-fc95-4ac9-9f51-6e1122f806d6",
+          "eligibility": "ELIGIBLE"
+        }
+      ]
+    },
+    {
+      "name": "actually-stopped-marketing-a",
+      "at": "2026-10-12T04:21:10.223742+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": false,
+        "ExitCode": 137,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "unhealthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:19:59.655844071Z",
+              "End": "2026-10-12T04:19:59.792798683Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:20:14.798819282Z",
+              "End": "2026-10-12T04:20:14.931451005Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:20:29.936846118Z",
+              "End": "2026-10-12T04:20:30.075934448Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:20:45.081776446Z",
+              "End": "2026-10-12T04:20:45.217713966Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:21:00.224400257Z",
+              "End": "2026-10-12T04:21:00.355642508Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:12:40.529068619Z",
+        "FinishedAt": "2026-10-12T04:21:09.485865675Z"
+      }
+    },
+    {
+      "name": "refund-drop-response",
+      "at": "2026-10-12T04:21:14.017203+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "unknown-refund-task-due",
+      "at": "2026-10-12T04:21:18.743419+00:00",
+      "status": "PASSED",
+      "evidence": 1
+    },
+    {
+      "name": "refund-isolate",
+      "at": "2026-10-12T04:21:22.834237+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "unknown-refund-isolation-no-stock-release",
+      "at": "2026-10-12T04:21:23.266286+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "healthy-market-b",
+      "at": "2026-10-12T04:21:43.138997+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": true,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "healthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:21:42.381727546Z",
+              "End": "2026-10-12T04:21:42.657407948Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:21:27.380780788Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      }
+    },
+    {
+      "name": "original-refund-and-independent-release-while-A-down",
+      "at": "2026-10-12T04:21:43.353259+00:00",
+      "status": "PASSED",
+      "evidence": [
+        {
+          "sync": "PENDING",
+          "basis": "TEAM_FAILED_ACCEPTED",
+          "funds": "SUCCEEDED",
+          "orderId": "8a21c571-9533-4659-bd85-7373d5769654",
+          "release": "RELEASED",
+          "refundId": "76e7b0cf-77b3-48a2-80c1-99dc0ca8871d",
+          "eligibility": "ELIGIBLE"
+        },
+        {
+          "sync": "PENDING",
+          "basis": "TEAM_FAILED_ACCEPTED",
+          "funds": "SUCCEEDED",
+          "orderId": "ce32d725-69ce-45d1-95d3-962e17b97fa9",
+          "release": "RELEASED",
+          "refundId": "de54c401-fc95-4ac9-9f51-6e1122f806d6",
+          "eligibility": "ELIGIBLE"
+        }
+      ]
+    },
+    {
+      "name": "unknown-refund-kept-original-attempt",
+      "at": "2026-10-12T04:21:43.553730+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "healthy-marketing-a",
+      "at": "2026-10-12T04:22:06.100623+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "Running": true,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "Health": {
+          "Status": "healthy",
+          "FailingStreak": 0,
+          "Log": [
+            {
+              "Start": "2026-10-12T04:20:14.798819282Z",
+              "End": "2026-10-12T04:20:14.931451005Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:20:29.936846118Z",
+              "End": "2026-10-12T04:20:30.075934448Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:20:45.081776446Z",
+              "End": "2026-10-12T04:20:45.217713966Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:21:00.224400257Z",
+              "End": "2026-10-12T04:21:00.355642508Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            },
+            {
+              "Start": "2026-10-12T04:22:03.889734669Z",
+              "End": "2026-10-12T04:22:04.134346537Z",
+              "ExitCode": 0,
+              "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx384m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+            }
+          ]
+        },
+        "StartedAt": "2026-10-12T04:21:48.889230438Z",
+        "FinishedAt": "2026-10-12T04:21:09.485865675Z"
+      }
+    },
+    {
+      "name": "refund-A-sync-after-recovery",
+      "at": "2026-10-12T04:22:06.316615+00:00",
+      "status": "PASSED",
+      "evidence": [
+        {
+          "sync": "ACCEPTED",
+          "basis": "TEAM_FAILED_ACCEPTED",
+          "funds": "SUCCEEDED",
+          "orderId": "8a21c571-9533-4659-bd85-7373d5769654",
+          "release": "RELEASED",
+          "refundId": "76e7b0cf-77b3-48a2-80c1-99dc0ca8871d",
+          "eligibility": "ELIGIBLE"
+        },
+        {
+          "sync": "ACCEPTED",
+          "basis": "TEAM_FAILED_ACCEPTED",
+          "funds": "SUCCEEDED",
+          "orderId": "ce32d725-69ce-45d1-95d3-962e17b97fa9",
+          "release": "RELEASED",
+          "refundId": "de54c401-fc95-4ac9-9f51-6e1122f806d6",
+          "eligibility": "ELIGIBLE"
+        }
+      ]
+    },
+    {
+      "name": "refund-recovery-attempts-unchanged",
+      "at": "2026-10-12T04:22:06.515569+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "mq-stats",
+      "at": "2026-10-12T04:22:11.537885+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "mq-bad-secret",
+      "at": "2026-10-12T04:22:16.645610+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "mq-denied-topic",
+      "at": "2026-10-12T04:22:21.705615+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "mq-bad-ca",
+      "at": "2026-10-12T04:22:26.669338+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "mq-stats",
+      "at": "2026-10-12T04:22:31.640299+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "rpc-signed",
+      "at": "2026-10-12T04:22:39.564304+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "rpc-bad-hmac",
+      "at": "2026-10-12T04:22:47.005949+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "rpc-no-client",
+      "at": "2026-10-12T04:22:52.861293+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "rpc-bad-client",
+      "at": "2026-10-12T04:22:59.237605+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "rpc-signed",
+      "at": "2026-10-12T04:23:06.794889+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "final-stock-unpaid",
+      "at": "2026-10-12T04:23:07.042367+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      }
+    },
+    {
+      "name": "final-stock-success",
+      "at": "2026-10-12T04:23:07.272035+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "sold": 2,
+        "reserved": 0,
+        "available": 8
+      }
+    },
+    {
+      "name": "final-stock-refundBlocked",
+      "at": "2026-10-12T04:23:07.488235+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      }
+    },
+    {
+      "name": "final-stock-refundHealthy",
+      "at": "2026-10-12T04:23:07.687209+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      }
+    },
+    {
+      "name": "unique-terminal-aClose",
+      "at": "2026-10-12T04:23:07.886907+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "CLOSED",
+        "accepted": 0,
+        "payments": 0,
+        "released": 1,
+        "confirmed": 0,
+        "successful": 0,
+        "reservation": "RELEASED",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "channel-conservation-aClose",
+      "at": "2026-10-12T04:23:08.088863+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 0,
+        "refunds": 0,
+        "payments": 0,
+        "refunded": 0,
+        "releaseProofs": 0,
+        "unownedBlocks": 0,
+        "unfinishedRefundWork": 0
+      }
+    },
+    {
+      "name": "A-exact-quota-aClose",
+      "at": "2026-10-12T04:23:08.289088+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 0,
+        "status": "FORMING",
+        "target": 2,
+        "reserved": 0,
+        "actualPaid": 0,
+        "actualReserved": 0
+      }
+    },
+    {
+      "name": "unique-terminal-first",
+      "at": "2026-10-12T04:23:08.475514+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "GROUP_COMPLETED",
+        "accepted": 1,
+        "payments": 1,
+        "released": 0,
+        "confirmed": 1,
+        "successful": 1,
+        "reservation": "CONFIRMED",
+        "fulfillments": 1
+      }
+    },
+    {
+      "name": "channel-conservation-first",
+      "at": "2026-10-12T04:23:08.705727+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 90.0,
+        "refunds": 0,
+        "payments": 1,
+        "refunded": 0,
+        "releaseProofs": 0,
+        "unownedBlocks": 0,
+        "unfinishedRefundWork": 0
+      }
+    },
+    {
+      "name": "A-exact-quota-first",
+      "at": "2026-10-12T04:23:08.919364+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 2,
+        "status": "COMPLETED",
+        "target": 2,
+        "reserved": 2,
+        "actualPaid": 2,
+        "actualReserved": 2
+      }
+    },
+    {
+      "name": "unique-terminal-second",
+      "at": "2026-10-12T04:23:09.118725+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "GROUP_COMPLETED",
+        "accepted": 1,
+        "payments": 1,
+        "released": 0,
+        "confirmed": 1,
+        "successful": 1,
+        "reservation": "CONFIRMED",
+        "fulfillments": 1
+      }
+    },
+    {
+      "name": "channel-conservation-second",
+      "at": "2026-10-12T04:23:09.317853+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 90.0,
+        "refunds": 0,
+        "payments": 1,
+        "refunded": 0,
+        "releaseProofs": 0,
+        "unownedBlocks": 0,
+        "unfinishedRefundWork": 0
+      }
+    },
+    {
+      "name": "A-exact-quota-second",
+      "at": "2026-10-12T04:23:09.532195+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 2,
+        "status": "COMPLETED",
+        "target": 2,
+        "reserved": 2,
+        "actualPaid": 2,
+        "actualReserved": 2
+      }
+    },
+    {
+      "name": "unique-terminal-networkClose",
+      "at": "2026-10-12T04:23:09.733605+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "CLOSED",
+        "accepted": 0,
+        "payments": 0,
+        "released": 1,
+        "confirmed": 0,
+        "successful": 0,
+        "reservation": "RELEASED",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "channel-conservation-networkClose",
+      "at": "2026-10-12T04:23:09.949495+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 0,
+        "refunds": 0,
+        "payments": 0,
+        "refunded": 0,
+        "releaseProofs": 0,
+        "unownedBlocks": 0,
+        "unfinishedRefundWork": 0
+      }
+    },
+    {
+      "name": "A-exact-quota-networkClose",
+      "at": "2026-10-12T04:23:10.162675+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 0,
+        "status": "FORMING",
+        "target": 2,
+        "reserved": 0,
+        "actualPaid": 0,
+        "actualReserved": 0
+      }
+    },
+    {
+      "name": "unique-terminal-redisClose",
+      "at": "2026-10-12T04:23:10.365181+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "CLOSED",
+        "accepted": 0,
+        "payments": 0,
+        "released": 1,
+        "confirmed": 0,
+        "successful": 0,
+        "reservation": "RELEASED",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "channel-conservation-redisClose",
+      "at": "2026-10-12T04:23:10.580502+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 0,
+        "refunds": 0,
+        "payments": 0,
+        "refunded": 0,
+        "releaseProofs": 0,
+        "unownedBlocks": 0,
+        "unfinishedRefundWork": 0
+      }
+    },
+    {
+      "name": "A-exact-quota-redisClose",
+      "at": "2026-10-12T04:23:10.781075+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 0,
+        "status": "FORMING",
+        "target": 2,
+        "reserved": 0,
+        "actualPaid": 0,
+        "actualReserved": 0
+      }
+    },
+    {
+      "name": "unique-terminal-refundBlocked",
+      "at": "2026-10-12T04:23:10.997224+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "CLOSED",
+        "accepted": 1,
+        "payments": 1,
+        "released": 1,
+        "confirmed": 0,
+        "successful": 1,
+        "reservation": "RELEASED",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "channel-conservation-refundBlocked",
+      "at": "2026-10-12T04:23:11.215947+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 90.0,
+        "refunds": 1,
+        "payments": 1,
+        "refunded": 90.0,
+        "releaseProofs": 1,
+        "unownedBlocks": 0,
+        "unfinishedRefundWork": 0
+      }
+    },
+    {
+      "name": "A-exact-quota-refundBlocked",
+      "at": "2026-10-12T04:23:11.430763+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 1,
+        "status": "FAILED",
+        "target": 2,
+        "reserved": 1,
+        "actualPaid": 1,
+        "actualReserved": 1
+      }
+    },
+    {
+      "name": "complete-roster-reconciliation-refundBlocked",
+      "at": "2026-10-12T04:23:11.630846+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "state": "RESOLVED",
+        "members": 1,
+        "finalized": 1,
+        "submission": "ACKNOWLEDGED"
+      }
+    },
+    {
+      "name": "actual-opaque-roster-notification-accepted-refundBlocked",
+      "at": "2026-10-12T04:23:11.832657+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "accepted": 1,
+        "quarantined": 0
+      }
+    },
+    {
+      "name": "unique-terminal-refundHealthy",
+      "at": "2026-10-12T04:23:12.032492+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "status": "CLOSED",
+        "accepted": 1,
+        "payments": 1,
+        "released": 1,
+        "confirmed": 0,
+        "successful": 1,
+        "reservation": "RELEASED",
+        "fulfillments": 0
+      }
+    },
+    {
+      "name": "channel-conservation-refundHealthy",
+      "at": "2026-10-12T04:23:12.250761+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 90.0,
+        "refunds": 1,
+        "payments": 1,
+        "refunded": 90.0,
+        "releaseProofs": 1,
+        "unownedBlocks": 0,
+        "unfinishedRefundWork": 0
+      }
+    },
+    {
+      "name": "A-exact-quota-refundHealthy",
+      "at": "2026-10-12T04:23:12.452776+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "paid": 1,
+        "status": "FAILED",
+        "target": 2,
+        "reserved": 1,
+        "actualPaid": 1,
+        "actualReserved": 1
+      }
+    },
+    {
+      "name": "complete-roster-reconciliation-refundHealthy",
+      "at": "2026-10-12T04:23:12.652121+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "state": "RESOLVED",
+        "members": 1,
+        "finalized": 1,
+        "submission": "ACKNOWLEDGED"
+      }
+    },
+    {
+      "name": "actual-opaque-roster-notification-accepted-refundHealthy",
+      "at": "2026-10-12T04:23:12.853182+00:00",
+      "status": "PASSED",
+      "evidence": {
+        "accepted": 1,
+        "quarantined": 0
+      }
+    },
+    {
+      "name": "old-financial-facts-unchanged",
+      "at": "2026-10-12T04:23:13.085960+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "shared-containers-unchanged",
+      "at": "2026-10-12T04:23:13.207952+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "hosts-unchanged",
+      "at": "2026-10-12T04:23:13.210788+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "runtime-restored-mysql",
+      "at": "2026-10-12T04:23:13.331624+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "runtime-restored-redis",
+      "at": "2026-10-12T04:23:13.454714+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "runtime-restored-namesrv",
+      "at": "2026-10-12T04:23:13.561517+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "runtime-restored-broker",
+      "at": "2026-10-12T04:23:13.669601+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "runtime-restored-marketing-a",
+      "at": "2026-10-12T04:23:13.778012+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "runtime-restored-market-b",
+      "at": "2026-10-12T04:23:13.885608+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "runtime-restored-web",
+      "at": "2026-10-12T04:23:13.992200+00:00",
+      "status": "PASSED"
+    },
+    {
+      "name": "final-seven-and-HTTPS-healthy",
+      "at": "2026-10-12T04:23:21.169983+00:00",
+      "status": "PASSED"
+    }
+  ],
+  "timeline": [
+    {
+      "at": "2026-10-12T04:12:28.515855+00:00",
+      "event": "fresh-fixtures-created",
+      "goods": {
+        "unpaid": "ca2fbaff-fb86-4c73-b31b-d27cb3a084ce",
+        "success": "5ba260a5-98d1-4fc5-98da-930fd17975bc",
+        "refundBlocked": "29fc35d7-0942-412a-a886-2cd35b980c7b",
+        "refundHealthy": "9bd25635-4fbc-4062-b4b1-d8fc1ecf65ef"
+      }
+    },
+    {
+      "at": "2026-10-12T04:12:33.507127+00:00",
+      "event": "inverse-saved",
+      "kind": "container",
+      "service": "marketing-a"
+    },
+    {
+      "at": "2026-10-12T04:12:34.510657+00:00",
+      "event": "interrupted",
+      "service": "marketing-a",
+      "mode": "SIGKILL"
+    },
+    {
+      "at": "2026-10-12T04:12:57.619288+00:00",
+      "event": "restored",
+      "service": "marketing-a",
+      "kind": "container"
+    },
+    {
+      "at": "2026-10-12T04:13:50.402075+00:00",
+      "event": "inverse-saved",
+      "kind": "container",
+      "service": "market-b"
+    },
+    {
+      "at": "2026-10-12T04:13:51.434007+00:00",
+      "event": "interrupted",
+      "service": "market-b",
+      "mode": "SIGKILL"
+    },
+    {
+      "at": "2026-10-12T04:14:13.860880+00:00",
+      "event": "restored",
+      "service": "market-b",
+      "kind": "container"
+    },
+    {
+      "at": "2026-10-12T04:14:14.677608+00:00",
+      "event": "inverse-saved",
+      "kind": "container",
+      "service": "broker"
+    },
+    {
+      "at": "2026-10-12T04:14:18.694262+00:00",
+      "event": "interrupted",
+      "service": "broker",
+      "mode": "stop"
+    },
+    {
+      "at": "2026-10-12T04:14:27.556122+00:00",
+      "event": "inverse-saved",
+      "kind": "container",
+      "service": "market-b"
+    },
+    {
+      "at": "2026-10-12T04:14:28.664597+00:00",
+      "event": "interrupted",
+      "service": "market-b",
+      "mode": "SIGKILL"
+    },
+    {
+      "at": "2026-10-12T04:14:46.718713+00:00",
+      "event": "restored",
+      "service": "market-b",
+      "kind": "container"
+    },
+    {
+      "at": "2026-10-12T04:15:06.507846+00:00",
+      "event": "restored",
+      "service": "broker",
+      "kind": "container"
+    },
+    {
+      "at": "2026-10-12T04:15:32.142224+00:00",
+      "event": "inverse-saved",
+      "kind": "container",
+      "service": "namesrv"
+    },
+    {
+      "at": "2026-10-12T04:15:32.727358+00:00",
+      "event": "interrupted",
+      "service": "namesrv",
+      "mode": "stop"
+    },
+    {
+      "at": "2026-10-12T04:16:09.519840+00:00",
+      "event": "restored",
+      "service": "namesrv",
+      "kind": "container"
+    },
+    {
+      "at": "2026-10-12T04:16:15.915155+00:00",
+      "event": "inverse-saved",
+      "kind": "container",
+      "service": "mysql"
+    },
+    {
+      "at": "2026-10-12T04:16:19.445022+00:00",
+      "event": "interrupted",
+      "service": "mysql",
+      "mode": "stop"
+    },
+    {
+      "at": "2026-10-12T04:16:52.699424+00:00",
+      "event": "restored",
+      "service": "mysql",
+      "kind": "container"
+    },
+    {
+      "at": "2026-10-12T04:16:56.655191+00:00",
+      "event": "inverse-saved",
+      "kind": "runtime",
+      "service": "market-b"
+    },
+    {
+      "at": "2026-10-12T04:17:17.671269+00:00",
+      "event": "inverse-saved",
+      "kind": "network",
+      "service": "market-b"
+    },
+    {
+      "at": "2026-10-12T04:17:18.024748+00:00",
+      "event": "interrupted",
+      "service": "market-b",
+      "mode": "rpc-network-disconnect"
+    },
+    {
+      "at": "2026-10-12T04:17:33.622441+00:00",
+      "event": "restored",
+      "service": "market-b",
+      "kind": "network"
+    },
+    {
+      "at": "2026-10-12T04:17:53.403649+00:00",
+      "event": "restored",
+      "service": "market-b",
+      "kind": "runtime"
+    },
+    {
+      "at": "2026-10-12T04:17:57.295716+00:00",
+      "event": "inverse-saved",
+      "kind": "container",
+      "service": "redis"
+    },
+    {
+      "at": "2026-10-12T04:17:57.945710+00:00",
+      "event": "interrupted",
+      "service": "redis",
+      "mode": "stop"
+    },
+    {
+      "at": "2026-10-12T04:18:23.855171+00:00",
+      "event": "restored",
+      "service": "redis",
+      "kind": "container"
+    },
+    {
+      "at": "2026-10-12T04:18:24.193096+00:00",
+      "event": "inverse-saved",
+      "kind": "runtime",
+      "service": "market-b"
+    },
+    {
+      "at": "2026-10-12T04:18:43.589594+00:00",
+      "event": "refund-scheduler-paused"
+    },
+    {
+      "at": "2026-10-12T04:21:09.187167+00:00",
+      "event": "inverse-saved",
+      "kind": "container",
+      "service": "marketing-a"
+    },
+    {
+      "at": "2026-10-12T04:21:10.226360+00:00",
+      "event": "interrupted",
+      "service": "marketing-a",
+      "mode": "SIGKILL"
+    },
+    {
+      "at": "2026-10-12T04:21:43.143907+00:00",
+      "event": "restored",
+      "service": "market-b",
+      "kind": "runtime"
+    },
+    {
+      "at": "2026-10-12T04:22:06.105926+00:00",
+      "event": "restored",
+      "service": "marketing-a",
+      "kind": "container"
+    }
+  ],
+  "samples": [
+    {
+      "at": "2026-10-12T04:12:14.711973+00:00",
+      "name": "baseline",
+      "health": {
+        "mysql": {
+          "project": "zj-market-b06",
+          "service": "mysql",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "redis": {
+          "project": "zj-market-b06",
+          "service": "redis",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+          "restartCount": 0,
+          "ok": true
+        },
+        "namesrv": {
+          "project": "zj-market-b06",
+          "service": "namesrv",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "broker": {
+          "project": "zj-market-b06",
+          "service": "broker",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "marketing-a": {
+          "project": "zj-market-b06",
+          "service": "marketing-a",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+          "restartCount": 0,
+          "ok": true
+        },
+        "market-b": {
+          "project": "zj-market-b06",
+          "service": "market-b",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "web": {
+          "project": "zj-market-b06",
+          "service": "web",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+          "restartCount": 0,
+          "ok": true
+        },
+        "https": {
+          "ok": true,
+          "scope": "strict TLS gateway liveness; not business admission"
+        }
+      },
+      "resources": [
+        {
+          "BlockIO": "1.92MB / 113MB",
+          "CPUPerc": "2.08%",
+          "Container": "zj-market-b06-mysql-1",
+          "ID": "c1f01cbdd6da",
+          "MemPerc": "59.52%",
+          "MemUsage": "457.1MiB / 768MiB",
+          "Name": "zj-market-b06-mysql-1",
+          "NetIO": "17.3MB / 33.3MB",
+          "PIDs": "46"
+        },
+        {
+          "BlockIO": "0B / 561kB",
+          "CPUPerc": "0.09%",
+          "Container": "zj-market-b06-redis-1",
+          "ID": "319609a4d902",
+          "MemPerc": "1.09%",
+          "MemUsage": "2.785MiB / 256MiB",
+          "Name": "zj-market-b06-redis-1",
+          "NetIO": "15.7kB / 5.48kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 1.81MB",
+          "CPUPerc": "0.49%",
+          "Container": "zj-market-b06-namesrv-1",
+          "ID": "d09be5ce4523",
+          "MemPerc": "29.72%",
+          "MemUsage": "114.1MiB / 384MiB",
+          "Name": "zj-market-b06-namesrv-1",
+          "NetIO": "235kB / 202kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 7.57MB",
+          "CPUPerc": "3.43%",
+          "Container": "zj-market-b06-broker-1",
+          "ID": "12dd53a85f49",
+          "MemPerc": "20.34%",
+          "MemUsage": "260.3MiB / 1.25GiB",
+          "Name": "zj-market-b06-broker-1",
+          "NetIO": "2.68MB / 1.11MB",
+          "PIDs": "181"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "8.63%",
+          "Container": "zj-market-b06-marketing-a-1",
+          "ID": "2e961a3b9795",
+          "MemPerc": "40.06%",
+          "MemUsage": "307.6MiB / 768MiB",
+          "Name": "zj-market-b06-marketing-a-1",
+          "NetIO": "721kB / 1.15MB",
+          "PIDs": "104"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "3.82%",
+          "Container": "zj-market-b06-market-b-1",
+          "ID": "48cd23943095",
+          "MemPerc": "31.93%",
+          "MemUsage": "327MiB / 1GiB",
+          "Name": "zj-market-b06-market-b-1",
+          "NetIO": "2.02MB / 1.13MB",
+          "PIDs": "85"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-web-1",
+          "ID": "298bb4378a0b",
+          "MemPerc": "7.43%",
+          "MemUsage": "9.508MiB / 128MiB",
+          "Name": "zj-market-b06-web-1",
+          "NetIO": "726B / 0B",
+          "PIDs": "17"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-12T04:12:39.782855+00:00",
+      "name": "A-killed",
+      "health": {
+        "mysql": {
+          "project": "zj-market-b06",
+          "service": "mysql",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "redis": {
+          "project": "zj-market-b06",
+          "service": "redis",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+          "restartCount": 0,
+          "ok": true
+        },
+        "namesrv": {
+          "project": "zj-market-b06",
+          "service": "namesrv",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "broker": {
+          "project": "zj-market-b06",
+          "service": "broker",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "marketing-a": {
+          "project": "zj-market-b06",
+          "service": "marketing-a",
+          "running": false,
+          "oomKilled": false,
+          "health": "unhealthy",
+          "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+          "restartCount": 0,
+          "ok": false
+        },
+        "market-b": {
+          "project": "zj-market-b06",
+          "service": "market-b",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "web": {
+          "project": "zj-market-b06",
+          "service": "web",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+          "restartCount": 0,
+          "ok": true
+        },
+        "https": {
+          "ok": true,
+          "scope": "strict TLS gateway liveness; not business admission"
+        }
+      },
+      "resources": [
+        {
+          "BlockIO": "1.95MB / 118MB",
+          "CPUPerc": "2.57%",
+          "Container": "zj-market-b06-mysql-1",
+          "ID": "c1f01cbdd6da",
+          "MemPerc": "61.12%",
+          "MemUsage": "469.4MiB / 768MiB",
+          "Name": "zj-market-b06-mysql-1",
+          "NetIO": "18MB / 34.7MB",
+          "PIDs": "46"
+        },
+        {
+          "BlockIO": "0B / 578kB",
+          "CPUPerc": "0.09%",
+          "Container": "zj-market-b06-redis-1",
+          "ID": "319609a4d902",
+          "MemPerc": "1.09%",
+          "MemUsage": "2.781MiB / 256MiB",
+          "Name": "zj-market-b06-redis-1",
+          "NetIO": "17.3kB / 6kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 1.93MB",
+          "CPUPerc": "0.16%",
+          "Container": "zj-market-b06-namesrv-1",
+          "ID": "d09be5ce4523",
+          "MemPerc": "31.58%",
+          "MemUsage": "121.3MiB / 384MiB",
+          "Name": "zj-market-b06-namesrv-1",
+          "NetIO": "245kB / 211kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 7.91MB",
+          "CPUPerc": "2.83%",
+          "Container": "zj-market-b06-broker-1",
+          "ID": "12dd53a85f49",
+          "MemPerc": "20.35%",
+          "MemUsage": "260.5MiB / 1.25GiB",
+          "Name": "zj-market-b06-broker-1",
+          "NetIO": "2.74MB / 1.14MB",
+          "PIDs": "182"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-marketing-a-1",
+          "ID": "2e961a3b9795",
+          "MemPerc": "0.00%",
+          "MemUsage": "0B / 0B",
+          "Name": "zj-market-b06-marketing-a-1",
+          "NetIO": "0B / 0B",
+          "PIDs": "0"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "8.40%",
+          "Container": "zj-market-b06-market-b-1",
+          "ID": "48cd23943095",
+          "MemPerc": "35.35%",
+          "MemUsage": "362MiB / 1GiB",
+          "Name": "zj-market-b06-market-b-1",
+          "NetIO": "3.26MB / 1.85MB",
+          "PIDs": "98"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-web-1",
+          "ID": "298bb4378a0b",
+          "MemPerc": "9.43%",
+          "MemUsage": "12.07MiB / 128MiB",
+          "Name": "zj-market-b06-web-1",
+          "NetIO": "86kB / 98.8kB",
+          "PIDs": "17"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-12T04:13:55.845702+00:00",
+      "name": "B-killed",
+      "health": {
+        "mysql": {
+          "project": "zj-market-b06",
+          "service": "mysql",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "redis": {
+          "project": "zj-market-b06",
+          "service": "redis",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+          "restartCount": 0,
+          "ok": true
+        },
+        "namesrv": {
+          "project": "zj-market-b06",
+          "service": "namesrv",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "broker": {
+          "project": "zj-market-b06",
+          "service": "broker",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "marketing-a": {
+          "project": "zj-market-b06",
+          "service": "marketing-a",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+          "restartCount": 0,
+          "ok": true
+        },
+        "market-b": {
+          "project": "zj-market-b06",
+          "service": "market-b",
+          "running": false,
+          "oomKilled": false,
+          "health": "unhealthy",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+          "restartCount": 0,
+          "ok": false
+        },
+        "web": {
+          "project": "zj-market-b06",
+          "service": "web",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+          "restartCount": 0,
+          "ok": true
+        },
+        "https": {
+          "ok": true,
+          "scope": "strict TLS gateway liveness; not business admission"
+        }
+      },
+      "resources": [
+        {
+          "BlockIO": "1.95MB / 129MB",
+          "CPUPerc": "0.64%",
+          "Container": "zj-market-b06-mysql-1",
+          "ID": "c1f01cbdd6da",
+          "MemPerc": "61.23%",
+          "MemUsage": "470.2MiB / 768MiB",
+          "Name": "zj-market-b06-mysql-1",
+          "NetIO": "19.4MB / 37.3MB",
+          "PIDs": "46"
+        },
+        {
+          "BlockIO": "0B / 606kB",
+          "CPUPerc": "0.11%",
+          "Container": "zj-market-b06-redis-1",
+          "ID": "319609a4d902",
+          "MemPerc": "1.19%",
+          "MemUsage": "3.039MiB / 256MiB",
+          "Name": "zj-market-b06-redis-1",
+          "NetIO": "21.1kB / 7.59kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 2.02MB",
+          "CPUPerc": "0.34%",
+          "Container": "zj-market-b06-namesrv-1",
+          "ID": "d09be5ce4523",
+          "MemPerc": "31.62%",
+          "MemUsage": "121.4MiB / 384MiB",
+          "Name": "zj-market-b06-namesrv-1",
+          "NetIO": "279kB / 240kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 8.24MB",
+          "CPUPerc": "3.22%",
+          "Container": "zj-market-b06-broker-1",
+          "ID": "12dd53a85f49",
+          "MemPerc": "20.38%",
+          "MemUsage": "260.9MiB / 1.25GiB",
+          "Name": "zj-market-b06-broker-1",
+          "NetIO": "2.9MB / 1.21MB",
+          "PIDs": "182"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.28%",
+          "Container": "zj-market-b06-marketing-a-1",
+          "ID": "2e961a3b9795",
+          "MemPerc": "38.28%",
+          "MemUsage": "294MiB / 768MiB",
+          "Name": "zj-market-b06-marketing-a-1",
+          "NetIO": "129kB / 134kB",
+          "PIDs": "89"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-market-b-1",
+          "ID": "48cd23943095",
+          "MemPerc": "0.00%",
+          "MemUsage": "0B / 0B",
+          "Name": "zj-market-b06-market-b-1",
+          "NetIO": "0B / 0B",
+          "PIDs": "0"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-web-1",
+          "ID": "298bb4378a0b",
+          "MemPerc": "10.91%",
+          "MemUsage": "13.97MiB / 128MiB",
+          "Name": "zj-market-b06-web-1",
+          "NetIO": "121kB / 138kB",
+          "PIDs": "17"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-12T04:14:27.429054+00:00",
+      "name": "broker-stopped",
+      "health": {
+        "mysql": {
+          "project": "zj-market-b06",
+          "service": "mysql",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "redis": {
+          "project": "zj-market-b06",
+          "service": "redis",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+          "restartCount": 0,
+          "ok": true
+        },
+        "namesrv": {
+          "project": "zj-market-b06",
+          "service": "namesrv",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "broker": {
+          "project": "zj-market-b06",
+          "service": "broker",
+          "running": false,
+          "oomKilled": false,
+          "health": "unhealthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": false
+        },
+        "marketing-a": {
+          "project": "zj-market-b06",
+          "service": "marketing-a",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+          "restartCount": 0,
+          "ok": true
+        },
+        "market-b": {
+          "project": "zj-market-b06",
+          "service": "market-b",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "web": {
+          "project": "zj-market-b06",
+          "service": "web",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+          "restartCount": 0,
+          "ok": true
+        },
+        "https": {
+          "ok": true,
+          "scope": "strict TLS gateway liveness; not business admission"
+        }
+      },
+      "resources": [
+        {
+          "BlockIO": "1.95MB / 132MB",
+          "CPUPerc": "0.99%",
+          "Container": "zj-market-b06-mysql-1",
+          "ID": "c1f01cbdd6da",
+          "MemPerc": "61.49%",
+          "MemUsage": "472.2MiB / 768MiB",
+          "Name": "zj-market-b06-mysql-1",
+          "NetIO": "20MB / 38.4MB",
+          "PIDs": "46"
+        },
+        {
+          "BlockIO": "0B / 623kB",
+          "CPUPerc": "0.13%",
+          "Container": "zj-market-b06-redis-1",
+          "ID": "319609a4d902",
+          "MemPerc": "1.09%",
+          "MemUsage": "2.789MiB / 256MiB",
+          "Name": "zj-market-b06-redis-1",
+          "NetIO": "21.9kB / 7.81kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 2.09MB",
+          "CPUPerc": "0.15%",
+          "Container": "zj-market-b06-namesrv-1",
+          "ID": "d09be5ce4523",
+          "MemPerc": "31.68%",
+          "MemUsage": "121.7MiB / 384MiB",
+          "Name": "zj-market-b06-namesrv-1",
+          "NetIO": "294kB / 258kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-broker-1",
+          "ID": "12dd53a85f49",
+          "MemPerc": "0.00%",
+          "MemUsage": "0B / 0B",
+          "Name": "zj-market-b06-broker-1",
+          "NetIO": "0B / 0B",
+          "PIDs": "0"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.44%",
+          "Container": "zj-market-b06-marketing-a-1",
+          "ID": "2e961a3b9795",
+          "MemPerc": "38.69%",
+          "MemUsage": "297.1MiB / 768MiB",
+          "Name": "zj-market-b06-marketing-a-1",
+          "NetIO": "170kB / 173kB",
+          "PIDs": "99"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.49%",
+          "Container": "zj-market-b06-market-b-1",
+          "ID": "48cd23943095",
+          "MemPerc": "32.09%",
+          "MemUsage": "328.6MiB / 1GiB",
+          "Name": "zj-market-b06-market-b-1",
+          "NetIO": "1.1MB / 571kB",
+          "PIDs": "99"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-web-1",
+          "ID": "298bb4378a0b",
+          "MemPerc": "10.93%",
+          "MemUsage": "13.99MiB / 128MiB",
+          "Name": "zj-market-b06-web-1",
+          "NetIO": "149kB / 171kB",
+          "PIDs": "17"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-12T04:14:50.739697+00:00",
+      "name": "B-recovered-broker-down",
+      "health": {
+        "mysql": {
+          "project": "zj-market-b06",
+          "service": "mysql",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "redis": {
+          "project": "zj-market-b06",
+          "service": "redis",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+          "restartCount": 0,
+          "ok": true
+        },
+        "namesrv": {
+          "project": "zj-market-b06",
+          "service": "namesrv",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "broker": {
+          "project": "zj-market-b06",
+          "service": "broker",
+          "running": false,
+          "oomKilled": false,
+          "health": "unhealthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": false
+        },
+        "marketing-a": {
+          "project": "zj-market-b06",
+          "service": "marketing-a",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+          "restartCount": 0,
+          "ok": true
+        },
+        "market-b": {
+          "project": "zj-market-b06",
+          "service": "market-b",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "web": {
+          "project": "zj-market-b06",
+          "service": "web",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+          "restartCount": 0,
+          "ok": true
+        },
+        "https": {
+          "ok": true,
+          "scope": "strict TLS gateway liveness; not business admission"
+        }
+      },
+      "resources": [
+        {
+          "BlockIO": "1.95MB / 135MB",
+          "CPUPerc": "4.01%",
+          "Container": "zj-market-b06-mysql-1",
+          "ID": "c1f01cbdd6da",
+          "MemPerc": "61.63%",
+          "MemUsage": "473.3MiB / 768MiB",
+          "Name": "zj-market-b06-mysql-1",
+          "NetIO": "20.3MB / 39.1MB",
+          "PIDs": "46"
+        },
+        {
+          "BlockIO": "0B / 623kB",
+          "CPUPerc": "0.13%",
+          "Container": "zj-market-b06-redis-1",
+          "ID": "319609a4d902",
+          "MemPerc": "1.19%",
+          "MemUsage": "3.043MiB / 256MiB",
+          "Name": "zj-market-b06-redis-1",
+          "NetIO": "21.9kB / 7.81kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 2.16MB",
+          "CPUPerc": "0.18%",
+          "Container": "zj-market-b06-namesrv-1",
+          "ID": "d09be5ce4523",
+          "MemPerc": "31.71%",
+          "MemUsage": "121.8MiB / 384MiB",
+          "Name": "zj-market-b06-namesrv-1",
+          "NetIO": "307kB / 271kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-broker-1",
+          "ID": "12dd53a85f49",
+          "MemPerc": "0.00%",
+          "MemUsage": "0B / 0B",
+          "Name": "zj-market-b06-broker-1",
+          "NetIO": "0B / 0B",
+          "PIDs": "0"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.33%",
+          "Container": "zj-market-b06-marketing-a-1",
+          "ID": "2e961a3b9795",
+          "MemPerc": "38.68%",
+          "MemUsage": "297.1MiB / 768MiB",
+          "Name": "zj-market-b06-marketing-a-1",
+          "NetIO": "181kB / 185kB",
+          "PIDs": "99"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.23%",
+          "Container": "zj-market-b06-market-b-1",
+          "ID": "48cd23943095",
+          "MemPerc": "23.72%",
+          "MemUsage": "242.9MiB / 1GiB",
+          "Name": "zj-market-b06-market-b-1",
+          "NetIO": "519kB / 273kB",
+          "PIDs": "65"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-web-1",
+          "ID": "298bb4378a0b",
+          "MemPerc": "10.93%",
+          "MemUsage": "13.98MiB / 128MiB",
+          "Name": "zj-market-b06-web-1",
+          "NetIO": "149kB / 171kB",
+          "PIDs": "17"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-12T04:15:51.790861+00:00",
+      "name": "namesrv-stopped",
+      "health": {
+        "mysql": {
+          "project": "zj-market-b06",
+          "service": "mysql",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "redis": {
+          "project": "zj-market-b06",
+          "service": "redis",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+          "restartCount": 0,
+          "ok": true
+        },
+        "namesrv": {
+          "project": "zj-market-b06",
+          "service": "namesrv",
+          "running": false,
+          "oomKilled": false,
+          "health": "unhealthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": false
+        },
+        "broker": {
+          "project": "zj-market-b06",
+          "service": "broker",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "marketing-a": {
+          "project": "zj-market-b06",
+          "service": "marketing-a",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+          "restartCount": 0,
+          "ok": true
+        },
+        "market-b": {
+          "project": "zj-market-b06",
+          "service": "market-b",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "web": {
+          "project": "zj-market-b06",
+          "service": "web",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+          "restartCount": 0,
+          "ok": true
+        },
+        "https": {
+          "ok": true,
+          "scope": "strict TLS gateway liveness; not business admission"
+        }
+      },
+      "resources": [
+        {
+          "BlockIO": "1.95MB / 145MB",
+          "CPUPerc": "7.21%",
+          "Container": "zj-market-b06-mysql-1",
+          "ID": "c1f01cbdd6da",
+          "MemPerc": "61.76%",
+          "MemUsage": "474.3MiB / 768MiB",
+          "Name": "zj-market-b06-mysql-1",
+          "NetIO": "21.6MB / 41.7MB",
+          "PIDs": "46"
+        },
+        {
+          "BlockIO": "0B / 680kB",
+          "CPUPerc": "0.13%",
+          "Container": "zj-market-b06-redis-1",
+          "ID": "319609a4d902",
+          "MemPerc": "1.19%",
+          "MemUsage": "3.039MiB / 256MiB",
+          "Name": "zj-market-b06-redis-1",
+          "NetIO": "25.6kB / 8.87kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-namesrv-1",
+          "ID": "d09be5ce4523",
+          "MemPerc": "0.00%",
+          "MemUsage": "0B / 0B",
+          "Name": "zj-market-b06-namesrv-1",
+          "NetIO": "0B / 0B",
+          "PIDs": "0"
+        },
+        {
+          "BlockIO": "0B / 340kB",
+          "CPUPerc": "3.72%",
+          "Container": "zj-market-b06-broker-1",
+          "ID": "12dd53a85f49",
+          "MemPerc": "14.84%",
+          "MemUsage": "190MiB / 1.25GiB",
+          "Name": "zj-market-b06-broker-1",
+          "NetIO": "181kB / 95.3kB",
+          "PIDs": "135"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.22%",
+          "Container": "zj-market-b06-marketing-a-1",
+          "ID": "2e961a3b9795",
+          "MemPerc": "40.13%",
+          "MemUsage": "308.2MiB / 768MiB",
+          "Name": "zj-market-b06-marketing-a-1",
+          "NetIO": "399kB / 372kB",
+          "PIDs": "121"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.41%",
+          "Container": "zj-market-b06-market-b-1",
+          "ID": "48cd23943095",
+          "MemPerc": "30.86%",
+          "MemUsage": "316MiB / 1GiB",
+          "Name": "zj-market-b06-market-b-1",
+          "NetIO": "3.15MB / 1.66MB",
+          "PIDs": "98"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-web-1",
+          "ID": "298bb4378a0b",
+          "MemPerc": "10.95%",
+          "MemUsage": "14.02MiB / 128MiB",
+          "Name": "zj-market-b06-web-1",
+          "NetIO": "199kB / 230kB",
+          "PIDs": "17"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-12T04:16:37.040323+00:00",
+      "name": "mysql-stopped",
+      "health": {
+        "mysql": {
+          "project": "zj-market-b06",
+          "service": "mysql",
+          "running": false,
+          "oomKilled": false,
+          "health": "unhealthy",
+          "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+          "restartCount": 0,
+          "ok": false
+        },
+        "redis": {
+          "project": "zj-market-b06",
+          "service": "redis",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+          "restartCount": 0,
+          "ok": true
+        },
+        "namesrv": {
+          "project": "zj-market-b06",
+          "service": "namesrv",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "broker": {
+          "project": "zj-market-b06",
+          "service": "broker",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "marketing-a": {
+          "project": "zj-market-b06",
+          "service": "marketing-a",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+          "restartCount": 0,
+          "ok": true
+        },
+        "market-b": {
+          "project": "zj-market-b06",
+          "service": "market-b",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "web": {
+          "project": "zj-market-b06",
+          "service": "web",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+          "restartCount": 0,
+          "ok": true
+        },
+        "https": {
+          "ok": true,
+          "scope": "strict TLS gateway liveness; not business admission"
+        }
+      },
+      "resources": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-mysql-1",
+          "ID": "c1f01cbdd6da",
+          "MemPerc": "0.00%",
+          "MemUsage": "0B / 0B",
+          "Name": "zj-market-b06-mysql-1",
+          "NetIO": "0B / 0B",
+          "PIDs": "0"
+        },
+        {
+          "BlockIO": "0B / 680kB",
+          "CPUPerc": "0.12%",
+          "Container": "zj-market-b06-redis-1",
+          "ID": "319609a4d902",
+          "MemPerc": "1.09%",
+          "MemUsage": "2.789MiB / 256MiB",
+          "Name": "zj-market-b06-redis-1",
+          "NetIO": "25.6kB / 8.87kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 201kB",
+          "CPUPerc": "0.28%",
+          "Container": "zj-market-b06-namesrv-1",
+          "ID": "d09be5ce4523",
+          "MemPerc": "26.81%",
+          "MemUsage": "102.9MiB / 384MiB",
+          "Name": "zj-market-b06-namesrv-1",
+          "NetIO": "26.7kB / 29.3kB",
+          "PIDs": "37"
+        },
+        {
+          "BlockIO": "0B / 705kB",
+          "CPUPerc": "3.20%",
+          "Container": "zj-market-b06-broker-1",
+          "ID": "12dd53a85f49",
+          "MemPerc": "16.49%",
+          "MemUsage": "211MiB / 1.25GiB",
+          "Name": "zj-market-b06-broker-1",
+          "NetIO": "282kB / 137kB",
+          "PIDs": "140"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.19%",
+          "Container": "zj-market-b06-marketing-a-1",
+          "ID": "2e961a3b9795",
+          "MemPerc": "40.38%",
+          "MemUsage": "310.2MiB / 768MiB",
+          "Name": "zj-market-b06-marketing-a-1",
+          "NetIO": "440kB / 437kB",
+          "PIDs": "122"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.37%",
+          "Container": "zj-market-b06-market-b-1",
+          "ID": "48cd23943095",
+          "MemPerc": "31.27%",
+          "MemUsage": "320.2MiB / 1GiB",
+          "Name": "zj-market-b06-market-b-1",
+          "NetIO": "3.97MB / 2.13MB",
+          "PIDs": "100"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-web-1",
+          "ID": "298bb4378a0b",
+          "MemPerc": "10.96%",
+          "MemUsage": "14.04MiB / 128MiB",
+          "Name": "zj-market-b06-web-1",
+          "NetIO": "202kB / 234kB",
+          "PIDs": "17"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-12T04:17:33.016426+00:00",
+      "name": "rpc-isolated",
+      "health": {
+        "mysql": {
+          "project": "zj-market-b06",
+          "service": "mysql",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "redis": {
+          "project": "zj-market-b06",
+          "service": "redis",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+          "restartCount": 0,
+          "ok": true
+        },
+        "namesrv": {
+          "project": "zj-market-b06",
+          "service": "namesrv",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "broker": {
+          "project": "zj-market-b06",
+          "service": "broker",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "marketing-a": {
+          "project": "zj-market-b06",
+          "service": "marketing-a",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+          "restartCount": 0,
+          "ok": true
+        },
+        "market-b": {
+          "project": "zj-market-b06",
+          "service": "market-b",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "web": {
+          "project": "zj-market-b06",
+          "service": "web",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+          "restartCount": 0,
+          "ok": true
+        },
+        "https": {
+          "ok": true,
+          "scope": "strict TLS gateway liveness; not business admission"
+        }
+      },
+      "resources": [
+        {
+          "BlockIO": "1.29MB / 16.4MB",
+          "CPUPerc": "1.02%",
+          "Container": "zj-market-b06-mysql-1",
+          "ID": "c1f01cbdd6da",
+          "MemPerc": "51.86%",
+          "MemUsage": "398.3MiB / 768MiB",
+          "Name": "zj-market-b06-mysql-1",
+          "NetIO": "894kB / 1.72MB",
+          "PIDs": "45"
+        },
+        {
+          "BlockIO": "0B / 696kB",
+          "CPUPerc": "0.12%",
+          "Container": "zj-market-b06-redis-1",
+          "ID": "319609a4d902",
+          "MemPerc": "1.09%",
+          "MemUsage": "2.789MiB / 256MiB",
+          "Name": "zj-market-b06-redis-1",
+          "NetIO": "26.8kB / 9.23kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 422kB",
+          "CPUPerc": "0.76%",
+          "Container": "zj-market-b06-namesrv-1",
+          "ID": "d09be5ce4523",
+          "MemPerc": "27.54%",
+          "MemUsage": "105.8MiB / 384MiB",
+          "Name": "zj-market-b06-namesrv-1",
+          "NetIO": "49.4kB / 49.8kB",
+          "PIDs": "39"
+        },
+        {
+          "BlockIO": "0B / 1.13MB",
+          "CPUPerc": "4.25%",
+          "Container": "zj-market-b06-broker-1",
+          "ID": "12dd53a85f49",
+          "MemPerc": "16.73%",
+          "MemUsage": "214.1MiB / 1.25GiB",
+          "Name": "zj-market-b06-broker-1",
+          "NetIO": "416kB / 193kB",
+          "PIDs": "150"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.62%",
+          "Container": "zj-market-b06-marketing-a-1",
+          "ID": "2e961a3b9795",
+          "MemPerc": "40.67%",
+          "MemUsage": "312.4MiB / 768MiB",
+          "Name": "zj-market-b06-marketing-a-1",
+          "NetIO": "525kB / 539kB",
+          "PIDs": "130"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.93%",
+          "Container": "zj-market-b06-market-b-1",
+          "ID": "32b60f0d0575",
+          "MemPerc": "32.52%",
+          "MemUsage": "333MiB / 1GiB",
+          "Name": "zj-market-b06-market-b-1",
+          "NetIO": "997kB / 559kB",
+          "PIDs": "87"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-web-1",
+          "ID": "298bb4378a0b",
+          "MemPerc": "10.97%",
+          "MemUsage": "14.04MiB / 128MiB",
+          "Name": "zj-market-b06-web-1",
+          "NetIO": "259kB / 302kB",
+          "PIDs": "17"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-12T04:18:06.165013+00:00",
+      "name": "redis-stopped",
+      "health": {
+        "mysql": {
+          "project": "zj-market-b06",
+          "service": "mysql",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "redis": {
+          "project": "zj-market-b06",
+          "service": "redis",
+          "running": false,
+          "oomKilled": false,
+          "health": "unhealthy",
+          "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+          "restartCount": 0,
+          "ok": false
+        },
+        "namesrv": {
+          "project": "zj-market-b06",
+          "service": "namesrv",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "broker": {
+          "project": "zj-market-b06",
+          "service": "broker",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "marketing-a": {
+          "project": "zj-market-b06",
+          "service": "marketing-a",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+          "restartCount": 0,
+          "ok": true
+        },
+        "market-b": {
+          "project": "zj-market-b06",
+          "service": "market-b",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "web": {
+          "project": "zj-market-b06",
+          "service": "web",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+          "restartCount": 0,
+          "ok": true
+        },
+        "https": {
+          "ok": true,
+          "scope": "strict TLS gateway liveness; not business admission"
+        }
+      },
+      "resources": [
+        {
+          "BlockIO": "1.29MB / 17.6MB",
+          "CPUPerc": "2.59%",
+          "Container": "zj-market-b06-mysql-1",
+          "ID": "c1f01cbdd6da",
+          "MemPerc": "52.92%",
+          "MemUsage": "406.4MiB / 768MiB",
+          "Name": "zj-market-b06-mysql-1",
+          "NetIO": "1.52MB / 2.93MB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-redis-1",
+          "ID": "319609a4d902",
+          "MemPerc": "0.00%",
+          "MemUsage": "0B / 0B",
+          "Name": "zj-market-b06-redis-1",
+          "NetIO": "0B / 0B",
+          "PIDs": "0"
+        },
+        {
+          "BlockIO": "0B / 598kB",
+          "CPUPerc": "0.17%",
+          "Container": "zj-market-b06-namesrv-1",
+          "ID": "d09be5ce4523",
+          "MemPerc": "27.82%",
+          "MemUsage": "106.8MiB / 384MiB",
+          "Name": "zj-market-b06-namesrv-1",
+          "NetIO": "64.4kB / 65.4kB",
+          "PIDs": "40"
+        },
+        {
+          "BlockIO": "0B / 1.43MB",
+          "CPUPerc": "3.26%",
+          "Container": "zj-market-b06-broker-1",
+          "ID": "12dd53a85f49",
+          "MemPerc": "16.85%",
+          "MemUsage": "215.7MiB / 1.25GiB",
+          "Name": "zj-market-b06-broker-1",
+          "NetIO": "500kB / 232kB",
+          "PIDs": "157"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.61%",
+          "Container": "zj-market-b06-marketing-a-1",
+          "ID": "2e961a3b9795",
+          "MemPerc": "41.06%",
+          "MemUsage": "315.4MiB / 768MiB",
+          "Name": "zj-market-b06-marketing-a-1",
+          "NetIO": "612kB / 613kB",
+          "PIDs": "145"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "4.30%",
+          "Container": "zj-market-b06-market-b-1",
+          "ID": "c4a43563320d",
+          "MemPerc": "30.90%",
+          "MemUsage": "316.4MiB / 1GiB",
+          "Name": "zj-market-b06-market-b-1",
+          "NetIO": "1.2MB / 660kB",
+          "PIDs": "89"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-web-1",
+          "ID": "298bb4378a0b",
+          "MemPerc": "11.00%",
+          "MemUsage": "14.09MiB / 128MiB",
+          "Name": "zj-market-b06-web-1",
+          "NetIO": "298kB / 349kB",
+          "PIDs": "17"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-12T04:21:18.528972+00:00",
+      "name": "refund-unknown-A-down",
+      "health": {
+        "mysql": {
+          "project": "zj-market-b06",
+          "service": "mysql",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "redis": {
+          "project": "zj-market-b06",
+          "service": "redis",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+          "restartCount": 0,
+          "ok": true
+        },
+        "namesrv": {
+          "project": "zj-market-b06",
+          "service": "namesrv",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "broker": {
+          "project": "zj-market-b06",
+          "service": "broker",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "marketing-a": {
+          "project": "zj-market-b06",
+          "service": "marketing-a",
+          "running": false,
+          "oomKilled": false,
+          "health": "unhealthy",
+          "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+          "restartCount": 0,
+          "ok": false
+        },
+        "market-b": {
+          "project": "zj-market-b06",
+          "service": "market-b",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "web": {
+          "project": "zj-market-b06",
+          "service": "web",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+          "restartCount": 0,
+          "ok": true
+        },
+        "https": {
+          "ok": true,
+          "scope": "strict TLS gateway liveness; not business admission"
+        }
+      },
+      "resources": [
+        {
+          "BlockIO": "1.44MB / 41.1MB",
+          "CPUPerc": "6.53%",
+          "Container": "zj-market-b06-mysql-1",
+          "ID": "c1f01cbdd6da",
+          "MemPerc": "54.28%",
+          "MemUsage": "416.9MiB / 768MiB",
+          "Name": "zj-market-b06-mysql-1",
+          "NetIO": "5.12MB / 10.5MB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.11%",
+          "Container": "zj-market-b06-redis-1",
+          "ID": "319609a4d902",
+          "MemPerc": "1.08%",
+          "MemUsage": "2.766MiB / 256MiB",
+          "Name": "zj-market-b06-redis-1",
+          "NetIO": "11.1kB / 3.27kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 913kB",
+          "CPUPerc": "0.16%",
+          "Container": "zj-market-b06-namesrv-1",
+          "ID": "d09be5ce4523",
+          "MemPerc": "30.43%",
+          "MemUsage": "116.9MiB / 384MiB",
+          "Name": "zj-market-b06-namesrv-1",
+          "NetIO": "139kB / 130kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 2.23MB",
+          "CPUPerc": "18.89%",
+          "Container": "zj-market-b06-broker-1",
+          "ID": "12dd53a85f49",
+          "MemPerc": "18.48%",
+          "MemUsage": "236.6MiB / 1.25GiB",
+          "Name": "zj-market-b06-broker-1",
+          "NetIO": "937kB / 408kB",
+          "PIDs": "164"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-marketing-a-1",
+          "ID": "2e961a3b9795",
+          "MemPerc": "0.00%",
+          "MemUsage": "0B / 0B",
+          "Name": "zj-market-b06-marketing-a-1",
+          "NetIO": "0B / 0B",
+          "PIDs": "0"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.08%",
+          "Container": "zj-market-b06-market-b-1",
+          "ID": "29c16226afc0",
+          "MemPerc": "34.68%",
+          "MemUsage": "355.1MiB / 1GiB",
+          "Name": "zj-market-b06-market-b-1",
+          "NetIO": "6.57MB / 3.29MB",
+          "PIDs": "95"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.41%",
+          "Container": "zj-market-b06-web-1",
+          "ID": "298bb4378a0b",
+          "MemPerc": "11.03%",
+          "MemUsage": "14.12MiB / 128MiB",
+          "Name": "zj-market-b06-web-1",
+          "NetIO": "408kB / 475kB",
+          "PIDs": "17"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-12T04:21:48.081775+00:00",
+      "name": "refund-release-before-A-sync",
+      "health": {
+        "mysql": {
+          "project": "zj-market-b06",
+          "service": "mysql",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "redis": {
+          "project": "zj-market-b06",
+          "service": "redis",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+          "restartCount": 0,
+          "ok": true
+        },
+        "namesrv": {
+          "project": "zj-market-b06",
+          "service": "namesrv",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "broker": {
+          "project": "zj-market-b06",
+          "service": "broker",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "marketing-a": {
+          "project": "zj-market-b06",
+          "service": "marketing-a",
+          "running": false,
+          "oomKilled": false,
+          "health": "unhealthy",
+          "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+          "restartCount": 0,
+          "ok": false
+        },
+        "market-b": {
+          "project": "zj-market-b06",
+          "service": "market-b",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "web": {
+          "project": "zj-market-b06",
+          "service": "web",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+          "restartCount": 0,
+          "ok": true
+        },
+        "https": {
+          "ok": true,
+          "scope": "strict TLS gateway liveness; not business admission"
+        }
+      },
+      "resources": [
+        {
+          "BlockIO": "1.46MB / 46.4MB",
+          "CPUPerc": "0.74%",
+          "Container": "zj-market-b06-mysql-1",
+          "ID": "c1f01cbdd6da",
+          "MemPerc": "55.33%",
+          "MemUsage": "424.9MiB / 768MiB",
+          "Name": "zj-market-b06-mysql-1",
+          "NetIO": "5.75MB / 11.9MB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.12%",
+          "Container": "zj-market-b06-redis-1",
+          "ID": "319609a4d902",
+          "MemPerc": "1.08%",
+          "MemUsage": "2.766MiB / 256MiB",
+          "Name": "zj-market-b06-redis-1",
+          "NetIO": "11.1kB / 3.27kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 1.04MB",
+          "CPUPerc": "0.15%",
+          "Container": "zj-market-b06-namesrv-1",
+          "ID": "d09be5ce4523",
+          "MemPerc": "30.50%",
+          "MemUsage": "117.1MiB / 384MiB",
+          "Name": "zj-market-b06-namesrv-1",
+          "NetIO": "153kB / 145kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 2.51MB",
+          "CPUPerc": "3.86%",
+          "Container": "zj-market-b06-broker-1",
+          "ID": "12dd53a85f49",
+          "MemPerc": "17.83%",
+          "MemUsage": "228.2MiB / 1.25GiB",
+          "Name": "zj-market-b06-broker-1",
+          "NetIO": "995kB / 436kB",
+          "PIDs": "172"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-marketing-a-1",
+          "ID": "2e961a3b9795",
+          "MemPerc": "0.00%",
+          "MemUsage": "0B / 0B",
+          "Name": "zj-market-b06-marketing-a-1",
+          "NetIO": "0B / 0B",
+          "PIDs": "0"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "2.58%",
+          "Container": "zj-market-b06-market-b-1",
+          "ID": "a4426ce16085",
+          "MemPerc": "28.82%",
+          "MemUsage": "295.1MiB / 1GiB",
+          "Name": "zj-market-b06-market-b-1",
+          "NetIO": "907kB / 416kB",
+          "PIDs": "97"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-web-1",
+          "ID": "298bb4378a0b",
+          "MemPerc": "11.01%",
+          "MemUsage": "14.1MiB / 128MiB",
+          "Name": "zj-market-b06-web-1",
+          "NetIO": "408kB / 475kB",
+          "PIDs": "17"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-12T04:23:21.167321+00:00",
+      "name": "final",
+      "health": {
+        "mysql": {
+          "project": "zj-market-b06",
+          "service": "mysql",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "redis": {
+          "project": "zj-market-b06",
+          "service": "redis",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+          "restartCount": 0,
+          "ok": true
+        },
+        "namesrv": {
+          "project": "zj-market-b06",
+          "service": "namesrv",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "broker": {
+          "project": "zj-market-b06",
+          "service": "broker",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+          "restartCount": 0,
+          "ok": true
+        },
+        "marketing-a": {
+          "project": "zj-market-b06",
+          "service": "marketing-a",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+          "restartCount": 0,
+          "ok": true
+        },
+        "market-b": {
+          "project": "zj-market-b06",
+          "service": "market-b",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+          "restartCount": 0,
+          "ok": true
+        },
+        "web": {
+          "project": "zj-market-b06",
+          "service": "web",
+          "running": true,
+          "oomKilled": false,
+          "health": "healthy",
+          "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+          "restartCount": 0,
+          "ok": true
+        },
+        "https": {
+          "ok": true,
+          "scope": "strict TLS gateway liveness; not business admission"
+        }
+      },
+      "resources": [
+        {
+          "BlockIO": "1.51MB / 61.3MB",
+          "CPUPerc": "1.17%",
+          "Container": "zj-market-b06-mysql-1",
+          "ID": "c1f01cbdd6da",
+          "MemPerc": "56.98%",
+          "MemUsage": "437.6MiB / 768MiB",
+          "Name": "zj-market-b06-mysql-1",
+          "NetIO": "7.58MB / 15.7MB",
+          "PIDs": "45"
+        },
+        {
+          "BlockIO": "0B / 20.5kB",
+          "CPUPerc": "0.12%",
+          "Container": "zj-market-b06-redis-1",
+          "ID": "319609a4d902",
+          "MemPerc": "1.08%",
+          "MemUsage": "2.77MiB / 256MiB",
+          "Name": "zj-market-b06-redis-1",
+          "NetIO": "14.2kB / 4.69kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 1.51MB",
+          "CPUPerc": "0.15%",
+          "Container": "zj-market-b06-namesrv-1",
+          "ID": "d09be5ce4523",
+          "MemPerc": "30.29%",
+          "MemUsage": "116.3MiB / 384MiB",
+          "Name": "zj-market-b06-namesrv-1",
+          "NetIO": "196kB / 188kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 3.42MB",
+          "CPUPerc": "3.10%",
+          "Container": "zj-market-b06-broker-1",
+          "ID": "12dd53a85f49",
+          "MemPerc": "17.98%",
+          "MemUsage": "230.2MiB / 1.25GiB",
+          "Name": "zj-market-b06-broker-1",
+          "NetIO": "1.21MB / 544kB",
+          "PIDs": "177"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.44%",
+          "Container": "zj-market-b06-marketing-a-1",
+          "ID": "2e961a3b9795",
+          "MemPerc": "38.77%",
+          "MemUsage": "297.8MiB / 768MiB",
+          "Name": "zj-market-b06-marketing-a-1",
+          "NetIO": "193kB / 200kB",
+          "PIDs": "99"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.70%",
+          "Container": "zj-market-b06-market-b-1",
+          "ID": "a4426ce16085",
+          "MemPerc": "34.02%",
+          "MemUsage": "348.4MiB / 1GiB",
+          "Name": "zj-market-b06-market-b-1",
+          "NetIO": "4.58MB / 2.27MB",
+          "PIDs": "106"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "zj-market-b06-web-1",
+          "ID": "298bb4378a0b",
+          "MemPerc": "11.04%",
+          "MemUsage": "14.14MiB / 128MiB",
+          "Name": "zj-market-b06-web-1",
+          "NetIO": "418kB / 488kB",
+          "PIDs": "17"
+        }
+      ]
+    }
+  ],
+  "baseline": {
+    "mysql": {
+      "id": "c1f01cbdd6daa947c4f4dde729f8f2e8e4fe0eb250c703b7359865083cdb59ca",
+      "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+      "restart": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "command": [
+        "cp /etc/b06/mysql.cnf /tmp/b06.cnf && chmod 644 /tmp/b06.cnf && exec docker-entrypoint.sh mysqld --defaults-extra-file=/tmp/b06.cnf"
+      ]
+    },
+    "redis": {
+      "id": "319609a4d902e6190c8bd662e61bed73fb1750f1614d8dd51c379ba25f87bdce",
+      "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+      "restart": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "command": [
+        "redis-server",
+        "/run/secrets/redis.conf"
+      ]
+    },
+    "namesrv": {
+      "id": "d09be5ce452324636dda80e7055cac9ff52e0d558e84037e41f9f0d695ff3e6d",
+      "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "restart": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "command": [
+        "exec java -Xms64m -Xmx192m -XX:MaxDirectMemorySize=192m -Dtls.server.mode=enforcing -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.config.file=/etc/b06/tls.properties -cp \"$ROCKETMQ_HOME/conf:$ROCKETMQ_HOME/lib/*\" org.apache.rocketmq.namesrv.NamesrvStartup"
+      ]
+    },
+    "broker": {
+      "id": "12dd53a85f49a8cc2619b5785a773ebf4c6c3c5397a55227b96abe8c53aa4b75",
+      "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "restart": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "command": [
+        "exec java -Xms64m -Xmx640m -XX:MaxDirectMemorySize=128m -Dtls.server.mode=enforcing -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.config.file=/etc/b06/tls.properties -cp \"$ROCKETMQ_HOME/conf:$ROCKETMQ_HOME/lib/*\" org.apache.rocketmq.broker.BrokerStartup -c /etc/b06/broker.conf"
+      ]
+    },
+    "marketing-a": {
+      "id": "2e961a3b9795e9eed980e27d85ede4fc253e20a0c4c78de9760d2a0a92ae64ce",
+      "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+      "restart": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "command": [
+        "--spring.config.location=file:/etc/b06/application.properties,file:/run/secrets/a.properties"
+      ]
+    },
+    "market-b": {
+      "id": "48cd239430958ebc464221a80a5b0a66c87de266c43be0315f5bcc83e86ddd9e",
+      "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+      "restart": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "command": [
+        "--spring.config.additional-location=file:/etc/b06/application.properties,file:/run/secrets/b.properties,file:/etc/b06/capabilities.properties"
+      ]
+    },
+    "web": {
+      "id": "298bb4378a0b37b6be57d428a1ec8961639c0065330cc8d6fd7420f772559d1f",
+      "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+      "restart": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "command": null
+    }
+  },
+  "oldFacts": {
+    "orderCount": 42,
+    "sha256": "c7c1cab4490567334995027c33ef84f5e41a7149e1cba1f8b451975bb8322133"
+  },
+  "facts": {
+    "unpaid": {
+      "inventory": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      },
+      "orders": [
+        {
+          "name": "aClose",
+          "orderId": "cbf45201-da2b-4b8d-a1fb-352e023d7ba2",
+          "paymentId": null,
+          "attemptId": null,
+          "terminal": {
+            "status": "CLOSED",
+            "accepted": 0,
+            "payments": 0,
+            "released": 1,
+            "confirmed": 0,
+            "successful": 0,
+            "reservation": "RELEASED",
+            "fulfillments": 0
+          },
+          "channel": {
+            "paid": 0,
+            "refunds": 0,
+            "payments": 0,
+            "refunded": 0,
+            "releaseProofs": 0,
+            "unownedBlocks": 0,
+            "unfinishedRefundWork": 0
+          },
+          "aQuota": {
+            "paid": 0,
+            "status": "FORMING",
+            "target": 2,
+            "reserved": 0,
+            "actualPaid": 0,
+            "actualReserved": 0
+          }
+        },
+        {
+          "name": "networkClose",
+          "orderId": "7d15890a-9941-46b2-92ba-9386a396db0b",
+          "paymentId": null,
+          "attemptId": null,
+          "terminal": {
+            "status": "CLOSED",
+            "accepted": 0,
+            "payments": 0,
+            "released": 1,
+            "confirmed": 0,
+            "successful": 0,
+            "reservation": "RELEASED",
+            "fulfillments": 0
+          },
+          "channel": {
+            "paid": 0,
+            "refunds": 0,
+            "payments": 0,
+            "refunded": 0,
+            "releaseProofs": 0,
+            "unownedBlocks": 0,
+            "unfinishedRefundWork": 0
+          },
+          "aQuota": {
+            "paid": 0,
+            "status": "FORMING",
+            "target": 2,
+            "reserved": 0,
+            "actualPaid": 0,
+            "actualReserved": 0
+          }
+        },
+        {
+          "name": "redisClose",
+          "orderId": "6b8edb9a-167e-4fdf-bea0-ba1310242215",
+          "paymentId": null,
+          "attemptId": null,
+          "terminal": {
+            "status": "CLOSED",
+            "accepted": 0,
+            "payments": 0,
+            "released": 1,
+            "confirmed": 0,
+            "successful": 0,
+            "reservation": "RELEASED",
+            "fulfillments": 0
+          },
+          "channel": {
+            "paid": 0,
+            "refunds": 0,
+            "payments": 0,
+            "refunded": 0,
+            "releaseProofs": 0,
+            "unownedBlocks": 0,
+            "unfinishedRefundWork": 0
+          },
+          "aQuota": {
+            "paid": 0,
+            "status": "FORMING",
+            "target": 2,
+            "reserved": 0,
+            "actualPaid": 0,
+            "actualReserved": 0
+          }
+        }
+      ]
+    },
+    "success": {
+      "inventory": {
+        "sold": 2,
+        "reserved": 0,
+        "available": 8
+      },
+      "orders": [
+        {
+          "name": "first",
+          "orderId": "8f7b5b20-3eaa-4174-b12b-3a0b0c98f334",
+          "paymentId": "eb1783e3-5230-460d-976c-a8f7c1376124",
+          "attemptId": "1d0dadec-bd88-499d-9edb-d04ceb4c4c1f",
+          "terminal": {
+            "status": "GROUP_COMPLETED",
+            "accepted": 1,
+            "payments": 1,
+            "released": 0,
+            "confirmed": 1,
+            "successful": 1,
+            "reservation": "CONFIRMED",
+            "fulfillments": 1
+          },
+          "channel": {
+            "paid": 90.0,
+            "refunds": 0,
+            "payments": 1,
+            "refunded": 0,
+            "releaseProofs": 0,
+            "unownedBlocks": 0,
+            "unfinishedRefundWork": 0
+          },
+          "aQuota": {
+            "paid": 2,
+            "status": "COMPLETED",
+            "target": 2,
+            "reserved": 2,
+            "actualPaid": 2,
+            "actualReserved": 2
+          }
+        },
+        {
+          "name": "second",
+          "orderId": "93c167eb-dc2b-4add-820f-c66dbd81717e",
+          "paymentId": "d5c8c5d7-8219-40bd-8a07-95b97451e177",
+          "attemptId": "5c125283-8b79-4314-acf8-b45674d2d3a1",
+          "terminal": {
+            "status": "GROUP_COMPLETED",
+            "accepted": 1,
+            "payments": 1,
+            "released": 0,
+            "confirmed": 1,
+            "successful": 1,
+            "reservation": "CONFIRMED",
+            "fulfillments": 1
+          },
+          "channel": {
+            "paid": 90.0,
+            "refunds": 0,
+            "payments": 1,
+            "refunded": 0,
+            "releaseProofs": 0,
+            "unownedBlocks": 0,
+            "unfinishedRefundWork": 0
+          },
+          "aQuota": {
+            "paid": 2,
+            "status": "COMPLETED",
+            "target": 2,
+            "reserved": 2,
+            "actualPaid": 2,
+            "actualReserved": 2
+          }
+        }
+      ]
+    },
+    "refundBlocked": {
+      "inventory": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      },
+      "orders": [
+        {
+          "name": "refundBlocked",
+          "orderId": "ce32d725-69ce-45d1-95d3-962e17b97fa9",
+          "paymentId": "dcbf6c37-153f-4646-a4b4-082de91b1340",
+          "attemptId": "031cebf0-40e7-48d9-aef6-91cdde327b7f",
+          "terminal": {
+            "status": "CLOSED",
+            "accepted": 1,
+            "payments": 1,
+            "released": 1,
+            "confirmed": 0,
+            "successful": 1,
+            "reservation": "RELEASED",
+            "fulfillments": 0
+          },
+          "channel": {
+            "paid": 90.0,
+            "refunds": 1,
+            "payments": 1,
+            "refunded": 90.0,
+            "releaseProofs": 1,
+            "unownedBlocks": 0,
+            "unfinishedRefundWork": 0
+          },
+          "aQuota": {
+            "paid": 1,
+            "status": "FAILED",
+            "target": 2,
+            "reserved": 1,
+            "actualPaid": 1,
+            "actualReserved": 1
+          }
+        }
+      ]
+    },
+    "refundHealthy": {
+      "inventory": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      },
+      "orders": [
+        {
+          "name": "refundHealthy",
+          "orderId": "8a21c571-9533-4659-bd85-7373d5769654",
+          "paymentId": "da8d7332-149c-4329-a101-6cd7f61a458f",
+          "attemptId": "29f1fd9f-e464-4a07-ba33-21053ee621ee",
+          "terminal": {
+            "status": "CLOSED",
+            "accepted": 1,
+            "payments": 1,
+            "released": 1,
+            "confirmed": 0,
+            "successful": 1,
+            "reservation": "RELEASED",
+            "fulfillments": 0
+          },
+          "channel": {
+            "paid": 90.0,
+            "refunds": 1,
+            "payments": 1,
+            "refunded": 90.0,
+            "releaseProofs": 1,
+            "unownedBlocks": 0,
+            "unfinishedRefundWork": 0
+          },
+          "aQuota": {
+            "paid": 1,
+            "status": "FAILED",
+            "target": 2,
+            "reserved": 1,
+            "actualPaid": 1,
+            "actualReserved": 1
+          }
+        }
+      ]
+    }
+  },
+  "toolImages": {
+    "transport": {
+      "id": "sha256:12292991ab3e87d204cdd36b21b8456662904ef7af327349612656aabb692ff5",
+      "tag": "zj-market-b06/fault-transport:bfd6f460b1502b3e",
+      "parent": "sha256:1f155852e8ab82d7005171d17a5d4431c7e2d105ac941d7fa0e9dcbc21eee4eb",
+      "source": "FaultTransportProbe.java",
+      "sourceSha256": "513df0459ae6aa2bb4c6f91102b7c2c790abbe792d175de4cfca8526f2adf455",
+      "inputs": {
+        ".dockerignore": "5da7e374f635b319798b1ae93ac8ab7e04b086ebb51d74929f4bbf3d79e0e64b",
+        "Dockerfile": "dea3924a2cf8c299bb241d5bbcdb6b3d2d7f1f6fd619a98ade3dfdf4511baadb",
+        "classes\\FaultTransportProbe.class": "e204de857fb263f6134580238062de90dc03f6e6c91a98f92f83cfcb9af49d21"
+      }
+    },
+    "refund": {
+      "id": "sha256:d09460f22ec5f3aa4e2b25b03bde6e6149c3ab63b4753e8402d2ba35458f43e9",
+      "tag": "zj-market-b06/fault-refund:3169481050bdfea9",
+      "parent": "sha256:bf881865565e5b000e5d256f229993f7d19eb144e86410e504d8b83ef7a1cb43",
+      "source": "RefundFaultProbe.java",
+      "sourceSha256": "5cd44e71867d33dd9e9195f0c09e01c3e19c20fd1a2c80f6bd9ce5d83e58d093",
+      "inputs": {
+        ".dockerignore": "5da7e374f635b319798b1ae93ac8ab7e04b086ebb51d74929f4bbf3d79e0e64b",
+        "Dockerfile": "4ed2946dbb8487a6257d9847cbaf25fd7f1436b66fcc99a9ab9041121f3f9fa3",
+        "classes\\RefundFaultProbe$1.class": "5538f19b9600be354396093b6a9898245c1b1640d94c83cc4f5b2383d23e9b21",
+        "classes\\RefundFaultProbe.class": "d54b7d5d7ba800cf6d704df28de2f4947f263130a3f34f9820e59b2127c2c42e"
+      }
+    }
+  },
+  "scope": "Windows Docker dedicated containers; real SIGKILL/stop/rpc-network disconnect; simulated channel response loss through verification only",
+  "linuxVmValidated": false,
+  "gitPublished": false,
+  "finishedAt": "2026-10-12T04:23:21.174153+00:00",
+  "stageCompletion": true,
+  "generatedAt": "2026-10-12T06:46:39.214700+00:00",
+  "sourceSha256": {
+    "scripts/b06-faults.py": "3342e93e85ee9035cb6f6a2c48f4484b063e4c0fda4b08734aa1c8d116f3fed8",
+    "scripts/build-b06-fault-tools.py": "620ef475cd5ad306531752e680f65b4f88d8b5cfa3602b3e9d7d68a1c44e8cbc",
+    "docs/tests/run-b06-faults.py": "6c430334a856ffe5b7b9bc9b6c5c3fdac94d55c074687317ede437e3e60f180c",
+    "docs/tests/b06-fault-client.mjs": "6bf1e756c3002c6824a34c0e3a596c3d855319fcd5c1da882193677593b359cc",
+    "deploy/b06/verification/FaultTransportProbe.java": "513df0459ae6aa2bb4c6f91102b7c2c790abbe792d175de4cfca8526f2adf455",
+    "deploy/b06/verification/RefundFaultProbe.java": "5cd44e71867d33dd9e9195f0c09e01c3e19c20fd1a2c80f6bd9ce5d83e58d093",
+    "zj-market-infrastructure/src/main/java/cn/zj/zjmarket/infrastructure/gateway/mq/TradeMessageReader.java": "9dc560f7eeba1f792032e821742f3b22543e5a6b23e6016136ee5da300ec21de",
+    "zj-market-app/src/test/java/cn/zj/zjmarket/test/payment/SettlementTests.java": "2f18b0e6d5f6d3b9338cd5146206052186c08312efa8e7673b9631aa10601774",
+    "docs/tests/collect-b06-faults.py": "1aa40b66544f8542b26df2fbcfce4558f5c02ec1f3f6ce64e6f3cf4e5dbdd68f",
+    "docs/tests/test-b06-faults.py": "de004fd589f60134e1f6914b31a7811da3a91c4eb1b51f6d4ff6e6ab37d902ca",
+    "docs/tests/run-b06-interrupted-recovery.py": "0f7bb89e72954e18785a4dd052d687b7f4f6e6353074e95244357e49dee48960",
+    "docs/tests/run-b06-runtime-gap.py": "121cc7f6b0f10e29c4ac7ba4801b8a2f0ab1f83723ea0dde3a2525203bc0ba66",
+    "scripts/b06-observability.py": "120ddd53cd9d994fa728e532e511eec09758d4f47e7170d4dc663e435f70e15d",
+    "docs/tests/test-b06-observability.py": "112defb9e6f1f5543f797e6ebc45a232e3dbbd0e2929977ff4efcd9ee44058f3",
+    "docs/tests/test-b06-trade-work-history.py": "fc1db213c7b108a8e6f957582ee75fc8b04db57c866914e02d21f617064f40c1"
+  },
+  "guardTests": 9,
+  "channelAndOriginalPaidFactAudit": [
+    {
+      "orderId": "cbf45201-da2b-4b8d-a1fb-352e023d7ba2",
+      "paidAt": null,
+      "paidRoots": 0,
+      "channelRefunded": 0,
+      "originalPaymentValid": 0,
+      "refundRequestMatches": 0,
+      "originalPaidSnapshotIntact": 0
+    },
+    {
+      "orderId": "8f7b5b20-3eaa-4174-b12b-3a0b0c98f334",
+      "paidAt": 1791778459574,
+      "paidRoots": 1,
+      "channelRefunded": 0,
+      "originalPaymentValid": 1,
+      "refundRequestMatches": 0,
+      "originalPaidSnapshotIntact": 0
+    },
+    {
+      "orderId": "93c167eb-dc2b-4add-820f-c66dbd81717e",
+      "paidAt": 1791778545961,
+      "paidRoots": 1,
+      "channelRefunded": 0,
+      "originalPaymentValid": 1,
+      "refundRequestMatches": 0,
+      "originalPaidSnapshotIntact": 0
+    },
+    {
+      "orderId": "7d15890a-9941-46b2-92ba-9386a396db0b",
+      "paidAt": null,
+      "paidRoots": 0,
+      "channelRefunded": 0,
+      "originalPaymentValid": 0,
+      "refundRequestMatches": 0,
+      "originalPaidSnapshotIntact": 0
+    },
+    {
+      "orderId": "6b8edb9a-167e-4fdf-bea0-ba1310242215",
+      "paidAt": null,
+      "paidRoots": 0,
+      "channelRefunded": 0,
+      "originalPaymentValid": 0,
+      "refundRequestMatches": 0,
+      "originalPaidSnapshotIntact": 0
+    },
+    {
+      "orderId": "ce32d725-69ce-45d1-95d3-962e17b97fa9",
+      "paidAt": 1791778731674,
+      "paidRoots": 1,
+      "channelRefunded": 90.0,
+      "originalPaymentValid": 1,
+      "refundRequestMatches": 1,
+      "originalPaidSnapshotIntact": 1
+    },
+    {
+      "orderId": "8a21c571-9533-4659-bd85-7373d5769654",
+      "paidAt": 1791778786863,
+      "paidRoots": 1,
+      "channelRefunded": 90.0,
+      "originalPaymentValid": 1,
+      "refundRequestMatches": 1,
+      "originalPaidSnapshotIntact": 1
+    }
+  ],
+  "interruptionDurations": [
+    {
+      "service": "marketing-a",
+      "mode": "SIGKILL",
+      "interruptedAt": "2026-10-12T04:12:34.510657+00:00",
+      "healthyObservedAt": "2026-10-12T04:12:57.619288+00:00",
+      "unavailableThroughProbeAndRecoverySeconds": 23.109
+    },
+    {
+      "service": "market-b",
+      "mode": "SIGKILL",
+      "interruptedAt": "2026-10-12T04:13:51.434007+00:00",
+      "healthyObservedAt": "2026-10-12T04:14:13.860880+00:00",
+      "unavailableThroughProbeAndRecoverySeconds": 22.427
+    },
+    {
+      "service": "market-b",
+      "mode": "SIGKILL",
+      "interruptedAt": "2026-10-12T04:14:28.664597+00:00",
+      "healthyObservedAt": "2026-10-12T04:14:46.718713+00:00",
+      "unavailableThroughProbeAndRecoverySeconds": 18.054
+    },
+    {
+      "service": "broker",
+      "mode": "stop",
+      "interruptedAt": "2026-10-12T04:14:18.694262+00:00",
+      "healthyObservedAt": "2026-10-12T04:15:06.507846+00:00",
+      "unavailableThroughProbeAndRecoverySeconds": 47.814
+    },
+    {
+      "service": "namesrv",
+      "mode": "stop",
+      "interruptedAt": "2026-10-12T04:15:32.727358+00:00",
+      "healthyObservedAt": "2026-10-12T04:16:09.519840+00:00",
+      "unavailableThroughProbeAndRecoverySeconds": 36.792
+    },
+    {
+      "service": "mysql",
+      "mode": "stop",
+      "interruptedAt": "2026-10-12T04:16:19.445022+00:00",
+      "healthyObservedAt": "2026-10-12T04:16:52.699424+00:00",
+      "unavailableThroughProbeAndRecoverySeconds": 33.254
+    },
+    {
+      "service": "market-b",
+      "mode": "rpc-network-disconnect",
+      "interruptedAt": "2026-10-12T04:17:18.024748+00:00",
+      "healthyObservedAt": "2026-10-12T04:17:33.622441+00:00",
+      "unavailableThroughProbeAndRecoverySeconds": 15.598
+    },
+    {
+      "service": "redis",
+      "mode": "stop",
+      "interruptedAt": "2026-10-12T04:17:57.945710+00:00",
+      "healthyObservedAt": "2026-10-12T04:18:23.855171+00:00",
+      "unavailableThroughProbeAndRecoverySeconds": 25.909
+    },
+    {
+      "service": "marketing-a",
+      "mode": "SIGKILL",
+      "interruptedAt": "2026-10-12T04:21:10.226360+00:00",
+      "healthyObservedAt": "2026-10-12T04:22:06.105926+00:00",
+      "unavailableThroughProbeAndRecoverySeconds": 55.88
+    }
+  ],
+  "businessConvergence": [
+    {
+      "service": "marketing-a",
+      "check": "closed-once-aClose",
+      "restoredHealthyAt": "2026-10-12T04:12:57.619288+00:00",
+      "businessObservedAt": "2026-10-12T04:13:46.396443+00:00",
+      "secondsAfterHealthy": 48.777
+    },
+    {
+      "service": "broker",
+      "check": "first-A-accepted",
+      "restoredHealthyAt": "2026-10-12T04:15:06.507846+00:00",
+      "businessObservedAt": "2026-10-12T04:15:26.638642+00:00",
+      "secondsAfterHealthy": 20.131
+    },
+    {
+      "service": "namesrv",
+      "check": "completed-once-second",
+      "restoredHealthyAt": "2026-10-12T04:16:09.519840+00:00",
+      "businessObservedAt": "2026-10-12T04:16:15.164672+00:00",
+      "secondsAfterHealthy": 5.645
+    },
+    {
+      "service": "mysql",
+      "check": "database-pools-recovered",
+      "restoredHealthyAt": "2026-10-12T04:16:52.699424+00:00",
+      "businessObservedAt": "2026-10-12T04:16:52.834781+00:00",
+      "secondsAfterHealthy": 0.135
+    },
+    {
+      "service": "market-b",
+      "check": "closed-once-networkClose",
+      "restoredHealthyAt": "2026-10-12T04:17:53.403649+00:00",
+      "businessObservedAt": "2026-10-12T04:17:53.600613+00:00",
+      "secondsAfterHealthy": 0.197
+    },
+    {
+      "service": "redis",
+      "check": "closed-once-redisClose",
+      "restoredHealthyAt": "2026-10-12T04:18:23.855171+00:00",
+      "businessObservedAt": "2026-10-12T04:18:24.066441+00:00",
+      "secondsAfterHealthy": 0.211
+    },
+    {
+      "service": "marketing-a",
+      "check": "refund-A-sync-after-recovery",
+      "restoredHealthyAt": "2026-10-12T04:22:06.105926+00:00",
+      "businessObservedAt": "2026-10-12T04:22:06.316615+00:00",
+      "secondsAfterHealthy": 0.211
+    }
+  ],
+  "interruptedRecovery": {
+    "runName": "b065-20261012-recovery-03",
+    "intentionalExitCode": 73,
+    "checks": [
+      {
+        "name": "actually-stopped-namesrv",
+        "at": "2026-10-12T06:38:31.762654+00:00",
+        "status": "PASSED",
+        "evidence": {
+          "Running": false,
+          "ExitCode": 143,
+          "OOMKilled": false,
+          "Health": {
+            "Status": "unhealthy",
+            "FailingStreak": 0,
+            "Log": [
+              {
+                "Start": "2026-10-12T06:37:27.808446044Z",
+                "End": "2026-10-12T06:37:27.886021724Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-12T06:37:42.891538063Z",
+                "End": "2026-10-12T06:37:42.96640604Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-12T06:37:57.97060167Z",
+                "End": "2026-10-12T06:37:58.033733348Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-12T06:38:13.039290532Z",
+                "End": "2026-10-12T06:38:13.087158944Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-12T06:38:28.092463392Z",
+                "End": "2026-10-12T06:38:28.14516368Z",
+                "ExitCode": 0,
+                "Output": ""
+              }
+            ]
+          },
+          "StartedAt": "2026-10-12T04:15:52.362236269Z",
+          "FinishedAt": "2026-10-12T06:38:31.44089853Z"
+        }
+      },
+      {
+        "name": "healthy-namesrv",
+        "at": "2026-10-12T06:38:51.172248+00:00",
+        "status": "PASSED",
+        "evidence": {
+          "Running": true,
+          "ExitCode": 0,
+          "OOMKilled": false,
+          "Health": {
+            "Status": "healthy",
+            "FailingStreak": 0,
+            "Log": [
+              {
+                "Start": "2026-10-12T06:37:42.891538063Z",
+                "End": "2026-10-12T06:37:42.96640604Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-12T06:37:57.97060167Z",
+                "End": "2026-10-12T06:37:58.033733348Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-12T06:38:13.039290532Z",
+                "End": "2026-10-12T06:38:13.087158944Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-12T06:38:28.092463392Z",
+                "End": "2026-10-12T06:38:28.14516368Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-12T06:38:49.147262477Z",
+                "End": "2026-10-12T06:38:49.190057182Z",
+                "ExitCode": 0,
+                "Output": ""
+              }
+            ]
+          },
+          "StartedAt": "2026-10-12T06:38:34.146990821Z",
+          "FinishedAt": "2026-10-12T06:38:31.44089853Z"
+        }
+      },
+      {
+        "name": "separate-process-restored-original-container-and-policy",
+        "at": "2026-10-12T06:38:51.311298+00:00",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-stats",
+        "at": "2026-10-12T06:38:56.493280+00:00",
+        "status": "PASSED"
+      }
+    ]
+  },
+  "runtimeGapRecovery": {
+    "runName": "b065-20261012-runtime-gap-02",
+    "explicitControlledOpenFallback": true,
+    "checks": [
+      {
+        "name": "healthy-market-b",
+        "at": "2026-10-12T06:41:31.063247+00:00",
+        "status": "PASSED",
+        "evidence": {
+          "Running": true,
+          "ExitCode": 0,
+          "OOMKilled": false,
+          "Health": {
+            "Status": "healthy",
+            "FailingStreak": 0,
+            "Log": [
+              {
+                "Start": "2026-10-12T06:41:30.313094011Z",
+                "End": "2026-10-12T06:41:30.528697659Z",
+                "ExitCode": 0,
+                "Output": "Picked up JAVA_TOOL_OPTIONS: -Xms64m -Xmx512m -XX:MaxDirectMemorySize=128m -Dtls.enable=true -Dtls.test.mode.enable=false -Dtls.client.authServer=true -Dtls.config.file=/etc/b06/mq-tls.properties -Duser.home=/tmp -Ddubbo.application.qos-enable=false\n"
+              }
+            ]
+          },
+          "StartedAt": "2026-10-12T06:41:15.312115123Z",
+          "FinishedAt": "0001-01-01T00:00:00Z"
+        }
+      },
+      {
+        "name": "runtime-gap-recovered-original-image-command-hosts-policy",
+        "at": "2026-10-12T06:41:31.194738+00:00",
+        "status": "PASSED"
+      },
+      {
+        "name": "funds-stock-and-team-quotas-unchanged-after-runtime-gap",
+        "at": "2026-10-12T06:41:31.382372+00:00",
+        "status": "PASSED"
+      },
+      {
+        "name": "controlled-open-state-restored",
+        "at": "2026-10-12T06:41:31.393215+00:00",
+        "status": "PASSED"
+      }
+    ]
+  },
+  "securityPreflight": {
+    "runName": "b065-20261012-security-01",
+    "checks": [
+      {
+        "name": "mq-stats",
+        "at": "2026-10-12T03:17:04.218878+00:00",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-bad-secret",
+        "at": "2026-10-12T03:17:09.291295+00:00",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-denied-topic",
+        "at": "2026-10-12T03:17:14.355335+00:00",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-bad-ca",
+        "at": "2026-10-12T03:17:19.332934+00:00",
+        "status": "PASSED"
+      },
+      {
+        "name": "mq-stats",
+        "at": "2026-10-12T03:17:24.362115+00:00",
+        "status": "PASSED"
+      },
+      {
+        "name": "rpc-signed",
+        "at": "2026-10-12T03:17:31.927625+00:00",
+        "status": "PASSED"
+      },
+      {
+        "name": "rpc-bad-hmac",
+        "at": "2026-10-12T03:17:39.459539+00:00",
+        "status": "PASSED"
+      },
+      {
+        "name": "rpc-no-client",
+        "at": "2026-10-12T03:17:45.232105+00:00",
+        "status": "PASSED"
+      },
+      {
+        "name": "rpc-bad-client",
+        "at": "2026-10-12T03:17:51.429078+00:00",
+        "status": "PASSED"
+      },
+      {
+        "name": "rpc-signed",
+        "at": "2026-10-12T03:17:59.265737+00:00",
+        "status": "PASSED"
+      }
+    ]
+  },
+  "rawReportSha256": {
+    "business": "596bdee39e606ffbe08be797543d52c06abca715375ba4721316b9b8320e50ca",
+    "interruptedRecovery": "23da46adbc94108113dfff3fc8200f8967a017fab10ce3017c4a7d5cc2720845",
+    "securityPreflight": "f115414f44d1ace7d2cd4760557c2c6fb4567ef0ec7b39b3506781d7738e74fd",
+    "runtimeGap": "ab77bbae955a72ffa53cebff95f18595abb1657ab7ad5f3da570222f36054a32"
+  },
+  "capacityBefore": {
+    "linuxAvailableBytes": 3666100224,
+    "persistentLimitsBytes": 4831838208,
+    "reserveBytes": 268435456,
+    "windowsAvailableBytes": 4655992832,
+    "hostDiskFreeBytes": {
+      "C:": 39384776704,
+      "D:": 168161771520
+    },
+    "ownedRunningBytes": 1548318932
+  },
+  "finalObservation": {
+    "at": "2026-10-12T06:46:36.253192+00:00",
+    "sampleEpoch": 1791787596.2532039,
+    "project": "zj-market-b06",
+    "health": {
+      "mysql": {
+        "project": "zj-market-b06",
+        "service": "mysql",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+        "restartCount": 0,
+        "ok": true
+      },
+      "redis": {
+        "project": "zj-market-b06",
+        "service": "redis",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+        "restartCount": 0,
+        "ok": true
+      },
+      "namesrv": {
+        "project": "zj-market-b06",
+        "service": "namesrv",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+        "restartCount": 0,
+        "ok": true
+      },
+      "broker": {
+        "project": "zj-market-b06",
+        "service": "broker",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+        "restartCount": 0,
+        "ok": true
+      },
+      "marketing-a": {
+        "project": "zj-market-b06",
+        "service": "marketing-a",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+        "restartCount": 0,
+        "ok": true
+      },
+      "market-b": {
+        "project": "zj-market-b06",
+        "service": "market-b",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+        "restartCount": 0,
+        "ok": true
+      },
+      "web": {
+        "project": "zj-market-b06",
+        "service": "web",
+        "running": true,
+        "oomKilled": false,
+        "health": "healthy",
+        "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+        "restartCount": 0,
+        "ok": true
+      },
+      "https": {
+        "ok": true,
+        "scope": "strict TLS gateway liveness; not business admission"
+      }
+    },
+    "databaseStatus": "OK",
+    "queues": {
+      "b_payment_task": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_payment_task",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_trade_coordination": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_trade_coordination",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_trade_work": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_trade_work",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 1
+      },
+      "b_trade_inbox": {
+        "due": 4,
+        "kind": "queue",
+        "queue": "b_trade_inbox",
+        "review": 0,
+        "pending": 4,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0.549,
+        "oldestPendingSeconds": 55772.724,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_trade_outbox": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_trade_outbox",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 24,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_sim_notification": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_sim_notification",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 30,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_reconciliation_task": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_reconciliation_task",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_refund_task": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_refund_task",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_sim_refund_notification": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_sim_refund_notification",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "b_product_outbox": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "b_product_outbox",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": 0,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "ab_outbox": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "ab_outbox",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": true,
+        "expiredLeases": 0,
+        "recordedRetries": 4,
+        "recordedFailures": null,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": 0,
+        "recordedDependencyChecks": null,
+        "historicalSettledHandoffs": 0
+      },
+      "ab_waiting_dependency": {
+        "due": 0,
+        "kind": "queue",
+        "queue": "ab_waiting_dependency",
+        "review": 0,
+        "pending": 0,
+        "ageAvailable": false,
+        "expiredLeases": 0,
+        "recordedRetries": null,
+        "recordedFailures": null,
+        "oldestOverdueSeconds": 0,
+        "oldestPendingSeconds": null,
+        "recordedDependencyChecks": 0,
+        "historicalSettledHandoffs": 0
+      }
+    },
+    "obligations": {
+      "kind": "obligations",
+      "heldInventory": 0,
+      "paymentAwaitingA": 0,
+      "refundUnfinished": 0,
+      "activeOrderReview": 0,
+      "pendingFulfillment": 18,
+      "aQuarantineReceipts": 0,
+      "activePaymentReview": 0,
+      "tradeQuarantineReceipts": 21,
+      "syncQuarantineUnreplayed": 0,
+      "historicalClosedRefundReview": 8,
+      "historicalClosedUnpaidReview": 1,
+      "nonReconciliationBlocksActive": 0,
+      "paymentAwaitingAOldestSeconds": 0,
+      "refundUnfinishedOldestSeconds": 0
+    },
+    "brokerLag": "NOT_COLLECTED",
+    "databaseNowMs": 1791787597588,
+    "databaseTlsCipher": "TLS_AES_256_GCM_SHA384",
+    "durationSeconds": 1.592,
+    "complete": true
+  },
+  "alertEvents": [
+    {
+      "at": "2026-10-12T04:12:35.426743+00:00",
+      "event": "alert_firing",
+      "key": "health:marketing-a",
+      "severity": "CRITICAL",
+      "incidentId": "4bdb73a3f8bfa462e2e204f9",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:13:51.435633+00:00",
+      "event": "alert_resolved",
+      "key": "health:marketing-a",
+      "severity": "CRITICAL",
+      "incidentId": "4bdb73a3f8bfa462e2e204f9",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:13:51.435633+00:00",
+      "event": "alert_firing",
+      "key": "health:market-b",
+      "severity": "CRITICAL",
+      "incidentId": "2075c26d6c77211a35e60ad2",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:14:22.587012+00:00",
+      "event": "alert_firing",
+      "key": "health:broker",
+      "severity": "CRITICAL",
+      "incidentId": "fffef2bc13db92bf482f3c91",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:14:22.587012+00:00",
+      "event": "alert_resolved",
+      "key": "health:market-b",
+      "severity": "CRITICAL",
+      "incidentId": "2075c26d6c77211a35e60ad2",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:15:47.321973+00:00",
+      "event": "alert_firing",
+      "key": "health:namesrv",
+      "severity": "CRITICAL",
+      "incidentId": "c2472536a62a55321a271199",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:15:47.321973+00:00",
+      "event": "alert_resolved",
+      "key": "health:broker",
+      "severity": "CRITICAL",
+      "incidentId": "fffef2bc13db92bf482f3c91",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:16:24.548605+00:00",
+      "event": "alert_firing",
+      "key": "health:mysql",
+      "severity": "CRITICAL",
+      "incidentId": "01b060449cae11f6f77da8d4",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:16:24.548605+00:00",
+      "event": "alert_resolved",
+      "key": "health:namesrv",
+      "severity": "CRITICAL",
+      "incidentId": "c2472536a62a55321a271199",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:16:24.548605+00:00",
+      "event": "alert_firing",
+      "key": "observer:database",
+      "severity": "CRITICAL",
+      "incidentId": "32dbeb70585dfd283112ad49",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:17:28.747641+00:00",
+      "event": "alert_resolved",
+      "key": "health:mysql",
+      "severity": "CRITICAL",
+      "incidentId": "01b060449cae11f6f77da8d4",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:17:28.747641+00:00",
+      "event": "alert_resolved",
+      "key": "observer:database",
+      "severity": "CRITICAL",
+      "incidentId": "32dbeb70585dfd283112ad49",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:18:01.714724+00:00",
+      "event": "alert_firing",
+      "key": "health:redis",
+      "severity": "CRITICAL",
+      "incidentId": "c158991b7330695b8c2778a0",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:21:14.020016+00:00",
+      "event": "alert_resolved",
+      "key": "health:redis",
+      "severity": "CRITICAL",
+      "incidentId": "c158991b7330695b8c2778a0",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:21:14.020016+00:00",
+      "event": "alert_firing",
+      "key": "health:marketing-a",
+      "severity": "CRITICAL",
+      "incidentId": "f6e115c584bae306a96ff67c",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:21:14.020016+00:00",
+      "event": "alert_firing",
+      "key": "review:payment-root",
+      "severity": "CRITICAL",
+      "incidentId": "e7d30596f8f7a54e0d01bd53",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:21:14.020016+00:00",
+      "event": "alert_firing",
+      "key": "review:order",
+      "severity": "CRITICAL",
+      "incidentId": "0031f123496caf7f172703d1",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:21:14.020016+00:00",
+      "event": "alert_firing",
+      "key": "backlog:b_trade_work",
+      "severity": "WARNING",
+      "incidentId": "19aa43bef090fcaca611489d",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:23:17.124689+00:00",
+      "event": "alert_resolved",
+      "key": "health:marketing-a",
+      "severity": "CRITICAL",
+      "incidentId": "f6e115c584bae306a96ff67c",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:23:17.124689+00:00",
+      "event": "alert_resolved",
+      "key": "review:payment-root",
+      "severity": "CRITICAL",
+      "incidentId": "e7d30596f8f7a54e0d01bd53",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T04:23:17.124689+00:00",
+      "event": "alert_resolved",
+      "key": "review:order",
+      "severity": "CRITICAL",
+      "incidentId": "0031f123496caf7f172703d1",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T06:38:31.765291+00:00",
+      "event": "alert_firing",
+      "key": "health:namesrv",
+      "severity": "CRITICAL",
+      "incidentId": "41435824569ed05fce2123c8",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T06:39:44.533684+00:00",
+      "event": "alert_resolved",
+      "key": "health:namesrv",
+      "severity": "CRITICAL",
+      "incidentId": "41435824569ed05fce2123c8",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T06:39:44.533684+00:00",
+      "event": "alert_firing",
+      "key": "health:market-b",
+      "severity": "CRITICAL",
+      "incidentId": "4b57aad514c24efaff7e1ad1",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T06:41:48.886585+00:00",
+      "event": "alert_resolved",
+      "key": "health:market-b",
+      "severity": "CRITICAL",
+      "incidentId": "4b57aad514c24efaff7e1ad1",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T06:44:11.042336+00:00",
+      "event": "alert_firing",
+      "key": "observer:database",
+      "severity": "CRITICAL",
+      "incidentId": "6541dbb044991f93946ea1e6",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T06:45:02.424478+00:00",
+      "event": "alert_resolved",
+      "key": "observer:database",
+      "severity": "CRITICAL",
+      "incidentId": "6541dbb044991f93946ea1e6",
+      "project": "zj-market-b06"
+    },
+    {
+      "at": "2026-10-12T06:45:02.424478+00:00",
+      "event": "alert_resolved",
+      "key": "backlog:b_trade_work",
+      "severity": "WARNING",
+      "incidentId": "19aa43bef090fcaca611489d",
+      "project": "zj-market-b06"
+    }
+  ],
+  "activeAlertsAtCloseout": 0,
+  "limits": [
+    "Finite samples, not memory/CPU peaks, load test or SLA",
+    "SIGKILL is not power loss or host/Docker daemon restart",
+    "Linux VM not validated",
+    "Backup/independent-volume restore/release rollback belongs to B-06.6",
+    "D31/D35 historical review projections retained; no generic isolation cleanup",
+    "111 application JUnit tests passed after opaque rosterVersion parser fix; no new full browser suite; A/web and funds eligibility rules unchanged"
+  ],
+  "observerHistoryClassification": {
+    "decision": "B06-D44",
+    "relationalTests": 3,
+    "negativeTerminalOrBindingCases": 30,
+    "observerTests": 7,
+    "actualMySqlSelectOnlyTlsVerified": true,
+    "historicalSettledHandoffs": 1,
+    "activeTradeWork": 0,
+    "retainedOriginalRows": true,
+    "scope": "Post-matrix observer-only correction; application images and business matrix sources unchanged"
+  },
+  "postDrillSafety": {
+    "hostsUnchanged": true,
+    "sharedContainersUnchanged": true,
+    "projectNetworkIdentitiesUnchanged": true,
+    "defaultDockerContext": "default",
+    "hostsSha256": "3e243a75b2baf299a05988da051b88df4ccd3c8098216fdb8a0c55a044919d96"
+  }
+}

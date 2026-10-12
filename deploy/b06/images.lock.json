@@ -1,0 +1,10 @@
+{
+ "schemaVersion":1,
+ "platform":"linux/amd64",
+ "java21":"eclipse-temurin@sha256:f04fb34e053148344e83317976114ec3f37e4b830ec8bdab5a2fe3cecd7d010b",
+ "java8":"eclipse-temurin@sha256:66a7b358772dfdcc1486919a5ede66d6c7275f203a5fefddb39565c2a151a485",
+ "web":"nginx@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236",
+ "mysql":"mysql@sha256:f496c25da703053a6e0717f1d52092205775304ea57535cc9fcaa6f35867800b",
+ "redis":"redis@sha256:5443f35e8fc8fc8496964b8e8ea39abaf99434d7e1741e514f7f56906b1c9ff0",
+ "rocketmq":"docker.1panel.live/apache/rocketmq@sha256:c0ffc9f5abd3ee8fb59682f9f2c84abba031f0a83500d60a7330ade2d9b7ccca"
+}

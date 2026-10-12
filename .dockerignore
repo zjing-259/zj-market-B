@@ -1,6 +1,8 @@
 **
-!zj-market-app/
-zj-market-app/*
-!zj-market-app/target/
-zj-market-app/target/*
+!Dockerfile
+!zj-market-app
+zj-market-app/**
+!zj-market-app/target
+zj-market-app/target/**
 !zj-market-app/target/zj-market-app-exec.jar
+# Full deployment uses separately staged allowlisted contexts.

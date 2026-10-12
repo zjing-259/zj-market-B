@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "releaseId": "a-b05-verified-223a02521120",
+  "deliveryMode": "PINNED_PREBUILT_BINARY",
+  "status": "FROZEN_AND_HASH_VERIFIED",
+  "selection": "Use the privately frozen app JAR below for B-06.1 A image input, after image packaging/configuration inspection. Never rebuild from the dirty A workspace implicitly.",
+  "runtime": "Java 8, historical B-05 verified Boot 2.7.12 package; Linux image runtime compatibility still requires B-06.1 checks",
+  "historicalEvidence": {
+    "path": "docs/tests/b05-joint-acceptance.json",
+    "jsonPointer": "/AProvenance/runtimeJarSha256",
+    "sha256": "2DCA3BDAE14492BEFE60ACED31A5F31C6715D224A640240FDE1919342D47E98C"
+  },
+  "observedAHead": "8c0a3faee01d20730f05c7a357a491bb4438027f",
+  "exactBuildSourceCommit": null,
+  "sourceAttribution": "Observed checkout HEAD is not proven to be the source commit used to build this historical binary. No reproducible source build is claimed. The delivery source is the B-05-tested content-addressed binary.",
+  "aWorkspaceChanges": [
+    "M group-buy-market-app/src/main/resources/application-dev.yml",
+    " M group-buy-market-app/src/main/resources/application-prod.yml",
+    " M group-buy-market-app/src/main/resources/application-test.yml",
+    " M group-buy-market-domain/src/main/java/cn/bugstack/domain/tag/service/TagService.java",
+    "?? docs/project-a-v1-v2-comparison.md"
+  ],
+  "files": [
+    {
+      "name": "group-buy-market-app.jar",
+      "sha256": "223A02521120F6D83CB58220E7CFF08839A5B6BCBAC9BC5C00BCA42F8E6C8392",
+      "bytes": 75164636,
+      "originalPath": "D:\\Java\\group-buy-market\\group-buy-market-app\\target\\group-buy-market-app.jar",
+      "frozenPath": ".local/b06-artifacts/a/223a02521120f6d83cb58220e7cff08839a5b6bcbac9bc5c00bca42f8e6c8392/group-buy-market-app.jar"
+    },
+    {
+      "name": "group-buy-market-contract-1.0-SNAPSHOT.jar",
+      "sha256": "EEB3E9EC8D73E4C4CED28A86104004AD43CC075B793C2149D7625248FD0604DB",
+      "bytes": 29543,
+      "originalPath": "D:\\Java\\group-buy-market\\group-buy-market-contract\\target\\group-buy-market-contract-1.0-SNAPSHOT.jar",
+      "frozenPath": ".local/b06-artifacts/a/223a02521120f6d83cb58220e7cff08839a5b6bcbac9bc5c00bca42f8e6c8392/group-buy-market-contract-1.0-SNAPSHOT.jar"
+    },
+    {
+      "name": "ab-api-contract.md",
+      "sha256": "83B02A7EBF5E80B5EF4D1B03936E6B1CA33EED32F6D9C68B451E855C6192D7DD",
+      "bytes": 42519,
+      "originalPath": "D:\\Java\\group-buy-market\\docs\\ab-api-contract.md",
+      "frozenPath": ".local/b06-artifacts/a/223a02521120f6d83cb58220e7cff08839a5b6bcbac9bc5c00bca42f8e6c8392/ab-api-contract.md"
+    }
+  ],
+  "embeddedContractSha256": "EEB3E9EC8D73E4C4CED28A86104004AD43CC075B793C2149D7625248FD0604DB",
+  "embeddedContractBytecodeMajor": 52,
+  "aApplicationBytecodeMajor": 52,
+  "bEmbeddedContractMatches": true,
+  "packagedConfigurationResourceNames": [
+    "BOOT-INF/classes/application-dev.yml",
+    "BOOT-INF/classes/application-prod.yml",
+    "BOOT-INF/classes/application-test.yml",
+    "BOOT-INF/classes/application-v2-tls.yml",
+    "BOOT-INF/classes/application.yml"
+  ],
+  "imageGate": "Before building any distributable A image, inspect packaged configuration for secrets/host-specific values; any sanitized/rebuilt package is a different artifact with a new hash and affected compatibility tests. Ordinary image must not carry secrets.",
+  "notPerformed": [
+    "A source changes",
+    "A rebuild",
+    "A execution",
+    "Database or MQ operations",
+    "Container image creation",
+    "Git publication"
+  ]
+}

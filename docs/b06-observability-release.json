@@ -1,0 +1,63 @@
+{
+  "stage": "B-06.4",
+  "at": "2026-10-12T02:49:59.726272+00:00",
+  "scope": "Windows Docker; local only",
+  "images": {
+    "a": {
+      "tag": "zj-market-b06/a:a561832f50cbc8d3",
+      "id": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+      "base": "eclipse-temurin@sha256:66a7b358772dfdcc1486919a5ede66d6c7275f203a5fefddb39565c2a151a485",
+      "architecture": "amd64",
+      "os": "linux"
+    },
+    "b": {
+      "tag": "zj-market-b06/b:ac2ab7d62c20c2d7",
+      "id": "sha256:6f1eb93d4cdb947fdd455a44f3619cf777dc2a1c78faea0a42c4606676117413",
+      "base": "eclipse-temurin@sha256:f04fb34e053148344e83317976114ec3f37e4b830ec8bdab5a2fe3cecd7d010b",
+      "architecture": "amd64",
+      "os": "linux"
+    },
+    "web": {
+      "tag": "zj-market-b06/web:c30471ef43d2faba",
+      "id": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+      "base": "nginx@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236",
+      "architecture": "amd64",
+      "os": "linux"
+    }
+  },
+  "maintenanceImage": "sha256:dc11c2d648c966974ba691d8cd7e999ed2055794bcbfc9aacbbfddfbb0043eee",
+  "contexts": {
+    "a": {
+      ".dockerignore": "4D58186B843D1035A01042CC7B346ED6BCD31B61104AA5D26231DC18F63C36D0",
+      "app.jar": "304A11A674FD82D07A4F2C8338D602294D82452FBE853FFBC4DD2EDCA167E180",
+      "Dockerfile": "95AB77A2CCCBAC02760495BDCEDE968BEBF833B3F1A492D9C366FCEC64B3802D",
+      "HealthProbe.class": "102E9C39133C4A78F03EDFE81ADBEB52F8D9993277EBE34A26978C3E21D9C5EF"
+    },
+    "b": {
+      ".dockerignore": "4D58186B843D1035A01042CC7B346ED6BCD31B61104AA5D26231DC18F63C36D0",
+      "app.jar": "4714FF209E8F0B08F60099985DEA695AA98160F23919A279FD2095C127B32515",
+      "Dockerfile": "95AB77A2CCCBAC02760495BDCEDE968BEBF833B3F1A492D9C366FCEC64B3802D",
+      "HealthProbe.class": "102E9C39133C4A78F03EDFE81ADBEB52F8D9993277EBE34A26978C3E21D9C5EF"
+    },
+    "web": {
+      ".dockerignore": "4D58186B843D1035A01042CC7B346ED6BCD31B61104AA5D26231DC18F63C36D0",
+      "dist/assets/index-CKtn212S.js": "E57ACF2478729CEA6F3A79A6DD81A6C575F3EBDB42A60AB6BA25FB1DA893BCE0",
+      "dist/assets/index-DxsalV1t.css": "020695AF5556997DCB6A68EF405026FB8CE422D921B3C05D739A0D90A93FB8B2",
+      "dist/index.html": "87EBDE735ADEF2D3EF44F0FC67BD71722541AA81C9B4D081998CDD48C82D58E9",
+      "Dockerfile": "F031C31C7466C4DCBF68F706555B02297C484FAC00AB7A175683D713F98631AB",
+      "nginx.conf": "48CD3E757D2074DE0F23E0E029DCD97DB38EDDC7DBC45786532541854A87FA66"
+    }
+  },
+  "verificationReports": {
+    ".local/b06/packaging/b064-packaging-20261012-02/report.json": "77711757da7acd9b5f3914864e0892a2e8ef32f1f1ce766114aaa441602b615c",
+    ".local/b06/maintenance-integrity/b064-tools-20261012-01/report.json": "ca11e28dfd7527355af2733dd73251e20f65f453f177f9d82a0dfeb6b90fee87",
+    ".local/b06/observability-acceptance/b064-20261012-03/report.json": "cac6194795ecfd66f43f83a169a31e105b4fd18eeee321af11ee249358ef35ad"
+  },
+  "applicationTests": 109,
+  "observerUnitTests": 7,
+  "realAcceptanceChecks": 39,
+  "packagingChecks": 33,
+  "maintenanceChecks": 9,
+  "gitPublished": false,
+  "linuxVmValidated": false
+}

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "stage": "B-06.0",
+  "status": "PAUSED_BY_USER_RESOURCE_GATE_PENDING",
+  "stageCompletion": false,
+  "pauseRequest": "User asked to save progress and pause development for a computer restart; wait for explicit resume.",
+  "docker": {
+    "desktop": "4.26.1",
+    "engine": "24.0.7",
+    "api": "1.43",
+    "compose": "2.23.3-desktop.2",
+    "contextUsed": "desktop-linux",
+    "defaultContextUnchanged": "default",
+    "osType": "linux",
+    "architecture": "amd64",
+    "kernel": "6.6.87.2-microsoft-standard-WSL2",
+    "cpus": 16,
+    "memoryTotalBytes": 7912747008,
+    "checks": "PASSED"
+  },
+  "resources": {
+    "status": "NOT_PASSED",
+    "windowsTotalVisibleKiB": 15959108,
+    "windowsAvailableKiB": 735708,
+    "linuxEngineAvailableBytes": 5428625408,
+    "hostCFreeApproxBytes": 39673720832,
+    "hostDFreeApproxBytes": 171360665600,
+    "note": "WSL virtual available memory/disk does not establish sufficient physical host headroom; recheck after restart before new stack admission."
+  },
+  "existingContainers": {
+    "total": 17,
+    "running": 5,
+    "runningNames": [
+      "ab-v2-broker-1",
+      "ab-v2-namesrv-1",
+      "mysql",
+      "redis",
+      "redis-test"
+    ],
+    "startupObservation": "Docker Desktop startup auto-restored existing restart-policy containers; no new containers created or individual start/stop/restart/delete performed"
+  },
+  "aDelivery": {
+    "manifest": "docs/b06-a-release-manifest.json",
+    "releaseId": "a-b05-verified-223a02521120",
+    "status": "FROZEN_AND_HASH_VERIFIED",
+    "exactBuildSourceCommit": null,
+    "proof": "B-05 historical runtime hash matches current input and frozen copy; A/B embedded contract bytes match",
+    "tests": [
+      "PowerShell syntax",
+      "approved release replay",
+      "wrong hash rejected",
+      "frozen originals preserved",
+      "private artifact directory ignored by Git"
+    ]
+  },
+  "resumeChecklist": [
+    "Wait for user explicit resume",
+    "Verify B06 Git baseline and worktree differences",
+    "Verify Windows physical free memory and Linux engine resource headroom",
+    "Verify Docker Linux mode, Compose and existing containers",
+    "Recheck frozen A manifest and current B artifact hashes",
+    "Persist fresh evidence and close .0 only after resource gate passes"
+  ],
+  "notPerformed": [
+    "Business container creation",
+    "A source changes or rebuild",
+    "Database migration",
+    "A/B runtime deployment",
+    "Git commit/merge/push",
+    "Computer reboot by agent"
+  ]
+}

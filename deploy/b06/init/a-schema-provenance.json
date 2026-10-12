@@ -1,0 +1,12 @@
+{
+  "sourceRepositoryObservedHead": "8c0a3faee01d20730f05c7a357a491bb4438027f",
+  "binaryExactBuildSourceCommit": null,
+  "sourceFiles": {
+    "xfg-frame-archetype.sql": "c2fc1dae1b6cbb77e9aaf4241ccf19f6078b79a1c226d20859cb90f453afcf86",
+    "migrations/20260926-phase1-reaudit.sql": "fe31808a9d0ff14a532b24c460e0af526d0205a960d524ce6637803872322a3c",
+    "migrations/20260927-phase3-notify.sql": "b527e56e34e7708cd0439855c5f44cbd788ff6011fd41267570b997178499ba8",
+    "migrations/20261002-ab-v2.sql": "17e9fb6a7faa37da6405005a95ba95b5b372222817e289ebfe580e45d22dc92b"
+  },
+  "derivation": "12 CREATE TABLE statements only from current base (already contains phase1), then reaudit, notify, ab-v2. No dump rows, DROP TABLE or USE. waiting-key already has consumer/producer/event_id PK in current ab-v2; verified instead of repeated ALTER. SQL extraction respects quoted COMMENT semicolons. Current base also contains phase3 notification lease columns/index; retain status metadata MODIFY only, do not ADD existing columns/index.",
+  "outputSha256": "3942e3ee2902b38e2199087f9e1edfa002789689c890cbfcda05441d7e04a0db"
+}

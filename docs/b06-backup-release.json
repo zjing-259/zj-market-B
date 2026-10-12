@@ -1,0 +1,77 @@
+{
+  "stage": "B-06.6",
+  "generatedAt": "2026-10-12T07:56:16.738729+00:00",
+  "status": "LOCAL_TESTED_WINDOWS_DOCKER",
+  "stageCompletion": true,
+  "ordinaryImages": {
+    "a": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+    "b": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+    "web": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754"
+  },
+  "maintenanceImage": "sha256:bf881865565e5b000e5d256f229993f7d19eb144e86410e504d8b83ef7a1cb43",
+  "sdkImage": "sha256:1f155852e8ab82d7005171d17a5d4431c7e2d105ac941d7fa0e9dcbc21eee4eb",
+  "compatiblePackagingImages": {
+    "candidate": "sha256:c0e8514aa54c7ff367226b5486bd4050ba8b16b2e1f24388a8465815a7fe0dcb",
+    "rollback": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b"
+  },
+  "recoveryTools": {
+    "replay": {
+      "id": "sha256:7a30f63466c53b356acdb9004a96fbd39a0513185b20de54682de64fe4a3555d",
+      "parent": "sha256:1f155852e8ab82d7005171d17a5d4431c7e2d105ac941d7fa0e9dcbc21eee4eb",
+      "tag": "zj-market-b06/recovery-replay:127e4ea9ad9872b9",
+      "inputs": {
+        ".dockerignore": "5da7e374f635b319798b1ae93ac8ab7e04b086ebb51d74929f4bbf3d79e0e64b",
+        "Dockerfile": "dea3924a2cf8c299bb241d5bbcdb6b3d2d7f1f6fd619a98ade3dfdf4511baadb",
+        "classes\\RecoveryReplayProbe.class": "9cef6e1a0a68eb26d13e4a64f675062cefa35230e438504f5ddd88b54cf69620"
+      }
+    },
+    "candidate": {
+      "id": "sha256:c0e8514aa54c7ff367226b5486bd4050ba8b16b2e1f24388a8465815a7fe0dcb",
+      "parent": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+      "tag": "zj-market-b06/recovery-candidate:73cc8c786d9bbc9f",
+      "inputs": {
+        ".dockerignore": "5da7e374f635b319798b1ae93ac8ab7e04b086ebb51d74929f4bbf3d79e0e64b",
+        "Dockerfile": "a087bc0ef5cc9cd34e201e618373f8e0379040d751400e5e55d0125d5a018885"
+      }
+    },
+    "schemaFingerprint": "1bbd847a64b784f9f22facc238e1e8b372428f1a5e50fa1fe779e1e9ea316ee7",
+    "migrationHistoryHash": "6fce73b5216393658902305bacdf262f80294dedec4a4a7676e6c0ba897928df",
+    "businessJarSha256": "15416a1fca51c9f0029c934908ef15029d422f05681e6527e96bcfe85c46ef1a",
+    "protocol": "V18-opaque-rosterVersion",
+    "rollbackImage": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b"
+  },
+  "sourceSha256": {
+    "scripts/b06-backup.py": "a000027f4dc0b5fbdedf6f7eb93251f9512f5e886a26a36b33a856e7e960bb57",
+    "scripts/build-b06-recovery-tools.py": "234925290fdb19347c362485d4f2e52ff4921f41547ceffa8bf650cef7c9f9c4",
+    "deploy/b06/verification/RecoveryReplayProbe.java": "eb13e7930834e79097d51c8ef02c4e3660965cdd7597c687d3a1473123c70b41",
+    "docs/tests/test-b06-backup.py": "56f77b6a4ffc0d71624ae666b10955cf3d2babfa8fecd7b4270b3cee8fcc2ec7",
+    "docs/tests/b06-recovery-gate.mjs": "b403987023cdf4765c31310fc319da26472bf6d4c851a87550a58bf8b2c66145",
+    "docs/tests/run-b06-backup-interrupted.py": "6944d5623808231a4bf365f347b886344f5f0d07a143b0b0674cfbfe35763913",
+    "docs/tests/collect-b06-backup.py": "2c605ed62d389c70b6a08ae4c134edccb21b73ef7412c720e1b5c2377e5c059b",
+    "scripts/prepare-b06-secrets.py": "2724810f80b294b947dad7060b0f36d0e791cb48bc55f354266778dc6e8ec388",
+    "docs/tests/test-b06-private-acl.py": "cd533e1c772604d7041c932b3f63fb84c04ca788230812cf2baf58be65d7a07f"
+  },
+  "artifactSha256": {
+    "docs/tests/b06-backup-acceptance.json": "01224a4a1177e6d15f83552f2cf2e7eb1c496ae0d77ec01f0007aa65db84b210",
+    "docs/tests/b06-backup-progress.json": "68be727f4b574e4543df8f3f413d11a6ce15dbf73289077fd32061d1d9cf09fd",
+    "deploy/b06/BACKUP-RECOVERY.md": "1b0a597f643d8dd21b8328e08bd1fe79821a5bb9aaf9a6d9a1ebf1101733bd57",
+    "zj-market-app/target/zj-market-app-exec.jar": "15416a1fca51c9f0029c934908ef15029d422f05681e6527e96bcfe85c46ef1a",
+    "deploy/b06/compose.yml": "ed2e51c82260b63bb0500ae3f1d68d6bad6d1f855ff2f9ae601d223af3065fb4"
+  },
+  "backupManifestSha256": "e1b230fd5316987cfe5370dc2fb2db156dac34dfca55dfcc51123b8b72528459",
+  "restoreManifestSha256": "055691196d8ac53cca4eccdbe9a81063a1d5457bd100939f1b08e75ed6f098d2",
+  "actualChecks": {
+    "coldBackup": 40,
+    "existingBackupRestore": 39,
+    "interruptedRecovery": 11
+  },
+  "guardTests": 16,
+  "privateAclTests": 1,
+  "actualPrivateAclScopes": 12,
+  "decisions": "B06-D45 through B06-D50",
+  "applicationBuild": "No new ordinary business jar; actual candidate and baseline jar hashes verified equal to B065 tested artifact",
+  "releaseScope": "Distinct image IDs with the same tested business jar and runtime contract; compatible packaging rollback only, no unknown older application version",
+  "rpoScope": "fully stopped consistency point only; later original transactions excluded",
+  "linuxVmValidated": false,
+  "gitPublished": false
+}

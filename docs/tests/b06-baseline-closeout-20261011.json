@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "stage": "B-06.0",
+  "status": "PASSED_BASELINE_AND_DEPLOYMENT_DESIGN",
+  "stageCompletion": true,
+  "head": "2eae6a23a23a505fd19a70a7de037d6ed07e9cbb",
+  "worktree": "D:\\Java\\zj-market-b-06",
+  "userResume": "Explicit user resume after computer restart",
+  "docker": {
+    "desktop": "Docker Desktop 4.26.1 (131620)",
+    "engine": "24.0.7",
+    "os": "linux",
+    "architecture": "amd64",
+    "kernel": "6.6.87.2-microsoft-standard-WSL2",
+    "context": "desktop-linux",
+    "compose": "2.23.3-desktop.2",
+    "cpus": 16,
+    "memoryTotalBytes": 7912747008
+  },
+  "hostMemoryKiB": {
+    "TotalVisibleMemorySize": 15959108,
+    "FreePhysicalMemory": 4087228
+  },
+  "linuxMemoryBytes": {
+    "MemTotal": 7912747008,
+    "MemAvailable": 5421273088,
+    "SwapTotal": 2147483648,
+    "SwapFree": 2147483648
+  },
+  "hostDiskFreeBytes": [
+    {
+      "Name": "C",
+      "Free": 39787884544
+    },
+    {
+      "Name": "D",
+      "Free": 172051374080
+    }
+  ],
+  "preparationResourceGate": {
+    "status": "PASSED",
+    "scope": "Image/Compose development and baseline/design readiness; no full stack has been started",
+    "minimumHostAvailableGiB": 3,
+    "minimumLinuxAvailableGiB": 4,
+    "minimumHostCFreeGiB": 20,
+    "minimumHostDFreeGiB": 80
+  },
+  "fullStackResourceAdmission": {
+    "status": "NOT_RUN",
+    "requirement": "Before B-06.2 starts new services, recalculate against actual compose limits, existing container usage and physical host margin; reduce contention or tune reviewed budgets if insufficient. No resource overcommit or existing-container shutdown is authorized by this report."
+  },
+  "existingRunningContainers": [
+    {
+      "id": "90933c2fd234",
+      "name": "ab-v2-broker-1",
+      "image": "apache/rocketmq:4.9.7",
+      "status": "Up 3 minutes"
+    },
+    {
+      "id": "6087d7df6c0b",
+      "name": "ab-v2-namesrv-1",
+      "image": "apache/rocketmq:4.9.7",
+      "status": "Up 3 minutes"
+    },
+    {
+      "id": "eb45bb29c6aa",
+      "name": "redis-test",
+      "image": "redis",
+      "status": "Up 3 minutes"
+    },
+    {
+      "id": "56957a24585d",
+      "name": "mysql",
+      "image": "mysql:8.0.32",
+      "status": "Up 3 minutes (healthy)"
+    },
+    {
+      "id": "c6dab9d05a1a",
+      "name": "redis",
+      "image": "redis:6.2",
+      "status": "Up 3 minutes (healthy)"
+    }
+  ],
+  "aDelivery": {
+    "manifest": "docs/b06-a-release-manifest.json",
+    "releaseId": "a-b05-verified-223a02521120",
+    "frozenFiles": [
+      {
+        "path": ".local/b06-artifacts/a/223a02521120f6d83cb58220e7cff08839a5b6bcbac9bc5c00bca42f8e6c8392/group-buy-market-app.jar",
+        "sha256": "223A02521120F6D83CB58220E7CFF08839A5B6BCBAC9BC5C00BCA42F8E6C8392",
+        "status": "PASSED"
+      },
+      {
+        "path": ".local/b06-artifacts/a/223a02521120f6d83cb58220e7cff08839a5b6bcbac9bc5c00bca42f8e6c8392/group-buy-market-contract-1.0-SNAPSHOT.jar",
+        "sha256": "EEB3E9EC8D73E4C4CED28A86104004AD43CC075B793C2149D7625248FD0604DB",
+        "status": "PASSED"
+      },
+      {
+        "path": ".local/b06-artifacts/a/223a02521120f6d83cb58220e7cff08839a5b6bcbac9bc5c00bca42f8e6c8392/ab-api-contract.md",
+        "sha256": "83B02A7EBF5E80B5EF4D1B03936E6B1CA33EED32F6D9C68B451E855C6192D7DD",
+        "status": "PASSED"
+      }
+    ],
+    "exactBuildSourceCommit": null,
+    "sourceScope": "B05-tested prebuilt binary provenance fixed; reproducible source build is not claimed"
+  },
+  "bBaselineArtifactsUnchanged": true,
+  "historicalTests": {
+    "tests": 106,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testScope": "The already-passed B06.0 106-test build and frontend production build are retained by artifact hashes; no redundant rebuild on resume.",
+  "historicalEvidenceUnchanged": [
+    "docs/tests/b05-joint-acceptance.json",
+    "docs/tests/b06-baseline-acceptance.json",
+    "docs/tests/b06-windows-preflight-20261011.json"
+  ],
+  "linuxTarget": "Final VM deployment, TLS/ACL, fresh schema, live browser, faults, observability and backup/restore remain later-stage gates under D13.",
+  "notPerformed": [
+    "New business containers",
+    "Image build/pull",
+    "Database/RPC/MQ business calls",
+    "Migration",
+    "A source modification/rebuild",
+    "Container stop/delete/prune",
+    "Git commit/merge/push"
+  ]
+}

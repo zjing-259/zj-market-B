@@ -24,4 +24,12 @@ class ZjMarketApplicationTests {
                 "cn.zj.zjmarket.verification.EnvironmentProbe", false, getClass().getClassLoader()));
         assertNull(getClass().getResource("/application-environment-probe.properties"));
     }
+    @Test void livenessRouteIsRegisteredByTheNormalBootstrap() {
+        var mappings=context.getBean(org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping.class);
+        assertTrue(mappings.getHandlerMethods().keySet().stream().anyMatch(mapping ->
+                mapping.getPatternValues().contains("/internal/health/live") &&
+                mapping.getMethodsCondition().getMethods().contains(org.springframework.web.bind.annotation.RequestMethod.GET)));
+        assertTrue(context.getBeansOfType(DataSource.class).isEmpty());
+    }
+
 }

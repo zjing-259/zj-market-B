@@ -7,17 +7,24 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.UUID;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.TransactionException;
 import org.springframework.web.filter.OncePerRequestFilter;
 public final class IdentityHttpFilter extends OncePerRequestFilter {
+    private final boolean requestLogging;
     private final IdentitySettings settings;private final ObjectProvider<IIdentityService> service;private final BrowserAuth browser;
-    public IdentityHttpFilter(IdentitySettings settings,ObjectProvider<IIdentityService> service,BrowserAuth browser){this.settings=settings;this.service=service;this.browser=browser;}
+    public IdentityHttpFilter(IdentitySettings settings,ObjectProvider<IIdentityService> service,BrowserAuth browser){this(settings,service,browser,false);}
+    public IdentityHttpFilter(IdentitySettings settings,ObjectProvider<IIdentityService> service,BrowserAuth browser,boolean requestLogging){this.settings=settings;this.service=service;this.browser=browser;this.requestLogging=requestLogging;}
     protected void doFilterInternal(HttpServletRequest req,HttpServletResponse res,FilterChain chain)throws ServletException,IOException{
         String id=UUID.randomUUID().toString();req.setAttribute("b.requestId",id);res.setHeader("X-Request-Id",id);
         if(req.getRequestURI().startsWith("/api/"))res.setHeader("Cache-Control","no-store");
-        try{
+        long started=System.nanoTime();boolean completed=false;
+        try(var ignored=MDC.putCloseable("requestId",id)){
+          try{
             String path=req.getRequestURI();
             if(settings.isEnabled() && path.startsWith("/api/")){
                 if(path.startsWith("/api/v1/auth/") && !req.getMethod().equals("GET"))browser.checkCsrf(req);
@@ -34,6 +41,19 @@ public final class IdentityHttpFilter extends OncePerRequestFilter {
             chain.doFilter(req,res);
         }catch(AuthFailure e){error(res,e.status(),e.code(),id);}
         catch(DataAccessException|TransactionException e){error(res,503,"DEPENDENCY_UNAVAILABLE",id);}
+          completed=true;
+        }finally{
+            if(requestLogging && req.getRequestURI().startsWith("/api/")){
+                Object pattern=req.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
+                String route=pattern instanceof String ? (String)pattern : "UNMAPPED";
+                String method=java.util.Set.of("GET","POST","PUT","PATCH","DELETE","OPTIONS","HEAD").contains(req.getMethod())?req.getMethod():"OTHER";
+                LoggerFactory.getLogger("b.observability.http").atInfo()
+                    .addKeyValue("requestId",id).addKeyValue("route",route).addKeyValue("method",method)
+                    .addKeyValue("status",completed?res.getStatus():500)
+                    .addKeyValue("durationMs",(System.nanoTime()-started)/1_000_000)
+                    .log("http_request_completed");
+            }
+        }
     }
     static void error(HttpServletResponse res,int status,String code,String id)throws IOException{
         res.setStatus(status);res.setContentType("application/json;charset=UTF-8");res.setHeader("Cache-Control","no-store");

@@ -1,0 +1,18 @@
+{
+  "stage": "B-06.3",
+  "status": "COMPLETED_WINDOWS_DOCKER",
+  "stageCompletion": true,
+  "runName": "b063-20261012-02",
+  "browserChecks": 24,
+  "accountingChecks": 11,
+  "acceptance": "docs/tests/b06-normal-acceptance.json",
+  "priorPauseReceipt": ".local/b06/browser/b063-normal05/pause.json",
+  "nextStage": "B-06.4 (not started)",
+  "linuxVmValidated": false,
+  "gitPublished": false,
+  "retainedLimitations": [
+    "TEAM_FAILED review and owned reconciliation block retained after refund close",
+    "Order A team status is prior evidence snapshot; query current team",
+    "B05 unsupported cancelled late payment qualification unchanged"
+  ]
+}

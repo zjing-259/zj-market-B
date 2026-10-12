@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "inputs": {
+    "originalASha256": "223A02521120F6D83CB58220E7CFF08839A5B6BCBAC9BC5C00BCA42F8E6C8392",
+    "derivedASha256": "304A11A674FD82D07A4F2C8338D602294D82452FBE853FFBC4DD2EDCA167E180",
+    "bSha256": "0A1D64559740D3033B5C7B1094861E0FA089230DF15F09A56C84D7E0071A4A84",
+    "removedConfiguration": [
+      "BOOT-INF/classes/application-dev.yml",
+      "BOOT-INF/classes/application-prod.yml",
+      "BOOT-INF/classes/application-test.yml",
+      "BOOT-INF/classes/application-v2-tls.yml",
+      "BOOT-INF/classes/application.yml",
+      "BOOT-INF/classes/logback-spring.xml"
+    ],
+    "overlaySources": {
+      "deploy/b06/a-overlay/LivenessController.java": "2CF6A4D415EB75A46D36CE0A1B476A6B973710418D1892116325ADA564736954",
+      "deploy/b06/a-overlay/RedisClientConfig.java": "4FDDB2EC0016F88BC6799FC7ECEE743CB07659D02BE1F83256D093E3367939EB"
+    },
+    "aSourceBuildClaim": false,
+    "changes": "Remove all application profiles and old logging config; replace Redis config with password-required equivalent; add internal liveness only",
+    "contexts": {
+      "a": {
+        ".dockerignore": "4D58186B843D1035A01042CC7B346ED6BCD31B61104AA5D26231DC18F63C36D0",
+        "app.jar": "304A11A674FD82D07A4F2C8338D602294D82452FBE853FFBC4DD2EDCA167E180",
+        "Dockerfile": "95AB77A2CCCBAC02760495BDCEDE968BEBF833B3F1A492D9C366FCEC64B3802D",
+        "HealthProbe.class": "102E9C39133C4A78F03EDFE81ADBEB52F8D9993277EBE34A26978C3E21D9C5EF"
+      },
+      "b": {
+        ".dockerignore": "4D58186B843D1035A01042CC7B346ED6BCD31B61104AA5D26231DC18F63C36D0",
+        "app.jar": "0A1D64559740D3033B5C7B1094861E0FA089230DF15F09A56C84D7E0071A4A84",
+        "Dockerfile": "95AB77A2CCCBAC02760495BDCEDE968BEBF833B3F1A492D9C366FCEC64B3802D",
+        "HealthProbe.class": "102E9C39133C4A78F03EDFE81ADBEB52F8D9993277EBE34A26978C3E21D9C5EF"
+      },
+      "web": {
+        ".dockerignore": "4D58186B843D1035A01042CC7B346ED6BCD31B61104AA5D26231DC18F63C36D0",
+        "dist/assets/index-CKtn212S.js": "E57ACF2478729CEA6F3A79A6DD81A6C575F3EBDB42A60AB6BA25FB1DA893BCE0",
+        "dist/assets/index-DxsalV1t.css": "020695AF5556997DCB6A68EF405026FB8CE422D921B3C05D739A0D90A93FB8B2",
+        "dist/index.html": "87EBDE735ADEF2D3EF44F0FC67BD71722541AA81C9B4D081998CDD48C82D58E9",
+        "Dockerfile": "F031C31C7466C4DCBF68F706555B02297C484FAC00AB7A175683D713F98631AB",
+        "nginx.conf": "AC0E531358AF42641FF49A47AB6E8C8184F27858DD5703A70A873EB0F7D4C9F4"
+      }
+    }
+  },
+  "images": {
+    "a": {
+      "tag": "zj-market-b06/a:a561832f50cbc8d3",
+      "id": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+      "base": "eclipse-temurin@sha256:66a7b358772dfdcc1486919a5ede66d6c7275f203a5fefddb39565c2a151a485",
+      "architecture": "amd64",
+      "os": "linux"
+    },
+    "b": {
+      "tag": "zj-market-b06/b:89c32404cd502041",
+      "id": "sha256:00d8a2f2459278c2a6a56038fd7e7c5461a324fd264ed7d3eb462c0259b3b1d0",
+      "base": "eclipse-temurin@sha256:f04fb34e053148344e83317976114ec3f37e4b830ec8bdab5a2fe3cecd7d010b",
+      "architecture": "amd64",
+      "os": "linux"
+    },
+    "web": {
+      "tag": "zj-market-b06/web:69a85c52e1e9158d",
+      "id": "sha256:899d9f2c875c4ce59a7d68ba796e647386c8c8c1a0176fc66507314d9176c9e2",
+      "base": "nginx@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236",
+      "architecture": "amd64",
+      "os": "linux"
+    }
+  },
+  "baseImages": {
+    "schemaVersion": 1,
+    "platform": "linux/amd64",
+    "java21": "eclipse-temurin@sha256:f04fb34e053148344e83317976114ec3f37e4b830ec8bdab5a2fe3cecd7d010b",
+    "java8": "eclipse-temurin@sha256:66a7b358772dfdcc1486919a5ede66d6c7275f203a5fefddb39565c2a151a485",
+    "web": "nginx@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236",
+    "mysql": "mysql@sha256:f496c25da703053a6e0717f1d52092205775304ea57535cc9fcaa6f35867800b",
+    "redis": "redis@sha256:5443f35e8fc8fc8496964b8e8ea39abaf99434d7e1741e514f7f56906b1c9ff0",
+    "rocketmq": "docker.1panel.live/apache/rocketmq@sha256:c0ffc9f5abd3ee8fb59682f9f2c84abba031f0a83500d60a7330ade2d9b7ccca"
+  },
+  "publication": "LOCAL_ONLY; no registry push; image ID is local content digest",
+  "scope": "B-06.1 Windows Docker Linux/amd64; local images only",
+  "verifiedRuntime": {
+    "a": "Temurin 1.8.0_504-b01",
+    "b": "Temurin 21.0.12.1+1"
+  },
+  "exactOriginalASourceCommit": null,
+  "verificationSummary": "docs/tests/b06-images-acceptance.json"
+}
