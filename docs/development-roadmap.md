@@ -2430,3 +2430,10 @@ B06-D53（采用推荐）：公开交付是无秘密源文件包、固定镜像�
 新环境是从一致冷备恢复，新空业务库初始化引用B062历史；B063旧B镜像浏览器原报告不改，本轮重验B065最终镜像。各阶段报告和原失败/补修来源逐项hash关联，不重跑完整B065破坏性故障矩阵。最终清单docs/b06-final-release.json、证据docs/tests/b06-final-acceptance.json、交付索引docs/b06-delivery-manifest.json、手册deploy/b06/DELIVERY.md和公开源码ZIP（.local/b06/delivery/b067-20261012-01，逐文件manifest/COMPLETE）配套；公开包无运行秘密/数据/镜像，私有A二进制与备份独立保管，不称脱离私有输入可离线运行。
 
 原七服务健康open/READY无活动告警，所有恢复意图为空；原卷未覆盖，恢复卷/档案及旧失败保留，master干净/A原五项改动保持。B-06.0～.7在用户指定Windows替代范围完成；Linux/LAN其他客户端、真实资金/发货/HA、异机/PITR/断电、任意旧业务二进制回退未认证。Windows路径/context/ACL/资源门槛需移植再同包复验；watch手动/MQ lag未采集、B05资格与REVIEW边界保持。全部未提交/合并/推送，不自动发布或扩大范围。
+
+
+### 25.18 B-06 Git发布与敏感信息核验（2026-10-12）
+
+用户授权提交b-06、合并master并推送origin。已扫描554项候选，与65项实际runtime/迁移/观察/演示秘密比对，无泄露；真实私钥、服务令牌/JWT、Cookie和带凭据URL扫描无发现，JSON无实际凭据字段。私有.local备份、镜像、密钥、会话、原A二进制未被跟踪，不删除本机材料。实现提交d6f142bfe1d4a2df6e7f795667082e22a3ab3cbf已生成，尚未推送。
+
+推送前发现Git默认CRLF归一化会让跨平台检出后的raw SHA256与已验发布证据不一致，补充.gitattributes对B06部署/脚本/证据、迁移SQL及明确hash绑定Java源文件保留原字节。SQL逻辑与本机已验字节不改，不运行迁移或修改运行镜像；把已验CRLF入库不是重新设计迁移。git whitespace对这些原CRLF按行结束符处理。旧验收/ZIP/发布清单的gitPublished=false是验收时历史快照，保留原hash；本节提供后续实际Git发布状态，后续本机源码因本节增加不再声称与旧ZIP逐文件一致。

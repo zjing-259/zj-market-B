@@ -598,3 +598,10 @@ D50权限补修在03后完成：旧模块加载失败/非终止错误exit0已修
 公开交付由实际Git tracked+nonignored新文件构成，不用git archive HEAD漏掉本轮实现；逐文件SHA256、ZIP hash、内外清单和最后COMPLETE绑定。拒绝私有/构建路径、私钥/二进制、实际runtime/demo秘密、符号链接；6测试验证完整包、破损包、重封额外成员、目录逃逸、改清单与私有路径。公开包不含原A输入/运行数据/镜像/密钥，不冒称完整私有离线运行包。候选docs/b06-final-release.json、docs/b06-delivery-manifest.json、deploy/b06/DELIVERY.md和.local/b06/delivery/b067-20261012-01为入口；旁边清单可独立验证ZIP，源文件后续修改须新批封存，不改原交付。
 
 原七服务健康open/READY无活动告警，所有恢复意图为空；watch仍手工启动。D51～D53同步路线图25.17。B-06.0～.7在Windows替代范围完成；Linux、其他LAN客户端、真实资金/发货/任意旧业务回退/HA/异机/PITR/断电未验，Windows固定路径/context/ACL/资源探测需显式移植复验。历史审核/隔离/失败全部保留，不扩大B05支持范围。b-06/2eae6a2所有成果未提交/合并/推送；master干净，A原5项外部改动保持；不自动开展发布或新阶段。
+
+
+## 18. Git发布与敏感信息核验（2026-10-12）
+
+用户授权提交b-06、合并master并推送origin。已扫描554项候选，与65项实际runtime/迁移/观察/演示秘密比对，无泄露；真实私钥、服务令牌/JWT、Cookie和带凭据URL扫描无发现，JSON无实际凭据字段。私有.local备份、镜像、密钥、会话、原A二进制未被跟踪，不删除本机材料。实现提交d6f142bfe1d4a2df6e7f795667082e22a3ab3cbf已生成，尚未推送。
+
+推送前发现Git默认CRLF归一化会让跨平台检出后的raw SHA256与已验发布证据不一致，补充.gitattributes对B06部署/脚本/证据、迁移SQL及明确hash绑定Java源文件保留原字节。SQL逻辑与本机已验字节不改，不运行迁移或修改运行镜像；把已验CRLF入库不是重新设计迁移。git whitespace对这些原CRLF按行结束符处理。旧验收/ZIP/发布清单的gitPublished=false是验收时历史快照，保留原hash；本节提供后续实际Git发布状态，后续本机源码因本节增加不再声称与旧ZIP逐文件一致。

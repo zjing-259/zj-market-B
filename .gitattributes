@@ -3,3 +3,16 @@
 
 # Preserve the approved A initialization SQL bytes and its SHA256 across checkout platforms.
 deploy/b06/init/a-empty-schema.sql -text
+
+# B-06 release evidence hashes raw bytes. Preserve the tested bytes on all platforms.
+# CRLF is intentional in pinned inputs; report it as a line ending, not trailing whitespace.
+deploy/b06/** -text whitespace=cr-at-eol
+docs/b06* -text whitespace=cr-at-eol
+docs/tests/*b06* -text whitespace=cr-at-eol
+scripts/*b06* -text whitespace=cr-at-eol
+scripts/stage-a-release.ps1 -text whitespace=cr-at-eol
+zj-market-infrastructure/src/main/resources/db/migration/*.sql -text whitespace=cr-at-eol
+zj-market-infrastructure/src/main/java/cn/zj/zjmarket/infrastructure/gateway/mq/TradeMessageReader.java -text whitespace=cr-at-eol
+zj-market-app/src/test/java/cn/zj/zjmarket/test/payment/SettlementTests.java -text whitespace=cr-at-eol
+Dockerfile -text whitespace=cr-at-eol
+.dockerignore -text whitespace=cr-at-eol
