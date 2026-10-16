@@ -1,0 +1,172 @@
+{
+  "contractVersion": "1.1.0-td.1",
+  "rpcServiceVersion": "2.0.0",
+  "rpcGroup": "existing environment group",
+  "rpcTimeoutMillis": 3000,
+  "overallBudgetMillis": 10000,
+  "sqlTimeoutSeconds": 2,
+  "retries": 0,
+  "defaultLimit": 3,
+  "maxLimit": 10,
+  "sortVersion": "END_TEAM_ASC_V1",
+  "cursor": {
+    "format": "unpadded base64url(canonical UTF-8 JSON)",
+    "maxEncodedCharacters": 1024,
+    "maxDecodedBytes": 768,
+    "duplicateKeys": "reject",
+    "unknownFields": "reject",
+    "nonCanonicalEncoding": "reject",
+    "identityMismatch": [
+      "source",
+      "channel",
+      "userId"
+    ],
+    "identityMismatchCode": "0002",
+    "contextMismatch": [
+      "goodsId",
+      "activityId",
+      "productVersion"
+    ],
+    "contextMismatchCode": "TEAM_DISCOVERY_CONTEXT_CHANGED"
+  },
+  "errors": [
+    {
+      "aCodes": [
+        "0002"
+      ],
+      "httpStatus": 400,
+      "bCode": "VALIDATION_FAILED"
+    },
+    {
+      "aCodes": [
+        "AUTH_REQUIRED",
+        "AUTH_INVALID",
+        "FORBIDDEN",
+        "REPLAY_REJECTED",
+        "E0112"
+      ],
+      "httpStatus": 502,
+      "bCode": "INTEGRATION_AUTH_FAILED"
+    },
+    {
+      "aCodes": [
+        "TEAM_DISCOVERY_CONTEXT_CHANGED",
+        "PRODUCT_VERSION_MISMATCH",
+        "PRODUCT_VERSION_CONFLICT",
+        "PRODUCT_NOT_SALEABLE"
+      ],
+      "httpStatus": 409,
+      "bCode": "TEAM_DISCOVERY_CONTEXT_CHANGED"
+    },
+    {
+      "aCodes": [
+        "PRODUCT_NOT_FOUND"
+      ],
+      "httpStatus": 200,
+      "state": "UNAVAILABLE",
+      "reason": "PRODUCT_SYNC_PENDING"
+    },
+    {
+      "aCodes": [
+        "E0101",
+        "E0102",
+        "E0108"
+      ],
+      "httpStatus": 200,
+      "state": "UNAVAILABLE",
+      "reason": "NO_OFFER",
+      "when": "first page only; cursor pages use 409 TEAM_DISCOVERY_CONTEXT_CHANGED"
+    },
+    {
+      "aCodes": [
+        "E0110"
+      ],
+      "httpStatus": 200,
+      "state": "UNAVAILABLE",
+      "reason": "INELIGIBLE"
+    },
+    {
+      "aCodes": [
+        "0001",
+        "DEPENDENCY_UNAVAILABLE",
+        "E0003",
+        "E0004",
+        "E0105"
+      ],
+      "httpStatus": 503,
+      "bCode": "DEPENDENCY_UNAVAILABLE"
+    },
+    {
+      "transport": [
+        "missing service",
+        "timeout",
+        "disconnect",
+        "exhausted overall budget"
+      ],
+      "httpStatus": 503,
+      "bCode": "DEPENDENCY_UNAVAILABLE"
+    },
+    {
+      "transport": [
+        "TLS certificate failure",
+        "signature configuration failure",
+        "UNAUTHENTICATED",
+        "PERMISSION_DENIED"
+      ],
+      "httpStatus": 502,
+      "bCode": "INTEGRATION_AUTH_FAILED"
+    },
+    {
+      "envelope": [
+        "null/malformed envelope",
+        "requestId mismatch",
+        "error with nonnull data",
+        "success with null data",
+        "unknown code",
+        "invalid context/counts/time/order/cursor"
+      ],
+      "httpStatus": 502,
+      "bCode": "UPSTREAM_RESPONSE_INVALID"
+    }
+  ],
+  "localErrors": {
+    "400": [
+      "VALIDATION_FAILED"
+    ],
+    "401": [
+      "AUTH_REQUIRED",
+      "AUTH_INVALID"
+    ],
+    "403": [
+      "FORBIDDEN"
+    ],
+    "404": [
+      "PRODUCT_NOT_FOUND",
+      "PRODUCT_OFF_SALE"
+    ],
+    "409": [
+      "TEAM_DISCOVERY_CONTEXT_CHANGED"
+    ],
+    "429": [
+      "RATE_LIMITED"
+    ],
+    "502": [
+      "INTEGRATION_AUTH_FAILED",
+      "UPSTREAM_RESPONSE_INVALID"
+    ],
+    "503": [
+      "DEPENDENCY_UNAVAILABLE"
+    ]
+  },
+  "priority": [
+    "authenticate and authorize",
+    "validate parameters/cursor syntax",
+    "visible local product",
+    "own active purchase",
+    "stock/sync readiness",
+    "current trial eligibility",
+    "discovery RPC and validate entire response",
+    "recheck product version/sale/sync before returning"
+  ],
+  "unavailableActivityId": null
+}

@@ -1,0 +1,174 @@
+{
+  "stage": "TD-04",
+  "status": "PASSED_REAL_JOINT_FAULT_ACCEPTANCE",
+  "stageCompletion": true,
+  "generatedAt": "2026-10-15T03:43:25.637934+00:00",
+  "runName": "td04_20261015_01",
+  "scope": "Windows isolated clone: real A/B MySQL, Redis, RocketMQ, strict TLS Edge; simulated channel money only; original B-06 unchanged",
+  "matrix": {
+    "TD-T01": [
+      "td01:A accepted payment and vacancy test",
+      "browser:paid team discoverable"
+    ],
+    "TD-T02": [
+      "td01:A owner, case variant and cancelled history test",
+      "browser:other buyer order hidden"
+    ],
+    "TD-T03": [
+      "td01:A reserved-full query test",
+      "race:only one last slot"
+    ],
+    "TD-T04": [
+      "td01:A expired/RECONCILING/COMPLETED/FAILED filtering",
+      "browser:natural expiry"
+    ],
+    "TD-T05": [
+      "td01:A source/channel/activity/goods/qualification filter",
+      "browser:operator and buyer permissions"
+    ],
+    "TD-T06": [
+      "td01:A tied cursor and scope tests",
+      "td02:B invalid parameter HTTP"
+    ],
+    "TD-T07": [
+      "td01:A page context recheck",
+      "td02:B product change after RPC",
+      "frontend:pagination 409 and stale product response"
+    ],
+    "TD-T08": [
+      "td02:B auth/expired/no-role/no-store HTTP",
+      "browser:cross-user/order/foreign origin"
+    ],
+    "TD-T09": [
+      "browser:real product-page JOIN and two paid orders",
+      "browserAccounting:A/B/channel/stock"
+    ],
+    "TD-T10": [
+      "race:concurrent last slot no alternate team",
+      "raceAccounting:quota/funds/stock"
+    ],
+    "TD-T11": [
+      "tabs:two independent sessions one active order",
+      "tabsAccounting:one A order and unique stock release",
+      "unknown:same-key replay after restart",
+      "browser:reload no writes"
+    ],
+    "TD-T12": [
+      "unknown:response body lost after accepted headers",
+      "unknown:B restart original team and one release"
+    ],
+    "TD-T13": [
+      "aOutage:real A stop 503",
+      "td02:TLS/invalid upstream unit and old A 503"
+    ],
+    "TD-T14": [
+      "expirySubmission:accepted result intent but channel unpaid and first refunded",
+      "latePayment:actual channel paid before deadline, A completed after deadline"
+    ],
+    "TD-T15": [
+      "readonly:25 real HTTPS GETs, 8 A/B trade table fingerprints unchanged"
+    ],
+    "TD-T16": [
+      "frontend:6 Edge tests including pause, 5-minute stop, stale responses and 429",
+      "browser:real mobile/reload"
+    ],
+    "TD-T17": [
+      "oldA:current B with sealed old A explicit 503 and restored",
+      "flagOff:route absent, original trial and auth intact"
+    ],
+    "TD-T18": [
+      "browser:natural paid-team expiry/refund",
+      "browserAccounting:A/B/channel full refund and unique release"
+    ]
+  },
+  "checks": {
+    "td01QueryTests": 69,
+    "td02BackendTests": 130,
+    "td04BRegressionTests": 129,
+    "aCursorTests": 4,
+    "frontendEdgeTests": 6,
+    "realBrowserChecks": 25,
+    "realDiscoveryGetsWithoutTradeWrites": 25,
+    "originalB06HealthyServices": 7,
+    "isolatedHealthyServices": 7,
+    "latePaymentChannelBeforeDeadline": true,
+    "aTeamCompletedAfterDeadline": true,
+    "mixedOldAAndFlagOff": true
+  },
+  "evidence": {
+    "td01": {
+      "path": "docs/tests/td01-acceptance.json",
+      "sha256": "9a0b33ea925faee437b0603e7fc66f8285d9afff02379cd419a96d5f247368eb"
+    },
+    "td02": {
+      "path": "docs/tests/td02-acceptance.json",
+      "sha256": "5db764b062568efd643ce7087d4972e55cf1aeae77433882c0946e4878d0a111"
+    },
+    "browser": {
+      "path": "browser05/browser-report.json",
+      "sha256": "bda5ef16976ebf829e5ae8a78c65e55ebad6b93a92d61d0839b09e3367572d04"
+    },
+    "browserAccounting": {
+      "path": "browser05/accounting-report.json",
+      "sha256": "873e63ed0e80f19ff8026d72d452d364ab478e9315f6f13be21898f613e00645"
+    },
+    "race": {
+      "path": "race-race-report.json",
+      "sha256": "ca396a9dee549e1fb6665e2b734acd5e7ed2081aa417b66a7e876f2a625ad518"
+    },
+    "raceAccounting": {
+      "path": "race-accounting-report.json",
+      "sha256": "dcda33dfd629026995fc71c1fe3222de061273528aafc125f20ad7b231cff7e2"
+    },
+    "tabs": {
+      "path": "race-tabs-report.json",
+      "sha256": "77afd19751bb4f7e2bd4ecfbbbd082e208996af837658cc27907f5c62f29c60d"
+    },
+    "tabsAccounting": {
+      "path": "tabs-accounting-report.json",
+      "sha256": "7c19c226999d395659d473f1eaa30937c0451c4a0383bfdf47a87bde911712a8"
+    },
+    "readonly": {
+      "path": "readonly-accounting-report.json",
+      "sha256": "50bd443fdf4f6f0e24a9228b41d26cc0b59da7785e469eb5634aadd4e5425f4d"
+    },
+    "unknown": {
+      "path": "unknown-accounting-report.json",
+      "sha256": "e59f9fa426ba6af69511245307f5e28b1702ca58951002cd77bea4f7bb6f91cf"
+    },
+    "expirySubmission": {
+      "path": "expiry-race-accounting-02-report.json",
+      "sha256": "0d7c554b514786301071cd1d7a3618fdeeb2d7f8ec275b7040349b8b39191055"
+    },
+    "latePayment": {
+      "path": "late-payment-accounting-report.json",
+      "sha256": "fc598fac62bb42af52069261625396ad07c4a15d7dd222d3aed2c9c41362ebef"
+    },
+    "oldA": {
+      "path": "old-a-compatibility-report.json",
+      "sha256": "f2cfa59924cace9369fee715134e312b1f388892269066343b3d63272bfb4fc2"
+    },
+    "flagOff": {
+      "path": "race-disabled-report.json",
+      "sha256": "92b1e8a6a414d84dc9523a039f391bbce7a710fb77689dcbbc85e6956bc57183"
+    },
+    "aOutage": {
+      "path": "race-outage-report.json",
+      "sha256": "5db039926aa1d4b2fbb9d9ac34c2c0b09146b488679b40167be956a50e73b7d9"
+    },
+    "aRecovered": {
+      "path": "race-recovered-report.json",
+      "sha256": "0fa14cd47e2ce38c08775449785aad784f76266d81994ed13f0376896e4a574c"
+    },
+    "bTests": {
+      "path": "target/team-discovery/td04_20261015_01/b-tests.log",
+      "sha256": "6ecb14585a251d89cf18aefd95edb51473b4e14816bfd8a8980bd57521e2162f"
+    },
+    "frontendTests": {
+      "path": "target/team-discovery/td04_20261015_01/frontend-tests.log",
+      "sha256": "42ec7601132fa0733dda2568fb73648411477dce4518b3484eb4c84c337a8c54"
+    }
+  },
+  "sourceUncommitted": true,
+  "nextStage": "TD-05 container delivery"
+}

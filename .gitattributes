@@ -16,3 +16,24 @@ zj-market-infrastructure/src/main/java/cn/zj/zjmarket/infrastructure/gateway/mq/
 zj-market-app/src/test/java/cn/zj/zjmarket/test/payment/SettlementTests.java -text whitespace=cr-at-eol
 Dockerfile -text whitespace=cr-at-eol
 .dockerignore -text whitespace=cr-at-eol
+
+# TD-00 contract and evidence inputs are hashed as raw bytes.
+docs/team-discovery* -text whitespace=cr-at-eol
+docs/tests/*td00* -text whitespace=cr-at-eol
+docs/tests/td00/** -text whitespace=cr-at-eol
+docs/tests/*td01* -text whitespace=cr-at-eol
+docs/tests/*td02* -text whitespace=cr-at-eol
+docs/tests/td02/** -text whitespace=cr-at-eol
+zj-market-app/src/main/java/cn/zj/zjmarket/ZjMarketApplication.java -text whitespace=cr-at-eol
+zj-market-app/src/main/java/cn/zj/zjmarket/app/config/TeamDiscoveryConfiguration.java -text whitespace=cr-at-eol
+zj-market-app/src/main/java/cn/zj/zjmarket/app/security/IdentityHttpFilter.java -text whitespace=cr-at-eol
+zj-market-app/src/main/resources/application.properties -text whitespace=cr-at-eol
+zj-market-domain/src/main/java/cn/zj/zjmarket/domain/order/adapter/port/ITeamDiscoveryPort.java -text whitespace=cr-at-eol
+zj-market-domain/src/main/java/cn/zj/zjmarket/domain/order/model/valobj/DiscoveryItem.java -text whitespace=cr-at-eol
+zj-market-domain/src/main/java/cn/zj/zjmarket/domain/order/model/valobj/DiscoveryPage.java -text whitespace=cr-at-eol
+zj-market-domain/src/main/java/cn/zj/zjmarket/domain/order/service/ITeamDiscoveryService.java -text whitespace=cr-at-eol
+zj-market-domain/src/main/java/cn/zj/zjmarket/domain/order/service/impl/TeamDiscoveryService.java -text whitespace=cr-at-eol
+zj-market-infrastructure/src/main/java/cn/zj/zjmarket/infrastructure/adapter/port/order/DubboTeamDiscoveryPort.java -text whitespace=cr-at-eol
+zj-market-trigger/src/main/java/cn/zj/zjmarket/trigger/http/TeamDiscoveryController.java -text whitespace=cr-at-eol
+zj-market-trigger/src/main/java/cn/zj/zjmarket/trigger/http/TeamDiscoveryGate.java -text whitespace=cr-at-eol
+zj-market-app/src/test/java/cn/zj/zjmarket/test/order/TeamDiscovery*Test.java -text whitespace=cr-at-eol

@@ -1,0 +1,73 @@
+{
+  "stage": "TD-02",
+  "status": "PASSED_B_BACKEND_REAL_A_TLS",
+  "stageCompletion": true,
+  "sourceUncommitted": true,
+  "fullMavenPackage": {
+    "classes": 23,
+    "tests": 130,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "realAHttpTestBatch": "td02_20261014_07",
+  "isolatedBatchTests": 18,
+  "realAHttpTestMethods": 5,
+  "sharedTestMethodsWithFullSuite": 18,
+  "realAConditionalBranchesOnlyInIsolatedBatch": true,
+  "realAHttpP95": {
+    "samples": 20,
+    "concurrency": 1,
+    "httpP95Millis": 34,
+    "httpMaxMillis": 63
+  },
+  "aSchema": "group_buy_market_td01_20261014_04_3",
+  "aBusinessRowsBefore": {
+    "sha256": "07A8F1F8583B386103F984BE680774777B7FA11050F7AF948D033CA030D6A008",
+    "rowStatements": 3034
+  },
+  "aBusinessRowsAfter": {
+    "sha256": "07A8F1F8583B386103F984BE680774777B7FA11050F7AF948D033CA030D6A008",
+    "rowStatements": 3034
+  },
+  "originalBusinessRowsBefore": {
+    "group_buy_market_b06": {
+      "sha256": "77301212775E85CC583666D12EA3BFCF3B3CCAA5A8E81C31393931F19FDD9B18",
+      "rowStatements": 119
+    },
+    "zj_market_b06": {
+      "sha256": "F09E3750DC195EB58A55523ADB2D36B109F868CF37AF9557D204587F7732A6B1",
+      "rowStatements": 477
+    }
+  },
+  "originalBusinessRowsAfter": {
+    "group_buy_market_b06": {
+      "sha256": "77301212775E85CC583666D12EA3BFCF3B3CCAA5A8E81C31393931F19FDD9B18",
+      "rowStatements": 119
+    },
+    "zj_market_b06": {
+      "sha256": "F09E3750DC195EB58A55523ADB2D36B109F868CF37AF9557D204587F7732A6B1",
+      "rowStatements": 477
+    }
+  },
+  "temporaryContainersAndNetworkCleaned": true,
+  "contractSha256": "363A2CDF6B30B5936714D8481FEB3F984C8C0762F528E9BCF514B374EE39E7BE",
+  "bCandidateJarSha256": "C380FCB6DD713D94EB9F4D335D5E117B0825D3ACB9E343308E08A6F05B6763D9",
+  "evidence": {
+    "isolatedRunReport": "649CF5F3F9C8CBA26D88F2A05B5E566CB4BB715268424FA72E2003129561C879",
+    "isolatedRunLog": "40F23EDD6053A504C4BF43B16705A9D65E4907C2445AA3E05887CA9A71B48E75",
+    "realHttpMetrics": "DEF75144E659AA34CD86C6519A619F67D77E8AD1EE0637FF5A044EA01F132C7B"
+  },
+  "limits": [
+    "B local product/order/stock/trial readers were isolated test fixtures during real HTTP-to-A test; full dual-database/MQ/browser checkout belongs to TD-04.",
+    "Cold first Dubbo reference call may exceed 3000ms and returns 503; bounded warm-up in test precedes latency sample.",
+    "Original B06 runtime images and database were not upgraded."
+  ],
+  "failedRunsRetained": [
+    "td02_20261014_01",
+    "td02_20261014_02",
+    "td02_20261014_03",
+    "td02_20261014_04"
+  ],
+  "nextStage": "TD-03"
+}

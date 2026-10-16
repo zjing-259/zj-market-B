@@ -1,0 +1,52 @@
+{
+  "stage": "TD-01",
+  "status": "TESTED_A_CANDIDATE_NOT_DEPLOYED",
+  "generatedAt": "2026-10-14T09:38:18.060722+00:00",
+  "aHead": "4ee192b359dd7354d5cf575283fa0ee42306fbf9",
+  "branch": "codex/team-discovery-td00",
+  "sourceUncommitted": true,
+  "aJarSha256": "373813C8AFF6DF1163182D10B9DDA55510CB415EF86BD3A5E7FF1D52856FA544",
+  "artifactPath": "D:\\Java\\group-buy-market\\target\\team-discovery\\td01_20261014_04\\tested-app.jar",
+  "contract": {
+    "coordinate": "cn.bugstack:group-buy-market-contract:1.1.0-td.1",
+    "sha256": "363A2CDF6B30B5936714D8481FEB3F984C8C0762F528E9BCF514B374EE39E7BE",
+    "locallyInstalled": true,
+    "remotePublished": false
+  },
+  "migration": {
+    "path": "docs/dev-ops/mysql/sql/migrations/20261014-team-discovery.sql",
+    "sha256": "76B31705BD78A8F277794B448D4F5C26F8907BEE070CF56948A0167F7526FD66",
+    "originalB06Applied": false,
+    "requiredBeforeNewDiscoveryUse": true
+  },
+  "sourceSha256": {
+    "pom.xml": "AA3F6E10823F94CD9383AD8E2DA8DFF75D1E719632CE94760EA5F9BB233AD880",
+    "docs/dev-ops/mysql/sql/migrations/20261014-team-discovery.sql": "76B31705BD78A8F277794B448D4F5C26F8907BEE070CF56948A0167F7526FD66",
+    "docs/tests/run-team-discovery.py": "E55A6524F561198B163E37AF760AA8EBAE92E1CFE2AFAFE204F49CAA5B48017D",
+    "group-buy-market-app/src/main/java/cn/bugstack/v2/V2TeamDiscoveryCursor.java": "33170DB10272BEBB16ABEA397A9321CF4072FC0F81102D57F4CAB8B5325649DF",
+    "group-buy-market-app/src/main/java/cn/bugstack/v2/V2TeamDiscoveryEngine.java": "326FA33225D77187A8E6420BC7B6058F3E9C42A6A89FFE87FB5998AC5E97ACBF",
+    "group-buy-market-app/src/main/java/cn/bugstack/v2/V2TeamDiscoveryRpc.java": "BF25948AAF040D078221AC03C65F6480855C198AF839D559A23FE50357E9D012",
+    "group-buy-market-app/src/main/java/cn/bugstack/v2/V2MarketingEngine.java": "39EAE0FFCDCD660D22A4D6E7506E0DD3D9FA5233F96199A4215D98D5703B00AA",
+    "group-buy-market-app/src/main/java/cn/bugstack/v2/V2Security.java": "DB9CF03F24181936048AE00B911E602214118A7B1E2820F4E149F5C2386280EB",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2AuthorizationTest.java": "68B1084953D7ABA2448341E57870B8DBAD4E90BCFB7A4AFBCA481C6CE40C59D1",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2DubboSmokeTest.java": "97151F8A1C1B42CD28B43779F8FE3D60C2ABD4F683A41D651E90E2FEE5712A91",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2LegacyHttpGuardTest.java": "1D81514CDCF32D118EFC813D5F0E4095C7276950CD622929E93398CAB541CDEF",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2MarketingContractTest.java": "76E2C290932ECC37AFAB617D996AC0C5A23D4C0E85DB14096731D3B764FD760E",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2MqSmokeTest.java": "BCC04BCF67BC9600B3EF5FAB3B59A8BB6309D8135CAF18E04D0E48B5E6AE601B",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2OutboxRecoveryTest.java": "1D9140748C34A52BD9AFD7CF6E94314A5BF54BE07C77906D6553D96939999C99",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2PaymentFlowTest.java": "208F54AE2BC0EFB47E504618A03795FC98C12CE30A76ACE7F047AF98707F6C64",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2ProductEventTest.java": "507F338ACC157C9051AC865A60F0E2206132F33BBF83D5D822070B3C356FC14C",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2SecurityVectorTest.java": "144214168BCE84594E64E1CBD4FA53892A40E3B93ABE88C81A65B81B5A620083",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2TeamDiscoveryCursorTest.java": "830A1D596A518E760FD4B04B0F8CF194FEC63653D178832FF3B4D25EF062BF40",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2TeamDiscoveryLiveTest.java": "87AF2E5C3FE6311DD6C35F48B2D5396D15D0A136251D051CBCC072EB65E213CC",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2TeamDiscoveryTest.java": "70026D0FADD11F81D202DF521F0AD95A25E1D98D946784B8B60848A74D2D29FD",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2TestDatabase.java": "D74FF708CAFDF7336B822E6637F226790000EFBE3377190E9C4C9CD71A40DE54",
+    "group-buy-market-app/src/test/java/cn/bugstack/test/v2/V2TlsGateTest.java": "FE5425DC88149CE29BF280659A46A12DE8F83CA1373919ED4CE0E1D7EE60EBE8"
+  },
+  "runtimeDeploymentUpdated": false,
+  "bConsumerUpdated": false,
+  "discoverySqlRequiresIndexes": [
+    "idx_ab_team_discovery",
+    "idx_ab_order_discovery_owner"
+  ]
+}

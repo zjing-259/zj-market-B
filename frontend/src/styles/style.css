@@ -11,4 +11,13 @@
 .trial-panel dd { margin:0; }
 .trial-panel button { margin-top:1rem; }
 
+.joinable-teams { padding:1.2rem 0; border-top:1px solid #ddd; margin-top:1.4rem; }
+.joinable-list { list-style:none; padding:0; display:grid; gap:12px; }
+.joinable-card { border:1px solid #dce6dc; border-radius:9px; padding:14px 18px; overflow-wrap:anywhere; }
+.joinable-card p { margin:5px 0; line-height:1.6; }
+.joinable-action { display:inline-block; margin-top:9px; padding:10px 16px; border-radius:7px; background:#244b40; color:white; text-decoration:none; }
+.joinable-action:focus-visible,button:focus-visible,a:focus-visible { outline:3px solid #789b87; outline-offset:3px; }
+.joinable-teams .actions { flex-wrap:wrap; }
+@media(max-width:600px){.joinable-card { padding:12px; }.joinable-teams .actions button { width:100%; }}
+
 .payment-page{max-width:680px;overflow-wrap:anywhere}.payment-page h1{font-size:30px;line-height:1.5}.payment-page details{margin:24px 0}.payment-page [role="alert"]{color:#a84035}

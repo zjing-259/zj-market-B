@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PurchasePanel from './PurchasePanel.vue'
+import JoinableTeams from '../components/JoinableTeams.vue'
 import type { Sync, Quarantine, Product, Trial, Page } from '../types/product'
 import { ApiError } from '../errors/ApiError'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
@@ -9,6 +10,7 @@ const quarantine = ref<{ items: Quarantine[]; page: number; size: number; total:
 const syncLabels: Record<string, string> = { PENDING: '等待同步', CONFIRMED: '已确认', REJECTED: '营销端拒绝，需核对商品', RECONCILIATION_REQUIRED: '需要核对' }
 const syncPanel = ref(false)
 const trial = ref<Trial | null>(null), trialBusy = ref(false), trialError = ref('')
+const purchaseBusy = ref(false)
 let trialSequence = 0, refreshSequence = 0
 let refreshTimer: ReturnType<typeof setTimeout> | undefined
 const refreshing = ref(false), refreshExpired = ref(false)
@@ -122,6 +124,7 @@ async function calculateTrial() {
 }
 watch([() => selected.value?.goodsId, () => selected.value?.productVersion, () => selected.value?.syncReady, () => user.value?.userId], () => {
   ++trialSequence; trial.value = null; trialError.value = ''; trialBusy.value = false
+  purchaseBusy.value = false
   if (!props.admin && selected.value?.syncReady && user.value) void calculateTrial()
 })
 watch([() => selected.value?.goodsId, () => selected.value?.productVersion, () => selected.value?.syncReady], () => {
@@ -176,7 +179,8 @@ onMounted(async () => {
           <button class="secondary compact" :disabled="trialBusy || !selected.syncReady" @click="calculateTrial">重新试算</button>
         </template>
       </section>
-      <PurchasePanel v-if="!admin" :key="selected.goodsId" :product="selected" :trial="trial" />
+      <JoinableTeams v-if="!admin" :key="`${selected.goodsId}:${selected.productVersion}`" :product="selected" :purchase-busy="purchaseBusy" />
+      <PurchasePanel v-if="!admin" :key="selected.goodsId" :product="selected" :trial="trial" @activity="purchaseBusy=$event" />
       <p v-if="admin" class="muted">营销同步：{{ syncLabels[selected.sync?.state ?? ''] ?? '等待核对' }} · 目标版本 {{ selected.sync?.targetVersion }}</p><button v-if="admin" class="compact" @click="form(selected)">编辑商品</button>
       <div v-if="admin" class="sync-controls">
         <button class="secondary compact" :disabled="busy" @click="syncStatus">读取同步状态</button>

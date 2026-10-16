@@ -6,6 +6,7 @@ import { ApiError } from '../errors/ApiError'
 import { user, request } from '../services/auth'
 import { confirm, submit, recover, retry, pending, orderError } from '../services/orders'
 const props=defineProps<{product:Product;trial:Trial|null;teamId?:string;joinable?:boolean}>()
+const emit=defineEmits<{ activity: [active: boolean] }>()
 const enabled=ref(true),latestPrice=ref('')
 const confirmation=ref<Confirmation|null>(null),order=ref<Order|null>(null),unresolved=ref<PendingPurchase|null>(null),busy=ref(false),error=ref('')
 let sequence=0,timer:ReturnType<typeof setTimeout>|undefined,deadline=0
@@ -18,6 +19,7 @@ async function purchase(original=false){const owner=user.value?.userId;if(!owner
 function visibility(){if(document.hidden)stop();else if(unresolved.value&&Date.now()<deadline)void lookup()}
 watch(()=>[user.value?.userId,props.product.goodsId,props.product.productVersion,props.teamId],()=>void reset())
 watch(()=>props.trial,()=>void reset())
+watch([confirmation,unresolved,busy],()=>emit('activity',!!confirmation.value||!!unresolved.value||busy.value),{immediate:true})
 onMounted(()=>{document.addEventListener('visibilitychange',visibility);void reset()})
 onUnmounted(()=>{sequence++;stop();document.removeEventListener('visibilitychange',visibility)})
 </script>

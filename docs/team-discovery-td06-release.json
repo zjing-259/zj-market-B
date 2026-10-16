@@ -1,0 +1,129 @@
+{
+  "stage": "TD-06.4",
+  "status": "LOCAL_WINDOWS_MAIN443_DELIVERY_ARCHIVED",
+  "generatedAtUtc": "2026-10-16T02:48:09.872319+00:00",
+  "mainOrigin": "https://zj-market.test",
+  "candidateOrigin": "https://zj-market.test:8445",
+  "mainProject": "zj-market-b06",
+  "source": {
+    "a": {
+      "branch": "codex/team-discovery-td00",
+      "head": "4ee192b359dd7354d5cf575283fa0ee42306fbf9",
+      "worktreeClean": false
+    },
+    "b": {
+      "branch": "codex/team-discovery-td00",
+      "head": "f07c409e879dc99cc64db05bd130cc16f59e9841",
+      "worktreeClean": false
+    },
+    "aFileCount": 286,
+    "bFileCount": 355,
+    "sourceLockSha256": "957807F0476632F5222EC6E62B7A70CEB3E6AC5DA3CE60B04C7FD75D84797712",
+    "aSourceDigest": "EA7A94A29164262D668BBCE03058A18A304B2F5B38D0331D77CBE8E57A61E32D",
+    "bSourceDigest": "ED4150AE9A4916EB819006CF9EDFE21FAEF708531B60CF45555708826D7084BA"
+  },
+  "contract": {
+    "coordinate": "cn.bugstack:group-buy-market-contract:1.1.0-td.1",
+    "jarSha256": "363A2CDF6B30B5936714D8481FEB3F984C8C0762F528E9BCF514B374EE39E7BE",
+    "apiJsonSha256": "80513D0D7416BC2B893C32D5DB36E414EE845A500AAC26092AE60A826D66C427"
+  },
+  "build": {
+    "aAppJarSha256": "4FA7C5A00F4049A132ADF039E37EF48E583B6AEABDF77F077F50AA30A20D429C",
+    "bAppJarSha256": "B95A4CE7A5C2E81E0A946167AA7D438E01CB12CDD2C628E730AB16CD458C3626",
+    "mainWebBuild": {
+      "dist/assets/index-9EZ88j57.css": "6CB8E27C5B872B37D642196051A1732A6F63A7CFC9E85033E8DAED893A9E7637",
+      "dist/assets/index-BKXafk4y.js": "B386582E4ABC61A0E5362B58ED78FFEE4B83948A25860D0782B72CB8AF15566C",
+      "dist/index.html": "C746C24F90EFECFF1E3B432B9765ED2D1B89C36B541E51E3F91877886C8819E9",
+      "Dockerfile": "F031C31C7466C4DCBF68F706555B02297C484FAC00AB7A175683D713F98631AB",
+      "nginx.conf": "48CD3E757D2074DE0F23E0E029DCD97DB38EDDC7DBC45786532541854A87FA66"
+    }
+  },
+  "images": {
+    "marketing-a": "sha256:48c7af4be50e59133cf76aac69bac7142fb0ab19c27c4cf21ae352550dc57ddc",
+    "market-b": "sha256:cebd526685cd3b2bba6619494321abae36a6f5df976306a67f08549d781d196a",
+    "web": "sha256:a3aad07bd5e4e5b06c4ec647cc72299f0bf3d1125fdda85157e9529054a950d9"
+  },
+  "allSevenServicesHealthy": true,
+  "schema": {
+    "aFingerprint": "5112d4e1b0c30224047bc9f945dfb4c360c623d4fcfb204757a4a7a411ec090b",
+    "bFlywayHistorySha256": "6fce73b5216393658902305bacdf262f80294dedec4a4a7676e6c0ba897928df",
+    "discoveryIndexColumns": {
+      "idx_ab_team_discovery": [
+        "source",
+        "channel",
+        "goods_id",
+        "activity_id",
+        "team_status",
+        "valid_end_time",
+        "team_id"
+      ],
+      "idx_ab_order_discovery_owner": [
+        "team_id",
+        "user_id",
+        "order_status"
+      ]
+    },
+    "runtimeDdlGranted": false
+  },
+  "configTemplatesSha256": {
+    "deploy/b06/compose.yml": "ED2E51C82260B63BB0500AE3F1D68D6BAD6D1F855FF2F9AE601D223AF3065FB4",
+    "deploy/b06/images/java.Dockerfile": "95AB77A2CCCBAC02760495BDCEDE968BEBF833B3F1A492D9C366FCEC64B3802D",
+    "deploy/b06/images/web.Dockerfile": "F031C31C7466C4DCBF68F706555B02297C484FAC00AB7A175683D713F98631AB",
+    "deploy/b06/nginx.conf": "48CD3E757D2074DE0F23E0E029DCD97DB38EDDC7DBC45786532541854A87FA66",
+    "deploy/b06/config/a.properties": "C9B0FFB2470C38C39EA3439F28A84678A1C32E29D240AAC7A783406394E62959",
+    "deploy/b06/config/b.properties": "6EA87C99AAED9FE63174B916E6E717CEE217A5FE53FC2FBF4E66E81B696F606D",
+    "deploy/b06/config/admission-open.conf": "6F8E3A968EADFD6ED46C2C7084BFB3C6D162461F929A4675571BE7AF4B040586",
+    "deploy/b06/config/admission-maintenance.conf": "8D48847517D844949A798EB8C88A73CB9221168DEE3F5F6B55327D36152F6714"
+  },
+  "privateEvidenceSha256": {
+    "td05BuildManifest": "3DE9006306F40E35115E630F1F5BD18B922AE9E381E8B23CB9B8FF11634C9406",
+    "td062ReleaseEvents": "F976FB82C44CFDB4E206AB6CC75D79942B58A3C1F59198A181A3DC2C04028E85",
+    "td062MainComposeOn": "A2FBE3C63D334A01E78D52B141ED5C37BBEF9DBBC67542604AD1E6079860CE3B",
+    "td062BackupManifest": "43BBA597DB3A7B533F3F24701F2E079F2D8D93B47CB65A93B65BEBA5196D2DE5",
+    "td062BackupSeal": "1A21E51700A7EAC75152F18AF21CBF82560421EB6E3C2204DDAB9FCB51FDD814",
+    "td063Before": "BFFF4EAB3E6389225B8AA698AC5A5D413ADC3721E5A0EE92012FF5F9F167C4BE",
+    "td063Browser": "B7D8CCE15A38C86A994CBDF65355C8205231F85E7E0ABC461486AE8ACE6EFB50",
+    "td063Accounting": "0DB0E6629B2528B2CE9FD7C385FCE08C22614D390FBDBC14B4D019178779AF19",
+    "td063After": "7852207B485F95044AEF0885DA4EB5A5A52C9812F28811CFAB3CFD0D5B1533DB",
+    "td063TerminalDiscovery": "28BA70CE9BE81F21F318002363D3661A417F3F9384AA3051E0354638DA36265B"
+  },
+  "publicEvidenceSha256": {
+    "docs/tests/td04-acceptance.json": "A75F548A41519D3CB06DA3ED150D9AB1132F7030706BFA1F73BCD151C95BA6B3",
+    "docs/tests/td05-acceptance.json": "82255A0DFF0440BB91AEE18F5864824C67566B93BC7E57AD8A53663002903BC6",
+    "docs/tests/td06-0-baseline-final.json": "DD1D97C68C24B78E407D8B9DDDA2C1162FE3BF2B99F70FCDD41E394458EE4A63",
+    "docs/tests/td06-1-acceptance-verified.json": "AA1ABCAF87E7987244474F7FB0E4A50BC240EC3130112AFDF3A893A9ECE3149B",
+    "docs/tests/td06-2-acceptance.json": "F842BD63C241CE46CEA9A43EEE190474863D622625B43D403EDE84AD67A31FFA",
+    "docs/tests/td06-3-acceptance.json": "C384852229AD2EB5278B9782EB5C98C116C25B4BEBCD85865E4FF6703BA6D071"
+  },
+  "backup": {
+    "batch": "b066-td062-20261015-03",
+    "consistentPointAtUtc": "2026-10-15T14:32:02.619468+00:00",
+    "preUpgradeOnly": true,
+    "doNotRestoreOverCurrentMainVolumes": true
+  },
+  "releaseState": {
+    "gitCommitted": false,
+    "gitPushed": false,
+    "registryPublished": false,
+    "linuxValidated": false,
+    "externalClientsValidated": false
+  },
+  "publicFileAudit": {
+    "a": {
+      "changedOrUntrackedCount": 32,
+      "untrackedCount": 18,
+      "privateKeyCertificateTokenOrBackupFindings": 0
+    },
+    "b": {
+      "changedOrUntrackedCount": 110,
+      "untrackedCount": 92,
+      "privateKeyCertificateTokenOrBackupFindings": 0
+    }
+  },
+  "limits": [
+    "Local Windows Docker Desktop only",
+    "Simulated payment channel",
+    "Original pending obligations remain and must continue natural recovery",
+    "TD-06.3 did not force a live multi-page result"
+  ]
+}

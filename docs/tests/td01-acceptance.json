@@ -1,0 +1,161 @@
+{
+  "stage": "TD-01",
+  "status": "PASSED_A_QUERY_SECURITY_AND_ISOLATED_ACCEPTANCE",
+  "stageCompletion": true,
+  "generatedAt": "2026-10-14T09:38:18.060722+00:00",
+  "runName": "td01_20261014_04",
+  "checks": {
+    "originalPinnedImages": true,
+    "indexes-0": true,
+    "indexes-1": true,
+    "indexes-2": true,
+    "discovery-unit": true,
+    "legacy-v2": true,
+    "discovery-index-used": true,
+    "owner-index-used": true,
+    "sql-p95-under-200ms": true,
+    "live-tls": true,
+    "originalFinancialUnchanged": true,
+    "contractStillFrozen": true
+  },
+  "junit": {
+    "docker": {
+      "discovery-unit": 13,
+      "legacy-v2": 44,
+      "live-tls": 12
+    },
+    "dockerTotal": 69,
+    "failures": 0,
+    "errors": 0,
+    "nativeBuildChecks": 14,
+    "nativeNotAddedToTotal": "Repeated cursor/auth/TLS/vector subset overlaps final Docker suites"
+  },
+  "sqlTiming": {
+    "samples": 20,
+    "concurrency": 1,
+    "measurement": "MySQL EXPLAIN ANALYZE root iterator total actual milliseconds",
+    "p95Millis": 0.171,
+    "maxMillis": 1.276
+  },
+  "rpcTiming": {
+    "samples": 20,
+    "concurrency": 1,
+    "candidateCount": 1000,
+    "interferenceCount": 2000,
+    "rpcP95Millis": 15,
+    "rpcMaxMillis": 21,
+    "runtime": "Java8 Docker Linux/amd64 real TLS/Triple, local MySQL"
+  },
+  "schemas": [
+    "group_buy_market_td01_20261014_04_1",
+    "group_buy_market_td01_20261014_04_2",
+    "group_buy_market_td01_20261014_04_3"
+  ],
+  "actualPlan": "Both TD indexes used; candidate index visited 12 rows for LIMIT 11. Former unforced plan in failed batch03 visited 2012.",
+  "permissionScope": "SSL-required runtime users: DML only on isolated A business tables; no DDL/original A/mysql.user access",
+  "originalFinancialBefore": {
+    "group_buy_market_b06": {
+      "sha256": "77301212775E85CC583666D12EA3BFCF3B3CCAA5A8E81C31393931F19FDD9B18",
+      "rowStatements": 119
+    },
+    "zj_market_b06": {
+      "sha256": "F09E3750DC195EB58A55523ADB2D36B109F868CF37AF9557D204587F7732A6B1",
+      "rowStatements": 477
+    }
+  },
+  "originalFinancialAfter": {
+    "group_buy_market_b06": {
+      "sha256": "77301212775E85CC583666D12EA3BFCF3B3CCAA5A8E81C31393931F19FDD9B18",
+      "rowStatements": 119
+    },
+    "zj_market_b06": {
+      "sha256": "F09E3750DC195EB58A55523ADB2D36B109F868CF37AF9557D204587F7732A6B1",
+      "rowStatements": 477
+    }
+  },
+  "originalFinancialUnchanged": true,
+  "originalServices": {
+    "mysql": {
+      "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+      "running": true,
+      "health": "healthy"
+    },
+    "redis": {
+      "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+      "running": true,
+      "health": "healthy"
+    },
+    "namesrv": {
+      "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "running": true,
+      "health": "healthy"
+    },
+    "broker": {
+      "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "running": true,
+      "health": "healthy"
+    },
+    "marketing-a": {
+      "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+      "running": true,
+      "health": "healthy"
+    },
+    "market-b": {
+      "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+      "running": true,
+      "health": "healthy"
+    },
+    "web": {
+      "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+      "running": true,
+      "health": "healthy"
+    }
+  },
+  "temporaryContainersAndNetworkRemoved": true,
+  "oldSourceProtection": {
+    "a": 258,
+    "b": 314
+  },
+  "frozenContractSourcesUnchanged": true,
+  "localContractPublicationVerified": true,
+  "artifact": "373813C8AFF6DF1163182D10B9DDA55510CB415EF86BD3A5E7FF1D52856FA544",
+  "contract": {
+    "coordinate": "cn.bugstack:group-buy-market-contract:1.1.0-td.1",
+    "sha256": "363A2CDF6B30B5936714D8481FEB3F984C8C0762F528E9BCF514B374EE39E7BE",
+    "locallyInstalled": true,
+    "remotePublished": false
+  },
+  "migration": {
+    "path": "docs/dev-ops/mysql/sql/migrations/20261014-team-discovery.sql",
+    "sha256": "76B31705BD78A8F277794B448D4F5C26F8907BEE070CF56948A0167F7526FD66",
+    "originalB06Applied": false,
+    "requiredBeforeNewDiscoveryUse": true
+  },
+  "evidence": {
+    "target/team-discovery/td01_20261014_04/report.json": "F9B1913955C63118E1A081CB5CFAF6B5CF575FB972B1DC02F6631A7056DAF9C0",
+    "target/team-discovery/td01_20261014_04/tested-app.jar": "373813C8AFF6DF1163182D10B9DDA55510CB415EF86BD3A5E7FF1D52856FA544",
+    "target/team-discovery/td01_20261014_04/explain.txt": "D34F76F3E2647E4586F1852C4D6B4EB112F56060B99EF7BC6C71C1D3EF9922AF",
+    "target/team-discovery/td01_20261014_04/explain-analyze.txt": "2F796F0C9AEDB2AC0875DDD4C9316A4B9F23D0603DAF416F4394FE23239E420B",
+    "target/team-discovery/td01_20261014_04/live-metrics.json": "0904B43A5FD2AA88178D058D76F48BE47D577FC4CBC7B08D68D1F6E3B3E0C28B",
+    "target/team-discovery/td01_20261014_04/discovery-unit.log": "4F7C04BE65F62A51A1BFAA6A82149B1CD3ACD73AE90234A808FF2E59BD951EFE",
+    "target/team-discovery/td01_20261014_04/legacy-v2.log": "E4246C0B90C51ACCD16ACCF7F8B1F133A1C0C0DF5CF9195AD4E0A7F3DA6E1EEA",
+    "target/team-discovery/td01_20261014_04/live-tls.log": "65B4EBFD79B0C2F23613A500353D604A6226A464A8A8F2BF3FAE976459D287BA"
+  },
+  "previousBatches": {
+    "td01_20261014_01": "FAILED test classpath empty entry; only accidental generated classes copy removed, failed report retained",
+    "td01_20261014_02": "FAILED live test ApplicationConfig collision; new DB tests and 44 old V2 tests passed",
+    "td01_20261014_03": "FAILED actual index selection gate; 13 unit +44 legacy+11 TLS passed; optimizer used old broad index"
+  },
+  "limitations": [
+    "Not actual B HTTP/UI or deployment acceptance; TD02-05 pending",
+    "Live TLS uses production beans in explicit test wiring with real MySQL/MyBatis/discounts/Redis; no MQ/scheduler workers started",
+    "Payment compatibility runs the real event engine directly; not a new MQ transport acceptance",
+    "Performance dataset has synthetic candidate counts; separate actual reserve/payment fact proves unpaid hidden then accepted payment visible",
+    "SQL p95 uses 20 EXPLAIN ANALYZE root-iterator samples; RPC p95 uses 20 sequential signed TLS calls; no HTTP/QPS/HA SLA",
+    "Isolated A schemas cloned from actual DDL then new index migration applied; no B Flyway runtime certification",
+    "Original B06 DB did not receive new indexes and old A/B/web images remain pinned",
+    "Combined cursor UTF8 payload over 768 bytes fails 0002; never returns an overlong unusable cursor"
+  ],
+  "gitPublished": false,
+  "nextStage": "TD-02"
+}

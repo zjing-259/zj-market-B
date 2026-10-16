@@ -1,0 +1,136 @@
+{
+  "stage": "TD-06.2",
+  "status": "PASSED_MAIN_443_RELEASE",
+  "generatedAtUtc": "2026-10-15T14:59:13.773041+00:00",
+  "project": "zj-market-b06",
+  "backupBatch": "b066-td062-20261015-03",
+  "backupConsistentPointAtUtc": "2026-10-15T14:32:02.619468+00:00",
+  "backupCompleteAndOriginalRecovered": true,
+  "originalVolumesRetained": [
+    "zj-market-b06_broker-logs",
+    "zj-market-b06_broker-store",
+    "zj-market-b06_mysql-data",
+    "zj-market-b06_namesrv-logs",
+    "zj-market-b06_redis-data"
+  ],
+  "images": {
+    "marketing-a": "sha256:48c7af4be50e59133cf76aac69bac7142fb0ab19c27c4cf21ae352550dc57ddc",
+    "market-b": "sha256:cebd526685cd3b2bba6619494321abae36a6f5df976306a67f08549d781d196a",
+    "web": "sha256:a3aad07bd5e4e5b06c4ec647cc72299f0bf3d1125fdda85157e9529054a950d9"
+  },
+  "schemaFingerprint": "5112d4e1b0c30224047bc9f945dfb4c360c623d4fcfb204757a4a7a411ec090b",
+  "bMigrationHistorySha256": "6fce73b5216393658902305bacdf262f80294dedec4a4a7676e6c0ba897928df",
+  "discoveryIndexColumns": {
+    "idx_ab_team_discovery": [
+      "source",
+      "channel",
+      "goods_id",
+      "activity_id",
+      "team_status",
+      "valid_end_time",
+      "team_id"
+    ],
+    "idx_ab_order_discovery_owner": [
+      "team_id",
+      "user_id",
+      "order_status"
+    ]
+  },
+  "runtimeDdlGranted": false,
+  "releaseEvents": [
+    "INDEXES_APPLIED",
+    "NEW_STACK_MAINTENANCE_DISCOVERY_OFF",
+    "REAL_SIGNED_TLS_RPC_READY",
+    "OFF_443_AND_OLD_FLOW_READY",
+    "ENABLED_443",
+    "OLD_PACKAGE_FALLBACK_VERIFIED",
+    "RE_ENABLED_443_AFTER_FALLBACK",
+    "STOPPED",
+    "RESTARTED_443"
+  ],
+  "realSignedTlsRpcBeforeEnable": true,
+  "featureOffAndOldPackageFallbackVerified": true,
+  "controlledStopStartVerified": true,
+  "strictTlsHttps443AndOldTrialVerified": true,
+  "mainChannelMoney": {
+    "paidAmount": "2340.00",
+    "refundedAmount": "720.00"
+  },
+  "mainInventory": {
+    "available": 542,
+    "reserved": 0,
+    "sold": 18
+  },
+  "obligationRetention": {
+    "aReconcilingTeams": {
+      "before": 21,
+      "after": 22,
+      "originalKeysMissing": 0
+    },
+    "aPaidOrders": {
+      "before": 26,
+      "after": 26,
+      "originalKeysMissing": 0
+    },
+    "aOutboxPending": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissing": 0
+    },
+    "aWaitingDependency": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissing": 0
+    },
+    "bOpenOrders": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissing": 0
+    },
+    "bUnsettledPayments": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissing": 0
+    },
+    "bUnsettledRefunds": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissing": 0
+    },
+    "bTradeWork": {
+      "before": 1,
+      "after": 1,
+      "originalKeysMissing": 0
+    },
+    "bTradeInbox": {
+      "before": 4,
+      "after": 4,
+      "originalKeysMissing": 0
+    },
+    "bTradeOutbox": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissing": 0
+    },
+    "bReconciliation": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissing": 0
+    },
+    "bRefundTask": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissing": 0
+    },
+    "bActiveBlocks": {
+      "before": 8,
+      "after": 8,
+      "originalKeysMissing": 0
+    }
+  },
+  "aReconcilingNewFactsAfterRelease": 1,
+  "scope": "Windows Docker main443; TD-06.3 browser JOIN/payment/refund acceptance remains separate",
+  "gitPublished": false,
+  "registryPublished": false,
+  "linuxValidated": false
+}

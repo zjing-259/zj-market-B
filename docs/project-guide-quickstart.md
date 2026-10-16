@@ -1,6 +1,6 @@
 # 拼团商城微服务：快速入门、实现详解与面试问答
 
-更新：2026-10-12。适用：项目A group-buy-market＋项目B zj-market，当前B-06 Windows Docker交付。
+更新：2026-10-16。适用：项目A group-buy-market＋项目B zj-market；当前本机主商城为TD-06 Windows Docker交付，B-06记录作为历史基线。
 
 本文依据项目持久化文档整理。已实现事实以最新阶段报告、固定产物和交付范围为准；“选择原因”是结合约束给出的工程解释，不伪称每一项都是原作者逐字陈述。不是生产容量认证或第三方资金验收报告。
 
@@ -18,11 +18,11 @@
 
 首版范围：单SKU、数量1、CNY、一笔商城订单对应一笔支付业务；实付最低0.01元，不叠加B额外优惠。未支付可取消，支付后不主动退团，失败自动全额退款。团队最大100人，核对接口可一次返回完整名单。
 
-**已经实现**：注册登录与运营权限、商品管理与版本同步、真实A优惠试算、入库/库存调整、开团和分享参团、订单占位恢复、模拟支付、成团待履约、到期完整核对、失败退款及库存释放、运营查单/重试、Windows容器部署、故障恢复和一致冷备演练。
+**已经实现**：注册登录与运营权限、商品管理与版本同步、真实A优惠试算、入库/库存调整、开团和分享参团、登录后从商品详情发现已有人付款且仍有空位的团队、订单占位恢复、模拟支付、成团待履约、到期完整核对、失败退款及库存释放、运营查单/重试、Windows容器部署、故障恢复和一致冷备演练。
 
 **没有宣称实现**：真实第三方扣退款、购物车多SKU合单、部分退款、主动退团、实际发货收货、任意异常自动解封、高可用集群、生产QPS承诺、Linux/其他局域网客户端部署认证。取消后异常收款正向自动资格尚未开放；无可信资格的异常保留原资金和隔离状态。
 
-截至本次文档整理：B-06实际成果在 `D:/Java/zj-market-b-06`，其交付记录为b-06/2eae6a2加未提交工作区成果；主目录相同HEAD不代表拥有这些文件。分支与运行状态后续可能变化，执行前核对实际目录。本文存主目录，原始报告优先链接到完整B-06工作树。
+截至本次更新：日常443运行A/B新镜像和新web，保留B-06原五卷并追加A发现索引。当前功能源码分别在 `D:/Java/group-buy-market` 与 `D:/Java/zj-market`；历史B-06部署工作树在 `D:/Java/zj-market-b-06`，私有运行控制及备份仍从那里读取。两个源码仓库的大量改动尚未提交，不能把Git HEAD当作TD-06功能版本。当前事实以[TD-06发布清单](team-discovery-td06-release.json)和[交付说明](../deploy/td06/README.md)为准。
 
 ## 2. 本机快速入门
 
@@ -31,13 +31,13 @@
 以下适用于本机已经完成初始化、镜像和私有材料齐备的环境，不是空机器安装命令。Docker Desktop需使用Linux容器，项目控制器显式选择 `desktop-linux`，不要依赖终端默认context。
 
 ```powershell
-cd D:\Java\zj-market-b-06
-python -B scripts/b06-deployment.py status --context desktop-linux
-python -B scripts/b06-deployment.py ready --context desktop-linux
-.\scripts\open-b06-browser.ps1
+cd D:\Java\zj-market
+python -B scripts/td06-environment.py ready --target main443
+pwsh -NoProfile -File scripts/open-team-discovery-browser.ps1 -Target main443 -StatusOnly
+pwsh -NoProfile -File scripts/open-team-discovery-browser.ps1 -Target main443
 ```
 
-- `status`显示项目状态；`ready`还核验schema、迁移历史、权限等，并非仅看容器是否running。这些控制器会写本地控制日志，不应称为完全无文件写入。
+- `ready`还核验项目、镜像、schema、迁移历史、权限和HTTPS发现门禁，并非仅看容器是否running。控制器会写本地控制日志，不应称为完全无文件写入。
 - 浏览器脚本配置当前用户对项目CA的信任，并打开专属Edge配置，将 `zj-market.test` 解析到127.0.0.1；不修改系统hosts。不要用忽略证书错误的方式绕过。
 - 演示账号及密码位于私有 `.local/b06/control/demo-accounts.json`。只在本机查看，不复制到文档、Git或聊天中。
 - 页面入口是 `https://zj-market.test`，当前web仅映射 `127.0.0.1:443`。另一个电脑不能直接访问。
@@ -45,23 +45,25 @@ python -B scripts/b06-deployment.py ready --context desktop-linux
 只有栈确实停止，或需要受控重新开放时才使用：
 
 ```powershell
-python -B scripts/b06-deployment.py start --context desktop-linux
-python -B scripts/b06-deployment.py open --context desktop-linux
+cd D:\Java\zj-market
+python -B scripts/td06-environment.py start --target main443
 ```
 
-`start`按维护状态启动；`open`先关新入口，核对资源、schema和真实依赖，加载配置并验证后开放。它会改变运行状态，不是普通查询命令。不要用原始Compose启动绕过门槛，不要执行删除数据卷的操作。
+`start`执行受控维护启动、真实依赖核验和开放；它会改变运行状态，不是普通查询命令。旧B-06控制器固定旧schema指纹，不再用于当前443停启。不要用原始Compose启动绕过门槛，不要执行删除数据卷的操作。
 
 ### 2.2 推荐的体验顺序
 
 1. 普通用户登录，浏览在售商品并试算优惠。
 2. 运营账号查看商品与库存，必要时通过运营功能入库；不要直接改库存表。
 3. 用户甲开团，选择模拟支付失败，再在原期限内重新尝试成功。
-4. 用户乙通过分享链接加入同一团队并付款，达到该活动实际目标人数后观察成团及待履约。
+4. 甲付款被A接受后，用户乙登录并从该商品详情的“正在拼团”选择甲的团队，无需分享链接；也可使用原分享路径。乙付款后观察同团成团及待履约。
 5. 另建一团只支付部分成员，等待自然到期核对，观察退款成功、库存释放及订单关闭。
 6. 新建未支付订单后取消，观察确认关闭后库存恢复。
 7. 在运营页面分别观察资金、A同步、库存状态；CHECK查单，RETRY只在符合条件时唤醒任务。
 
 每次使用新订单，团队目标人数和期限以当前活动为准。测试商品库存和活动窗口可能耗尽/过期，应走正常管理流程准备新样本，不复用历史失败订单拼装成功闭环。
+
+待拼列表仅向已登录用户显示：团队至少一人付款且A已接受、仍在有效期内、有可加入名额，且当前用户无同商品进行中的订单。完全未付团不公开，但原分享参团入口保留。列表不展示他人的订单和支付资料；首屏3条，后续每次10条。空列表是正常业务结果；502／503表示查询失败，需重试或检查服务。8445是隔离候选环境，使用 `-Target candidate8445` 的独立浏览器配置，历史演示样本已过期。
 
 ### 2.3 观测与常见问题
 
@@ -514,15 +516,16 @@ B收集完整事实，A在事务内确定终局；符合窗口的最后支付可
 | B04支付/关单/成团 | [b04-joint-design](../../zj-market-b-06/docs/b04-joint-design.md)、[阶段过程](../../zj-market-b-06/docs/b04-development.md) |
 | B05核对/退款及选择 | [b05-development](../../zj-market-b-06/docs/b05-development.md)、[验收摘要](../../zj-market-b-06/docs/tests/b05-joint-acceptance.json) |
 | B06部署演进与验收 | [b06-development](../../zj-market-b-06/docs/b06-development.md)、[最终清单](../../zj-market-b-06/docs/b06-final-release.json) |
+| TD-06商品页发现参团及当前交付 | [功能开发与验收](team-discovery-development.md)、[TD-06发布清单](team-discovery-td06-release.json)、[运行说明](../deploy/td06/README.md) |
 | 实际启动与安全材料边界 | [DELIVERY](../../zj-market-b-06/deploy/b06/DELIVERY.md) |
 | 故障与备份 | [FAULT-RECOVERY](../../zj-market-b-06/deploy/b06/FAULT-RECOVERY.md)、[BACKUP-RECOVERY](../../zj-market-b-06/deploy/b06/BACKUP-RECOVERY.md) |
 
-代码入口位于完整工作树的domain/order、domain/payment、domain/reconciliation、domain/refund及infrastructure/adapter/repository下；重点类包括PaymentService、SettlementRepository、ReconciliationService/Repository、RefundService/Repository、RefundSyncRepository、RefundReleaseRepository及独立模拟渠道。HTTP机器契约分别为各阶段 `b02-http-api.json`～`b05-http-api.json`，具体字段不要仅按本文简化描述实现。
+历史B-06代码入口位于完整工作树的domain/order、domain/payment、domain/reconciliation、domain/refund及infrastructure/adapter/repository下；重点类包括PaymentService、SettlementRepository、ReconciliationService/Repository、RefundService/Repository、RefundSyncRepository、RefundReleaseRepository及独立模拟渠道。TD-06当前源码在两仓主目录，发现接口另见[TD-00 HTTP契约](team-discovery-http-api.json)。具体字段不要仅按本文简化描述实现。
 
-工作树归档或移动后，应一起更新本节相对链接；主目录代码未同步前，不能把示例工作目录替换成主目录就期待同样运行。
+工作树归档或移动后，应一起更新本节相对链接。当前主站依赖B-06私有运行材料与TD-06本机产物，不可只复制主目录源码就期待同样运行。
 
 ## 14. 本次文档任务复杂度与维护方式
 
 本次文档整理复杂度中等，跨A修复、协议及B六阶段，需要识别历史方案、当前实现和验收范围；已按“资料核对→入门路径→交易原理→阶段取舍→面试问答→链接与边界校验”完成。系统交易与部署实现复杂度高，后续改动继续按基线/设计、局部实现、专项故障、真实集成、交付证据的小阶段推进，每阶段分别验收。
 
-本文是学习入口，不代替原契约、阶段报告或运行手册。方案/状态变化先更新权威资料，再维护本文相关摘要；不把旧证据改写为新通过。本次仅新建文档，不修改A/B代码、配置、数据库或已有交付包，不提交或推送。
+本文是学习入口，不代替原契约、阶段报告或运行手册。方案/状态变化先更新权威资料，再维护本文相关摘要；B-06旧证据保持历史时点，TD-06新增证据单独归档。当前本机源码与镜像尚未远程发布，Linux和外部客户端仍未验收。

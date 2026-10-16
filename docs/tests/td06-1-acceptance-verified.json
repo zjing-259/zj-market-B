@@ -1,0 +1,49 @@
+{
+  "stage": "TD-06.1",
+  "status": "PASSED_CANDIDATE_ENTRY_AND_DEMO_PREPARATION",
+  "stageCompletion": true,
+  "generatedAtUtc": "2026-10-15T14:23:06.894437+00:00",
+  "mainTarget": "https://zj-market.test",
+  "candidateTarget": "https://zj-market.test:8445",
+  "checks": {
+    "main443ReadyAfterCandidateRestart": true,
+    "candidate8445ReadyAfterRestart": true,
+    "candidateOwnedStopStart": true,
+    "candidateVolumesRetained": true,
+    "frontendBuild": true,
+    "frontendEdgeTests": 6,
+    "candidateDemoPaidAndAcceptedByA": true,
+    "secondBuyerSawExactTeam": true,
+    "candidateDiscoveryIndexesAndSchemaGate": true,
+    "negativeOwnershipConfigGates": 5,
+    "failClosedStartTests": 1
+  },
+  "demo": {
+    "batch": "td06_demo_20261015_03",
+    "goodsId": "d3addf1e-d5d7-462a-8403-074bcc424c08",
+    "teamId": "3d58069d-ece0-48ac-8ff2-7178eaa8c9b6",
+    "activityId": 80033504,
+    "teamExpiresAtUtc": "2026-10-15T15:11:20.208Z",
+    "reportSha256": "DCE27E9B431C6A46B1DDDB33E26DC2536DB01ADC24C71E6C3FD023E2C7DE5075",
+    "preservedFailedAttemptSha256": "76B15CA26D1480ED88D3C7A0F459C067CCA4C3564B94D994158E79249194C11C"
+  },
+  "earlierFailedBatches": {
+    "td06_demo_20261015_01": "FF0B1244C34B30E626FFBE7E19BEE9A790AC852ACDE16D478A57665053DA9882",
+    "td06_demo_20261015_02": "24C42212DA4E364264FD9EA55A9D46EF030D54640C6EEFFC4DE5F8ABB69A91C8"
+  },
+  "sourceSha256": {
+    "scripts/open-team-discovery-browser.ps1": "039E6E0937B6A7904D3718F9D2409D64EF5E2D22CE9342C0129A356336AB54DC",
+    "scripts/td06-environment.py": "8FBE1EE5BE608A6F022BB63D46C2FAA2E1C2A4223E8C9DA0E80AB3257DEA747D",
+    "docs/tests/prepare-td06-demo.mjs": "823CCC42B289AF338565791CE1C3A3288216CB5448B3AF134F98A6CE8A91CE9D",
+    "docs/tests/verify-td06-demo.py": "019D0FAC5565DFB7D36A71DC28DB9639EF70EAFF5E8D1CF669B3E2C24B4D3E61",
+    "frontend/src/services/team-discovery.ts": "78A3FAA694C10D780F7F609399ABD9424041F29DF46FCA58FC9AE63FC2458395",
+    "frontend/tests/team-discovery.mjs": "65CB24B27AB87407E4BA4F0C88A9561B19690390004EAA9B61CF3AF4D68B343E",
+    "docs/tests/test-td06-environment.py": "308081F412464AE4A92BA914E773B4233587EF3CB6D58FFFD5F561C493BCC1C6"
+  },
+  "td06ZeroBaselineSha256": "DD1D97C68C24B78E407D8B9DDDA2C1162FE3BF2B99F70FCDD41E394458EE4A63",
+  "scope": "Windows Docker isolated candidate; demo uses simulated payment; 443 remains old B-06",
+  "runtimeNote": "TD-05 candidate web image still has old 3-item continuation; TD-06.1 source/test use 3 then 10. New web image belongs to TD-06.2.",
+  "sourceProvenance": "Original failed and resumed demo script hashes remain in private reports. Current script additionally clears the historical error field on a successful resume; no business flow was rerun after that edit.",
+  "gitPublished": false,
+  "registryPublished": false
+}

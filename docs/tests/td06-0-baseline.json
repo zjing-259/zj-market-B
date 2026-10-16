@@ -1,0 +1,267 @@
+{
+  "stage": "TD-06.0",
+  "status": "READ_ONLY_BASELINE_CAPTURED",
+  "capturedAtUtc": "2026-10-15T13:53:21.025140+00:00",
+  "target": "Daily HTTPS 443 main443; 8445 remains isolated candidate",
+  "source": {
+    "aBranch": "codex/team-discovery-td00",
+    "aHead": "4ee192b359dd7354d5cf575283fa0ee42306fbf9",
+    "bBranch": "codex/team-discovery-td00",
+    "bHead": "f07c409e879dc99cc64db05bd130cc16f59e9841",
+    "aFrozenSourceFileCount": 286,
+    "aFrozenSourceSha256": "EA7A94A29164262D668BBCE03058A18A304B2F5B38D0331D77CBE8E57A61E32D",
+    "bSourceSha256AtTd05": "E73C098AF1926FB343A18C76A55CC839B882ABEB12D8D538340E850AF24B422B",
+    "contractJarSha256": "363A2CDF6B30B5936714D8481FEB3F984C8C0762F528E9BCF514B374EE39E7BE",
+    "sourceUncommitted": true
+  },
+  "main443": {
+    "project": "zj-market-b06",
+    "images": {
+      "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+      "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+      "namesrv": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "broker": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "marketing-a": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+      "market-b": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+      "web": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754"
+    },
+    "allServicesHealthy": true,
+    "configSha256": {
+      ".local/b06/control/state.json": "E2BDB642CE6647A359009D2900D336E6FD13EAB3645F09BE99AAB57A7E8BF8C8",
+      ".local/b06/control/capabilities.properties": "AE552DA16924BE6CDAD27608B5DCB497C62F86D7F8428093D631A0CF19774A5F",
+      ".local/b06/runtime/a.properties": "0D41E2D2D8072DD15D09EBFDCB9335323A7FDCE364982549C476239DF0148667",
+      ".local/b06/runtime/b.properties": "489E7F51D89D517E09A3C6601E5A8CBE7D61502C9E31DEC6114DD807811EFEC5",
+      "deploy/b06/compose.yml": "ED2E51C82260B63BB0500AE3F1D68D6BAD6D1F855FF2F9AE601D223AF3065FB4",
+      "deploy/b06/config/admission-open.conf": "6F8E3A968EADFD6ED46C2C7084BFB3C6D162461F929A4675571BE7AF4B040586"
+    },
+    "schemaFingerprint": "1bbd847a64b784f9f22facc238e1e8b372428f1a5e50fa1fe779e1e9ea316ee7",
+    "migrationHistorySha256": "6fce73b5216393658902305bacdf262f80294dedec4a4a7676e6c0ba897928df",
+    "discoveryIndexColumns": [],
+    "runtimeDdlGranted": false,
+    "business": {
+      "observedAtUtc": "2026-10-15T13:53:22.544000Z",
+      "aTeams": {
+        "COMPLETED": 9,
+        "FAILED": 12,
+        "RECONCILING": 21
+      },
+      "aOrders": {
+        "PAID": 26,
+        "CANCELLED": 25
+      },
+      "aInbox": {
+        "PROCESSED": 90
+      },
+      "aOutbox": {
+        "PUBLISHED": 144
+      },
+      "bOrders": {
+        "CLOSED": 33,
+        "GROUP_COMPLETED": 18
+      },
+      "bReservations": {
+        "RELEASED": 33,
+        "CONFIRMED": 18
+      },
+      "bPayments": {
+        "SUCCEEDED": 26,
+        "UNPAID": 4
+      },
+      "bRefunds": {
+        "SUCCEEDED": 8
+      },
+      "bCoordination": {
+        "DONE": 51
+      },
+      "bTradeWork": {
+        "DEFERRED_B05": 1,
+        "DONE": 40
+      },
+      "bTradeInbox": {
+        "DONE": 75,
+        "WAITING_DEPENDENCY": 4
+      },
+      "bTradeOutbox": {
+        "DONE": 42
+      },
+      "bReconciliation": {
+        "RESOLVED": 12
+      },
+      "bReconSubmission": {
+        "ACKNOWLEDGED": 12
+      },
+      "bRefundTask": {
+        "DONE": 8
+      },
+      "bRefundAttempt": {
+        "SUCCEEDED": 8
+      },
+      "bSimPayment": {
+        "PAID": 26,
+        "CLOSED_UNPAID": 4
+      },
+      "bSimRefundAttempt": {
+        "SUCCEEDED": 8
+      },
+      "aWaitingDependency": {
+        "total": 0
+      },
+      "aExceptionPayment": {
+        "total": 0
+      },
+      "bOrderBlocks": {
+        "ACTIVE": 8,
+        "CLEARED": 3
+      },
+      "bPurchaseGuards": {
+        "active": 0
+      },
+      "bChannelMoney": {
+        "paidAmount": "2340.00",
+        "refundedAmount": "720.00"
+      },
+      "bInventory": {
+        "available": 542,
+        "reserved": 0,
+        "sold": 18
+      },
+      "aDueTeams": {
+        "formingPastEnd": 0
+      },
+      "bDueWork": {
+        "tradeWork": 0
+      }
+    }
+  },
+  "candidate8445": {
+    "project": "zj-market-td05-20261015-01",
+    "images": {
+      "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+      "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+      "namesrv": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "broker": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "marketing-a": "sha256:48c7af4be50e59133cf76aac69bac7142fb0ab19c27c4cf21ae352550dc57ddc",
+      "market-b": "sha256:cebd526685cd3b2bba6619494321abae36a6f5df976306a67f08549d781d196a",
+      "web": "sha256:72869dd86d1bfc96490ea24397768909dd38cca9bcbab92c85b0550fbf105f14"
+    },
+    "allServicesHealthy": true,
+    "configSha256": {
+      "compose.json": "637965A40255D7FB8DDF22D971979A27BCC80EEE3F1B767E948C2DD98CFCB9A6",
+      "private/config/a.properties": "C9B0FFB2470C38C39EA3439F28A84678A1C32E29D240AAC7A783406394E62959",
+      "private/config/b.properties": "9EF7566581D11A2BB52E463CF5F0DAF1394768E1885ADE8D5D88D8719A8B5A73",
+      "private/control/capabilities.properties": "90EF24EB143D1D1107A226D03CB08022463857C480FDF3BD7A9CE6D42B84A710",
+      "private/config/admission-open.conf": "6F8E3A968EADFD6ED46C2C7084BFB3C6D162461F929A4675571BE7AF4B040586"
+    },
+    "schemaFingerprint": "5112d4e1b0c30224047bc9f945dfb4c360c623d4fcfb204757a4a7a411ec090b",
+    "migrationHistorySha256": "6fce73b5216393658902305bacdf262f80294dedec4a4a7676e6c0ba897928df",
+    "discoveryIndexColumns": [
+      "idx_ab_order_discovery_owner\t1\tteam_id",
+      "idx_ab_order_discovery_owner\t2\tuser_id",
+      "idx_ab_order_discovery_owner\t3\torder_status",
+      "idx_ab_team_discovery\t1\tsource",
+      "idx_ab_team_discovery\t2\tchannel",
+      "idx_ab_team_discovery\t3\tgoods_id",
+      "idx_ab_team_discovery\t4\tactivity_id",
+      "idx_ab_team_discovery\t5\tteam_status",
+      "idx_ab_team_discovery\t6\tvalid_end_time",
+      "idx_ab_team_discovery\t7\tteam_id"
+    ],
+    "runtimeDdlGranted": false,
+    "business": {
+      "observedAtUtc": "2026-10-15T13:53:23.923000Z",
+      "aTeams": {
+        "COMPLETED": 10,
+        "FAILED": 11,
+        "RECONCILING": 22
+      },
+      "aOrders": {
+        "CANCELLED": 24,
+        "PAID": 29
+      },
+      "aInbox": {
+        "PROCESSED": 98
+      },
+      "aOutbox": {
+        "PUBLISHED": 152
+      },
+      "bOrders": {
+        "CLOSED": 33,
+        "GROUP_COMPLETED": 20
+      },
+      "bReservations": {
+        "RELEASED": 33,
+        "CONFIRMED": 20
+      },
+      "bPayments": {
+        "SUCCEEDED": 29,
+        "UNPAID": 4
+      },
+      "bRefunds": {
+        "SUCCEEDED": 9
+      },
+      "bCoordination": {
+        "DONE": 53
+      },
+      "bTradeWork": {
+        "DEFERRED_B05": 1,
+        "DONE": 41
+      },
+      "bTradeInbox": {
+        "DONE": 80,
+        "WAITING_DEPENDENCY": 4
+      },
+      "bTradeOutbox": {
+        "DONE": 47
+      },
+      "bReconciliation": {
+        "RESOLVED": 11
+      },
+      "bReconSubmission": {
+        "ACKNOWLEDGED": 11
+      },
+      "bRefundTask": {
+        "DONE": 9
+      },
+      "bRefundAttempt": {
+        "SUCCEEDED": 9
+      },
+      "bSimPayment": {
+        "PAID": 29,
+        "CLOSED_UNPAID": 4
+      },
+      "bSimRefundAttempt": {
+        "SUCCEEDED": 9
+      },
+      "aWaitingDependency": {
+        "total": 0
+      },
+      "aExceptionPayment": {
+        "total": 0
+      },
+      "bOrderBlocks": {
+        "ACTIVE": 9,
+        "CLEARED": 1
+      },
+      "bPurchaseGuards": {
+        "active": 0
+      },
+      "bChannelMoney": {
+        "paidAmount": "2610.00",
+        "refundedAmount": "810.00"
+      },
+      "bInventory": {
+        "available": 570,
+        "reserved": 0,
+        "sold": 20
+      },
+      "aDueTeams": {
+        "formingPastEnd": 0
+      },
+      "bDueWork": {
+        "tradeWork": 0
+      }
+    }
+  },
+  "scope": "Read-only live observation; rows may change after capture; no stop-write, backup, migration, switch, or trade mutation",
+  "nextGate": "TD-06.2 must quiesce all writers and make a new consistent backup of the then-current main443 volumes and data before any upgrade."
+}

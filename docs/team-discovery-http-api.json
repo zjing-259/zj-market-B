@@ -1,0 +1,915 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "商品待拼团队查询",
+    "version": "td-00.1",
+    "description": "Contract frozen in TD-00; B endpoint isolated-tested in TD-02 and storefront page browser-tested with mocked HTTP in TD-03, not deployed."
+  },
+  "x-design-status": "implemented-in-source-isolated-tested-not-deployed",
+  "x-process-document": "team-discovery-development.md",
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "paths": {
+    "/products/{goodsId}/joinable-teams": {
+      "get": {
+        "operationId": "listJoinableTeams",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-required-roles": [
+          "USER",
+          "OPERATOR"
+        ],
+        "x-query-whitelist": [
+          "limit",
+          "cursor"
+        ],
+        "x-reject-duplicate-parameters": true,
+        "x-body": "must be empty",
+        "x-read-only": true,
+        "parameters": [
+          {
+            "name": "goodsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!\\s)(?:[^\\r\\n]*\\S)$(?![\\s\\S])",
+              "x-max-utf16-units": 64
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "default": 3
+            },
+            "description": "decimal digits only; no duplicate values"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024,
+              "pattern": "^[A-Za-z0-9_-]+$(?![\\s\\S])"
+            },
+            "description": "omitted on first page; empty or literal null rejected"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Frozen design: available, original purchase or known unavailability",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              },
+              "X-Request-Id": {
+                "schema": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^(?!\\s)(?:[^\\r\\n]*\\S)$(?![\\s\\S])",
+                  "x-max-utf16-units": 64
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_FAILED",
+            "x-error-codes": [
+              "VALIDATION_FAILED"
+            ],
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              },
+              "X-Request-Id": {
+                "schema": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^(?!\\s)(?:[^\\r\\n]*\\S)$(?![\\s\\S])",
+                  "x-max-utf16-units": 64
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED, AUTH_INVALID",
+            "x-error-codes": [
+              "AUTH_REQUIRED",
+              "AUTH_INVALID"
+            ],
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              },
+              "X-Request-Id": {
+                "schema": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^(?!\\s)(?:[^\\r\\n]*\\S)$(?![\\s\\S])",
+                  "x-max-utf16-units": 64
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "x-error-codes": [
+              "FORBIDDEN"
+            ],
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              },
+              "X-Request-Id": {
+                "schema": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^(?!\\s)(?:[^\\r\\n]*\\S)$(?![\\s\\S])",
+                  "x-max-utf16-units": 64
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "PRODUCT_NOT_FOUND, PRODUCT_OFF_SALE",
+            "x-error-codes": [
+              "PRODUCT_NOT_FOUND",
+              "PRODUCT_OFF_SALE"
+            ],
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              },
+              "X-Request-Id": {
+                "schema": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^(?!\\s)(?:[^\\r\\n]*\\S)$(?![\\s\\S])",
+                  "x-max-utf16-units": 64
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "TEAM_DISCOVERY_CONTEXT_CHANGED",
+            "x-error-codes": [
+              "TEAM_DISCOVERY_CONTEXT_CHANGED"
+            ],
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              },
+              "X-Request-Id": {
+                "schema": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^(?!\\s)(?:[^\\r\\n]*\\S)$(?![\\s\\S])",
+                  "x-max-utf16-units": 64
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "x-error-codes": [
+              "RATE_LIMITED"
+            ],
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              },
+              "X-Request-Id": {
+                "schema": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^(?!\\s)(?:[^\\r\\n]*\\S)$(?![\\s\\S])",
+                  "x-max-utf16-units": 64
+                }
+              },
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "description": "seconds; stop automatic refresh"
+              }
+            }
+          },
+          "502": {
+            "description": "INTEGRATION_AUTH_FAILED, UPSTREAM_RESPONSE_INVALID",
+            "x-error-codes": [
+              "INTEGRATION_AUTH_FAILED",
+              "UPSTREAM_RESPONSE_INVALID"
+            ],
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              },
+              "X-Request-Id": {
+                "schema": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^(?!\\s)(?:[^\\r\\n]*\\S)$(?![\\s\\S])",
+                  "x-max-utf16-units": 64
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "DEPENDENCY_UNAVAILABLE",
+            "x-error-codes": [
+              "DEPENDENCY_UNAVAILABLE"
+            ],
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "const": "no-store"
+                }
+              },
+              "X-Request-Id": {
+                "schema": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^(?!\\s)(?:[^\\r\\n]*\\S)$(?![\\s\\S])",
+                  "x-max-utf16-units": 64
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^(?!\\s)(?:[^\\r\\n]*\\S)$(?![\\s\\S])",
+        "x-max-utf16-units": 64
+      },
+      "Version": {
+        "type": "string",
+        "pattern": "^[1-9][0-9]{0,18}$(?![\\s\\S])",
+        "x-maximum-decimal": "9223372036854775807"
+      },
+      "Time": {
+        "type": "string",
+        "format": "date-time",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$(?![\\s\\S])"
+      },
+      "Scope": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 8,
+        "pattern": "^(?!\\s)(?:[^\\r\\n]*\\S)$(?![\\s\\S])",
+        "x-max-utf16-units": 8
+      },
+      "Cursor": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1024,
+        "pattern": "^[A-Za-z0-9_-]+$(?![\\s\\S])"
+      },
+      "TeamDiscoveryRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "channel",
+          "userId",
+          "goodsId",
+          "activityId",
+          "productVersion",
+          "limit",
+          "cursor"
+        ],
+        "properties": {
+          "source": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "channel": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "activityId": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "productVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "cursor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Cursor"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "TeamDiscoveryItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "teamId",
+          "activityId",
+          "goodsId",
+          "teamVersion",
+          "teamStatus",
+          "targetCount",
+          "reservedCount",
+          "paidCount",
+          "validStartTime",
+          "validEndTime"
+        ],
+        "properties": {
+          "teamId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "activityId": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "teamVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "teamStatus": {
+            "const": "FORMING"
+          },
+          "targetCount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "reservedCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "paidCount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "validStartTime": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "validEndTime": {
+            "$ref": "#/components/schemas/Time"
+          }
+        },
+        "x-invariants": [
+          "1 <= paidCount <= reservedCount < targetCount <= 100",
+          "validStartTime <= page.serverTime < validEndTime",
+          "activityId/goodsId equal page context",
+          "targetCount equals current quote",
+          "strict (validEndTime, teamId utf8mb4_0900_bin) order; unique teamId"
+        ]
+      },
+      "TeamDiscoveryPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "channel",
+          "userId",
+          "goodsId",
+          "activityId",
+          "productVersion",
+          "serverTime",
+          "items",
+          "nextCursor",
+          "hasMore"
+        ],
+        "properties": {
+          "source": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "channel": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "activityId": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "productVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "serverTime": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "items": {
+            "type": "array",
+            "maxItems": 10,
+            "items": {
+              "$ref": "#/components/schemas/TeamDiscoveryItem"
+            }
+          },
+          "nextCursor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Cursor"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        },
+        "x-invariants": [
+          "items.length <= request.limit",
+          "hasMore iff nextCursor != null; hasMore implies items.length == request.limit",
+          "nextCursor binds final returned item, not the limit+1 lookahead",
+          "page identity/context equal authenticated request",
+          "empty items => nextCursor=null and hasMore=false"
+        ]
+      },
+      "CursorPayload": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "cursorVersion",
+          "sortVersion",
+          "source",
+          "channel",
+          "userId",
+          "goodsId",
+          "activityId",
+          "productVersion",
+          "lastEndTime",
+          "lastTeamId"
+        ],
+        "properties": {
+          "cursorVersion": {
+            "type": "integer",
+            "const": 1
+          },
+          "sortVersion": {
+            "const": "END_TEAM_ASC_V1"
+          },
+          "source": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "channel": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "userId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "activityId": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "productVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "lastEndTime": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "lastTeamId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      },
+      "HttpItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "teamId",
+          "targetCount",
+          "reservedCount",
+          "paidCount",
+          "availableSlots",
+          "remainingPaidCount",
+          "validEndTime"
+        ],
+        "properties": {
+          "teamId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "targetCount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "reservedCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "paidCount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "availableSlots": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "remainingPaidCount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "validEndTime": {
+            "$ref": "#/components/schemas/Time"
+          }
+        }
+      },
+      "DiscoveryData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "state",
+          "reason",
+          "goodsId",
+          "productVersion",
+          "activityId",
+          "serverTime",
+          "items",
+          "activeOrderId",
+          "nextCursor",
+          "hasMore"
+        ],
+        "properties": {
+          "state": {
+            "enum": [
+              "AVAILABLE",
+              "ACTIVE_PURCHASE",
+              "UNAVAILABLE"
+            ]
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "enum": [
+                  "NO_OFFER",
+                  "INELIGIBLE",
+                  "PRODUCT_SYNC_PENDING",
+                  "OUT_OF_STOCK"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "goodsId": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "productVersion": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "activityId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Version"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "serverTime": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "items": {
+            "type": "array",
+            "maxItems": 10,
+            "items": {
+              "$ref": "#/components/schemas/HttpItem"
+            }
+          },
+          "activeOrderId": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "nextCursor": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Cursor"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        },
+        "oneOf": [
+          {
+            "properties": {
+              "state": {
+                "const": "AVAILABLE"
+              },
+              "reason": {
+                "type": "null"
+              },
+              "activityId": {
+                "$ref": "#/components/schemas/Version"
+              },
+              "serverTime": {
+                "$ref": "#/components/schemas/Time"
+              },
+              "activeOrderId": {
+                "type": "null"
+              }
+            }
+          },
+          {
+            "properties": {
+              "state": {
+                "const": "ACTIVE_PURCHASE"
+              },
+              "reason": {
+                "type": "null"
+              },
+              "activityId": {
+                "type": "null"
+              },
+              "serverTime": {
+                "type": "null"
+              },
+              "items": {
+                "maxItems": 0
+              },
+              "activeOrderId": {
+                "$ref": "#/components/schemas/Id"
+              },
+              "nextCursor": {
+                "type": "null"
+              },
+              "hasMore": {
+                "const": false
+              }
+            }
+          },
+          {
+            "properties": {
+              "state": {
+                "const": "UNAVAILABLE"
+              },
+              "reason": {
+                "enum": [
+                  "NO_OFFER",
+                  "INELIGIBLE",
+                  "PRODUCT_SYNC_PENDING",
+                  "OUT_OF_STOCK"
+                ]
+              },
+              "activityId": {
+                "type": "null"
+              },
+              "serverTime": {
+                "type": "null"
+              },
+              "items": {
+                "maxItems": 0
+              },
+              "activeOrderId": {
+                "type": "null"
+              },
+              "nextCursor": {
+                "type": "null"
+              },
+              "hasMore": {
+                "const": false
+              }
+            }
+          }
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "hasMore": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "nextCursor": {
+                  "$ref": "#/components/schemas/Cursor"
+                },
+                "items": {
+                  "minItems": 1
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "nextCursor": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ],
+        "x-invariants": [
+          "availableSlots=targetCount-reservedCount; remainingPaidCount=targetCount-paidCount",
+          "1 <= paidCount <= reservedCount < targetCount <= 100",
+          "GET creates no confirmation/order/inventory/payment/team fact"
+        ]
+      },
+      "Success": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ],
+        "properties": {
+          "code": {
+            "const": "0000"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DiscoveryData"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "message",
+          "data",
+          "requestId"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "null"
+          },
+          "requestId": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      }
+    }
+  }
+}

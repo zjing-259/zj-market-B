@@ -31,7 +31,7 @@ public final class IdentityHttpFilter extends OncePerRequestFilter {
                 if(!path.startsWith("/api/v1/auth/")){
                     String jwt=browser.bearer(req);
                     boolean protectedPath=path.startsWith("/api/v1/users/") || path.startsWith("/api/v1/admin/")
-                        || (path.startsWith("/api/v1/products/") && path.endsWith("/trial"));
+                        || (path.startsWith("/api/v1/products/") && (path.endsWith("/trial") || path.endsWith("/joinable-teams")));
                     if(jwt==null && protectedPath)throw new AuthFailure(401,"AUTH_REQUIRED");
                     if(jwt!=null){var principal=service.getObject().authenticate(jwt);req.setAttribute("b.principal",principal);
                         if(protectedPath && !principal.user().roles().contains("USER") && !principal.user().roles().contains("OPERATOR"))throw new AuthFailure(403,"FORBIDDEN");

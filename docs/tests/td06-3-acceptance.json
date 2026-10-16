@@ -1,0 +1,118 @@
+{
+  "stage": "TD-06.3",
+  "status": "PASSED_MAIN443_CONSERVATION",
+  "generatedAtUtc": "2026-10-16T02:35:06.898184+00:00",
+  "target": "zj-market-b06 main HTTPS 443",
+  "browserCheckCount": 25,
+  "perOrderAccountingCheckCount": 11,
+  "terminalDiscoveryReadOnlyCheckCount": 14,
+  "terminalDiscoveryReadOnlyReportSha256": "28ba70ce9be81f21f318002363d3661a417f3f9384aa3051e0354638da36265b",
+  "terminalDiscoveryReadOnlyScriptSha256": "644de9da7da286096cf1cb68bc9fd80598900f7f02c30812e8680f5211e852f8",
+  "channelMoneyBefore": {
+    "paidAmount": "2340.00",
+    "refundedAmount": "720.00"
+  },
+  "channelMoneyAfter": {
+    "paidAmount": "2610.00",
+    "refundedAmount": "810.00"
+  },
+  "channelPaidDelta": "270.00",
+  "channelRefundedDelta": "90.00",
+  "inventoryBefore": {
+    "available": 542,
+    "reserved": 0,
+    "sold": 18
+  },
+  "inventoryAfter": {
+    "available": 570,
+    "reserved": 0,
+    "sold": 20
+  },
+  "inventoryDelta": {
+    "available": 28,
+    "reserved": 0,
+    "sold": 2
+  },
+  "originalObligationRetention": {
+    "aReconcilingTeams": {
+      "before": 22,
+      "after": 23,
+      "originalKeysMissingFromActiveSet": 0
+    },
+    "aPaidOrders": {
+      "before": 26,
+      "after": 29,
+      "originalKeysMissingFromActiveSet": 0
+    },
+    "aOutboxPending": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissingFromActiveSet": 0
+    },
+    "aWaitingDependency": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissingFromActiveSet": 0
+    },
+    "bOpenOrders": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissingFromActiveSet": 0
+    },
+    "bUnsettledPayments": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissingFromActiveSet": 0
+    },
+    "bUnsettledRefunds": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissingFromActiveSet": 0
+    },
+    "bTradeWork": {
+      "before": 1,
+      "after": 1,
+      "originalKeysMissingFromActiveSet": 0
+    },
+    "bTradeInbox": {
+      "before": 4,
+      "after": 5,
+      "originalKeysMissingFromActiveSet": 0
+    },
+    "bTradeOutbox": {
+      "before": 0,
+      "after": 1,
+      "originalKeysMissingFromActiveSet": 0
+    },
+    "bReconciliation": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissingFromActiveSet": 0
+    },
+    "bRefundTask": {
+      "before": 0,
+      "after": 0,
+      "originalKeysMissingFromActiveSet": 0
+    },
+    "bActiveBlocks": {
+      "before": 8,
+      "after": 9,
+      "originalKeysMissingFromActiveSet": 0
+    }
+  },
+  "privateEvidenceSha256": {
+    "before.json": "bfff4eab3e6389225b8aa698ac5a5d413adc3721e5a0ee92012ff5f9f167c4be",
+    "browser/browser-report.json": "b7d8cce15a38c86a994cbdf65355c8205231f85e7e0abc461486ae8ace6efb50",
+    "browser/accounting-report.json": "0db0e6629b2528b2ce9fd7c385fce08c22614d390fbdbc14b4d019178779af19",
+    "after.json": "7852207b485f95044aef0885da4eb5a5a52c9812f28811cfab3cfd0d5b1533db"
+  },
+  "scope": "Fresh main443 browser transactions and read-only A/B/channel accounting; no TD-04 fault matrix rerun",
+  "postAcceptanceObservation": {
+    "bTradeOutboxPending": 0,
+    "newPendingInboxFacts": 1,
+    "newActiveBlockFacts": 1,
+    "originalObligationsManuallyCleared": false
+  },
+  "limits": "A pre-existing nonterminal obligations remain; no claim they all resolved. A new cancelled unpaid team awaits its natural deadline. Main443 had fewer than four concurrently joinable teams, so a real multi-page cursor was not forced in this batch; pagination contract was tested in TD-06.1. Feature-off/old-package fallback was measured in TD-06.2 on unchanged main images.",
+  "gitPublished": false
+}

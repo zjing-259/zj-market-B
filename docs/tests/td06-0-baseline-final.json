@@ -1,0 +1,807 @@
+{
+  "stage": "TD-06.0",
+  "status": "READ_ONLY_BASELINE_CAPTURED",
+  "capturedAtUtc": "2026-10-15T13:54:21.645654+00:00",
+  "target": "Daily HTTPS 443 main443; 8445 remains isolated candidate",
+  "source": {
+    "aBranch": "codex/team-discovery-td00",
+    "aHead": "4ee192b359dd7354d5cf575283fa0ee42306fbf9",
+    "bBranch": "codex/team-discovery-td00",
+    "bHead": "f07c409e879dc99cc64db05bd130cc16f59e9841",
+    "aFrozenSourceFileCount": 286,
+    "aFrozenSourceSha256": "EA7A94A29164262D668BBCE03058A18A304B2F5B38D0331D77CBE8E57A61E32D",
+    "bSourceSha256AtTd05": "E73C098AF1926FB343A18C76A55CC839B882ABEB12D8D538340E850AF24B422B",
+    "contractJarSha256": "363A2CDF6B30B5936714D8481FEB3F984C8C0762F528E9BCF514B374EE39E7BE",
+    "sourceUncommitted": true
+  },
+  "main443": {
+    "project": "zj-market-b06",
+    "images": {
+      "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+      "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+      "namesrv": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "broker": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "marketing-a": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+      "market-b": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+      "web": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754"
+    },
+    "allServicesHealthy": true,
+    "configSha256": {
+      ".local/b06/control/state.json": "E2BDB642CE6647A359009D2900D336E6FD13EAB3645F09BE99AAB57A7E8BF8C8",
+      ".local/b06/control/capabilities.properties": "AE552DA16924BE6CDAD27608B5DCB497C62F86D7F8428093D631A0CF19774A5F",
+      ".local/b06/runtime/a.properties": "0D41E2D2D8072DD15D09EBFDCB9335323A7FDCE364982549C476239DF0148667",
+      ".local/b06/runtime/b.properties": "489E7F51D89D517E09A3C6601E5A8CBE7D61502C9E31DEC6114DD807811EFEC5",
+      "deploy/b06/compose.yml": "ED2E51C82260B63BB0500AE3F1D68D6BAD6D1F855FF2F9AE601D223AF3065FB4",
+      "deploy/b06/config/admission-open.conf": "6F8E3A968EADFD6ED46C2C7084BFB3C6D162461F929A4675571BE7AF4B040586"
+    },
+    "schemaFingerprint": "1bbd847a64b784f9f22facc238e1e8b372428f1a5e50fa1fe779e1e9ea316ee7",
+    "migrationHistorySha256": "6fce73b5216393658902305bacdf262f80294dedec4a4a7676e6c0ba897928df",
+    "discoveryIndexColumns": [],
+    "runtimeDdlGranted": false,
+    "business": {
+      "observedAtUtc": "2026-10-15T13:54:23.185000Z",
+      "aTeams": {
+        "COMPLETED": 9,
+        "FAILED": 12,
+        "RECONCILING": 21
+      },
+      "aOrders": {
+        "PAID": 26,
+        "CANCELLED": 25
+      },
+      "aInbox": {
+        "PROCESSED": 90
+      },
+      "aOutbox": {
+        "PUBLISHED": 144
+      },
+      "bOrders": {
+        "CLOSED": 33,
+        "GROUP_COMPLETED": 18
+      },
+      "bReservations": {
+        "RELEASED": 33,
+        "CONFIRMED": 18
+      },
+      "bPayments": {
+        "SUCCEEDED": 26,
+        "UNPAID": 4
+      },
+      "bRefunds": {
+        "SUCCEEDED": 8
+      },
+      "bCoordination": {
+        "DONE": 51
+      },
+      "bTradeWork": {
+        "DEFERRED_B05": 1,
+        "DONE": 40
+      },
+      "bTradeInbox": {
+        "DONE": 75,
+        "WAITING_DEPENDENCY": 4
+      },
+      "bTradeOutbox": {
+        "DONE": 42
+      },
+      "bReconciliation": {
+        "RESOLVED": 12
+      },
+      "bReconSubmission": {
+        "ACKNOWLEDGED": 12
+      },
+      "bRefundTask": {
+        "DONE": 8
+      },
+      "bRefundAttempt": {
+        "SUCCEEDED": 8
+      },
+      "bSimPayment": {
+        "PAID": 26,
+        "CLOSED_UNPAID": 4
+      },
+      "bSimRefundAttempt": {
+        "SUCCEEDED": 8
+      },
+      "aWaitingDependency": {
+        "total": 0
+      },
+      "aExceptionPayment": {
+        "total": 0
+      },
+      "bOrderBlocks": {
+        "ACTIVE": 8,
+        "CLEARED": 3
+      },
+      "bPurchaseGuards": {
+        "active": 0
+      },
+      "bChannelMoney": {
+        "paidAmount": "2340.00",
+        "refundedAmount": "720.00"
+      },
+      "bInventory": {
+        "available": 542,
+        "reserved": 0,
+        "sold": 18
+      },
+      "aDueTeams": {
+        "formingPastEnd": 0
+      },
+      "bDueWork": {
+        "tradeWork": 0
+      }
+    },
+    "obligations": {
+      "aReconcilingTeams": [
+        {
+          "keySha256": "777BD9B9733C2D71F5097C7CDA3005E5C409CDABB8E451D62528D9F2BC983485",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "F0E7C8917C36A4F996C08B0E82F3165DDAB7D7983C9E203B6D67CD01E33FCEE8",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "C25A2E8D7FFA2F3F14C246DF7CDA671899A4871663809E28D43A2A5730C3F9FC",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "16AC04900F2DDCDCD57900B6679430DFC59DEB1389E5F27A8D275DE454823D55",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "B7FB79D49533F57FBA3C65F6DBA200BADB6595DE4851D21739B805179A32EF75",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "189EC3FF48BEED28B7C9381B72C33715512FED630F748625D087597DA8577FBC",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "C7C46F7A01A64B16E4FEE3EA98DA43BF0631BA7978E7821D5818077865622637",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "161D3086963F37A47F5C463A19D28CDDB69CEF42D8F2ECA9496EF06455D0A5D0",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "2C62FC46490386B3880473F49D56BDDEFAFF54316EF77880D30DFD02FE6964FB",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "7652D45F2875D081F12694AA4A0984B64C72A05B7872227BDF2F08F77C78D145",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "D84204F81777E676CE28B6DEAA9DB9DC05CD2F95DBAC9CFF4247FD5DE3D7B41F",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "CCFBF96E78FDA61A9F6F3662679D6A2FAFBB2D30EE7C93D0234BEC21A72EC8DC",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "9CE0F4DAD20320833D65889329780501DE73A7B87A7EEC64FAB154B1D54B1BD5",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "6EB7CD4A9A2356E40E8FCDBEBC8EF8386A437D5DECF434049C7ECEECDA83CEAE",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "030C5AC3E0049A4055836E72D73089ACA79F5B464A13499E8D810C55042443FC",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "660FF46E645D284D73986DBDE07B9809ABDA3EF34CB84F6A1B6D13B5F505B692",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "4CA3D1144777BFF325D5B1AB57CB023F49D1CA3CCF713D8537EB93C1A4D9FF4A",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "E06CE4D78BA52E026A45C4E65EE7739A0E26615F96D100784C258AFE5FB4812E",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "9EA65F5137DEE2A897AD7F6FBD75C4E012DD883C24F66AE05DEFA5EBF3839A56",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "0A69C0D66CE96053E5A58352D22D111413C21BCEA1917F07405B64BD632E2210",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "03A534C1470AC8EB4473F1BA282D05F455DD53C1D057100AA0646E6CF9D31D88",
+          "state": "RECONCILING"
+        }
+      ],
+      "aPaidOrders": [
+        {
+          "keySha256": "0A579D80F11519CDD41427D3861C509CC11751EBA9BF358AF86DDB43D3843961",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "4567BF318FF92DFE1A557081CC279D684E63846AEC86B05ABD01F4C433D13E0B",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "9ADE96C2AEE511FD4EBEB87CF49E714A21F235D8696737BB2BD40EB932B660E1",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "28EE138C636F44C4385CAF9E477CB98574780289C54837FD13B60BC68F0A82D9",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "F97B1DC56ECAD947315F20B9F4AC9466BC3DCF8EFAA4090BB73EEF870B3DD1DA",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "9410B239FFA7992E64A2CBFA6F4C839400530430D51A9652B733C839DF2B1F9F",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "89469BDC995B0AC27E7039388EE6175E7A76EC91DFD23767C61A8AFEF8F8D996",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "27F96EFD9132C57C0536676FCD99C2E6B126400E1D5E7059A301DD1ADB10710B",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "E086C87BE2374DEF21DE60A32955F6BE8B45AEAC73539301EFB225191BD9835B",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "26132F70B7B078D546F8FB0ED1F975C5AB48DC06CAFE405E9C6AC616AC451CFE",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "9F73AB24B8B55367BC13DC2C4C2A61C0DF27DCAA37135793BAA433DE9073CE0B",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "0BA3A3B894DBE96B7833EC52E63B5B9612B90BD569DCE9A8D96C9D546F11993F",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "70DF5BE4159F0C405806E03846822EED7CDC3676A7A130ED1FF58A6DD6D5D486",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "B86B5709901E8C8E717AFE5869ABB6A6B168740147229750CC98CB1EA10A120A",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "D61ED442EE2D2096581C24B9DAFD34F49D1044C938DAF14EF22FB92343B4C5C9",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "32C8C84DEA264EA61BDF4A292B1DE161C10F8AD27D10E731827C330ED4E9A61C",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "29F307B6CA53825C592FF01A2FB9B81C7199241B057A6F119E3DECB00AA84B35",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "CDB5F5DD6B357FBD164511EF13E987E2C75C7628ABEFD19CB0E72267DDE751AB",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "72FED417EEB77EF2C04F14422FF396DD24763B9923DC0C6A524F5395972DA110",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "524A618958EB8AC2F6308E90A3FB069B634760E1C582CF088C4606CFF4C29EAE",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "580EEE70506B6E5B1C6E4B3CF5309069B6F557621BE784DAC0FA1DA63AE43ABB",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "8DDB2874BF6F485284F62461DAA5FD33DC66ADDC83F17BD4545184A4B6D58B60",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "E507D38575D72B40D656906C428BDC38FE10157ABB2D7ACE06F31C06D99FD39D",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "85BF3787BAB9F1D2418AC597555606C700F3C274E9E54E3A74631255E50F224F",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "16B22FA264CA95C356C4D12C7805AFE610CA74E70EF2BF40570DF26262E687AA",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "91B20E95E63D711BF5944C7908D62650DFDE35958325C837B4F5346E792921F0",
+          "state": "PAID"
+        }
+      ],
+      "aOutboxPending": [],
+      "aWaitingDependency": [],
+      "bOpenOrders": [],
+      "bUnsettledPayments": [],
+      "bUnsettledRefunds": [],
+      "bTradeWork": [
+        {
+          "keySha256": "B1E3BB9D212B1511BB2D83EACF547094C8F3CD31B154FB285C9E170BFBA2C7DC",
+          "state": "TEAM_FAILED:DEFERRED_B05"
+        }
+      ],
+      "bTradeInbox": [
+        {
+          "keySha256": "E9C0CA285D9C4A16444F200F09C32BA598ABEFD57B6B0CC53AA3EB64FD8185F3",
+          "state": "WAITING_DEPENDENCY"
+        },
+        {
+          "keySha256": "477F2050C5DA762812B509ECB340F90485FC287746C4E477FD88D20F6DBFEB26",
+          "state": "WAITING_DEPENDENCY"
+        },
+        {
+          "keySha256": "FCAC295671E36A3FD0A4C688F2B0A0286EECA7DF7E4ADA77CC2ABA22CD954F83",
+          "state": "WAITING_DEPENDENCY"
+        },
+        {
+          "keySha256": "3612858D5E6B7D392CBA01482CF2C2D08AA58D0C5AB09A05CF68A2DCF0D72FFA",
+          "state": "WAITING_DEPENDENCY"
+        }
+      ],
+      "bTradeOutbox": [],
+      "bReconciliation": [],
+      "bRefundTask": [],
+      "bActiveBlocks": [
+        {
+          "keySha256": "9ADE96C2AEE511FD4EBEB87CF49E714A21F235D8696737BB2BD40EB932B660E1",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "89469BDC995B0AC27E7039388EE6175E7A76EC91DFD23767C61A8AFEF8F8D996",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "26132F70B7B078D546F8FB0ED1F975C5AB48DC06CAFE405E9C6AC616AC451CFE",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "0BA3A3B894DBE96B7833EC52E63B5B9612B90BD569DCE9A8D96C9D546F11993F",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "D61ED442EE2D2096581C24B9DAFD34F49D1044C938DAF14EF22FB92343B4C5C9",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "8DDB2874BF6F485284F62461DAA5FD33DC66ADDC83F17BD4545184A4B6D58B60",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "E507D38575D72B40D656906C428BDC38FE10157ABB2D7ACE06F31C06D99FD39D",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "16B22FA264CA95C356C4D12C7805AFE610CA74E70EF2BF40570DF26262E687AA",
+          "state": "RECONCILIATION:ACTIVE"
+        }
+      ]
+    }
+  },
+  "candidate8445": {
+    "project": "zj-market-td05-20261015-01",
+    "images": {
+      "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+      "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+      "namesrv": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "broker": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "marketing-a": "sha256:48c7af4be50e59133cf76aac69bac7142fb0ab19c27c4cf21ae352550dc57ddc",
+      "market-b": "sha256:cebd526685cd3b2bba6619494321abae36a6f5df976306a67f08549d781d196a",
+      "web": "sha256:72869dd86d1bfc96490ea24397768909dd38cca9bcbab92c85b0550fbf105f14"
+    },
+    "allServicesHealthy": true,
+    "configSha256": {
+      "compose.json": "637965A40255D7FB8DDF22D971979A27BCC80EEE3F1B767E948C2DD98CFCB9A6",
+      "private/config/a.properties": "C9B0FFB2470C38C39EA3439F28A84678A1C32E29D240AAC7A783406394E62959",
+      "private/config/b.properties": "9EF7566581D11A2BB52E463CF5F0DAF1394768E1885ADE8D5D88D8719A8B5A73",
+      "private/control/capabilities.properties": "90EF24EB143D1D1107A226D03CB08022463857C480FDF3BD7A9CE6D42B84A710",
+      "private/config/admission-open.conf": "6F8E3A968EADFD6ED46C2C7084BFB3C6D162461F929A4675571BE7AF4B040586"
+    },
+    "schemaFingerprint": "5112d4e1b0c30224047bc9f945dfb4c360c623d4fcfb204757a4a7a411ec090b",
+    "migrationHistorySha256": "6fce73b5216393658902305bacdf262f80294dedec4a4a7676e6c0ba897928df",
+    "discoveryIndexColumns": [
+      "idx_ab_order_discovery_owner\t1\tteam_id",
+      "idx_ab_order_discovery_owner\t2\tuser_id",
+      "idx_ab_order_discovery_owner\t3\torder_status",
+      "idx_ab_team_discovery\t1\tsource",
+      "idx_ab_team_discovery\t2\tchannel",
+      "idx_ab_team_discovery\t3\tgoods_id",
+      "idx_ab_team_discovery\t4\tactivity_id",
+      "idx_ab_team_discovery\t5\tteam_status",
+      "idx_ab_team_discovery\t6\tvalid_end_time",
+      "idx_ab_team_discovery\t7\tteam_id"
+    ],
+    "runtimeDdlGranted": false,
+    "business": {
+      "observedAtUtc": "2026-10-15T13:54:25.169000Z",
+      "aTeams": {
+        "COMPLETED": 10,
+        "FAILED": 11,
+        "RECONCILING": 22
+      },
+      "aOrders": {
+        "CANCELLED": 24,
+        "PAID": 29
+      },
+      "aInbox": {
+        "PROCESSED": 98
+      },
+      "aOutbox": {
+        "PUBLISHED": 152
+      },
+      "bOrders": {
+        "CLOSED": 33,
+        "GROUP_COMPLETED": 20
+      },
+      "bReservations": {
+        "RELEASED": 33,
+        "CONFIRMED": 20
+      },
+      "bPayments": {
+        "SUCCEEDED": 29,
+        "UNPAID": 4
+      },
+      "bRefunds": {
+        "SUCCEEDED": 9
+      },
+      "bCoordination": {
+        "DONE": 53
+      },
+      "bTradeWork": {
+        "DEFERRED_B05": 1,
+        "DONE": 41
+      },
+      "bTradeInbox": {
+        "DONE": 80,
+        "WAITING_DEPENDENCY": 4
+      },
+      "bTradeOutbox": {
+        "DONE": 47
+      },
+      "bReconciliation": {
+        "RESOLVED": 11
+      },
+      "bReconSubmission": {
+        "ACKNOWLEDGED": 11
+      },
+      "bRefundTask": {
+        "DONE": 9
+      },
+      "bRefundAttempt": {
+        "SUCCEEDED": 9
+      },
+      "bSimPayment": {
+        "PAID": 29,
+        "CLOSED_UNPAID": 4
+      },
+      "bSimRefundAttempt": {
+        "SUCCEEDED": 9
+      },
+      "aWaitingDependency": {
+        "total": 0
+      },
+      "aExceptionPayment": {
+        "total": 0
+      },
+      "bOrderBlocks": {
+        "ACTIVE": 9,
+        "CLEARED": 1
+      },
+      "bPurchaseGuards": {
+        "active": 0
+      },
+      "bChannelMoney": {
+        "paidAmount": "2610.00",
+        "refundedAmount": "810.00"
+      },
+      "bInventory": {
+        "available": 570,
+        "reserved": 0,
+        "sold": 20
+      },
+      "aDueTeams": {
+        "formingPastEnd": 0
+      },
+      "bDueWork": {
+        "tradeWork": 0
+      }
+    },
+    "obligations": {
+      "aReconcilingTeams": [
+        {
+          "keySha256": "777BD9B9733C2D71F5097C7CDA3005E5C409CDABB8E451D62528D9F2BC983485",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "F0E7C8917C36A4F996C08B0E82F3165DDAB7D7983C9E203B6D67CD01E33FCEE8",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "C25A2E8D7FFA2F3F14C246DF7CDA671899A4871663809E28D43A2A5730C3F9FC",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "16AC04900F2DDCDCD57900B6679430DFC59DEB1389E5F27A8D275DE454823D55",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "B7FB79D49533F57FBA3C65F6DBA200BADB6595DE4851D21739B805179A32EF75",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "189EC3FF48BEED28B7C9381B72C33715512FED630F748625D087597DA8577FBC",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "C7C46F7A01A64B16E4FEE3EA98DA43BF0631BA7978E7821D5818077865622637",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "161D3086963F37A47F5C463A19D28CDDB69CEF42D8F2ECA9496EF06455D0A5D0",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "2C62FC46490386B3880473F49D56BDDEFAFF54316EF77880D30DFD02FE6964FB",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "7652D45F2875D081F12694AA4A0984B64C72A05B7872227BDF2F08F77C78D145",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "D84204F81777E676CE28B6DEAA9DB9DC05CD2F95DBAC9CFF4247FD5DE3D7B41F",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "CCFBF96E78FDA61A9F6F3662679D6A2FAFBB2D30EE7C93D0234BEC21A72EC8DC",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "9CE0F4DAD20320833D65889329780501DE73A7B87A7EEC64FAB154B1D54B1BD5",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "6EB7CD4A9A2356E40E8FCDBEBC8EF8386A437D5DECF434049C7ECEECDA83CEAE",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "030C5AC3E0049A4055836E72D73089ACA79F5B464A13499E8D810C55042443FC",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "660FF46E645D284D73986DBDE07B9809ABDA3EF34CB84F6A1B6D13B5F505B692",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "4CA3D1144777BFF325D5B1AB57CB023F49D1CA3CCF713D8537EB93C1A4D9FF4A",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "B7B13D541A6FEEC9FA44DE8F676EE6210B63C9D3ED6D2345CF271A23731A1827",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "E06CE4D78BA52E026A45C4E65EE7739A0E26615F96D100784C258AFE5FB4812E",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "9EA65F5137DEE2A897AD7F6FBD75C4E012DD883C24F66AE05DEFA5EBF3839A56",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "0A69C0D66CE96053E5A58352D22D111413C21BCEA1917F07405B64BD632E2210",
+          "state": "RECONCILING"
+        },
+        {
+          "keySha256": "03A534C1470AC8EB4473F1BA282D05F455DD53C1D057100AA0646E6CF9D31D88",
+          "state": "RECONCILING"
+        }
+      ],
+      "aPaidOrders": [
+        {
+          "keySha256": "0A579D80F11519CDD41427D3861C509CC11751EBA9BF358AF86DDB43D3843961",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "4567BF318FF92DFE1A557081CC279D684E63846AEC86B05ABD01F4C433D13E0B",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "9ADE96C2AEE511FD4EBEB87CF49E714A21F235D8696737BB2BD40EB932B660E1",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "28EE138C636F44C4385CAF9E477CB98574780289C54837FD13B60BC68F0A82D9",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "28EF96C319616FA894765494E6829A331C607CF93495C54FBC53CE55FE2C947E",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "F97B1DC56ECAD947315F20B9F4AC9466BC3DCF8EFAA4090BB73EEF870B3DD1DA",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "9410B239FFA7992E64A2CBFA6F4C839400530430D51A9652B733C839DF2B1F9F",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "2BF1757224A3A74F7D994CD2F0FB4A7F5DEEDC877F08B1095D1BFBCF203DF977",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "07550F4091D78BB26C593A0E3B0943C4E2F5433FF7019B3FE30C2563F15F7F48",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "89469BDC995B0AC27E7039388EE6175E7A76EC91DFD23767C61A8AFEF8F8D996",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "27F96EFD9132C57C0536676FCD99C2E6B126400E1D5E7059A301DD1ADB10710B",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "E086C87BE2374DEF21DE60A32955F6BE8B45AEAC73539301EFB225191BD9835B",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "26132F70B7B078D546F8FB0ED1F975C5AB48DC06CAFE405E9C6AC616AC451CFE",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "9F73AB24B8B55367BC13DC2C4C2A61C0DF27DCAA37135793BAA433DE9073CE0B",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "0BA3A3B894DBE96B7833EC52E63B5B9612B90BD569DCE9A8D96C9D546F11993F",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "70DF5BE4159F0C405806E03846822EED7CDC3676A7A130ED1FF58A6DD6D5D486",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "B86B5709901E8C8E717AFE5869ABB6A6B168740147229750CC98CB1EA10A120A",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "D61ED442EE2D2096581C24B9DAFD34F49D1044C938DAF14EF22FB92343B4C5C9",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "32C8C84DEA264EA61BDF4A292B1DE161C10F8AD27D10E731827C330ED4E9A61C",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "29F307B6CA53825C592FF01A2FB9B81C7199241B057A6F119E3DECB00AA84B35",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "CDB5F5DD6B357FBD164511EF13E987E2C75C7628ABEFD19CB0E72267DDE751AB",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "72FED417EEB77EF2C04F14422FF396DD24763B9923DC0C6A524F5395972DA110",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "524A618958EB8AC2F6308E90A3FB069B634760E1C582CF088C4606CFF4C29EAE",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "580EEE70506B6E5B1C6E4B3CF5309069B6F557621BE784DAC0FA1DA63AE43ABB",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "8DDB2874BF6F485284F62461DAA5FD33DC66ADDC83F17BD4545184A4B6D58B60",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "E507D38575D72B40D656906C428BDC38FE10157ABB2D7ACE06F31C06D99FD39D",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "85BF3787BAB9F1D2418AC597555606C700F3C274E9E54E3A74631255E50F224F",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "16B22FA264CA95C356C4D12C7805AFE610CA74E70EF2BF40570DF26262E687AA",
+          "state": "PAID"
+        },
+        {
+          "keySha256": "91B20E95E63D711BF5944C7908D62650DFDE35958325C837B4F5346E792921F0",
+          "state": "PAID"
+        }
+      ],
+      "aOutboxPending": [],
+      "aWaitingDependency": [],
+      "bOpenOrders": [],
+      "bUnsettledPayments": [],
+      "bUnsettledRefunds": [],
+      "bTradeWork": [
+        {
+          "keySha256": "B1E3BB9D212B1511BB2D83EACF547094C8F3CD31B154FB285C9E170BFBA2C7DC",
+          "state": "TEAM_FAILED:DEFERRED_B05"
+        }
+      ],
+      "bTradeInbox": [
+        {
+          "keySha256": "E9C0CA285D9C4A16444F200F09C32BA598ABEFD57B6B0CC53AA3EB64FD8185F3",
+          "state": "WAITING_DEPENDENCY"
+        },
+        {
+          "keySha256": "477F2050C5DA762812B509ECB340F90485FC287746C4E477FD88D20F6DBFEB26",
+          "state": "WAITING_DEPENDENCY"
+        },
+        {
+          "keySha256": "FCAC295671E36A3FD0A4C688F2B0A0286EECA7DF7E4ADA77CC2ABA22CD954F83",
+          "state": "WAITING_DEPENDENCY"
+        },
+        {
+          "keySha256": "3612858D5E6B7D392CBA01482CF2C2D08AA58D0C5AB09A05CF68A2DCF0D72FFA",
+          "state": "WAITING_DEPENDENCY"
+        }
+      ],
+      "bTradeOutbox": [],
+      "bReconciliation": [],
+      "bRefundTask": [],
+      "bActiveBlocks": [
+        {
+          "keySha256": "9ADE96C2AEE511FD4EBEB87CF49E714A21F235D8696737BB2BD40EB932B660E1",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "07550F4091D78BB26C593A0E3B0943C4E2F5433FF7019B3FE30C2563F15F7F48",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "89469BDC995B0AC27E7039388EE6175E7A76EC91DFD23767C61A8AFEF8F8D996",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "26132F70B7B078D546F8FB0ED1F975C5AB48DC06CAFE405E9C6AC616AC451CFE",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "0BA3A3B894DBE96B7833EC52E63B5B9612B90BD569DCE9A8D96C9D546F11993F",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "D61ED442EE2D2096581C24B9DAFD34F49D1044C938DAF14EF22FB92343B4C5C9",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "8DDB2874BF6F485284F62461DAA5FD33DC66ADDC83F17BD4545184A4B6D58B60",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "E507D38575D72B40D656906C428BDC38FE10157ABB2D7ACE06F31C06D99FD39D",
+          "state": "RECONCILIATION:ACTIVE"
+        },
+        {
+          "keySha256": "16B22FA264CA95C356C4D12C7805AFE610CA74E70EF2BF40570DF26262E687AA",
+          "state": "RECONCILIATION:ACTIVE"
+        }
+      ]
+    }
+  },
+  "scope": "Read-only live observation; rows may change after capture; no stop-write, backup, migration, switch, or trade mutation",
+  "nextGate": "TD-06.2 must quiesce all writers and make a new consistent backup of the then-current main443 volumes and data before any upgrade."
+}

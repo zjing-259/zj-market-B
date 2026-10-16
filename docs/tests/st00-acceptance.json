@@ -1,0 +1,511 @@
+{
+  "stage": "ST-00",
+  "status": "PASSED_READ_ONLY_SCOPE_FREEZE",
+  "capturedAtUtc": "2026-10-16T04:31:36.837180+00:00",
+  "target": "Existing TD-06 Windows main443; ST-01 through ST-05 not started",
+  "git": {
+    "a": {
+      "branch": "codex/team-discovery-td00",
+      "head": "4ee192b359dd7354d5cf575283fa0ee42306fbf9",
+      "worktrees": [
+        {
+          "path": "D:/Java/group-buy-market",
+          "head": "4ee192b359dd7354d5cf575283fa0ee42306fbf9",
+          "branch": "refs/heads/codex/team-discovery-td00"
+        }
+      ],
+      "modifiedCount": 14,
+      "stagedCount": 0,
+      "untrackedCount": 18,
+      "modifiedClasses": {
+        "applicationOrFrontend": 10,
+        "docsOrEvidence": 4,
+        "deploymentOrScripts": 0,
+        "other": 0
+      },
+      "untrackedClasses": {
+        "applicationOrFrontend": 12,
+        "docsOrEvidence": 5,
+        "deploymentOrScripts": 0,
+        "other": 1
+      }
+    },
+    "b": {
+      "branch": "codex/team-discovery-td00",
+      "head": "f07c409e879dc99cc64db05bd130cc16f59e9841",
+      "worktrees": [
+        {
+          "path": "D:/Java/zj-market",
+          "head": "f07c409e879dc99cc64db05bd130cc16f59e9841",
+          "branch": "refs/heads/codex/team-discovery-td00"
+        },
+        {
+          "path": "D:/Java/zj-market-b-04",
+          "head": "53ad32d222cdcb1b330cf07a53b2fd64e02ccccf",
+          "branch": "refs/heads/b-04"
+        },
+        {
+          "path": "D:/Java/zj-market-b-05",
+          "head": "2eae6a23a23a505fd19a70a7de037d6ed07e9cbb",
+          "branch": "refs/heads/b-05"
+        },
+        {
+          "path": "D:/Java/zj-market-b-06",
+          "head": "de242a42f6c2af3eda2c74336854bd4aea2c5793",
+          "branch": "refs/heads/b-06"
+        },
+        {
+          "path": "D:/Java/zj-market-b01",
+          "head": "9d75f82f0c9636dbeed78aecd7df5029717254fb",
+          "branch": "refs/heads/b-02"
+        },
+        {
+          "path": "D:/Java/zj-market-b02-noFileUpdate",
+          "head": "f93c861244170d960a430053496780f6c348edd3",
+          "branch": "refs/heads/b02-noFileUpdate"
+        },
+        {
+          "path": "D:/Java/zj-market-b03",
+          "head": "7cef24165a12fe443703142225c3dda5fd692a87",
+          "branch": "refs/heads/b-03"
+        }
+      ],
+      "modifiedCount": 18,
+      "stagedCount": 0,
+      "untrackedCount": 98,
+      "modifiedClasses": {
+        "applicationOrFrontend": 13,
+        "docsOrEvidence": 3,
+        "deploymentOrScripts": 0,
+        "other": 2
+      },
+      "untrackedClasses": {
+        "applicationOrFrontend": 16,
+        "docsOrEvidence": 77,
+        "deploymentOrScripts": 5,
+        "other": 0
+      }
+    }
+  },
+  "runtime": {
+    "project": "zj-market-b06",
+    "sevenHealthy": true,
+    "images": {
+      "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+      "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+      "namesrv": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "broker": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "marketing-a": "sha256:48c7af4be50e59133cf76aac69bac7142fb0ab19c27c4cf21ae352550dc57ddc",
+      "market-b": "sha256:cebd526685cd3b2bba6619494321abae36a6f5df976306a67f08549d781d196a",
+      "web": "sha256:a3aad07bd5e4e5b06c4ec647cc72299f0bf3d1125fdda85157e9529054a950d9"
+    },
+    "allImageIdsMatchTd06Archive": true,
+    "stoppedAuxiliary": {
+      "service": "mq-permissions",
+      "exitCode": 0,
+      "imageId": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5"
+    },
+    "httpsHostBinding": "127.0.0.1:443",
+    "networks": [
+      "zj-market-b06_data",
+      "zj-market-b06_edge",
+      "zj-market-b06_mq",
+      "zj-market-b06_redis",
+      "zj-market-b06_rpc"
+    ],
+    "volumes": [
+      "zj-market-b06_broker-logs",
+      "zj-market-b06_broker-store",
+      "zj-market-b06_mysql-data",
+      "zj-market-b06_namesrv-logs",
+      "zj-market-b06_redis-data"
+    ],
+    "mounts": {
+      "mysql": {
+        "namedVolumes": [
+          "zj-market-b06_mysql-data"
+        ],
+        "bindCount": 6,
+        "bindSources": [
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mysql.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/etc/b06/mysql.cnf",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mysql-ca.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mysql-health.cnf",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mysql-key.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mysql-root",
+            "readOnly": true,
+            "file": true
+          }
+        ]
+      },
+      "redis": {
+        "namedVolumes": [
+          "zj-market-b06_redis-data"
+        ],
+        "bindCount": 2,
+        "bindSources": [
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/redis-password",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/redis.conf",
+            "readOnly": true,
+            "file": true
+          }
+        ]
+      },
+      "namesrv": {
+        "namedVolumes": [
+          "zj-market-b06_namesrv-logs"
+        ],
+        "bindCount": 3,
+        "bindSources": [
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/etc/b06/tls.properties",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mq-key.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mq.pem",
+            "readOnly": true,
+            "file": true
+          }
+        ]
+      },
+      "broker": {
+        "namedVolumes": [
+          "zj-market-b06_broker-logs",
+          "zj-market-b06_broker-store"
+        ],
+        "bindCount": 6,
+        "bindSources": [
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/etc/b06/broker.conf",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/etc/b06/tls.properties",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/home/rocketmq/rocketmq-4.9.7/conf/plain_acl.yml",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mq-key.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mq.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/plain_acl.yml",
+            "readOnly": true,
+            "file": true
+          }
+        ]
+      },
+      "marketing-a": {
+        "namedVolumes": [],
+        "bindCount": 9,
+        "bindSources": [
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/etc/b06/mq-tls.properties",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/a.properties",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mysql-trust.p12",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/rpc-client-ca.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/etc/b06/application.properties",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mq.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/rpc-server-key.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/rpc-server.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "td06PrivateRelease",
+            "destination": "/etc/b06/logback-td05.xml",
+            "readOnly": true,
+            "file": true
+          }
+        ]
+      },
+      "market-b": {
+        "namedVolumes": [],
+        "bindCount": 11,
+        "bindSources": [
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/etc/b06/application.properties",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/identity-public.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mysql-trust.p12",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/rpc-client-key.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/rpc-server-ca.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "td06PrivateRelease",
+            "destination": "/etc/b06/capabilities.properties",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/etc/b06/mq-tls.properties",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/b.properties",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/identity-key.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/mq.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/rpc-client.pem",
+            "readOnly": true,
+            "file": true
+          }
+        ]
+      },
+      "web": {
+        "namedVolumes": [],
+        "bindCount": 4,
+        "bindSources": [
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/web-cert.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/web-key.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/run/secrets/web-ca.pem",
+            "readOnly": true,
+            "file": true
+          },
+          {
+            "class": "legacyPrivateOrHistory",
+            "destination": "/etc/b06/admission.conf",
+            "readOnly": true,
+            "file": true
+          }
+        ]
+      }
+    },
+    "noOtherPublishedPorts": true
+  },
+  "sourceToRuntime": {
+    "aCurrentMatchesFrozen286Files": true,
+    "bCurrentMatchesFrozen355Files": true,
+    "runningImagesFromTd05ABAndTd062WebBuild": true,
+    "gitHeadAloneDoesNotIdentifyRunningVersion": true
+  },
+  "dependencies": {
+    "checkedFileCount": 21,
+    "missingCount": 0,
+    "legacyTreeFileCount": 8,
+    "td06PrivateReleaseFileCount": 3,
+    "directDevelopmentTreeDependency": true,
+    "hostJdk21RequiredForRpcProbe": true,
+    "legacyTreeStillRequired": true
+  },
+  "hostTools": {
+    "python": "Python 3.13.5",
+    "pyYaml": "6.0.3",
+    "node": "v24.16.0",
+    "git": "git version 2.43.0.windows.1",
+    "dockerDesktopLinux": "24.0.7|24.0.7",
+    "hostDefaultJava": "java version \"1.8.0_391\"",
+    "explicitJava21": "java version \"21.0.2\" 2024-01-16 LTS",
+    "explicitJavac21": "javac 21.0.2",
+    "powershellDesktopAvailable": true,
+    "powershellCoreAvailable": true,
+    "edgePresent": true
+  },
+  "gateway": {
+    "loadedAdmissionOpen": true,
+    "invalidWriteStatus": 401,
+    "invalidWriteCode": "AUTH_REQUIRED",
+    "invalidWriteJson": true,
+    "strictTls": true,
+    "signedDiscoveryGetStatus": 200,
+    "createdBusinessOrder": false
+  },
+  "businessSnapshot": {
+    "observedAtUtc": "2026-10-16T04:31:36.537000Z",
+    "channelMoney": {
+      "paidAmount": "2790.00",
+      "refundedAmount": "810.00"
+    },
+    "inventory": {
+      "available": 568,
+      "reserved": 0,
+      "sold": 22
+    },
+    "originalObligationCategoryCounts": {
+      "aReconcilingTeams": 23,
+      "aPaidOrders": 31,
+      "aOutboxPending": 0,
+      "aWaitingDependency": 0,
+      "bOpenOrders": 0,
+      "bUnsettledPayments": 0,
+      "bUnsettledRefunds": 0,
+      "bTradeWork": 1,
+      "bTradeInbox": 5,
+      "bTradeOutbox": 0,
+      "bReconciliation": 0,
+      "bRefundTask": 0,
+      "bActiveBlocks": 9
+    }
+  },
+  "legacyArchive": {
+    "sourceAndImageHashesStillMatch": true,
+    "fullCheckExpectedToDriftOnNewPublicFileInventory": true,
+    "fullCheckObservedResult": "TD-06 release manifest drift",
+    "fullCheckCause": "ST-00 public files added after the historical TD-06 archive; the historical archive was not rewritten",
+    "historicalManifestAndEvidenceRewritten": false
+  },
+  "privateInventoryPath": "D:/Java/zj-market/target/stable-isolation/st00_20261016_01/private-inventory.json",
+  "risks": [
+    "Main release control and live bind mounts still depend on development and historical worktrees",
+    "Host default Java is 8; TD-06 RPC probe uses explicit JDK 21",
+    "Original business obligations remain; live totals can change after this snapshot",
+    "Existing start controller has lifecycle risk on precondition failure; do not use it as a generic repair"
+  ],
+  "actions": {
+    "gitCommitted": false,
+    "tagCreated": false,
+    "imagesSaved": false,
+    "deploymentChanged": false,
+    "businessWrites": false,
+    "worktreeCreated": false
+  },
+  "privateInventorySha256": "789ECFDCAB85513EBC9787E7FD6C4922320FB5527EA086A0045DCCE07990E4D4"
+}

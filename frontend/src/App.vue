@@ -14,7 +14,14 @@ function route() { return location.pathname.startsWith('/admin/refunds') ? 'refu
 const page = ref(route()), routePath = ref(location.pathname)
 function safeReturn() {
   const path = new URLSearchParams(location.search).get('returnTo')
-  return path && /^(?:\/|\/products(?:\/[A-Za-z0-9._-]{1,64})?|\/teams\/[A-Za-z0-9_-]{1,64}|\/orders(?:\/[A-Za-z0-9_-]{1,64}(?:\/payment)?)?)$/.test(path) ? path : null
+  if (!path || !path.startsWith('/') || path.startsWith('//') || /[?#\\\u0000-\u001f\u007f]/.test(path)) return null
+  if (/^\/(?:products|orders)$/.test(path) || path === '/') return path
+  const match = path.match(/^\/(products|teams|orders)\/([^/]+)(\/payment)?$/)
+  if (!match || (match[3] && match[1] !== 'orders')) return null
+  try {
+    const id = decodeURIComponent(match[2]!)
+    return id.length > 0 && id.length <= 64 && id.trim() === id && !/[\/\\\u0000-\u001f\u007f]/.test(id) ? path : null
+  } catch { return null }
 }
 const returnTo = ref(safeReturn())
 function finishLogin() { if (returnTo.value) { history.replaceState(null, '', returnTo.value); returnTo.value = null; routePath.value = location.pathname; page.value = route() } }

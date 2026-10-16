@@ -1,0 +1,33 @@
+{
+  "stage": "TD-02",
+  "status": "TESTED_B_SOURCE_CANDIDATE_NOT_DEPLOYED",
+  "bHead": "f07c409e879dc99cc64db05bd130cc16f59e9841",
+  "branch": "codex/team-discovery-td00",
+  "sourceUncommitted": true,
+  "appJarPath": "zj-market-app/target/zj-market-app-exec.jar",
+  "appJarSha256": "C380FCB6DD713D94EB9F4D335D5E117B0825D3ACB9E343308E08A6F05B6763D9",
+  "contractCoordinate": "cn.bugstack:group-buy-market-contract:1.1.0-td.1",
+  "embeddedContractSha256": "363A2CDF6B30B5936714D8481FEB3F984C8C0762F528E9BCF514B374EE39E7BE",
+  "featureFlagDefault": false,
+  "originalB06Updated": false,
+  "sourceSha256": {
+    "pom.xml": "D79630F20DB541FA42200AB4DA89EBF8D5C5ED8D721E7153DA9EAE48841DEE8C",
+    "zj-market-app/src/main/java/cn/zj/zjmarket/ZjMarketApplication.java": "F8D600327FF5E56E51578735EE89863118D9C1684EC227285956CF7EEA1A5F68",
+    "zj-market-app/src/main/java/cn/zj/zjmarket/app/config/TeamDiscoveryConfiguration.java": "B461706B4ED82B92E84BCB7912E57DD250C1E6D029C6DFD2FB64C43D8EA61CCF",
+    "zj-market-app/src/main/java/cn/zj/zjmarket/app/security/IdentityHttpFilter.java": "35F70E8C877CA83171A6610123C542A15227A4AF43A742CED7EC4DB0B0804E1A",
+    "zj-market-app/src/main/resources/application.properties": "7B4A728FA344098341C47CB6952043970ADA903C13008A61C017EB7DAB0DD618",
+    "zj-market-domain/src/main/java/cn/zj/zjmarket/domain/order/adapter/port/ITeamDiscoveryPort.java": "4A10E802B34CE885A868784303D12E4ACAD500726302D95B61785C6579327239",
+    "zj-market-domain/src/main/java/cn/zj/zjmarket/domain/order/model/valobj/DiscoveryItem.java": "57C0AF0932D1ED586A1AC59FD0DCE4C7019E687261305538816FFBF470498564",
+    "zj-market-domain/src/main/java/cn/zj/zjmarket/domain/order/model/valobj/DiscoveryPage.java": "3F41F1B2E9A7AF8EA680DC74ECF2E9E79CA9221B81E44ED6C9426169EEA521B0",
+    "zj-market-domain/src/main/java/cn/zj/zjmarket/domain/order/service/ITeamDiscoveryService.java": "2EA00E433AAD8D34FC254CED7ED6EB6272DA7A6FA81AC074C8EE0B7349EBCDC7",
+    "zj-market-domain/src/main/java/cn/zj/zjmarket/domain/order/service/impl/TeamDiscoveryService.java": "9B1AAFC7A8AE62EB174C29E96B64A219BEFDE208E20301854F33FB9348D3C510",
+    "zj-market-infrastructure/src/main/java/cn/zj/zjmarket/infrastructure/adapter/port/order/DubboTeamDiscoveryPort.java": "68167CD604D921D0B656F0D067801F288282F208F5F1E537B2259016771935EB",
+    "zj-market-trigger/src/main/java/cn/zj/zjmarket/trigger/http/TeamDiscoveryController.java": "CC02F28D629D7BF368F4211A639681849CDAF0260A95D6665B5D81DCFDA33207",
+    "zj-market-trigger/src/main/java/cn/zj/zjmarket/trigger/http/TeamDiscoveryGate.java": "64D01BA70292AF083E4F6D852C34F9A1DE23CF155E7E7F6E1770EC0BBE237719",
+    "zj-market-app/src/test/java/cn/zj/zjmarket/test/order/TeamDiscoveryBackendTest.java": "D643DFEFED730875EBB4E66CD5CEE27A9A1BCE3E2FF1C2511B9970A43AFC25B7",
+    "zj-market-app/src/test/java/cn/zj/zjmarket/test/order/TeamDiscoveryGateTest.java": "5E325183B0CEE40D5351DBDCF82BD9A01BFDEBF864106198C5F4D9C1DC2CCF97",
+    "zj-market-app/src/test/java/cn/zj/zjmarket/test/order/TeamDiscoveryHttpTest.java": "A36A2537E4EB2658FE0675C6DBED4E51F32AD3711DBFB1F1AC29A72094DC9077",
+    "docs/tests/run-td02-live.py": "CC3538458342BBD9E6BA410A53400CED09BE473D7E415CDB6C322EA54F15DE82",
+    "docs/tests/td02/HoldAProvider.java": "341727DF5C70D3A3F7284B9D541C558AE79C5F655B1E3935E5B66BF833A89EA8"
+  }
+}

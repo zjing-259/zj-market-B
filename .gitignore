@@ -51,6 +51,8 @@ frontend/dist/
 coverage/
 .vite/
 *.tsbuildinfo
+__pycache__/
+*.pyc
 
 ### STS ###
 .apt_generated

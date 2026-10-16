@@ -14,7 +14,11 @@ const clear = () => { accessToken = null; expiresAt = 0; current.value = null }
 sessionEvents?.addEventListener('message', event => { if (event.data === 'logout') clear() })
 async function body<T>(response: Response): Promise<T> {
   const result: Envelope<T> = await response.json()
-  if (!response.ok) throw new ApiError(result.code, response.status, result.requestId, result.data)
+  if (!response.ok) {
+    const retry = response.headers.get('Retry-After')
+    const seconds = retry && /^(?:0|[1-9][0-9]{0,5})$/.test(retry) ? Number(retry) : undefined
+    throw new ApiError(result.code, response.status, result.requestId, result.data, seconds)
+  }
   return result.data
 }
 // Serializes cookie mutations across tabs; never replay a consumed refresh token.

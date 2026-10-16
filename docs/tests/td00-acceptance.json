@@ -1,0 +1,253 @@
+{
+  "stage": "TD-00",
+  "status": "PASSED_BASELINE_AND_CONTRACT_FREEZE",
+  "stageCompletion": true,
+  "generatedAt": "2026-10-14T08:59:28.979843+00:00",
+  "scope": "Contract DTO/artifact, wire design, fresh isolated data preparation and real B06 read-only inventory only",
+  "decisions": {
+    "TD-D1": "At least one payment accepted by A before listing",
+    "TD-D2": "Authenticated users only"
+  },
+  "repositories": {
+    "a": {
+      "path": "D:\\Java\\group-buy-market",
+      "head": "4ee192b359dd7354d5cf575283fa0ee42306fbf9",
+      "branch": "codex/team-discovery-td00",
+      "status": "?? docs/project-a-v1-v2-comparison.md"
+    },
+    "b": {
+      "path": "D:\\Java\\zj-market",
+      "head": "f07c409e879dc99cc64db05bd130cc16f59e9841",
+      "branch": "codex/team-discovery-td00",
+      "status": "M docs/development-roadmap.md\n?? docs/team-discovery-development.md\n?? docs/tests/collect-td00-baseline.py"
+    },
+    "b06": {
+      "path": "D:\\Java\\zj-market-b-06",
+      "head": "de242a42f6c2af3eda2c74336854bd4aea2c5793",
+      "branch": "b-06",
+      "status": ""
+    }
+  },
+  "oldArtifacts": [
+    {
+      "label": "a-legacy-source",
+      "path": "D:\\Java\\group-buy-market\\group-buy-market-app\\target\\group-buy-market-app.jar",
+      "sha256": "223A02521120F6D83CB58220E7CFF08839A5B6BCBAC9BC5C00BCA42F8E6C8392",
+      "bytes": 75164636,
+      "embeddedContract": "BOOT-INF/lib/group-buy-market-contract-1.0-SNAPSHOT.jar",
+      "contractSha256": "EEB3E9EC8D73E4C4CED28A86104004AD43CC075B793C2149D7625248FD0604DB"
+    },
+    {
+      "label": "a-b06",
+      "path": "D:\\Java\\zj-market-b-06\\.local\\b06\\build\\a\\app.jar",
+      "sha256": "304A11A674FD82D07A4F2C8338D602294D82452FBE853FFBC4DD2EDCA167E180",
+      "bytes": 75159121,
+      "embeddedContract": "BOOT-INF/lib/group-buy-market-contract-1.0-SNAPSHOT.jar",
+      "contractSha256": "EEB3E9EC8D73E4C4CED28A86104004AD43CC075B793C2149D7625248FD0604DB"
+    },
+    {
+      "label": "b-b06",
+      "path": "D:\\Java\\zj-market-b-06\\.local\\b06\\build\\b\\app.jar",
+      "sha256": "15416A1FCA51C9F0029C934908EF15029D422F05681E6527E96BCFE85C46EF1A",
+      "bytes": 63848569,
+      "embeddedContract": "BOOT-INF/lib/group-buy-market-contract-1.0-SNAPSHOT.jar",
+      "contractSha256": "EEB3E9EC8D73E4C4CED28A86104004AD43CC075B793C2149D7625248FD0604DB"
+    }
+  ],
+  "legacyEmbeddedContractsIdentical": true,
+  "oldMigrations": {
+    "a": {
+      "docs/dev-ops/mysql/sql/migrations/20260926-phase1-reaudit.sql": "FE31808A9D0FF14A532B24C460E0AF526D0205A960D524CE6637803872322A3C",
+      "docs/dev-ops/mysql/sql/migrations/20260926-phase1.sql": "CC0C841F5D11EB1D546F15B49B351F3CAA94A0DE931A40B73D6E73CCC8A71684",
+      "docs/dev-ops/mysql/sql/migrations/20260927-phase3-notify.sql": "B527E56E34E7708CD0439855C5F44CBD788FF6011FD41267570B997178499BA8",
+      "docs/dev-ops/mysql/sql/migrations/20261002-ab-v2-waiting-key.sql": "29E95ED21780A0B67290E54531BA3D78E7CF4810C3B839F5A986DD54486B0EF7",
+      "docs/dev-ops/mysql/sql/migrations/20261002-ab-v2.sql": "17E9FB6A7FAA37DA6405005A95BA95B5B372222817E289EBFE580E45D22DC92B"
+    },
+    "b": {
+      "zj-market-infrastructure/src/main/resources/db/migration/V10_1__payment_receipt_integrity.sql": "A6643DB499EAB2017D291E3850E10695EA0B0B499664FB583A78806918665FCC",
+      "zj-market-infrastructure/src/main/resources/db/migration/V10__payment_and_simulated_channel.sql": "09FB9B6C156E48461FD81C373D8D2639CDBC6CB58332141EC198E1259577D358",
+      "zj-market-infrastructure/src/main/resources/db/migration/V11__trusted_payment_and_trade_messages.sql": "8400C406AA94ED47A31043B8391E78841732A54AC3ADFBF2DBA912D70A39C1C6",
+      "zj-market-infrastructure/src/main/resources/db/migration/V12__payment_root_close_proof.sql": "B03531A26BA7E074B566D48EC86F5A7AC336FE1CFB6ED8DEE92D9AF161461ABF",
+      "zj-market-infrastructure/src/main/resources/db/migration/V13__group_completion_and_fulfillment.sql": "AE8229B349DB7C6A9BFF17D2F636110DE5D8266C079617C443049D3F6974CA2E",
+      "zj-market-infrastructure/src/main/resources/db/migration/V14__reconciliation_and_refund_obligations.sql": "0ADF4945A622158D3576F57269A2E27D250C05DF883C85C6115A637E254908A3",
+      "zj-market-infrastructure/src/main/resources/db/migration/V15__independent_simulated_refunds.sql": "28D7CA403E54F257AD93899CE0E9B7C30B3C582DFF4058129CC1C7DBA396F65F",
+      "zj-market-infrastructure/src/main/resources/db/migration/V16__trusted_refund_sync.sql": "C12534969AF82502487276B8CBC552EF9E62F48779A99E3D4DDFE5B843AC07FA",
+      "zj-market-infrastructure/src/main/resources/db/migration/V17__refund_release_and_operations.sql": "8272DE979150529D34134E3C63E2714CB375230A9427C3D2661B8C92FBA4C7FC",
+      "zj-market-infrastructure/src/main/resources/db/migration/V18__refund_check_schedule.sql": "2C4DDEEBB872C62186E7D85CDF734C397BC729FB75B4332C14556AB06B7EE7F7",
+      "zj-market-infrastructure/src/main/resources/db/migration/V1__database_boundary.sql": "E15907B5E0E6EFB4CEF7CF014B936419885A11BA142DB32766F51FE913E8BCCF",
+      "zj-market-infrastructure/src/main/resources/db/migration/V2__identity.sql": "FA9E3656F319516F668E5144532475ED5C62BEE7737B03D594EA35CC301DDDE4",
+      "zj-market-infrastructure/src/main/resources/db/migration/V3__product_authority.sql": "09A93FB70B5114638C53EF8ECC9B5497FBFAF31139F29CB289A42B3740502813",
+      "zj-market-infrastructure/src/main/resources/db/migration/V4__reliable_product_sync.sql": "B1D56616314C4721722D87E7E2330492C3FE85061EED4387E45A25DB56848150",
+      "zj-market-infrastructure/src/main/resources/db/migration/V5__inventory_foundation.sql": "391597B09115DB1FDC6C88E233E7C6AD539469DF3AFCF9F651C98CA9F2D245D4",
+      "zj-market-infrastructure/src/main/resources/db/migration/V6__inventory_request_audit.sql": "848970F67A8B84EFE69D5C862B8ECF72CA7A1FDB1F219DCA4D9F7EA4E4F24FF3",
+      "zj-market-infrastructure/src/main/resources/db/migration/V7__local_order_reservation.sql": "9C13B9CCC931F76FDCF2C18B11009B277CB3A7D1582DB6518DE2FBCFEF14BF7D",
+      "zj-market-infrastructure/src/main/resources/db/migration/V8__trade_reservation_recovery.sql": "BD907735FD1D43A1016D1C2BBD7E66C75DF57E39EBBDE0D2ABC91AFF999A749B",
+      "zj-market-infrastructure/src/main/resources/db/migration/V9__unpaid_close_and_order_operations.sql": "57AAE3282DE2322F6615331EDD375B0C48832A7A97D55DCF470A55650B97B071"
+    }
+  },
+  "newContract": {
+    "coordinate": "cn.bugstack:group-buy-market-contract:1.1.0-td.1",
+    "sha256": "363A2CDF6B30B5936714D8481FEB3F984C8C0762F528E9BCF514B374EE39E7BE",
+    "bytes": 32791,
+    "javaBytecodeMajor": 52,
+    "published": false,
+    "installed": false
+  },
+  "contractChecks": {
+    "contractVersion": "1.1.0-td.1",
+    "oldTypesCompared": 36,
+    "status": "PASSED_CONTRACT_BASELINE",
+    "contractSha256": "363A2CDF6B30B5936714D8481FEB3F984C8C0762F528E9BCF514B374EE39E7BE",
+    "runtimeDiscoveryTested": false,
+    "stage": "TD-00",
+    "java8": true,
+    "repeatPackageIdentical": true,
+    "java21": true
+  },
+  "staticChecks": 62,
+  "runtimeAndFixtureChecks": 21,
+  "runtime": {
+    "status": "PINNED_IMAGES_MATCH",
+    "imagesVerified": true,
+    "services": {
+      "web": {
+        "image": "sha256:a7b027ba4fc7561bb5df0900987d7e5a9feac5abbbe46ea4ef8804442c09d754",
+        "running": true,
+        "health": "healthy"
+      },
+      "market-b": {
+        "image": "sha256:d879d3f106fa2537e2eb656dab427d01578898859023ee8a96ac3c01cdf7fc8b",
+        "running": true,
+        "health": "healthy"
+      },
+      "marketing-a": {
+        "image": "sha256:4d71d4e6aab0730a8dc0b478e03ba5cbeb20c727110542dab76bb7f1629a2205",
+        "running": true,
+        "health": "healthy"
+      },
+      "broker": {
+        "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+        "running": true,
+        "health": "healthy"
+      },
+      "namesrv": {
+        "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+        "running": true,
+        "health": "healthy"
+      },
+      "redis": {
+        "image": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+        "running": true,
+        "health": "healthy"
+      },
+      "mq-permissions": {
+        "image": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+        "running": false,
+        "health": null
+      },
+      "mysql": {
+        "image": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+        "running": true,
+        "health": "healthy"
+      }
+    }
+  },
+  "actualRuntimeJarSha256": {
+    "marketing-a": "304A11A674FD82D07A4F2C8338D602294D82452FBE853FFBC4DD2EDCA167E180",
+    "market-b": "15416A1FCA51C9F0029C934908EF15029D422F05681E6527E96BCFE85C46EF1A"
+  },
+  "fixture": {
+    "runName": "td00_20261014_03",
+    "schemas": {
+      "group_buy_market_td00_20261014_03": 23,
+      "zj_market_td00_20261014_03": 49
+    },
+    "schemaProvenance": "DDL-only clone of actual B06 schemas; not Flyway acceptance; empty history",
+    "source": "td00",
+    "channel": "web",
+    "goodsId": "ab4202d8-6173-4b9c-aea9-aa6db1e29902",
+    "activityId": "714001",
+    "activityWindow": "2026-10-14 07:43:39\t2026-11-13 08:43:39",
+    "productVersion": "1",
+    "targetCount": 3,
+    "teamValidMinutes": 120,
+    "stock": 100,
+    "sync": "NOT_SENT; product Outbox and A projection empty; real sync belongs to TD01/02",
+    "business": "No order, team, reservation, channel payment/refund or team event seeded"
+  },
+  "fixtureAccountCount": 4,
+  "fixtureRoleCount": 5,
+  "originalFinancialTables": {
+    "group_buy_market_b06": [
+      "ab_team",
+      "ab_trade_order",
+      "ab_payment_guard",
+      "ab_exception_payment"
+    ],
+    "zj_market_b06": [
+      "b_market_order",
+      "b_inventory_account",
+      "b_inventory_reservation",
+      "b_inventory_ledger",
+      "b_purchase_guard",
+      "b_payment",
+      "b_sim_payment",
+      "b_sim_attempt",
+      "b_sim_refund",
+      "b_sim_refund_attempt",
+      "b_refund",
+      "b_refund_release",
+      "b_fulfillment"
+    ]
+  },
+  "originalFinancialBefore": {
+    "group_buy_market_b06": {
+      "sha256": "77301212775E85CC583666D12EA3BFCF3B3CCAA5A8E81C31393931F19FDD9B18",
+      "rowStatements": 119
+    },
+    "zj_market_b06": {
+      "sha256": "F09E3750DC195EB58A55523ADB2D36B109F868CF37AF9557D204587F7732A6B1",
+      "rowStatements": 477
+    }
+  },
+  "originalFinancialAfter": {
+    "group_buy_market_b06": {
+      "sha256": "77301212775E85CC583666D12EA3BFCF3B3CCAA5A8E81C31393931F19FDD9B18",
+      "rowStatements": 119
+    },
+    "zj_market_b06": {
+      "sha256": "F09E3750DC195EB58A55523ADB2D36B109F868CF37AF9557D204587F7732A6B1",
+      "rowStatements": 477
+    }
+  },
+  "originalFinancialUnchanged": true,
+  "originalWholeDatabaseBytesUnchanged": false,
+  "readonlyFixtureRowsUnchanged": true,
+  "evidence": {
+    "target/team-discovery/td00-20261014-02/baseline.json": "DF5A489FCA837BAF055FE4C77121D2B227A5DDEE4990D91BDC5E0A45ACB90910",
+    "target/team-discovery/td00-contract-20261014-03/acceptance.json": "44BF0DB9B07FD63345B14DDBBAB6B606CE1B1F392ABBD5D17094192F6D066518",
+    "target/team-discovery/td00-contract-20261014-03/static-checks.json": "25C36E21071588FF1CA29B994FD09B14EA19DB201A7DB31B9B5AF75FEBD9BDEA",
+    "target/team-discovery/td00-contract-20261014-03/java8.log": "82125CFD8082BC99E0A7A7CCFCCEC8364124BE5FB2EFF6D7D8E110C1083A1396",
+    "target/team-discovery/td00-contract-20261014-03/java21.log": "7D26AD483ED3FD0F10A9AD37075EA023C8922D2A03F3C6CD86FD988214B7A28F",
+    "target/team-discovery/fixture-20261014-03/fixture.json": "54418977F83626CBFC61EC44DC8BF822B086C27A97A3DC1C023825A149629D2D",
+    "target/team-discovery/fixture-verify-02.json": "52897D7585C42E75FCA9F22F5A4B845818BB610F18A9D5777ED8D7DA2C91BD7F"
+  },
+  "failedOrSuperseded": [
+    "td00-20261014-01: sandbox access; preserved",
+    "td00-20261014-02 initial runtime enumeration included stopped mq-permissions; verified final snapshot supersedes only runtime verdict",
+    "fixture-20261014-01: seed constraints; FAILED retained",
+    "fixture-20261014-02: all-db hash assertion; FAILED retained",
+    "fixture-verify-01: incorrect amount source; failed record retained"
+  ],
+  "limitations": [
+    "No discovery Provider, authorization whitelist, index migration, B HTTP or UI implemented",
+    "No discovery TLS/Triple/MQ/payment/full transaction acceptance performed",
+    "DDL-cloned isolated schemas have empty Flyway history; not certified runtime databases",
+    "Product has no fabricated sync confirmation; real publication/sync belongs to next stages",
+    "No new contract installed/published and no existing consumer dependency or image upgraded",
+    "Online whole databases changed between observations; stable money/order/stock/team facts unchanged",
+    "New fixture runtime accounts and migration-based startup still required before TD01/02 live integration"
+  ],
+  "gitPublished": false,
+  "nextStage": "TD-01"
+}

@@ -1,0 +1,28 @@
+{
+  "stage": "TD-05",
+  "status": "PASSED_WINDOWS_ISOLATED_IMAGE_DELIVERY",
+  "stageCompletion": true,
+  "runName": "td05_20261015_01",
+  "checks": {
+    "realBrowser": 25,
+    "accounting": 11,
+    "newHealthyServices": 7,
+    "oldHealthyServices": 7,
+    "aCursorTests": 4,
+    "bDiscoveryTests": 18,
+    "frontendEdgeTests": 6,
+    "flagOff404": true,
+    "directRpcBeforeEnable": true,
+    "liveRpc200": true,
+    "oldA503": true,
+    "fallbackOldBHealthy": true,
+    "migrationHistoryUnchanged": true,
+    "runtimeNoDDL": true
+  },
+  "scope": "Windows Docker Desktop isolated candidate; simulated channel money; B06 history unchanged",
+  "releaseSha256": "05278B5528689E1787373972BF1A8EEFD859D590B5BEF5C0B7EF932616596A3F",
+  "limitations": [
+    "No registry push or Git commit",
+    "Linux and external clients not validated"
+  ]
+}
