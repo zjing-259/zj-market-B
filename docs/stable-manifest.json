@@ -1,0 +1,191 @@
+{
+  "stage": "ST-01",
+  "status": "LOCAL_SOURCE_AND_IMAGES_ARCHIVED",
+  "generatedAtUtc": "2026-10-16T04:47:54.227340+00:00",
+  "mainProject": "zj-market-b06",
+  "mainOrigin": "https://zj-market.test",
+  "source": {
+    "a": {
+      "branch": "codex/team-discovery-td00",
+      "baselineCommit": "8040350b7e819fac813d343aab9e9ad220f4c06d",
+      "annotatedTag": "stable-td06-20261016-01",
+      "tagObject": "e2f22b471dc4ddb70a8b53dfe52a2ac3667865fe",
+      "frozenFileCount": 286,
+      "gitBlobExactByteCount": 74,
+      "gitBlobLfToWorktreeCrlfCount": 212
+    },
+    "b": {
+      "branch": "codex/team-discovery-td00",
+      "baselineCommit": "e18f4479dd934b58e93a183229110bd0b8803db3",
+      "annotatedTag": "stable-td06-20261016-01",
+      "tagObject": "98562102fa22f1fd7ffe1bb6d404fc6ac9c66cb9",
+      "frozenFileCount": 355,
+      "gitBlobExactByteCount": 40,
+      "gitBlobLfToWorktreeCrlfCount": 315
+    },
+    "historicalFrozenLockSha256": "957807F0476632F5222EC6E62B7A70CEB3E6AC5DA3CE60B04C7FD75D84797712",
+    "aFrozenSourceDigest": "EA7A94A29164262D668BBCE03058A18A304B2F5B38D0331D77CBE8E57A61E32D",
+    "bFrozenSourceDigest": "ED4150AE9A4916EB819006CF9EDFE21FAEF708531B60CF45555708826D7084BA",
+    "relationToRunningImages": "TD-05/TD-06 build evidence ties frozen worktree bytes and JAR/web outputs to the running image IDs; commits were created later and are not claimed as image build inputs",
+    "gitEolNote": "527 Git blobs normalize LF; their Windows worktree bytes exactly equal the frozen source lock after LF-to-CRLF conversion"
+  },
+  "images": {
+    "mysql": {
+      "imageId": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+      "stableTag": "zj-market-stable/mysql:td06-20261016-01",
+      "archiveRelativePath": "target/stable-isolation/st01_20261016_01/images/mysql.tar",
+      "archiveSha256": "E72954E25281BC0E3E5B213EF637B3D474B3BC602C3249A2494A9FD5C004E36B",
+      "archiveBytes": 544866304,
+      "loadVerifiedOnCurrentDockerEngine": true
+    },
+    "redis": {
+      "imageId": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+      "stableTag": "zj-market-stable/redis:td06-20261016-01",
+      "archiveRelativePath": "target/stable-isolation/st01_20261016_01/images/redis.tar",
+      "archiveSha256": "E756BC7179C95329B39F9EBEF391FA6BE53CA30E2A5A4A877F336D0540311078",
+      "archiveBytes": 109109760,
+      "loadVerifiedOnCurrentDockerEngine": true
+    },
+    "rocketmq": {
+      "imageId": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "stableTag": "zj-market-stable/rocketmq:td06-20261016-01",
+      "archiveRelativePath": "target/stable-isolation/st01_20261016_01/images/rocketmq.tar",
+      "archiveSha256": "0618736C13846327B63FFFBE63E16A45E92D063A7D285974F53048804C0C9DC7",
+      "archiveBytes": 558558208,
+      "loadVerifiedOnCurrentDockerEngine": true
+    },
+    "marketing-a": {
+      "imageId": "sha256:48c7af4be50e59133cf76aac69bac7142fb0ab19c27c4cf21ae352550dc57ddc",
+      "stableTag": "zj-market-stable/marketing-a:td06-20261016-01",
+      "archiveRelativePath": "target/stable-isolation/st01_20261016_01/images/marketing-a.tar",
+      "archiveSha256": "172D96EFA2E6AA87D9079A79125EB6F1018F6C0999A42264B4B4499504681B8B",
+      "archiveBytes": 351044096,
+      "loadVerifiedOnCurrentDockerEngine": true
+    },
+    "market-b": {
+      "imageId": "sha256:cebd526685cd3b2bba6619494321abae36a6f5df976306a67f08549d781d196a",
+      "stableTag": "zj-market-stable/market-b:td06-20261016-01",
+      "archiveRelativePath": "target/stable-isolation/st01_20261016_01/images/market-b.tar",
+      "archiveSha256": "6A99EFFCC06B0CDDE83CAB77CC67D5E40D4197DB39FBED5CD4709F00433FC80F",
+      "archiveBytes": 355449344,
+      "loadVerifiedOnCurrentDockerEngine": true
+    },
+    "web": {
+      "imageId": "sha256:a3aad07bd5e4e5b06c4ec647cc72299f0bf3d1125fdda85157e9529054a950d9",
+      "stableTag": "zj-market-stable/web:td06-20261016-01",
+      "archiveRelativePath": "target/stable-isolation/st01_20261016_01/images/web.tar",
+      "archiveSha256": "9A90F334344CF72721DF4D2B8D2AE3B173AF3E7E7AA0A65953EC6AD235462363",
+      "archiveBytes": 63710720,
+      "loadVerifiedOnCurrentDockerEngine": true
+    }
+  },
+  "serviceImageRoles": {
+    "mysql": "mysql",
+    "redis": "redis",
+    "namesrv": "rocketmq",
+    "broker": "rocketmq",
+    "mq-permissions": "rocketmq",
+    "marketing-a": "marketing-a",
+    "market-b": "market-b",
+    "web": "web"
+  },
+  "buildEvidence": {
+    "td05BuildManifestSha256": "3DE9006306F40E35115E630F1F5BD18B922AE9E381E8B23CB9B8FF11634C9406",
+    "aAppJarSha256": "4FA7C5A00F4049A132ADF039E37EF48E583B6AEABDF77F077F50AA30A20D429C",
+    "bAppJarSha256": "B95A4CE7A5C2E81E0A946167AA7D438E01CB12CDD2C628E730AB16CD458C3626",
+    "mainWebBuildFileSha256": {
+      "dist/assets/index-9EZ88j57.css": "6CB8E27C5B872B37D642196051A1732A6F63A7CFC9E85033E8DAED893A9E7637",
+      "dist/assets/index-BKXafk4y.js": "B386582E4ABC61A0E5362B58ED78FFEE4B83948A25860D0782B72CB8AF15566C",
+      "dist/index.html": "C746C24F90EFECFF1E3B432B9765ED2D1B89C36B541E51E3F91877886C8819E9",
+      "Dockerfile": "F031C31C7466C4DCBF68F706555B02297C484FAC00AB7A175683D713F98631AB",
+      "nginx.conf": "48CD3E757D2074DE0F23E0E029DCD97DB38EDDC7DBC45786532541854A87FA66"
+    },
+    "historicalTd06ReleaseSha256": "5E928E1782263235475F8DFFB22E0E7AC876CBB8DF96B62DC542D8A6FF815A4B"
+  },
+  "contract": {
+    "coordinate": "cn.bugstack:group-buy-market-contract:1.1.0-td.1",
+    "jarSha256": "363A2CDF6B30B5936714D8481FEB3F984C8C0762F528E9BCF514B374EE39E7BE",
+    "apiJsonSha256": "80513D0D7416BC2B893C32D5DB36E414EE845A500AAC26092AE60A826D66C427"
+  },
+  "schema": {
+    "aFingerprint": "5112d4e1b0c30224047bc9f945dfb4c360c623d4fcfb204757a4a7a411ec090b",
+    "bFlywayHistorySha256": "6fce73b5216393658902305bacdf262f80294dedec4a4a7676e6c0ba897928df",
+    "discoveryIndexColumns": {
+      "idx_ab_team_discovery": [
+        "source",
+        "channel",
+        "goods_id",
+        "activity_id",
+        "team_status",
+        "valid_end_time",
+        "team_id"
+      ],
+      "idx_ab_order_discovery_owner": [
+        "team_id",
+        "user_id",
+        "order_status"
+      ]
+    },
+    "runtimeDdlGranted": false
+  },
+  "publicConfigTemplatesSha256": {
+    "deploy/b06/compose.yml": "ED2E51C82260B63BB0500AE3F1D68D6BAD6D1F855FF2F9AE601D223AF3065FB4",
+    "deploy/b06/images/java.Dockerfile": "95AB77A2CCCBAC02760495BDCEDE968BEBF833B3F1A492D9C366FCEC64B3802D",
+    "deploy/b06/images/web.Dockerfile": "F031C31C7466C4DCBF68F706555B02297C484FAC00AB7A175683D713F98631AB",
+    "deploy/b06/nginx.conf": "48CD3E757D2074DE0F23E0E029DCD97DB38EDDC7DBC45786532541854A87FA66",
+    "deploy/b06/config/a.properties": "C9B0FFB2470C38C39EA3439F28A84678A1C32E29D240AAC7A783406394E62959",
+    "deploy/b06/config/b.properties": "6EA87C99AAED9FE63174B916E6E717CEE217A5FE53FC2FBF4E66E81B696F606D",
+    "deploy/b06/config/admission-open.conf": "6F8E3A968EADFD6ED46C2C7084BFB3C6D162461F929A4675571BE7AF4B040586",
+    "deploy/b06/config/admission-maintenance.conf": "8D48847517D844949A798EB8C88A73CB9221168DEE3F5F6B55327D36152F6714"
+  },
+  "privateLiveMountInventory": {
+    "path": "target/stable-isolation/st00_20261016_01/private-inventory.json",
+    "sha256": "789ECFDCAB85513EBC9787E7FD6C4922320FB5527EA086A0045DCCE07990E4D4",
+    "note": "Ignored local inventory contains live bind source paths and hashes; secret contents and hashes are not published here"
+  },
+  "environment": {
+    "hostTools": {
+      "python": "Python 3.13.5",
+      "pyYaml": "6.0.3",
+      "node": "v24.16.0",
+      "git": "git version 2.43.0.windows.1",
+      "dockerDesktopLinux": "24.0.7|24.0.7",
+      "hostDefaultJava": "java version \"1.8.0_391\"",
+      "explicitJava21": "java version \"21.0.2\" 2024-01-16 LTS",
+      "explicitJavac21": "javac 21.0.2",
+      "powershellDesktopAvailable": true,
+      "powershellCoreAvailable": true,
+      "edgePresent": true
+    },
+    "existingVolumeNames": [
+      "zj-market-b06_broker-logs",
+      "zj-market-b06_broker-store",
+      "zj-market-b06_mysql-data",
+      "zj-market-b06_namesrv-logs",
+      "zj-market-b06_redis-data"
+    ],
+    "existingNetworkNames": [
+      "zj-market-b06_data",
+      "zj-market-b06_edge",
+      "zj-market-b06_mq",
+      "zj-market-b06_redis",
+      "zj-market-b06_rpc"
+    ],
+    "historicalWorktreeDependencyRemains": true,
+    "windowsDockerDesktopOnlyValidated": true
+  },
+  "historicalEvidence": {
+    "td06Release": "docs/team-discovery-td06-release.json",
+    "td06SourceLock": "docs/team-discovery-td06-source-lock.json",
+    "st00Acceptance": "docs/tests/st00-acceptance.json",
+    "st00AcceptanceSha256": "5D01033B27549BC8C874C1ED4EB55E0577EAD167F040459B2CD1FDA02D59DC19"
+  },
+  "scope": {
+    "gitPushed": false,
+    "registryPublished": false,
+    "deploymentChanged": false,
+    "containersOrVolumesRecreated": false,
+    "imagesArchivedLocally": true,
+    "independentStableDeploymentReady": false
+  }
+}

@@ -1,3 +1,5 @@
+> 最新接续（2026-10-16，ST-01 已完成）：A/B TD-06 冻结源码分别归档为提交 8040350b7e819fac813d343aab9e9ad220f4c06d、e18f4479dd934b58e93a183229110bd0b8803db3，并各有注解标签 stable-td06-20261016-01。主站六个唯一实际镜像本机离线保存、逐包哈希与 Docker load 后 ID 通过；公开清单 docs/stable-manifest.json，验收 docs/tests/st01-acceptance.json，私有 tar 在忽略的 target/stable-isolation/st01_20261016_01。原七容器与五卷保持，443 就绪；仍依赖开发和历史目录，ST-02 独立部署包与安全生命周期尚待实施。未推送提交／标签、未上传镜像、未切换部署。
+
 > 最新接续（2026-10-16，ST-00 已完成）：稳定版隔离方案只读盘点通过；主站七服务健康且镜像匹配 TD-06，原五卷和 443 开放，A/B 冻结源码分别 286/355 文件一致。两仓未提交改动及原有工作树保留，现有部署仍依赖开发和历史目录；ST-01～05 未实施。脱敏证据 docs/tests/st00-acceptance.json，操作边界见 docs/stable-release-worktree-isolation-plan.md。原 TD-06 全量检查因新增文件漂移，历史证据不回写。
 
 > 最新接续（2026-10-16，TD-06.4本机归档完成）：[TD-06发布清单](team-discovery-td06-release.json)与[源码锁](team-discovery-td06-source-lock.json)绑定两仓源码、契约JAR、A/B构建JAR、主web构建、三运行镜像、配置模板、A索引／schema、B Flyway以及私有原始证据哈希；可运行 `python -B docs/tests/collect-td06-4-release.py check` 做只读复核。主商城 `https://zj-market.test` 443为当前功能入口，8445是隔离候选；操作见[TD-06交付说明](../deploy/td06/README.md)与[快速入门](project-guide-quickstart.md)。两仓公开改动及未跟踪文件完成敏感材料审计；源码／镜像仍仅本机，未提交／推送／上传，Linux及外部客户端未验。TD-06.2升级前备份不可覆盖发生新交易后的主卷，原未结义务保留。下面为历史接续。
