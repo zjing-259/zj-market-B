@@ -1,0 +1,88 @@
+{
+  "stage": "ST-03",
+  "status": "PASSED_INDEPENDENT_MAIN_ADOPTION_AND_LIFECYCLE",
+  "date": "2026-10-16",
+  "independentRoot": "D:/Java/zj-market-stable",
+  "project": "zj-market-b06",
+  "finalBackupBatch": "st03_20261016_04",
+  "releaseManifestSha256": "61C21D57308E5587912B5AC223BE525C201A5C7AB47B3DCBAE55E10AF411B05E",
+  "backupManifestSha256": "DD591C87F980B7306913E92D1A2A7C586BF8CBEE620098476CFC1635EB721678",
+  "privateManifestSha256": "E548EF4040D1BB5374DE32851CE37B1DC0EBDF7DE902D9B328B0DBFACF024332",
+  "backup": {
+    "logicalDatabaseDump": true,
+    "coldOriginalVolumeArchives": 5,
+    "baselineAndLogicalDumpFiles": 2,
+    "totalVerifiedFiles": 7,
+    "verifiedBytes": 2079913376,
+    "manifestAndEveryFileSha256Matched": true,
+    "sourceWritersStoppedBeforeSnapshot": true,
+    "allSevenContainersStoppedAtColdPoint": true,
+    "restoredOverLiveVolume": false,
+    "localPrivateNtfsAclRestricted": true
+  },
+  "adoption": {
+    "sameComposeProject": true,
+    "sameOriginalFiveVolumeIdentities": true,
+    "sameOriginalFiveNetworkIds": true,
+    "sevenFixedRunningImageIds": true,
+    "sevenServicesRecreatedForBindPathTransfer": ["mysql", "redis", "namesrv", "broker", "marketing-a", "market-b", "web"],
+    "allRunningBindSourcesWithinIndependentPrivateDirectory": true,
+    "allSevenHealthy": true,
+    "gatewayOpen": true,
+    "status": "READY",
+    "oldMainLifecycleAndBrowserEntrypointsGuarded": true
+  },
+  "lifecycle": {
+    "realStop": "STOPPED",
+    "realRestart": "READY",
+    "repeatStartRecreatedContainers": false,
+    "dedicatedEdgeOpenAfterReady": true,
+    "currentUserCaFingerprintChecked": true,
+    "strictTlsBusinessProbe": true,
+    "isolatedLifecycleTestsPassed": 12
+  },
+  "data": {
+    "atBackupAndAfterAdoptionMoneyStockEqual": true,
+    "atBackupAndAfterAdoptionObligationCountsEqual": true,
+    "paidBeforeSimulatedTransaction": "2790.00",
+    "paidAfterSimulatedTransaction": "2970.00",
+    "refundedBeforeAndAfter": "810.00",
+    "availableBefore": 568,
+    "availableAfter": 566,
+    "reservedBeforeAndAfter": 0,
+    "soldBefore": 22,
+    "soldAfter": 24,
+    "newSimulatedPayments": 2,
+    "newReserveLedgerRows": 2,
+    "newConfirmLedgerRows": 2,
+    "newGroupCompletedOrders": 2,
+    "historicalReadbackChecksPassed": 7,
+    "historicalReconcilingTeamKeysMissing": 0,
+    "historicalPaidOrderKeysMissing": 0,
+    "historicalTradeWorkAndInboxKeysMissing": 0,
+    "td063PendingTradeOutboxFactAlreadyResolvedBeforeSt03": true
+  },
+  "attempts": {
+    "st03_20261016_01": "Maintenance gateway parser misidentified a default-allow rule; original configuration recovered before backup.",
+    "st03_20261016_02": "Redis secret path was excluded from Compose service hash; original configuration recovered after a complete cold backup.",
+    "st03_20261016_03": "B remained on maintenance capabilities during open-web probe; original configuration recovered after a complete cold backup.",
+    "st03_20261016_04": "Passed final backup, adoption, stop/start and business acceptance."
+  },
+  "privateEvidence": {
+    "backup": "D:/Java/zj-market-stable/backups/st03_20261016_04",
+    "transactionBefore": "target/stable-isolation/st03_20261016_04/transaction-before.json",
+    "transactionAfter": "target/stable-isolation/st03_20261016_04/transaction-after.json",
+    "transaction": "target/stable-isolation/st03_20261016_04/transaction.json",
+    "readback": "target/stable-isolation/st03_20261016_04/readback.json"
+  },
+  "limits": [
+    "Backup and images are local only; an off-host copy and fresh-host disaster restore were not part of ST-03.",
+    "The UX worktree and isolated data stack remain ST-04 work.",
+    "Earlier failed backup batches remain private diagnostic artifacts and must not be used as the current recovery point."
+  ],
+  "actions": {
+    "sourceOrImagesPushed": false,
+    "originalVolumeReplaced": false,
+    "businessWriteOnlyInNamedTransactionBatch": true
+  }
+}

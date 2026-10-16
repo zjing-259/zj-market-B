@@ -179,11 +179,12 @@ class Controller:
         marker = '# configuration file /etc/b06/admission.conf:'
         if marker not in config:
             raise RuntimeError('Gateway admission include missing')
-        excerpt = config.split(marker, 1)[1]
-        match = re.search(r'map\s+"\$request_method:\$uri"\s+\$b06_block_new\s*\{\s*default\s+([01]);', excerpt)
-        if not match:
+        excerpt = config.split(marker, 1)[1].split('# configuration file ', 1)[0]
+        match = re.search(r'map\s+"\$request_method:\$uri"\s+\$b06_block_new\s*\{(.*?)\}', excerpt, re.S)
+        if not match or not re.search(r'\bdefault\s+0\s*;', match.group(1)):
             raise RuntimeError('Gateway admission mode unknown')
-        return 'OPEN' if match.group(1) == '0' else 'MAINTENANCE'
+        block = bool(re.search(r'~\^\(POST\|PUT\|PATCH\|DELETE\):/api/\s+1\s*;', match.group(1)))
+        return 'MAINTENANCE' if block else 'OPEN'
 
     def sql(self, statement: str) -> str:
         return self.run('read-only schema query', self.docker + ['exec', '-i', PROJECT + '-mysql-1',
@@ -268,16 +269,23 @@ class Controller:
                 return self.ready()
             if rows and any(row['State']['Running'] for row in rows.values()):
                 raise RuntimeError('Partial running state; diagnose before start')
+            # Compose does not include top-level secret file paths in every service
+            # hash (Redis is unchanged); force recreation only during legacy adoption.
+            recreate = ('--force-recreate',) if rows and not self.adopted(rows) else ()
             changed = False
             try:
                 changed = True
-                self.compose('maintenance', 'up', '-d', '--pull', 'never', '--no-build', '--wait',
+                self.compose('maintenance', 'up', '-d', '--pull', 'never', '--no-build', *recreate, '--wait',
                              '--wait-timeout', '180', *MIDDLEWARE)
                 self.schema()
-                self.compose('maintenance', 'up', '-d', '--pull', 'never', '--no-build', '--wait',
+                self.compose('maintenance', 'up', '-d', '--pull', 'never', '--no-build', *recreate, '--wait',
                              '--wait-timeout', '180', 'marketing-a', 'market-b', 'web')
                 if self.gateway_mode() != 'MAINTENANCE':
                     raise RuntimeError('Gateway did not enter maintenance before opening')
+                # B's maintenance capabilities disable discovery; restore its open
+                # configuration while the public gateway is still closed.
+                self.compose('on', 'up', '-d', '--pull', 'never', '--no-build', '--no-deps',
+                             '--force-recreate', '--wait', '--wait-timeout', '180', 'market-b')
                 self.compose('on', 'up', '-d', '--pull', 'never', '--no-build', '--no-deps',
                              '--force-recreate', '--wait', '--wait-timeout', '90', 'web')
                 result = self.ready()

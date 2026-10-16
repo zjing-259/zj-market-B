@@ -8,6 +8,9 @@ param(
 $ErrorActionPreference='Stop'
 if(($StatusOnly -and $ConfigureOnly) -or ($StatusOnly -and $RemoveTrust) -or ($ConfigureOnly -and $RemoveTrust)) { throw 'Choose only one action switch.' }
 $root=(Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+if($Target -eq 'main443' -and (Test-Path -LiteralPath 'D:\Java\zj-market-stable\state\adoption.json')) {
+  throw 'Main 443 handed off; use D:\Java\zj-market-stable\scripts\stable.ps1 -Action open.'
+}
 $legacy='D:/Java/zj-market-b-06'
 $candidate=Join-Path $root 'target/team-discovery/td05_20261015_01'
 $ca=if($Target -eq 'main443') { Join-Path $legacy '.local/b06/runtime/web-ca.pem' } else { Join-Path $candidate 'private/runtime/web-ca.pem' }

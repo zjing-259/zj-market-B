@@ -56,6 +56,20 @@ class LifecycleTest(unittest.TestCase):
         self.assertEqual(self.subject.start()['status'], 'READY')
         self.assertEqual(self.calls, ['armed', 'preflight'])
 
+    def test_gateway_mode_uses_mutation_block_rule(self):
+        marker = '# configuration file /etc/b06/admission.conf:\n'
+        gateway = controller.Controller.gateway_mode
+        self.subject.docker = ['fake-docker']
+        self.subject.run = lambda *_args, **_kwargs: marker + (
+            'map "$request_method:$uri" $b06_block_new { default 0; }\n'
+            '# configuration file /etc/nginx/other.conf:')
+        self.assertEqual(gateway(self.subject), 'OPEN')
+        self.subject.run = lambda *_args, **_kwargs: marker + (
+            'map "$request_method:$uri" $b06_block_new {\n default 0;\n'
+            ' ~^(POST|PUT|PATCH|DELETE):/api/ 1;\n}\n'
+            '# configuration file /etc/nginx/other.conf:')
+        self.assertEqual(gateway(self.subject), 'MAINTENANCE')
+
     def test_precondition_failure_does_not_change_gateway(self):
         for failure in ('missing image', 'missing volume', 'config drift'):
             with self.subTest(failure=failure):
@@ -72,11 +86,23 @@ class LifecycleTest(unittest.TestCase):
         middleware = next(i for i, item in enumerate(self.calls) if item.startswith('maintenance:up') and 'mysql' in item)
         schema = self.calls.index('schema')
         app = next(i for i, item in enumerate(self.calls) if item.startswith('maintenance:up') and 'marketing-a' in item)
+        open_b = next(i for i, item in enumerate(self.calls) if item.startswith('on:up') and 'market-b' in item)
         open_web = next(i for i, item in enumerate(self.calls) if item.startswith('on:up') and 'web' in item)
         self.assertLess(middleware, schema)
         self.assertLess(schema, app)
-        self.assertLess(app, open_web)
+        self.assertLess(app, open_b)
+        self.assertLess(open_b, open_web)
         self.assertEqual(self.calls[-1], 'record:READY')
+
+    def test_legacy_adoption_recreates_services_even_when_secret_hash_is_unchanged(self):
+        self.rows = {name: {'State': {'Running': False}} for name in controller.SERVICES}
+        self.subject.running_healthy = lambda rows: False
+        self.subject.adopted = lambda rows: False
+        self.mode = 'MAINTENANCE'
+        self.assertEqual(self.subject.start()['status'], 'READY')
+        starts = [call for call in self.calls if call.startswith('maintenance:up')]
+        self.assertEqual(len(starts), 2)
+        self.assertTrue(all('--force-recreate' in call for call in starts))
 
     def test_failure_after_start_attempt_closes_gateway(self):
         self.mode = 'MAINTENANCE'

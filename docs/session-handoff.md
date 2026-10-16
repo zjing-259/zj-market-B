@@ -1,3 +1,5 @@
+> 最新接续（2026-10-16，ST-03 已验收）：主站 `zj-market-b06` 已从 `D:\Java\zj-market-stable\scripts\stable.ps1` 管理；status／ready／start／stop／open 已实际验证，重复 start 不重建。最终冷备批次 st03_20261016_04（逻辑数据库＋五原卷，约 2.08 GB）哈希通过，原镜像／卷／网络身份不变，七服务绑定均转向独立 private。旧订单、退款、权限和模拟两人支付成团通过，新增资金库存流水守恒；旧主站控制入口已加交接门禁。私有备份不入 Git，严禁把旧备份覆盖在线卷。详见 docs/tests/st03-acceptance.json、deploy/stable/README.md；下一步 ST-04。以下为历史接续。
+
 > 最新接续（2026-10-16，ST-02 阶段验收通过）：独立稳定版部署包位于 B 仓已忽略的 `target/stable-isolation/st02_20261016_04/bundle`；七常驻服务固定镜像、原五卷／五网络 external、37 份私有文件限制访问。两种 Compose、schema／Flyway／索引、严格 TLS 只读探针及十项隔离生命周期测试通过；迁移路径和配置漂移拒绝通过。`status` 为 `adopted:false`，`ready` 拒绝未接管主站，原七容器身份不变且健康。ST-03 前不得把新入口用于真实启停；先做一致性备份、复核义务并迁移包及镜像归档。证据见 docs/tests/st02-acceptance.json 和 deploy/stable/README.md。以下为历史接续。
 
 > 最新接续（2026-10-16，ST-01 已完成）：A/B TD-06 冻结源码分别归档为提交 8040350b7e819fac813d343aab9e9ad220f4c06d、e18f4479dd934b58e93a183229110bd0b8803db3，并各有注解标签 stable-td06-20261016-01。主站六个唯一实际镜像本机离线保存、逐包哈希与 Docker load 后 ID 通过；公开清单 docs/stable-manifest.json，验收 docs/tests/st01-acceptance.json，私有 tar 在忽略的 target/stable-isolation/st01_20261016_01。原七容器与五卷保持，443 就绪；仍依赖开发和历史目录，ST-02 独立部署包与安全生命周期尚待实施。未推送提交／标签、未上传镜像、未切换部署。

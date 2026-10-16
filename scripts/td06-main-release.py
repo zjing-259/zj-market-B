@@ -455,6 +455,8 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument('action', choices=['prepare', 'migrate', 'repair_logging', 'rollout', 'rpc', 'off_gate', 'enable', 'fallback', 'status', 'stop', 'start'])
     action = parser.parse_args().action
+    if Path('D:/Java/zj-market-stable/state/adoption.json').is_file():
+        raise RuntimeError('Main 443 handed off; use D:/Java/zj-market-stable/scripts/stable.ps1')
     try:
         globals()[action]()
     except Exception:

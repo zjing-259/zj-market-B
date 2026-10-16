@@ -1,6 +1,6 @@
 # 旧版稳定运行与新版工作树隔离实施方案
 
-状态：ST-00～ST-02 已于 2026-10-16 完成本机阶段验收；ST-03～ST-05 待实施。独立部署包已生成并验证，但主站尚未接管，仍依赖原运行目录；尚未创建隔离工作树或切换部署。
+状态：ST-00～ST-03 已于 2026-10-16 完成本机验收；主站已从 `D:\Java\zj-market-stable` 独立目录接管，仍用原 `zj-market-b06` 项目及五卷。ST-04～ST-05 待实施，尚未创建 UX 隔离工作树。
 
 ## 1. 目标与已知现状
 
@@ -127,6 +127,10 @@ ST-02 实测验收（2026-10-16）：最终批次 `target/stable-isolation/st02_
 
 验收：主站可从独立目录完整启停，旧数据及恢复义务无丢失，原业务镜像 ID 不变。保留旧入口但标明已交接，后续不得同时操作同一主站。
 
+ST-03 实测验收（2026-10-16）：独立目录 `D:\Java\zj-market-stable` 收纳固定 release、37 份私有配置、六个镜像归档、可变 state 和冷备。最终一致性批次 `backups/st03_20261016_04` 在关闭网关和写入者、七容器完全停止后归档数据库逻辑导出及原五卷；7 个备份文件约 2.08 GB，清单与逐文件 SHA-256 均通过，私有备份和浏览器状态 ACL 已收紧。七常驻服务因挂载来源切换全部重建，仍用原镜像 ID、卷及网络身份；实际 bind 源均在独立 private 目录。切换前后资金、库存和待办数量相同；独立入口真实 `stop`／`start`、重复 `start` 不重建、`ready`、专属 Edge `open` 均通过。两账号模拟成团带来已付 +180、可用 -2、已售 +2，新增支付、RESERVE、CONFIRM 各两条；旧订单、退款、权限和 JSON 错误七项只读检查通过。见[ST-03 验收摘要](tests/st03-acceptance.json)与[操作说明](../deploy/stable/README.md)。
+
+前三次候选在维护模式识别、Redis 密钥挂载复用、B 开放功能配置顺序处被门禁拒绝，均恢复原配置并重新验证 443；第二、三批冷备保留为私有诊断，不作为最新恢复点。未用旧备份覆盖在线卷。当前日常启停和打开浏览器只用独立目录的 `scripts/stable.ps1`；原 TD-06 主站控制入口已加交接门禁，历史源码／私有目录暂保留，不删除。
+
 ### ST-04：创建 UX 工作树与隔离测试环境
 
 步骤：
@@ -159,9 +163,9 @@ ST-02 实测验收（2026-10-16）：最终批次 `target/stable-isolation/st02_
 
 ## 6. 文末操作附录：旧版启动命令
 
-### 6.1 隔离方案尚未实施：使用当前已有入口
+### 6.1 历史入口（ST-03 接管后已停用）
 
-先打开 Docker Desktop，等待 Linux 引擎就绪。在 PowerShell 执行：
+以下命令只保留 ST-03 前的操作历史，当前主站三个旧入口均会拒绝并提示交接，不再执行；日常操作使用 6.2 节。
 
 ```powershell
 Set-Location D:\Java\zj-market
@@ -186,18 +190,18 @@ if ($LASTEXITCODE -ne 0) { throw '服务未就绪，暂不打开商城。' }
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\open-team-discovery-browser.ps1 -Target main443
 ```
 
-需要主动停止旧站时：
+历史停止命令：
 
 ```powershell
 Set-Location D:\Java\zj-market
 python -B .\scripts\td06-environment.py stop --target main443
 ```
 
-ready 失败不等于已经正常停止。Docker 重启、容器异常、网关维护或状态不一致时，先诊断，不直接运行 start 或手工改发布状态。当前脚本还有宿主 Python/PyYAML、Node 和 JDK 21 等依赖；保持原环境及历史目录，直到 ST-03 验收完成。
+ready 失败不等于已经正常停止。Docker 重启、容器异常、网关维护或状态不一致时，先诊断，不直接运行 start 或手工改发布状态。历史目录仍留作回退材料，不作为当前启动依赖。
 
-### 6.2 ST-03 完成后：新的独立稳定版入口
+### 6.2 当前独立稳定版入口
 
-**以下是待开发接口约定，现在尚不可执行。实施 AI 必须实现并验证这些命令，再在交付报告注明生效。**
+以下命令已于 ST-03 实际执行并验收；旧主站入口会提示已交接。运行前启动 Docker Desktop，确保 Linux 引擎就绪。
 
 ```powershell
 # 已开启 Docker Desktop；查看稳定版状态

@@ -162,6 +162,8 @@ def candidate(action: str) -> None:
 
 
 def main_environment(action: str) -> None:
+    if Path('D:/Java/zj-market-stable/state/adoption.json').is_file():
+        raise RuntimeError('Main 443 handed off; use D:/Java/zj-market-stable/scripts/stable.ps1')
     release = ROOT / 'target/team-discovery/td06_2_main_20261015_01/release.json'
     if release.is_file() and load(release).get('project') == 'zj-market-b06':
         if action == 'ready' and load(release).get('status') not in ('RE_ENABLED_443_AFTER_FALLBACK', 'RESTARTED_443'):
