@@ -1,3 +1,5 @@
+> 最新接续（2026-10-16，ST-02 阶段验收通过）：独立稳定版部署包位于 B 仓已忽略的 `target/stable-isolation/st02_20261016_04/bundle`；七常驻服务固定镜像、原五卷／五网络 external、37 份私有文件限制访问。两种 Compose、schema／Flyway／索引、严格 TLS 只读探针及十项隔离生命周期测试通过；迁移路径和配置漂移拒绝通过。`status` 为 `adopted:false`，`ready` 拒绝未接管主站，原七容器身份不变且健康。ST-03 前不得把新入口用于真实启停；先做一致性备份、复核义务并迁移包及镜像归档。证据见 docs/tests/st02-acceptance.json 和 deploy/stable/README.md。以下为历史接续。
+
 > 最新接续（2026-10-16，ST-01 已完成）：A/B TD-06 冻结源码分别归档为提交 8040350b7e819fac813d343aab9e9ad220f4c06d、e18f4479dd934b58e93a183229110bd0b8803db3，并各有注解标签 stable-td06-20261016-01。主站六个唯一实际镜像本机离线保存、逐包哈希与 Docker load 后 ID 通过；公开清单 docs/stable-manifest.json，验收 docs/tests/st01-acceptance.json，私有 tar 在忽略的 target/stable-isolation/st01_20261016_01。原七容器与五卷保持，443 就绪；仍依赖开发和历史目录，ST-02 独立部署包与安全生命周期尚待实施。未推送提交／标签、未上传镜像、未切换部署。
 
 > 最新接续（2026-10-16，ST-00 已完成）：稳定版隔离方案只读盘点通过；主站七服务健康且镜像匹配 TD-06，原五卷和 443 开放，A/B 冻结源码分别 286/355 文件一致。两仓未提交改动及原有工作树保留，现有部署仍依赖开发和历史目录；ST-01～05 未实施。脱敏证据 docs/tests/st00-acceptance.json，操作边界见 docs/stable-release-worktree-isolation-plan.md。原 TD-06 全量检查因新增文件漂移，历史证据不回写。

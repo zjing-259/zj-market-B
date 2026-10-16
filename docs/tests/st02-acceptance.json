@@ -1,0 +1,53 @@
+{
+  "stage": "ST-02",
+  "status": "PASSED_PRE_ADOPTION_BUNDLE_AND_ISOLATED_LIFECYCLE",
+  "date": "2026-10-16",
+  "finalBatch": "st02_20261016_04",
+  "bundleRoot": "target/stable-isolation/st02_20261016_04/bundle",
+  "bundle": {
+    "privateFilesCopiedAndHashed": 37,
+    "privateAclPrincipals": ["current user", "SYSTEM", "Administrators"],
+    "fixedRunningServices": 7,
+    "fixedStoppedMqPermissionsHelper": true,
+    "originalExternalVolumes": 5,
+    "originalExternalNetworks": 5,
+    "oldWorktreeReadsOrMounts": false,
+    "buildPullOrAutomaticMigration": false,
+    "onAndMaintenanceComposeValidated": true,
+    "relocatedBundleStaticAndStatusCheckPassed": true,
+    "releaseManifestSha256": "D502B71C9DD107B2183435BCF1C3CE84E308E4A155E17F9A3F17CA633CBD9D45",
+    "privateManifestSha256": "E548EF4040D1BB5374DE32851CE37B1DC0EBDF7DE902D9B328B0DBFACF024332"
+  },
+  "checks": {
+    "actualImagesVolumesAndNetworksMatchSt01AndSt00": true,
+    "actualSchemaFlywayAndDiscoveryIndexesMatch": true,
+    "strictTlsLoginProductDiscoveryAndInvalidWriteProbePassed": true,
+    "disposablePrivateConfigurationDriftRejected": true,
+    "isolatedLifecycleTestsPassed": 10,
+    "readOnlyStatus": "LEGACY_OR_MAINTENANCE",
+    "adopted": false,
+    "readyRejectedBeforeAdoption": true,
+    "originalSevenContainerIdsImagesAndCreatedTimesUnchanged": true,
+    "originalSevenServicesHealthy": true
+  },
+  "actions": {
+    "liveStartStopOrOpenExecuted": false,
+    "gatewayChanged": false,
+    "businessWritePerformed": false,
+    "originalVolumesModifiedBySt02": false,
+    "independentDirectoryAdoptionCompleted": false,
+    "gitPushed": false
+  },
+  "limits": [
+    "The final bundle remains under B's ignored target directory; ST-03 must move it and the ST-01 image archives to an independent directory and recheck private ACLs.",
+    "Real main-stack stop/start, browser launch, original-volume handoff, transaction and recovery-obligation checks belong to ST-03 after a fresh consistent backup.",
+    "Earlier ignored batches 01-03 are superseded by final batch 04."
+  ],
+  "evidence": {
+    "deploymentGuide": "deploy/stable/README.md",
+    "staticVerifier": "scripts/stable-release/verify-st02-bundle.py",
+    "lifecycleTests": "scripts/stable-release/test_stable_controller.py",
+    "configDriftTest": "scripts/stable-release/test_st02_config_drift.py",
+    "builder": "scripts/stable-release/build-st02-bundle.py"
+  }
+}
