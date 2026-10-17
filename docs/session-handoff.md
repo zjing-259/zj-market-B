@@ -1,4 +1,6 @@
-> 最新接续（2026-10-16，ST-03 已验收）：主站 `zj-market-b06` 已从 `D:\Java\zj-market-stable\scripts\stable.ps1` 管理；status／ready／start／stop／open 已实际验证，重复 start 不重建。最终冷备批次 st03_20261016_04（逻辑数据库＋五原卷，约 2.08 GB）哈希通过，原镜像／卷／网络身份不变，七服务绑定均转向独立 private。旧订单、退款、权限和模拟两人支付成团通过，新增资金库存流水守恒；旧主站控制入口已加交接门禁。私有备份不入 Git，严禁把旧备份覆盖在线卷。详见 docs/tests/st03-acceptance.json、deploy/stable/README.md；下一步 ST-04。以下为历史接续。
+> 最新接续（2026-10-17，ST-04 已验收）：UX B 工作树 `D:\Java\zj-market-ux`、分支 `codex/storefront-ux`，独立项目 `zj-market-ux` 已在 `https://zj-market-ux.test:8446` 开放；A 源码未改，在独立容器复用 ST-01 A 镜像。UX 使用空卷、新凭据、独立五网络和五卷、新 Web 标签，独立 Edge 配置目录已无界面打开 UX 页面并确认 Cookie 不跨旧站域名。实际开团占位及取消关闭只增加 UX A/B 各一笔订单，旧站计数、容器和 `READY` 状态不变。严格 TLS 与结构隔离通过；人工浏览器业务交互未做。见 docs/tests/st04-acceptance.json、deploy/ux/README.md；下一步 ST-05。以下为历史接续。
+
+> 先前接续（2026-10-16，ST-03 已验收）：主站 `zj-market-b06` 已从 `D:\Java\zj-market-stable\scripts\stable.ps1` 管理；status／ready／start／stop／open 已实际验证，重复 start 不重建。最终冷备批次 st03_20261016_04（逻辑数据库＋五原卷，约 2.08 GB）哈希通过，原镜像／卷／网络身份不变，七服务绑定均转向独立 private。旧订单、退款、权限和模拟两人支付成团通过，新增资金库存流水守恒；旧主站控制入口已加交接门禁。私有备份不入 Git，严禁把旧备份覆盖在线卷。详见 docs/tests/st03-acceptance.json、deploy/stable/README.md。以下为历史接续。
 
 > 最新接续（2026-10-16，ST-02 阶段验收通过）：独立稳定版部署包位于 B 仓已忽略的 `target/stable-isolation/st02_20261016_04/bundle`；七常驻服务固定镜像、原五卷／五网络 external、37 份私有文件限制访问。两种 Compose、schema／Flyway／索引、严格 TLS 只读探针及十项隔离生命周期测试通过；迁移路径和配置漂移拒绝通过。`status` 为 `adopted:false`，`ready` 拒绝未接管主站，原七容器身份不变且健康。ST-03 前不得把新入口用于真实启停；先做一致性备份、复核义务并迁移包及镜像归档。证据见 docs/tests/st02-acceptance.json 和 deploy/stable/README.md。以下为历史接续。
 

@@ -1,0 +1,112 @@
+{
+  "stage": "ST-04",
+  "status": "PASSED_LOCAL_UX_ISOLATION",
+  "date": "2026-10-17",
+  "source": {
+    "stableBBranch": "codex/team-discovery-td00",
+    "stableBCommitAtStart": "68b7806868f0539b7060dd3e5013515b3a40db95",
+    "uxBranch": "codex/storefront-ux",
+    "uxBaseCommit": "e18f4479dd934b58e93a183229110bd0b8803db3",
+    "uxWorktree": "D:/Java/zj-market-ux",
+    "aSourceUnchanged": true,
+    "st02StableToolCommitCherryPicked": false
+  },
+  "environments": {
+    "stable": {
+      "root": "D:/Java/zj-market-stable",
+      "project": "zj-market-b06",
+      "url": "https://zj-market.test",
+      "statusAfterUxWebRestart": "READY",
+      "sevenContainerIdsUnchanged": true,
+      "title": "知集商城 · 账号"
+    },
+    "ux": {
+      "project": "zj-market-ux",
+      "url": "https://zj-market-ux.test:8446",
+      "mode": "open",
+      "phase": "READY",
+      "healthyServices": 7,
+      "networks": 5,
+      "newVolumes": 5,
+      "freshCredentialsAndCa": true,
+      "freshEmptyDatabaseInitialized": true,
+      "td01AIndexesApplied": 2,
+      "aImageId": "sha256:48c7af4be50e59133cf76aac69bac7142fb0ab19c27c4cf21ae352550dc57ddc",
+      "bImageId": "sha256:cebd526685cd3b2bba6619494321abae36a6f5df976306a67f08549d781d196a",
+      "webImageIdAfterRebuild": "sha256:449d818ce60072922cd4b41dc0d5011bdcd5b9cee58ba84d5d23e9d2abb914bb",
+      "webTagAfterRebuild": "zj-market-ux/web:st04-20261017-02",
+      "title": "知集商城 · UX 测试站"
+    }
+  },
+  "isolation": {
+    "allBindSourcesInOwnRoot": true,
+    "volumeIdentitiesDisjoint": true,
+    "networkIdentitiesDisjoint": true,
+    "separateMysqlRedisNamesrvBroker": true,
+    "rpcAndMqUseUxInternalDns": true,
+    "brokerAdvertisesUxInternalDns": true,
+    "separateDnsHostAndBrowserProfile": true,
+    "headlessEdgeUxPageAndHostOnlyCookieIsolation": true,
+    "strictTlsBothSites": true,
+    "stableAndUxWebImageIdsDifferent": true,
+    "stableAAndBImageIdsReusedOnlyAsIndependentContainers": true,
+    "mainBackupCopiedToUx": false
+  },
+  "transaction": {
+    "uxSignedAQuoteAndProductSync": "PASS",
+    "uxOrderId": "816912d4-e926-4717-8faa-c2b80e8e022f",
+    "uxHoldCancelAndClose": "PASS",
+    "stableCountsBeforeAndAfter": {
+      "bOrders": 60,
+      "aOrders": 60,
+      "bPayments": 37,
+      "bTradeOutbox": 51,
+      "aOutbox": 163,
+      "bProducts": 51
+    },
+    "uxCountsBefore": {
+      "bOrders": 0,
+      "aOrders": 0,
+      "bPayments": 0,
+      "bTradeOutbox": 0,
+      "aOutbox": 1,
+      "bProducts": 1
+    },
+    "uxCountsAfter": {
+      "bOrders": 1,
+      "aOrders": 1,
+      "bPayments": 0,
+      "bTradeOutbox": 0,
+      "aOutbox": 1,
+      "bProducts": 1
+    }
+  },
+  "checks": [
+    "npm ci --offline and npm run build",
+    "UX web Docker build st04-20261017-01 then st04-20261017-02",
+    "fresh UX schema/seed/MQ init and two A indexes",
+    "UX actual identity, sync, signed A quote, hold, cancel and close",
+    "UX-only web force recreate with stable web image and container unchanged",
+    "Node strict CA and hostname TLS returned HTTP 200 on both domains",
+    "Headless Edge with UX-only user data dir loaded the UX page and kept a host-only cookie from the stable domain",
+    "python -B docs/tests/verify-st04-isolation.py",
+    "stable.ps1 -Action ready and UX b06-deployment.py ready"
+  ],
+  "resolvedSetupIssues": [
+    "Initial inherited 4.75 GiB capacity gate refused concurrent UX startup; UX service limits and gate were set to 3 GiB plus reserve based on measured usage.",
+    "Docker default IPv4 address pool was exhausted; UX uses distinct 10.250.50.0/24 through 10.250.54.0/24 subnets.",
+    "Frozen A image required stdout Logback config in its read-only UX container.",
+    "Initial UX smoke Origin omitted the 8446 port and was corrected before acceptance."
+  ],
+  "limits": [
+    "The headless Edge session used ignoreHTTPSErrors only for cookie/profile isolation; separate pinned-CA Node probes verified strict TLS. Human browser business interaction was not performed.",
+    "Only local Windows Docker and simulated payment were exercised; no Linux or remote deployment claim.",
+    "UX-00 through UX-05 storefront changes and ST-05 delivery are separate future stages."
+  ],
+  "actions": {
+    "stableDirectoryModified": false,
+    "stableVolumesReplaced": false,
+    "stableContainersRecreated": false,
+    "sourceOrImagesPushed": false
+  }
+}
