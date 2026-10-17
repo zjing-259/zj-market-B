@@ -1,9 +1,9 @@
-name: zj-market-b06
+name: zj-market-ux
 services:
   mysql:
     image: mysql@sha256:f496c25da703053a6e0717f1d52092205775304ea57535cc9fcaa6f35867800b
     platform: linux/amd64
-    mem_limit: 768m
+    mem_limit: 512m
     cpus: 2
     restart: unless-stopped
     networks:
@@ -54,7 +54,7 @@ services:
   redis:
     image: redis@sha256:5443f35e8fc8fc8496964b8e8ea39abaf99434d7e1741e514f7f56906b1c9ff0
     platform: linux/amd64
-    mem_limit: 256m
+    mem_limit: 128m
     cpus: 2
     restart: unless-stopped
     networks:
@@ -88,7 +88,7 @@ services:
   namesrv:
     image: docker.1panel.live/apache/rocketmq@sha256:c0ffc9f5abd3ee8fb59682f9f2c84abba031f0a83500d60a7330ade2d9b7ccca
     platform: linux/amd64
-    mem_limit: 384m
+    mem_limit: 256m
     cpus: 2
     restart: unless-stopped
     networks:
@@ -134,7 +134,7 @@ services:
   broker:
     image: docker.1panel.live/apache/rocketmq@sha256:c0ffc9f5abd3ee8fb59682f9f2c84abba031f0a83500d60a7330ade2d9b7ccca
     platform: linux/amd64
-    mem_limit: 1280m
+    mem_limit: 768m
     cpus: 2
     restart: unless-stopped
     networks:
@@ -198,7 +198,7 @@ services:
   marketing-a:
     image: ${B06_A_IMAGE:?Build images and load release.env}
     platform: linux/amd64
-    mem_limit: 768m
+    mem_limit: 512m
     cpus: 2
     restart: unless-stopped
     networks:
@@ -238,6 +238,12 @@ services:
       read_only: true
       bind:
         create_host_path: false
+    - type: bind
+      source: D:/Java/zj-market-ux/.local/b06/runtime/logback-ux.xml
+      target: /etc/b06/logback-ux.xml
+      read_only: true
+      bind:
+        create_host_path: false
     healthcheck:
       test:
       - CMD
@@ -252,6 +258,7 @@ services:
       start_period: 90s
     command:
     - --spring.config.location=file:/etc/b06/application.properties,file:/run/secrets/a.properties
+    - --logging.config=file:/etc/b06/logback-ux.xml
     secrets:
     - source: mysql-trust.p12
       target: mysql-trust.p12
@@ -275,7 +282,7 @@ services:
   market-b:
     image: ${B06_B_IMAGE:?Build images and load release.env}
     platform: linux/amd64
-    mem_limit: 1024m
+    mem_limit: 768m
     cpus: 2
     restart: unless-stopped
     networks:
@@ -375,7 +382,7 @@ services:
     tmpfs:
     - /tmp:rw,noexec,nosuid,size=32m
     ports:
-    - ${B06_BIND_IP:-127.0.0.1}:443:8443
+    - ${B06_BIND_IP:-127.0.0.1}:8446:8443
     secrets:
     - source: web.pem
       target: web-cert.pem
@@ -389,14 +396,14 @@ services:
     healthcheck:
       test:
       - CMD-SHELL
-      - curl --fail --silent --cacert /run/secrets/web-ca.pem https://zj-market.test:8443/healthz
+      - curl --fail --silent --cacert /run/secrets/web-ca.pem https://zj-market-ux.test:8443/healthz
         | grep -q UP
       interval: 15s
       timeout: 5s
       retries: 8
       start_period: 30s
     extra_hosts:
-    - zj-market.test:127.0.0.1
+    - zj-market-ux.test:127.0.0.1
     volumes:
     - type: bind
       source: ${B06_ADMISSION_FILE:-./config/admission-maintenance.conf}
@@ -423,15 +430,31 @@ services:
     security_opt:
     - no-new-privileges:true
 networks:
-  edge: {}
+  edge:
+    internal: false
+    ipam:
+      config:
+        - subnet: 10.250.50.0/24
   rpc:
     internal: true
+    ipam:
+      config:
+        - subnet: 10.250.51.0/24
   data:
     internal: true
+    ipam:
+      config:
+        - subnet: 10.250.52.0/24
   redis:
     internal: true
+    ipam:
+      config:
+        - subnet: 10.250.53.0/24
   mq:
     internal: true
+    ipam:
+      config:
+        - subnet: 10.250.54.0/24
 volumes:
   mysql-data: {}
   redis-data: {}

@@ -39,7 +39,7 @@ def main(directory,java_home):
   ck=key();ca=cert(name+'-ca',ck,None,None,True);savekey('private/'+name+'-ca-key.pem',ck);savecert(name+'-ca.pem',ca)
   k=key();c=cert(name,k,ca,ck,sans=sans,client=client);savekey(name+'-key.pem',k);savecert(name+'.pem',c)
   return ck,ca
- issue('web',['zj-market.test']);issue('rpc-server',['marketing-a']);issue('rpc-client',client=True);issue('mysql',['mysql'])
+ issue('web',['zj-market-ux.test']);issue('rpc-server',['marketing-a']);issue('rpc-client',client=True);issue('mysql',['mysql'])
  ck,ca=issue('mq',['namesrv','broker'])
  # Negative test: valid same-CA certificate that is not the pinned server leaf.
  k=key();savekey('private/mq-unpinned-key.pem',k);savecert('private/mq-unpinned.pem',cert('other-mq',k,ca,ck,sans=['namesrv','broker']))

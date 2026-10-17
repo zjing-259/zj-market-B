@@ -1,3 +1,11 @@
+> 最新接续（2026-10-17，ST-04 已验收）：B 从 ST-01 固定提交创建 `D:\Java\zj-market-ux`／`codex/storefront-ux`；UX 在 `zj-market-ux.test:8446` 以独立五网络、五空卷、凭据、MySQL／Redis／MQ／A/B/Web 容器运行，专用 Web 标签为 `st04-20261017-02`。UX 实际登录、签名 A 试算、开团占位、取消关闭通过；旧站 B/A 订单、支付、商品及 Outbox 计数不变，旧七容器 ID 未变且仍 `READY`。严格 TLS 两站页面与只读结构隔离检查通过；独立 Edge 配置目录实际无界面打开 UX 页面，Cookie 未跨域，人工业务交互留后续。见 [ST-04 摘要](tests/st04-acceptance.json)、[操作说明](../deploy/ux/README.md)。下一步 ST-05 交付，商城体验改造 UX-00～05 尚未开始；以下为历史接续。
+
+> 先前接续（2026-10-16，ST-03 已验收）：主站已由 D:\Java\zj-market-stable 独立目录接管，原五卷、五网络及七服务镜像 ID 不变；最终一致性冷备 st03_20261016_04 的逻辑数据库及五卷归档逐文件哈希通过。真实停启、重复启动无重建、专属 Edge 打开、严格 TLS、旧订单／退款和权限检查通过。独立模拟开团参团成团使已付 +180、可用 -2、已售 +2，原待办数量保持。旧主站入口已标记交接；验收见 [ST-03 摘要](tests/st03-acceptance.json) 与 [操作说明](../deploy/stable/README.md)。以下为历史接续。
+
+> 最新接续（2026-10-16，ST-02 阶段验收通过）：独立稳定版部署包最终批次 `target/stable-isolation/st02_20261016_04/bundle` 已生成，包含固定镜像 Compose、37 份私有输入和安全生命周期入口；静态审查、两种 Compose、schema／网关只读探针、配置漂移拒绝、迁移路径及十项隔离生命周期测试通过。新入口只读状态为 `adopted:false`，未执行真实启停或浏览器打开；原主站七容器身份未变且健康。证据见 [ST-02 摘要](tests/st02-acceptance.json)和[部署说明](../deploy/stable/README.md)。ST-03 需先一致性备份，再迁移独立目录并接管；ST-04～05 未实施。以下为历史接续。
+
+> 最新接续（2026-10-16，ST-01 已验收）：A/B 已分别提交 TD-06 源码基线 8040350b7e819fac813d343aab9e9ad220f4c06d 和 e18f4479dd934b58e93a183229110bd0b8803db3，并在两仓建立注解标签 stable-td06-20261016-01。主站六个唯一实际镜像（含三种 RocketMQ 用途）已保存为本机离线 tar，逐包 SHA、Docker load 和 Image ID 通过；公开清单 docs/stable-manifest.json、验收 docs/tests/st01-acceptance.json。原主站七容器及五卷未被重建或切换，443 就绪。源码提交晚于原镜像构建，来源由 TD-05/TD-06 锁和构建哈希关联；现有运行仍依赖开发与历史目录，ST-02～05 待实施。两仓提交及标签、镜像包均未远程发布。以下为历史接续。
+
 > 最新接续（2026-10-16，ST-00 已验收）：旧版稳定运行与新版工作树隔离方案完成只读盘点及范围冻结。主站七服务健康、实际镜像与 TD-06 清单一致；原五卷、443 开放和无效下单 JSON 拒绝已核对。A/B 冻结源码 286/355 文件匹配，但源码未提交，运行依赖仍指向开发及历史工作树。证据见 docs/tests/st00-acceptance.json 和 docs/stable-release-worktree-isolation-plan.md 第 4 节。本阶段未提交、保存镜像、创建 UX 工作树或切换部署；下一步 ST-01。旧 TD-06 全量检查因新增盘点文件漂移，历史清单不回写。以下旧记录保留历史时点。
 
 > 最新接续（2026-10-15）：TD-05 Windows Docker 隔离候选已完成。新 A 从独立源码快照构建，B／前端重建并形成三个本机固定镜像；克隆库只追加 A 两索引，B Flyway 历史不变，运行账号无 DDL。开关关闭时完成直接签名 TLS A RPC 探测后才启用；新镜像浏览器25项、账目11项、旧 A 明确503及旧 B 兼容回退通过。原 B-06 七服务／镜像／冷备未替换。见[功能文档18节](team-discovery-development.md#18-td-05-容器发布与交接2026-10-15windows-隔离候选已完成)、[发布清单](team-discovery-td05-release.json)、[验收摘要](tests/td05-acceptance.json)及[交付说明](../deploy/td05/README.md)。仅本机候选验证，未提交／推送或发布镜像；以下旧记录保留历史时点。

@@ -12,9 +12,9 @@ let token;const cookies=new Map();
 function check(ok,message){if(!ok)throw new Error(message)}
 function request(route,method='GET',body,extra={}){
  return new Promise((resolve,reject)=>{
-  const req=https.request({hostname:'zj-market.test',family:4,autoSelectFamily:false,port:443,path:route,method,ca,rejectUnauthorized:true,
+  const req=https.request({hostname:'zj-market-ux.test',family:4,autoSelectFamily:false,port:8446,path:route,method,ca,rejectUnauthorized:true,
    lookup:(host,opts,callback)=>callback(null,'127.0.0.1',4),
-   headers:{Origin:'https://zj-market.test','Content-Type':'application/json',Cookie:[...cookies].map(([k,v])=>k+'='+v).join('; '),...(token?{Authorization:'Bearer '+token}:{}),...extra}},res=>{
+   headers:{Origin:'https://zj-market-ux.test:8446','Content-Type':'application/json',Cookie:[...cookies].map(([k,v])=>k+'='+v).join('; '),...(token?{Authorization:'Bearer '+token}:{}),...extra}},res=>{
     check(res.socket.authorized,'TLS authorization');for(const c of res.headers['set-cookie']??[]){const first=c.split(';')[0],i=first.indexOf('=');cookies.set(first.slice(0,i),first.slice(i+1))}
     let raw='';res.on('data',b=>raw+=b);res.on('end',()=>{let data;try{data=JSON.parse(raw)}catch{data={raw}}resolve({status:res.statusCode,body:data,headers:res.headers})});
    });req.on('error',reject);req.setTimeout(15000,()=>req.destroy(new Error('HTTPS timeout')));if(body!==undefined)req.write(JSON.stringify(body));req.end();
@@ -40,8 +40,8 @@ if(mode==='gateway'){
   const payment=await api('/orders/'+orderId+'/payment');check(payment.canCreateAttempt===false,'Backend checkout disabled, not merely nginx gate');
   const image=JSON.parse(fs.readFileSync(path.join(root,'deploy/b06/images.lock.json'))).java21;
   const body=JSON.stringify({operationId:randomUUID(),previousAttemptId:null});
-  const config=['url = '+JSON.stringify('http://market-b:8080/api/v1/orders/'+orderId+'/payment-attempts'),'request = "POST"','header = '+JSON.stringify('Authorization: Bearer '+token),'header = "Content-Type: application/json"','header = "Origin: https://zj-market.test"','data = '+JSON.stringify(body)].join('\n');
-  const result=spawnSync('docker',['--context','desktop-linux','run','--rm','-i','--network','zj-market-b06_edge','--memory','64m','--entrypoint','curl',image,'--silent','--show-error','--fail-with-body','--config','-'],{input:config,encoding:'utf8'});
+  const config=['url = '+JSON.stringify('http://market-b:8080/api/v1/orders/'+orderId+'/payment-attempts'),'request = "POST"','header = '+JSON.stringify('Authorization: Bearer '+token),'header = "Content-Type: application/json"','header = "Origin: https://zj-market-ux.test:8446"','data = '+JSON.stringify(body)].join('\n');
+  const result=spawnSync('docker',['--context','desktop-linux','run','--rm','-i','--network','zj-market-ux_edge','--memory','64m','--entrypoint','curl',image,'--silent','--show-error','--fail-with-body','--config','-'],{input:config,encoding:'utf8'});
   check(result.status===22,'Direct backend HTTP rejection');const reply=JSON.parse(result.stdout);check(reply.code==='PAYMENT_DISABLED','Direct backend PAYMENT_DISABLED');console.log('CLIENT_PASS backend-checkout-disabled-without-gateway');
  }else if(mode==='cancel'){
   const {orderId}=JSON.parse(fs.readFileSync(path.join(control,'smoke-order.json')));const r=await api('/orders/'+orderId+'/cancel','POST',{operationId:randomUUID(),reason:'B06 controlled startup acceptance'},[200,202]);console.log('CLIENT_PASS durable-cancel '+orderId);

@@ -3,7 +3,7 @@ from pathlib import Path
 import argparse,subprocess,json,hashlib,secrets,os,re,time,shutil
 import yaml
 ROOT=Path(__file__).resolve().parents[1]
-PROJECT='zj-market-b06'
+PROJECT='zj-market-ux'
 CONTROL=ROOT/'.local/b06/control'
 RUNTIME=ROOT/'.local/b06/runtime'
 BUILD=ROOT/'.local/b06/build'
@@ -75,7 +75,7 @@ class Deployment:
   image=json.loads((ROOT/'deploy/b06/images.lock.json').read_text())['redis']
   info=self.run('docker-available-memory',self.docker+['run','--rm','--network','none','--entrypoint','cat',image,'/proc/meminfo'])
   available=int(re.search(r'MemAvailable:\s+(\d+)',info).group(1))*1024
-  evidence={'linuxAvailableBytes':available,'persistentLimitsBytes':int(4.5*GIB),'reserveBytes':int(.25*GIB)}
+  evidence={'linuxAvailableBytes':available,'persistentLimitsBytes':int(3*GIB),'reserveBytes':int(.25*GIB)}
   if os.name=='nt':
    value=subprocess.check_output(['powershell','-NoProfile','-Command','(Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory'],text=True);evidence['windowsAvailableBytes']=int(value.strip())*1024
    disks=json.loads(subprocess.check_output(['powershell','-NoProfile','-Command',"Get-CimInstance Win32_LogicalDisk | Where-Object { $_.DeviceID -in @('C:','D:') } | Select-Object DeviceID,FreeSpace | ConvertTo-Json -Compress"],text=True))
@@ -88,7 +88,7 @@ class Deployment:
    m=re.match(r'([0-9.]+)([KMGT]?i?B)',row.split('/')[0].strip())
    if m:used+=float(m[1])*{'B':1,'KiB':1024,'MiB':1024**2,'GiB':1024**3,'kB':1000,'MB':1000**2,'GB':1000**3}[m[2]]
   evidence['ownedRunningBytes']=int(used)
-  if available+used<4.75*GIB:raise RuntimeError('Docker memory available plus owned usage below full-stack limits plus reserve (4.75GiB)')
+  if available+used<3.25*GIB:raise RuntimeError('Docker memory available plus owned usage below full-stack limits plus reserve (3.25GiB)')
   (CONTROL/'capacity.json').write_text(json.dumps(evidence,indent=2)+'\n')
  def initialize(self):
   provenance=json.loads((ROOT/'deploy/b06/init/a-schema-provenance.json').read_text())

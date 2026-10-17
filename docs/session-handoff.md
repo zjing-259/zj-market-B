@@ -1,3 +1,11 @@
+> 最新接续（2026-10-17，ST-04 已验收）：UX B 工作树 `D:\Java\zj-market-ux`、分支 `codex/storefront-ux`，独立项目 `zj-market-ux` 已在 `https://zj-market-ux.test:8446` 开放；A 源码未改，在独立容器复用 ST-01 A 镜像。UX 使用空卷、新凭据、独立五网络和五卷、新 Web 标签，独立 Edge 配置目录已无界面打开 UX 页面并确认 Cookie 不跨旧站域名。实际开团占位及取消关闭只增加 UX A/B 各一笔订单，旧站计数、容器和 `READY` 状态不变。严格 TLS 与结构隔离通过；人工浏览器业务交互未做。见 docs/tests/st04-acceptance.json、deploy/ux/README.md；下一步 ST-05。以下为历史接续。
+
+> 先前接续（2026-10-16，ST-03 已验收）：主站 `zj-market-b06` 已从 `D:\Java\zj-market-stable\scripts\stable.ps1` 管理；status／ready／start／stop／open 已实际验证，重复 start 不重建。最终冷备批次 st03_20261016_04（逻辑数据库＋五原卷，约 2.08 GB）哈希通过，原镜像／卷／网络身份不变，七服务绑定均转向独立 private。旧订单、退款、权限和模拟两人支付成团通过，新增资金库存流水守恒；旧主站控制入口已加交接门禁。私有备份不入 Git，严禁把旧备份覆盖在线卷。详见 docs/tests/st03-acceptance.json、deploy/stable/README.md。以下为历史接续。
+
+> 最新接续（2026-10-16，ST-02 阶段验收通过）：独立稳定版部署包位于 B 仓已忽略的 `target/stable-isolation/st02_20261016_04/bundle`；七常驻服务固定镜像、原五卷／五网络 external、37 份私有文件限制访问。两种 Compose、schema／Flyway／索引、严格 TLS 只读探针及十项隔离生命周期测试通过；迁移路径和配置漂移拒绝通过。`status` 为 `adopted:false`，`ready` 拒绝未接管主站，原七容器身份不变且健康。ST-03 前不得把新入口用于真实启停；先做一致性备份、复核义务并迁移包及镜像归档。证据见 docs/tests/st02-acceptance.json 和 deploy/stable/README.md。以下为历史接续。
+
+> 最新接续（2026-10-16，ST-01 已完成）：A/B TD-06 冻结源码分别归档为提交 8040350b7e819fac813d343aab9e9ad220f4c06d、e18f4479dd934b58e93a183229110bd0b8803db3，并各有注解标签 stable-td06-20261016-01。主站六个唯一实际镜像本机离线保存、逐包哈希与 Docker load 后 ID 通过；公开清单 docs/stable-manifest.json，验收 docs/tests/st01-acceptance.json，私有 tar 在忽略的 target/stable-isolation/st01_20261016_01。原七容器与五卷保持，443 就绪；仍依赖开发和历史目录，ST-02 独立部署包与安全生命周期尚待实施。未推送提交／标签、未上传镜像、未切换部署。
+
 > 最新接续（2026-10-16，ST-00 已完成）：稳定版隔离方案只读盘点通过；主站七服务健康且镜像匹配 TD-06，原五卷和 443 开放，A/B 冻结源码分别 286/355 文件一致。两仓未提交改动及原有工作树保留，现有部署仍依赖开发和历史目录；ST-01～05 未实施。脱敏证据 docs/tests/st00-acceptance.json，操作边界见 docs/stable-release-worktree-isolation-plan.md。原 TD-06 全量检查因新增文件漂移，历史证据不回写。
 
 > 最新接续（2026-10-16，TD-06.4本机归档完成）：[TD-06发布清单](team-discovery-td06-release.json)与[源码锁](team-discovery-td06-source-lock.json)绑定两仓源码、契约JAR、A/B构建JAR、主web构建、三运行镜像、配置模板、A索引／schema、B Flyway以及私有原始证据哈希；可运行 `python -B docs/tests/collect-td06-4-release.py check` 做只读复核。主商城 `https://zj-market.test` 443为当前功能入口，8445是隔离候选；操作见[TD-06交付说明](../deploy/td06/README.md)与[快速入门](project-guide-quickstart.md)。两仓公开改动及未跟踪文件完成敏感材料审计；源码／镜像仍仅本机，未提交／推送／上传，Linux及外部客户端未验。TD-06.2升级前备份不可覆盖发生新交易后的主卷，原未结义务保留。下面为历史接续。
