@@ -1,0 +1,146 @@
+{
+  "stage": "ST-05",
+  "status": "LOCAL_DELIVERY_COMPLETE",
+  "generatedAtUtc": "2026-10-17T04:38:02.814275+00:00",
+  "stableRelease": "td06-stable-20261016-01",
+  "stableRoot": "D:/Java/zj-market-stable",
+  "uxRoot": "D:/Java/zj-market-ux",
+  "sourceCommits": {
+    "aStable": "8040350b7e819fac813d343aab9e9ad220f4c06d",
+    "bStable": "e18f4479dd934b58e93a183229110bd0b8803db3",
+    "bSt04": "4abedfc73de23649bacf8ac4e6ec501b8803bca7",
+    "bUx": "076dba693472f3f5c670c8abc2659abb55cf9110"
+  },
+  "publicFiles": [
+    {
+      "path": "deploy/st05/README.md",
+      "sha256": "A5F374BD63E6D802EBF8556D1B59565D7C5A47821F80B97671F779DEE5FD887B",
+      "bytes": 3972
+    },
+    {
+      "path": "deploy/stable/README.md",
+      "sha256": "6212A8F70075C934C00FA259F9C1596F5291912C5B1CB6167C44A68738F3D271",
+      "bytes": 3882
+    },
+    {
+      "path": "deploy/ux/README.md",
+      "sha256": "2478F77D5EC9DFB42817D1516CCBE0E42E2791514524F9A084002984CD01C1DC",
+      "bytes": 3523
+    },
+    {
+      "path": "docs/stable-manifest.json",
+      "sha256": "779F393ECFCCCF98F50CB83075F656EB38165D63079BB7F5D06476549A9B3EB2",
+      "bytes": 9165
+    },
+    {
+      "path": "docs/stable-release-worktree-isolation-plan.md",
+      "sha256": "2FF4AD59D504116945D6513604D7F7A4380798611D903CD5F3E397A6E6D0F302",
+      "bytes": 26976
+    },
+    {
+      "path": "docs/tests/st03-acceptance.json",
+      "sha256": "DFFE778DF0F6430CFAC64C2CB8E2469EC2CBBC65F8D9E68224CF58D72504AC78",
+      "bytes": 3933
+    },
+    {
+      "path": "docs/tests/st04-acceptance.json",
+      "sha256": "373BEF55D187CA4E9053FF93CA16CAE878FA69BA40000CCCD627B9937100D0C3",
+      "bytes": 4378
+    },
+    {
+      "path": "docs/tests/verify-st04-isolation.py",
+      "sha256": "8B21A1BB3DA4B220DE2585E85A362094670223629072009A764C53187BAFC140",
+      "bytes": 4874
+    },
+    {
+      "path": "scripts/st04-fix-ux-logging.py",
+      "sha256": "FEF92C30A65F06D634F74AB23A09A25A9AEE7B92D4A6D248A554FDBC9DD56507",
+      "bytes": 1851
+    },
+    {
+      "path": "scripts/st04-prepare-ux.py",
+      "sha256": "A9576871BD10EC240C8F8847DDE4ED77ED76A3F287AF6BEEF3D15591A296A7C3",
+      "bytes": 4913
+    },
+    {
+      "path": "scripts/st04-ux-indexes.py",
+      "sha256": "DF11C1415EF90E49D7DEFF3025040B2C222A7C7CFC7F616C2127080B54F6B613",
+      "bytes": 2016
+    },
+    {
+      "path": "scripts/stable-release/build-st05-delivery.py",
+      "sha256": "C69614D78495E763D46CF93EC25AA0A67C98C8A3D5CB1042A71FAA683F9F5EB1",
+      "bytes": 9729
+    },
+    {
+      "path": "scripts/stable-release/verify-st05-delivery.py",
+      "sha256": "0FBB1E648F532E5B934340CFB094D513A9B8202DDD7318965B219116333D3015",
+      "bytes": 4575
+    },
+    {
+      "path": "ux/deploy/b06/compose.yml",
+      "sha256": "9422155C83D9D6B09B0EF2ED34BAFF1E6C9A3351E4AF19DC4E619DAECB3A303A",
+      "bytes": 15106
+    },
+    {
+      "path": "ux/deploy/b06/config/b.properties",
+      "sha256": "F20645E6541E38319DBA4B5136B9C1429EC116C8DE0B3535F8CA6B54B16A12DF",
+      "bytes": 2704
+    },
+    {
+      "path": "ux/deploy/b06/nginx.conf",
+      "sha256": "8032AF059B5D0672FF50ABA2C741821D480C05469BB9C318FF499BD96DA64695",
+      "bytes": 1810
+    }
+  ],
+  "privateFileCount": 100,
+  "privateTotalBytes": 2046619017,
+  "privateManifestSha256": "95EB58BA9603B70B3B96A6F4214424D368222657E477CBA947070414E7881E44",
+  "stableImages": {
+    "mysql": {
+      "imageId": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+      "sha256": "E72954E25281BC0E3E5B213EF637B3D474B3BC602C3249A2494A9FD5C004E36B",
+      "bytes": 544866304
+    },
+    "redis": {
+      "imageId": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+      "sha256": "E756BC7179C95329B39F9EBEF391FA6BE53CA30E2A5A4A877F336D0540311078",
+      "bytes": 109109760
+    },
+    "rocketmq": {
+      "imageId": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "sha256": "0618736C13846327B63FFFBE63E16A45E92D063A7D285974F53048804C0C9DC7",
+      "bytes": 558558208
+    },
+    "marketing-a": {
+      "imageId": "sha256:48c7af4be50e59133cf76aac69bac7142fb0ab19c27c4cf21ae352550dc57ddc",
+      "sha256": "172D96EFA2E6AA87D9079A79125EB6F1018F6C0999A42264B4B4499504681B8B",
+      "bytes": 351044096
+    },
+    "market-b": {
+      "imageId": "sha256:cebd526685cd3b2bba6619494321abae36a6f5df976306a67f08549d781d196a",
+      "sha256": "6A99EFFCC06B0CDDE83CAB77CC67D5E40D4197DB39FBED5CD4709F00433FC80F",
+      "bytes": 355449344
+    },
+    "web": {
+      "imageId": "sha256:a3aad07bd5e4e5b06c4ec647cc72299f0bf3d1125fdda85157e9529054a950d9",
+      "sha256": "9A90F334344CF72721DF4D2B8D2AE3B173AF3E7E7AA0A65953EC6AD235462363",
+      "bytes": 63710720
+    }
+  },
+  "uxWebImage": {
+    "imageId": "sha256:449d818ce60072922cd4b41dc0d5011bdcd5b9cee58ba84d5d23e9d2abb914bb",
+    "tag": "zj-market-ux/web:st04-20261017-02",
+    "sha256": "12494E49943116C8F17D7BA277E3BDAD9F5A781DF017F3879438B726B388706B",
+    "bytes": 63710720
+  },
+  "historicalBackup": {
+    "batch": "st03_20261016_04",
+    "manifestSha256": "DD591C87F980B7306913E92D1A2A7C586BF8CBEE620098476CFC1635EB721678",
+    "allSevenFilesReverified": true,
+    "currentAfterSt03Transactions": false,
+    "includedInPackage": false
+  },
+  "privateFilesPublishedToGit": false,
+  "offHostCopyPerformed": false
+}

@@ -1,0 +1,34 @@
+{
+  "stage": "ST-05",
+  "status": "PASSED_LOCAL_DELIVERY",
+  "date": "2026-10-17",
+  "package": "D:/Java/zj-market/target/stable-isolation/st05_20261017_02",
+  "publicManifestSha256": "FC42840A67096625A6968350C423C9085C40CCCD2451211B291172C6BA1AD4A7",
+  "publicFiles": 16,
+  "privateFiles": 100,
+  "privateAclRestricted": true,
+  "stableImageArchives": 6,
+  "uxWebArchiveLoadedAndImageIdMatched": "sha256:449d818ce60072922cd4b41dc0d5011bdcd5b9cee58ba84d5d23e9d2abb914bb",
+  "verification": {
+    "sealedFileSetAndPerFileSha256": "PASS",
+    "stableArchiveSha256AndFrozenImageIds": "PASS",
+    "independentStableRuntimeStaticCheck": "ST02_BUNDLE_STATIC_PASS",
+    "historicalSt03BackupSevenFilesRehashed": "PASS",
+    "stableRepeatStart": "READY",
+    "uxReady": "PASS",
+    "st04IsolationRerun": "PASS",
+    "stableHealthyServices": 7,
+    "uxHealthyServices": 7
+  },
+  "scope": {
+    "stableCurrentRuntime": "D:/Java/zj-market-stable",
+    "uxCurrentRuntime": "D:/Java/zj-market-ux",
+    "snapshotIncludesLiveVolumes": false,
+    "snapshotIncludesAdoptionAuthorization": false,
+    "snapshotIncludesUxDataVolumes": false,
+    "st03HistoricalBackupIncluded": false,
+    "st03HistoricalBackupIsCurrentRecoveryPoint": false,
+    "offHostRecoveryTested": false,
+    "remotePushOrUploadPerformed": false
+  }
+}
