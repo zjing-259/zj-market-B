@@ -11,3 +11,5 @@
 从冻结 ST-01 源码重建另一套环境时，先检查目标路径、分支、子网 `10.250.50.0/24`～`10.250.54.0/24`、8446 端口和内存，再从原 B 仓执行 `scripts/st04-prepare-ux.py`；随后执行 `scripts/st04-fix-ux-logging.py`。这两个一次性准备器会拒绝非 UX 目标和部分重复写入。之后在 UX 工作树生成新凭据、构建独立版本 Web 镜像、初始化空库、应用 `scripts/st04-ux-indexes.py`，最后开放。实际初始化日志保存在 UX 忽略目录 `.local/b06/control/logs`；不要复制本机已有 `.local` 到 Git 或另一机器。当前 UX 服务内存上限合计约 3 GiB，Docker 预留 256 MiB；若容量门禁不通过，先停 UX 并核对资源，不改用主站组件。
 
 本轮验收见 [ST-04 摘要](../../docs/tests/st04-acceptance.json)和[隔离方案](../../docs/stable-release-worktree-isolation-plan.md)。ST-04 只建立隔离开发与测试环境；体验改造 UX-00～05、正式站升级、远端推送和异机部署不在本阶段。
+
+ST-05 接续（2026-10-17）：当前 UX Web 镜像 `zj-market-ux/web:st04-20261017-02` 已单独保存到 B 项目受限私有交付快照，并实际重新导入验证 ID `sha256:449d818ce60072922cd4b41dc0d5011bdcd5b9cee58ba84d5d23e9d2abb914bb`。快照保留本机 UX 运行凭据与配置，但不含 UX 数据卷；不能据此恢复 UX 业务记录。两站隔离检查重跑通过，UX 七服务健康。交付索引和恢复边界见 `D:\Java\zj-market\deploy\st05\README.md`。体验改造仍从 UX-00 开始。
