@@ -1,3 +1,5 @@
+> 最新接续（2026-10-18，UX-01 已完成本机验收）：UX 工作树已部署 `zj-market-ux/web:ux01-20261018-02`，对外品牌为“正经商城”，用户／运营导航和账号中心 `/account` 已分离；构建、路由浏览器回归、真实两站浏览器与隔离检查通过。旧站仍 READY，UX 实际门禁为 OPEN。固定镜像 ID、归档哈希与容量门禁经过见 [UX 方案](storefront-experience-optimization.md)及[运行说明](../deploy/ux/README.md)。UX-02 接续商品与下单引导；UX-00～05 均按本机 Windows＋Docker 验收。以下为历史接续。
+
 > 最新接续（2026-10-18，UX-00 已完成本机验收）：在既有 `D:\Java\zj-market-ux`／`codex/storefront-ux` 完成非 JSON／坏 JSON 响应兜底、维护与上游故障 JSON、实际 HTTPS 网关模式核验和 UX 启动前置保护；新 Web 镜像 `zj-market-ux/web:ux00-20261018-01` 已受控开放。UX 五卷冷备 `ux00_20261018_01` 及新镜像 tar 留本机私有目录；真实维护→开放、重复 open、错误 start、浏览器和两站隔离通过，旧站始终 READY。主机内存低于 1.5 GiB 时需先停 UX 再切模式；下一步 UX-01 品牌与设计基础。详情见 [UX 方案](storefront-experience-optimization.md)与[运行说明](../deploy/ux/README.md)。以下为历史接续。
 
 > 最新接续（2026-10-17，ST-05 已验收）：旧站本机离线交付快照 `target/stable-isolation/st05_20261017_02` 已完成，公开 16 文件、受限私有 100 文件、六个稳定镜像和一个 UX Web 镜像逐项核验；UX 镜像导入 ID 一致，旧站重复启动仍 `READY`，两站隔离检查通过。ST-03 历史冷备七文件复验但不是当前实时恢复点，快照不含在线卷、UX 数据卷或旧卷接管授权。见 [ST-05 清单](st05-delivery-manifest.json)、[验收](tests/st05-acceptance.json)和[交付操作](../deploy/st05/README.md)。商城体验改造 UX-00～05 尚未开始；以下为历史接续。

@@ -1,6 +1,6 @@
 # UX 独立环境与 UX-00 运行说明
 
-最新状态（2026-10-18）：UX-00 已在现有 `D:\Java\zj-market-ux` 工作树完成本机验收，运行 Web 镜像为 `zj-market-ux/web:ux00-20261018-01`；旧站继续由 `D:\Java\zj-market-stable\scripts\stable.ps1` 管理。下述 ST-04 环境建立过程保留为历史基线，后续 UX-01 不再重建分支、空卷或稳定站。
+最新状态（2026-10-18）：UX-01 已在现有 `D:\Java\zj-market-ux` 工作树完成本机验收，运行 Web 镜像为 `zj-market-ux/web:ux01-20261018-02`；旧站继续由 `D:\Java\zj-market-stable\scripts\stable.ps1` 管理。下述 ST-04 环境建立过程保留为历史基线，后续 UX-02 不再重建分支、空卷或稳定站。
 
 当前本机 B 新版工作树为 `D:\Java\zj-market-ux`（`codex/storefront-ux`，从 ST-01 B 提交 `e18f4479` 分出），A 继续使用 `D:\Java\group-buy-market` 已冻结源码与 ST-01 固定镜像，不另建 A 工作树。旧站继续由 `D:\Java\zj-market-stable\scripts\stable.ps1` 管理；UX 项目为 `zj-market-ux`，入口 `https://zj-market-ux.test:8446`。两站使用不同域名、浏览器配置、五网络、五数据卷和整套新凭据；UX 不读取主站备份，也不连接主站数据库和 Broker。
 
@@ -17,3 +17,5 @@
 ST-05 接续（2026-10-17）：ST-04 UX Web 镜像已保存到 B 项目受限私有交付快照，镜像 ID 为 `sha256:449d818ce60072922cd4b41dc0d5011bdcd5b9cee58ba84d5d23e9d2abb914bb`。该快照不含 UX 数据卷；旧版完整交付边界见 `D:\Java\zj-market\deploy\st05\README.md`。
 
 UX-00 接续（2026-10-18）：切换前在 UX 忽略目录 `.local/ux00/backups/ux00_20261018_01` 保存五个 UX 数据卷与私有运行输入，52 文件逐项哈希通过；它是本机冷备，不是异地恢复证明。新 Web 镜像归档 `.local/ux00/images/web-ux00-20261018-01.tar` 的 SHA-256 为 `5DC8D1B1C73672E79B188AF2E6C0CF70E948BA78574BE63F826F46F9AA5B4468`，Image ID 为 `sha256:f99697aaa392b3fa982e39b8ba379eae5b5d162962861f04aeaed4ce1186ee32`。前端非 JSON／坏 JSON 等异常得到中文提示且不自动重放写请求；网关 `GET /api/v1/system/status` 只返回当前模式，维护拦截和自身上游故障返回 JSON。真实维护→开放验收通过，旧站始终 `READY`。测试和下一阶段见[UX 方案](../../docs/storefront-experience-optimization.md)。
+
+UX-01 接续（2026-10-18）：用户展示品牌改为“正经商城”，账号中心固定 `/account`，运营和购物导航分离；新镜像 `zj-market-ux/web:ux01-20261018-02` ID `sha256:e95c5c1b4fc07d788c55dd5b5507139481345fb62bacfcfe05da7780c825bedc`。本机镜像归档 `.local/ux01/images/web-ux01-20261018-02.tar` SHA-256 `BA03E9CAE432D9C4D63BB9E82289DF201CEFFCD8E165303AF0311CAFF74ACD8C`；UX-00 镜像仍可作为 Web 回退点。当前 `.local/b06/build/release.env` 的 `B06_WEB_IMAGE` 已指向 UX-01；切换其他版本前须受控停止 UX 并核对容量。实际开放状态、旧站隔离、桌面／手机浏览器与路由回归均已通过，证据及后续 UX-02 范围见[UX 方案](../../docs/storefront-experience-optimization.md)。UX-00～05 只要求本机 Windows＋Docker 验收。
