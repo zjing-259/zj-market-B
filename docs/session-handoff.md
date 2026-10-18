@@ -1,4 +1,6 @@
-> 最新接续（2026-10-18，UX-01 已完成）：UX 镜像 ux01-20261018-02 已在独立环境开放，展示品牌为“正经商城”；用户／运营导航、/account、动态标题、404 与安全回跳已验收。前端构建、浏览器回归、旧站 READY 和两站隔离通过；固定镜像与本机归档见 deploy/ux/README.md，下一阶段 UX-02。UX-00～05 均以本机 Windows＋Docker 验收。以下为历史接续。
+> 最新接续（2026-10-18，UX-02 已完成）：`D:\Java\zj-market-ux`／`codex/storefront-ux` 的商品／团队购买引导已部署，当前镜像 `zj-market-ux/web:ux02-20261018-02`。价格变化及请求竞态重新确认、JOIN 固定 teamId、订单原意图恢复和服务端支付资格门禁已验证；真实 UX 页面登录／深链接／手机、无自动建单、旧站 READY 和两站隔离通过。本机镜像归档、测试矩阵及边界见 [UX 方案](storefront-experience-optimization.md)和[运行说明](../deploy/ux/README.md)。下一阶段 UX-03，后续仍只要求本机 Windows＋Docker 验收。以下为历史接续。
+
+> 历史接续（2026-10-18，UX-01 已完成）：UX 镜像 ux01-20261018-02 已在独立环境开放，展示品牌为“正经商城”；用户／运营导航、/account、动态标题、404 与安全回跳已验收。前端构建、浏览器回归、旧站 READY 和两站隔离通过；固定镜像与本机归档见 deploy/ux/README.md，下一阶段 UX-02。UX-00～05 均以本机 Windows＋Docker 验收。以下为历史接续。
 
 > 最新接续（2026-10-18，UX-00 已完成）：UX 分支从既有隔离工作树开发并运行 `zj-market-ux/web:ux00-20261018-01`。前端安全处理 HTML／坏 JSON／空响应和写结果未知；网关提供实际模式及 JSON 503／502；UX 控制器重复 open 不重建，误用 start、容量不足在变更前拒绝。五卷一致性冷备与镜像归档在 UX 忽略目录，真实维护→开放通过；旧站 READY 且未改卷。后续从 UX-01 开始；当前操作看 `deploy/ux/README.md`，完整验收和限制看 `docs/storefront-experience-optimization.md`。以下为历史接续。
 

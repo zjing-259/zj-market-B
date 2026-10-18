@@ -2,10 +2,24 @@
 .trial-panel dl { display: grid; grid-template-columns: minmax(100px, 130px) 1fr; gap: 10px; }
 .trial-panel dd { margin: 0; }
 .joinable-list { list-style: none; padding: 0; display: grid; gap: 12px; }
+.joinable-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .joinable-card { padding: 16px; border: 1px solid var(--line); border-radius: var(--radius); overflow-wrap: anywhere; }
 .joinable-card p { margin: 5px 0; line-height: 1.6; }
 .joinable-action { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; padding: 10px 16px; border-radius: 8px; background: var(--blue); color: #fff; text-decoration: none; }
+.purchase-panel { margin-top: 20px; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+.purchase-panel h3 { margin: 0 0 12px; }
+.purchase-panel button { margin: 6px 10px 6px 0; }
+.purchase-confirmation, .purchase-progress { padding: 16px; border-radius: 10px; background: #f4f7ff; }
+.purchase-confirmation h4 { margin: 0; font-size: 20px; }
+.purchase-amount { font-size: 27px; font-weight: 700; color: #193a7a; }
+.purchase-primary-link { display: inline-flex; align-items: center; min-height: 44px; margin: 8px 12px 8px 0; padding: 10px 16px; border-radius: 8px; background: var(--blue); color: #fff; text-decoration: none; }
+.purchase-primary-link:hover { background: var(--blue-dark); }
+.team-page { max-width: 1000px; margin: 0 auto; }
+.team-summary, .team-product { margin-top: 20px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; overflow-wrap: anywhere; }
+.share-panel { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
+.share-panel input { background: #f6f7f9; }
 .payment-page { max-width: 720px; overflow-wrap: anywhere; }
 .payment-page details { margin: 24px 0; }
 .payment-page [role="alert"] { color: #a22b20; }
-@media (max-width: 600px) { .joinable-teams .actions button { width: 100%; } }
+@media (max-width: 700px) { .joinable-list { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .joinable-teams .actions button, .purchase-confirmation .actions button { width: 100%; } .team-summary, .team-product, .purchase-panel { padding: 16px; } }

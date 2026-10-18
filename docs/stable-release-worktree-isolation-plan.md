@@ -1,6 +1,6 @@
 # 旧版稳定运行与新版工作树隔离实施方案
 
-状态：ST-00～ST-05 均已完成本机验收；ST-05 交付批次为 `st05_20261017_02`，证据见 [验收报告](../../zj-market/docs/tests/st05-acceptance.json)。主站由 `D:\Java\zj-market-stable` 独立管理，沿用原 `zj-market-b06` 项目及五卷；UX 工作树 `D:\Java\zj-market-ux`（`codex/storefront-ux`）及独立项目 `zj-market-ux` 已开放。UX-00～UX-01 于 2026-10-18 完成本机验收，见[体验优化方案](storefront-experience-optimization.md)；后续从 UX-02 开始，不重复创建工作树或部署隔离环境。
+状态：ST-00～ST-05 均已完成本机验收；ST-05 交付批次为 `st05_20261017_02`，证据见 [验收报告](../../zj-market/docs/tests/st05-acceptance.json)。主站由 `D:\Java\zj-market-stable` 独立管理，沿用原 `zj-market-b06` 项目及五卷；UX 工作树 `D:\Java\zj-market-ux`（`codex/storefront-ux`）及独立项目 `zj-market-ux` 已开放。UX-00～UX-02 于 2026-10-18 完成本机验收，见[体验优化方案](storefront-experience-optimization.md)；后续从 UX-03 开始，不重复创建工作树或部署隔离环境。
 
 ## 1. 目标与已知现状
 

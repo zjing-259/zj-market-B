@@ -160,31 +160,31 @@ onMounted(async () => {
       <label for="saleStatus">售卖状态</label><select id="saleStatus" v-model="status" :disabled="busy"><option value="OFF_SALE">下架</option><option value="ON_SALE">在售</option></select>
       <div class="actions"><button :disabled="busy" type="submit">保存商品</button><button type="button" class="secondary" :disabled="busy" @click="reread">重新读取</button><button type="button" class="secondary" @click="editing=false">关闭编辑</button></div>
     </form>
-    <article v-else-if="selected" class="product-detail">
+    <article v-else-if="selected" class="product-detail" :class="{ 'shop-detail': !admin }">
       <button class="secondary compact" @click="backToList">返回列表</button>
-      <img v-if="selected.imageUrl && !broken[selected.goodsId]" :src="selected.imageUrl" :alt="selected.goodsName" referrerpolicy="no-referrer" @error="broken[selected.goodsId]=true"><div v-else class="image-placeholder">商品图片暂无</div>
-      <h2>{{ selected.goodsName }}</h2><p v-if="selected.availability">{{ selected.availability==='IN_STOCK'?'有货':'暂时缺货' }}</p><p class="product-price">¥ {{ selected.originalPrice }}</p><p class="product-description">{{ selected.description || '暂无商品描述。' }}</p>
-      <p>{{ selected.saleStatus === 'ON_SALE' ? '在售' : '已下架' }} · 商品版本 {{ selected.productVersion }}</p><p v-if="!selected.syncReady" class="muted">资料更新中，暂不可试算</p>
-      <section v-if="!admin" class="trial-panel" aria-label="我的优惠">
-        <h3>我的优惠</h3>
-        <p v-if="!selected.syncReady" class="muted">{{ refreshExpired ? '自动刷新已结束，可手动刷新商品资料。' : '每 3 秒刷新商品资料，最多等待 1 分钟。' }}</p>
-        <button class="secondary compact" :disabled="refreshing" @click="refreshProduct">刷新商品资料</button>
-        <p v-if="!user">登录后查看适用于你的优惠。<a :href="`/login?returnTo=${encodeURIComponent('/products/'+selected.goodsId)}`">登录查看优惠</a></p>
-        <template v-else>
-          <p v-if="trialBusy" role="status">正在为你试算优惠…</p>
-          <p v-if="trialError" role="alert" class="message error">{{ trialError }}</p>
-          <div v-if="trial" aria-live="polite">
-            <p v-if="trial.state === 'NO_PUBLIC_OFFER'">暂无可展示优惠。</p>
-            <p v-else-if="trial.state === 'INELIGIBLE'">你当前不符合该优惠的参与条件。</p>
-            <p v-else>你当前可参与此优惠。</p>
-            <dl v-if="trial.offer"><dt>{{ trial.state === 'AVAILABLE' ? '优惠估算价' : '活动参考价' }}</dt><dd class="product-price">¥ {{ trial.offer.payPrice }}</dd><dt>优惠金额</dt><dd>¥ {{ trial.offer.deductionPrice }}</dd><dt>成团人数</dt><dd>{{ trial.offer.targetCount }} 人</dd></dl>
-            <small class="muted">本次试算：{{ new Date(trial.quotedAt).toLocaleString('zh-CN') }}。试算不会保留优惠资格或价格。</small>
-          </div>
-          <button class="secondary compact" :disabled="trialBusy || !selected.syncReady" @click="calculateTrial">重新试算</button>
-        </template>
-      </section>
-      <JoinableTeams v-if="!admin" :key="`${selected.goodsId}:${selected.productVersion}`" :product="selected" :purchase-busy="purchaseBusy" />
-      <PurchasePanel v-if="!admin" :key="selected.goodsId" :product="selected" :trial="trial" @activity="purchaseBusy=$event" />
+      <div class="product-overview">
+        <div class="product-media"><img v-if="selected.imageUrl && !broken[selected.goodsId]" :src="selected.imageUrl" :alt="selected.goodsName" referrerpolicy="no-referrer" @error="broken[selected.goodsId]=true"><div v-else class="image-placeholder">商品图片暂无</div></div>
+        <div class="product-copy">
+          <h2>{{ selected.goodsName }}</h2>
+          <p v-if="selected.availability" class="stock-label">{{ selected.availability==='IN_STOCK'?'有货':'暂时缺货' }}</p>
+          <template v-if="!admin">
+            <p class="muted">原价 ¥ {{ selected.originalPrice }}</p>
+            <div v-if="user && trial?.state==='AVAILABLE' && trial.offer && selected.availability==='IN_STOCK' && selected.syncReady" class="price-focus"><p class="product-price">拼团实付 ¥ {{ trial.offer.payPrice }}</p><p>{{ trial.offer.targetCount }} 人成团 · 数量 1</p><small>优惠 ¥ {{ trial.offer.deductionPrice }}；提交时仍会重新核验。</small></div>
+            <p v-else-if="!user" class="product-price">¥ {{ selected.originalPrice }}</p>
+            <p v-if="!user">登录后查看适用于你的优惠。<a :href="`/login?returnTo=${encodeURIComponent('/products/'+selected.goodsId)}`">登录查看优惠</a></p>
+            <p v-if="!selected.syncReady" class="muted">{{ refreshExpired ? '商品资料仍在更新，请手动刷新。' : '商品资料更新中，稍后自动重试。' }}</p>
+            <p v-if="trialBusy" role="status">正在核对当前优惠…</p>
+            <p v-if="trialError" role="alert" class="message error">{{ trialError }}</p>
+            <button class="secondary compact" :disabled="trialBusy || refreshing" @click="selected.syncReady ? calculateTrial() : refreshProduct()">{{ selected.syncReady ? '重新读取优惠' : '刷新商品资料' }}</button>
+            <PurchasePanel :key="selected.goodsId" :product="selected" :trial="trial" @activity="purchaseBusy=$event" @refresh-trial="calculateTrial" />
+          </template>
+          <p v-else class="product-price">¥ {{ selected.originalPrice }}</p>
+        </div>
+      </div>
+      <section class="product-description-block"><h3>商品介绍</h3><p class="product-description">{{ selected.description || '暂无商品描述。' }}</p></section>
+      <details v-if="!admin" class="support-details"><summary>商品与报价信息</summary><p>商品版本 {{ selected.productVersion }} · {{ selected.saleStatus === 'ON_SALE' ? '在售' : '已下架' }}</p><p v-if="trial">报价读取时间 {{ new Date(trial.quotedAt).toLocaleString('zh-CN') }}；报价不会预留资格。</p></details>
+      <p v-if="admin">{{ selected.saleStatus === 'ON_SALE' ? '在售' : '已下架' }} · 商品版本 {{ selected.productVersion }}</p><p v-if="admin && !selected.syncReady" class="muted">资料更新中，暂不可试算</p>
+      <JoinableTeams v-if="!admin" :key="`${selected.goodsId}:${selected.productVersion}`" :product="selected" :purchase-busy="purchaseBusy" :can-open="trial?.state==='AVAILABLE' && !!trial.offer && selected.availability==='IN_STOCK'" />
       <p v-if="admin" class="muted">营销同步：{{ syncLabels[selected.sync?.state ?? ''] ?? '等待核对' }} · 目标版本 {{ selected.sync?.targetVersion }}</p><button v-if="admin" class="compact" @click="form(selected)">编辑商品</button>
       <div v-if="admin" class="sync-controls">
         <button class="secondary compact" :disabled="busy" @click="syncStatus">读取同步状态</button>

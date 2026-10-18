@@ -6,7 +6,7 @@ import { joinableTeams } from '../services/team-discovery'
 import type { Product } from '../types/product'
 import type { JoinableTeam, TeamDiscovery } from '../types/team-discovery'
 
-const props = defineProps<{ product: Product; purchaseBusy: boolean }>()
+const props = defineProps<{ product: Product; purchaseBusy: boolean; canOpen: boolean }>()
 const result = ref<TeamDiscovery | null>(null)
 const cards = ref<JoinableTeam[]>([])
 const error = ref('')
@@ -99,7 +99,7 @@ onMounted(() => { document.addEventListener('visibilitychange', visibility); clo
 onUnmounted(() => { ++epoch; clearAuto(); if (clockTimer) clearInterval(clockTimer); document.removeEventListener('visibilitychange', visibility) })
 
 const reasonText: Record<NonNullable<TeamDiscovery['reason']>, string> = {
-  NO_OFFER: '暂无可参与的活动，可以自己开团。',
+  NO_OFFER: '暂无可参与的活动，当前不能开团。',
   INELIGIBLE: '你当前不符合该活动的参与条件。',
   PRODUCT_SYNC_PENDING: '商品资料正在同步，请稍后重试。',
   OUT_OF_STOCK: '商品暂时缺货，无法新建购买。'
@@ -117,7 +117,7 @@ const reasonText: Record<NonNullable<TeamDiscovery['reason']>, string> = {
       <p v-if="retrySeconds" role="status">请 {{ retrySeconds }} 秒后重试。</p>
       <p v-if="result?.state === 'ACTIVE_PURCHASE'">你已有进行中的订单。<a v-if="result.activeOrderId" :href="`/orders/${encodeURIComponent(result.activeOrderId)}`">查看原订单</a></p>
       <p v-else-if="result?.state === 'UNAVAILABLE'">{{ result.reason ? reasonText[result.reason] : '待拼团队暂不可用。' }}</p>
-      <p v-else-if="result?.state === 'AVAILABLE' && !cards.length">暂无可参与的拼团，可以自己开团。</p>
+      <p v-else-if="result?.state === 'AVAILABLE' && !cards.length">{{ canOpen ? '暂无可参与的拼团，可以自己开团。' : '暂无可参与的拼团，请先核对当前优惠。' }}</p>
       <ul v-if="cards.length && result?.state === 'AVAILABLE'" class="joinable-list">
         <li v-for="team in cards" :key="team.teamId" class="joinable-card">
           <p><strong>{{ team.targetCount }} 人团</strong> · 已支付 {{ team.paidCount }} 人 · 还需付款 {{ team.remainingPaidCount }} 人</p>

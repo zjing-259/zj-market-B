@@ -10,6 +10,18 @@
 .product-tile img, .image-placeholder { width: 100%; height: 180px; object-fit: contain; background: #eef2f8; border-radius: 8px; }
 .image-placeholder { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; }
 .product-detail { max-width: 850px; }
+.shop-detail { max-width: none; }
+.product-overview { display: grid; grid-template-columns: minmax(240px, 44%) minmax(0, 1fr); gap: 32px; margin-top: 24px; }
+.product-media img, .product-media .image-placeholder { width: 100%; height: 340px; object-fit: contain; border-radius: 10px; background: #eef2f8; }
+.product-copy h2 { margin-top: 0; font-size: clamp(25px, 3vw, 34px); }
+.stock-label { display: inline-flex; padding: 5px 10px; border-radius: 6px; background: #e9f8ee; color: #246b40; }
+.price-focus { margin: 18px 0; padding: 18px 20px; border: 1px solid #cbdafa; border-radius: 10px; background: #f4f7ff; }
+.price-focus .product-price { margin: 0 0 8px; }
+.price-focus p { margin: 8px 0; }
+.price-focus small { color: var(--muted); }
+.product-description-block { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line); }
+.support-details { margin-top: 16px; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.support-details summary { cursor: pointer; color: #344054; min-height: 36px; }
 .product-detail img { width: 100%; max-height: 350px; object-fit: contain; display: block; margin-top: 20px; }
 .product-price { font-size: 28px; font-weight: 700; color: #193a7a; }
 .product-description { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; }
@@ -20,4 +32,5 @@
 .sync-quarantine table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
 .sync-quarantine td, .sync-quarantine th { padding: 10px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
 @media (max-width: 900px) { .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .product-overview { grid-template-columns: 1fr; gap: 20px; } .product-media img, .product-media .image-placeholder { height: 260px; } }
 @media (max-width: 600px) { .catalog-main { padding: 28px 0 44px; } .catalog-heading { align-items: flex-start; flex-direction: column; } .product-grid { grid-template-columns: 1fr; } .product-tile, .product-detail, .product-editor { padding: 18px; } .actions button { flex: 1 1 100%; } }
