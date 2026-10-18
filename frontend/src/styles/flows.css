@@ -1,0 +1,11 @@
+.trial-panel, .joinable-teams { padding: 20px 0; border-top: 1px solid var(--line); margin-top: 24px; }
+.trial-panel dl { display: grid; grid-template-columns: minmax(100px, 130px) 1fr; gap: 10px; }
+.trial-panel dd { margin: 0; }
+.joinable-list { list-style: none; padding: 0; display: grid; gap: 12px; }
+.joinable-card { padding: 16px; border: 1px solid var(--line); border-radius: var(--radius); overflow-wrap: anywhere; }
+.joinable-card p { margin: 5px 0; line-height: 1.6; }
+.joinable-action { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; padding: 10px 16px; border-radius: 8px; background: var(--blue); color: #fff; text-decoration: none; }
+.payment-page { max-width: 720px; overflow-wrap: anywhere; }
+.payment-page details { margin: 24px 0; }
+.payment-page [role="alert"] { color: #a22b20; }
+@media (max-width: 600px) { .joinable-teams .actions button { width: 100%; } }

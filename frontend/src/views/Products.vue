@@ -3,6 +3,7 @@ import PurchasePanel from './PurchasePanel.vue'
 import JoinableTeams from '../components/JoinableTeams.vue'
 import type { Sync, Quarantine, Product, Trial, Page } from '../types/product'
 import { ApiError } from '../errors/ApiError'
+import { go } from '../navigation'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { user, request, publicGet, write, explain } from '../services/auth'
 const props = defineProps<{ admin: boolean }>()
@@ -43,7 +44,7 @@ async function load(page = listing.value.page) {
   try { listing.value = await read<Page>(`${prefix()}?page=${page}&size=20${props.admin && filter.value ? `&saleStatus=${filter.value}` : ''}`) }
   catch (e) { error.value = explain(e) } finally { busy.value = false }
 }
-function browse(path: string) { history.pushState(null, '', path); window.dispatchEvent(new PopStateEvent('popstate')) }
+function browse(path: string) { go(path) }
 function detail(p: Product) { browse(`${prefix()}/${encodeURIComponent(p.goodsId)}`) }
 function backToList() { if (location.pathname === prefix()) selected.value = null; else browse(prefix()) }
 
@@ -127,6 +128,9 @@ watch([() => selected.value?.goodsId, () => selected.value?.productVersion, () =
   purchaseBusy.value = false
   if (!props.admin && selected.value?.syncReady && user.value) void calculateTrial()
 })
+watch(() => selected.value?.goodsName, name => {
+  if (name) document.title = `${name}｜正经商城`
+}, { immediate: true })
 watch([() => selected.value?.goodsId, () => selected.value?.productVersion, () => selected.value?.syncReady], () => {
   stopRefresh(); refreshExpired.value = false
   if (!props.admin && selected.value && !selected.value.syncReady) { refreshDeadline = Date.now() + 60000; scheduleRefresh() }
@@ -144,7 +148,7 @@ onMounted(async () => {
 </script>
 <template>
   <section class="catalog" :aria-label="admin ? '商品管理' : '商城商品'">
-    <div class="catalog-heading"><div><p class="eyebrow">{{ admin ? 'PRODUCT MANAGEMENT' : 'ZHIJI COLLECTION' }}</p><h1>{{ admin ? '商品管理' : '在售商品' }}</h1><p class="muted">{{ admin ? '维护商品资料、基础售价及上下架状态。' : '查看商品资料和基础售价。' }}</p></div><button v-if="admin" class="compact" :disabled="busy" @click="form(null)">创建商品</button></div>
+    <div class="catalog-heading"><div><p class="eyebrow">{{ admin ? '正经商城 · 运营工作台' : '正经商城 · 认真挑选' }}</p><h1>{{ admin ? '商品管理' : '在售商品' }}</h1><p class="muted">{{ admin ? '维护商品资料、基础售价及上下架状态。' : '查看商品资料和基础售价。' }}</p></div><button v-if="admin" class="compact" :disabled="busy" @click="form(null)">创建商品</button></div>
     <p v-if="admin && !user?.roles.includes('OPERATOR')" role="alert">当前账号没有运营权限。</p>
     <p v-if="error" role="alert" class="message error">{{ error }}</p><p v-if="notice" role="status" class="message notice">{{ notice }}</p>
     <form v-if="admin && editing" class="product-editor" @submit.prevent="save">

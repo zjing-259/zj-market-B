@@ -1,0 +1,31 @@
+.shell { width: min(100%, 1248px); min-height: 100vh; margin: auto; padding: 0 32px; display: flex; flex-direction: column; }
+.site-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 82px; border-bottom: 1px solid var(--line); }
+.brand { flex: none; color: #162b50; font-size: 25px; font-weight: 800; letter-spacing: .04em; text-decoration: none; }
+.site-nav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.site-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 13px; border-radius: 8px; text-decoration: none; color: #475467; font-size: 14px; }
+.site-nav a:hover { background: #e9effa; }
+.site-nav a[aria-current="page"] { background: #e5edff; color: #1849a9; font-weight: 700; }
+.operator-shell .site-header { border-bottom-color: #c6d4ec; }
+.operator-shell .brand::after { content: '运营'; display: inline-block; margin-left: 10px; padding: 4px 7px; border-radius: 5px; background: #e5edff; color: #1949a8; font-size: 11px; vertical-align: middle; }
+.shell > main { flex: 1; }
+.account-main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 440px); align-items: center; gap: 64px; padding: 64px 0; }
+.intro h1 { font-size: clamp(32px, 4vw, 52px); line-height: 1.35; margin: 20px 0; }
+.intro > p:not(.eyebrow) { color: var(--muted); line-height: 1.8; }
+.rule { width: 48px; height: 3px; background: var(--blue); margin: 32px 0 18px; }
+.intro small { color: var(--muted); }
+.card, .product-tile, .product-detail, .product-editor { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 8px 28px #1f29370a; }
+.card { padding: 32px; }
+.card nav { display: flex; gap: 20px; border-bottom: 1px solid var(--line); }
+.card nav button { width: auto; min-height: 42px; margin: 0; padding: 8px 2px; border-radius: 0; background: none; color: var(--muted); }
+.card nav button.active { color: var(--blue-dark); border-bottom: 3px solid var(--blue); }
+.card form button, .card > button { width: 100%; margin-top: 16px; }
+.card form small { display: block; margin-top: 7px; color: var(--muted); font-size: 12px; }
+.card dl { display: grid; grid-template-columns: 88px 1fr; gap: 12px; margin: 26px 0; font-size: 14px; }
+.card dt { color: var(--muted); }
+.card dd { margin: 0; overflow-wrap: anywhere; }
+.id { font-size: 12px; }
+.not-found { align-content: center; max-width: 650px; padding: 80px 0; }
+.not-found p { color: var(--muted); }
+.not-found a { display: inline-flex; align-items: center; min-height: 44px; }
+footer { border-top: 1px solid var(--line); padding: 24px 0; text-align: center; color: var(--muted); font-size: 12px; }
+@media (max-width: 850px) { .shell { padding: 0 16px; } .site-header { align-items: flex-start; flex-direction: column; gap: 4px; padding: 18px 0 8px; } .brand { font-size: 22px; } .site-nav { width: 100%; gap: 2px; } .site-nav a { padding: 8px 10px; font-size: 13px; } .account-main { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; } .card { width: min(100%, 500px); margin: auto; padding: 24px; } .intro .rule, .intro small { display: none; } }

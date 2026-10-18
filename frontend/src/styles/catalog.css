@@ -1,0 +1,23 @@
+.catalog-main { display: block; padding: 40px 0 64px; }
+.catalog-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+.catalog h1 { margin: 10px 0; }
+.catalog-heading .muted { margin: 0; }
+.list-controls, .pagination, .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin: 24px 0; }
+.list-controls label { margin: 0; }
+.product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.product-tile, .product-detail, .product-editor { padding: 24px; }
+.product-tile h2 { font-size: 21px; overflow-wrap: anywhere; }
+.product-tile img, .image-placeholder { width: 100%; height: 180px; object-fit: contain; background: #eef2f8; border-radius: 8px; }
+.image-placeholder { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 13px; }
+.product-detail { max-width: 850px; }
+.product-detail img { width: 100%; max-height: 350px; object-fit: contain; display: block; margin-top: 20px; }
+.product-price { font-size: 28px; font-weight: 700; color: #193a7a; }
+.product-description { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; }
+.product-editor { max-width: 780px; }
+.pagination { justify-content: center; font-size: 14px; }
+.empty { padding: 56px; text-align: center; color: var(--muted); }
+.sync-controls, .sync-quarantine { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--line); overflow-x: auto; }
+.sync-quarantine table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+.sync-quarantine td, .sync-quarantine th { padding: 10px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+@media (max-width: 900px) { .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .catalog-main { padding: 28px 0 44px; } .catalog-heading { align-items: flex-start; flex-direction: column; } .product-grid { grid-template-columns: 1fr; } .product-tile, .product-detail, .product-editor { padding: 18px; } .actions button { flex: 1 1 100%; } }
