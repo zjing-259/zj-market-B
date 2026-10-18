@@ -1,3 +1,5 @@
+> 最新接续（2026-10-18，UX-00 已完成）：UX 分支从既有隔离工作树开发并运行 `zj-market-ux/web:ux00-20261018-01`。前端安全处理 HTML／坏 JSON／空响应和写结果未知；网关提供实际模式及 JSON 503／502；UX 控制器重复 open 不重建，误用 start、容量不足在变更前拒绝。五卷一致性冷备与镜像归档在 UX 忽略目录，真实维护→开放通过；旧站 READY 且未改卷。后续从 UX-01 开始；当前操作看 `deploy/ux/README.md`，完整验收和限制看 `docs/storefront-experience-optimization.md`。以下为历史接续。
+
 > 最新接续（2026-10-18，ST-05 文档收口）：ST-00～ST-05 本机验收已完成；最终私有交付批次 `target/stable-isolation/st05_20261017_02`，公开清单与验收见 `D:\Java\zj-market\docs\st05-delivery-manifest.json`、`D:\Java\zj-market\docs\tests\st05-acceptance.json`。旧站日常入口为 `D:\Java\zj-market-stable\scripts\stable.ps1`；后续 UX-00 从已建 `D:\Java\zj-market-ux`／`codex/storefront-ux` 和独立 `zj-market-ux` 环境开始，不重复创建分支、空卷或接管旧站。UX 方案已改用实际 UX 部署入口；本次只修订文档，未开始 UX-00 功能开发。以下为历史接续。
 
 > 最新接续（2026-10-17，ST-04 已验收）：UX B 工作树 `D:\Java\zj-market-ux`、分支 `codex/storefront-ux`，独立项目 `zj-market-ux` 已在 `https://zj-market-ux.test:8446` 开放；A 源码未改，在独立容器复用 ST-01 A 镜像。UX 使用空卷、新凭据、独立五网络和五卷、新 Web 标签，独立 Edge 配置目录已无界面打开 UX 页面并确认 Cookie 不跨旧站域名。实际开团占位及取消关闭只增加 UX A/B 各一笔订单，旧站计数、容器和 `READY` 状态不变。严格 TLS 与结构隔离通过；人工浏览器业务交互未做。见 docs/tests/st04-acceptance.json、deploy/ux/README.md；该时点下一步为 ST-05，现已验收。以下为历史接续。

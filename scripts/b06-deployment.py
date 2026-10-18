@@ -162,15 +162,40 @@ class Deployment:
   if r.returncode:
    subprocess.run(self.docker+['stop',PROJECT+'-web-1'],capture_output=True,text=True)
    raise RuntimeError('Gateway mode change failed; owned public gateway stopped to keep admission closed')
- def start(self,mode):
+ def gateway_mode(self):
+  value=self.run('actual-gateway-mode',['node',ROOT/'scripts/ux00-gateway-mode.mjs',RUNTIME/'web-ca.pem']).strip()
+  if value not in ('NORMAL','MAINTENANCE'):raise RuntimeError('Unexpected public gateway mode')
+  return 'open' if value=='NORMAL' else 'maintenance'
+ def web_image_matches_release(self):
+  settings=dict(line.split('=',1) for line in (BUILD/'release.env').read_text().splitlines() if '=' in line and not line.startswith('#'))
+  tag=settings.get('B06_WEB_IMAGE')
+  if not tag:raise RuntimeError('Missing fixed UX Web image')
+  expected=self.run('desired-web-image',self.docker+['image','inspect',tag,'--format','{{.Id}}']).strip()
+  running=self.run('running-web-image',self.docker+['inspect',PROJECT+'-web-1','--format','{{.Image}}']).strip()
+  return expected==running
+ def preflight_start(self,state,mode,action):
+  phase=state.get('phase')
+  if phase not in ('READY','STOPPED','FAILED_GATE_CLOSED'):
+   raise RuntimeError('Unsupported UX lifecycle phase; inspect status before changing the gate')
+  if action=='start' and phase=='READY':
+   raise RuntimeError('UX is already running; use ready/status or explicit maintenance')
+  if phase=='READY' and state.get('mode')==mode and self.web_image_matches_release():
+   self.ready()
+   if self.gateway_mode()!=mode:raise RuntimeError('Actual UX gate differs from saved state')
+   print('Already '+mode+'; validated without deployment',flush=True)
+   return True
+  return False
+ def start(self,mode,action):
   state=self.state()
-  # Close public writes before any readiness check, including a rejected open command.
+  # Reject unsupported or duplicate actions before changing files, containers or gate.
+  if self.preflight_start(state,mode,action):return
+  # Capacity is a precondition: rejection must leave an already-open UX gate intact.
+  self.capacity()
   self.configuration('maintenance')
   state.update(mode='maintenance',phase='GATED',targetMode=mode);self.save(state)
   changed=False;open_gate=False
   try:
    if self.run('web-present',self.docker+['ps','--filter','name=^/'+PROJECT+'-web-1$','--format','{{.ID}}']).strip():self.gateway('maintenance')
-   self.capacity()
    self.run('middleware-up',self.compose+['up','-d','--wait','--wait-timeout','180','mysql','redis','namesrv','broker'])
    self.ready();self.configuration(mode);changed=True
    self.run('a-ready-'+mode,self.compose+['-f',str(CONTROL/'capabilities.yml'),'up','-d','--wait','--wait-timeout','180','marketing-a'])
@@ -179,6 +204,7 @@ class Deployment:
    self.run('actual-sync-rpc-identity-ready',['node',ROOT/'docs/tests/b06-startup-client.mjs','ready',CONTROL,RUNTIME],expected='CLIENT_PASS')
    if mode=='open':
     self.gateway('open');open_gate=True
+   if self.gateway_mode()!=mode:raise RuntimeError('Actual UX gate did not reach requested mode')
    state.update(mode=mode,phase='READY');self.save(state)
    self.run('container-resources',self.docker+['stats','--no-stream','--format','{{json .}}',PROJECT+'-mysql-1',PROJECT+'-redis-1',PROJECT+'-namesrv-1',PROJECT+'-broker-1',PROJECT+'-marketing-a-1',PROJECT+'-market-b-1',PROJECT+'-web-1'])
   except Exception:
@@ -198,11 +224,16 @@ class Deployment:
 def main():
  p=argparse.ArgumentParser();p.add_argument('action',choices=['init','start','open','maintenance','ready','status','stop']);p.add_argument('--context',default='desktop-linux');a=p.parse_args();d=Deployment(a.context)
  if a.action=='init':d.initialize()
- elif a.action in ['start','maintenance','open']:d.start('open' if a.action=='open' else 'maintenance')
- elif a.action=='ready':d.ready()
+ elif a.action in ['start','maintenance','open']:d.start('open' if a.action=='open' else 'maintenance',a.action)
+ elif a.action=='ready':
+  state=d.ready()
+  if state.get('phase')!='READY':raise RuntimeError('UX dependencies are ready but public gate is not in READY phase')
+  if d.gateway_mode()!=state.get('mode'):raise RuntimeError('Actual UX gate differs from saved state')
+  print('UX_GATE_'+state['mode'].upper(),flush=True)
  elif a.action=='stop':d.stop()
  else:
   state=d.state();print('Gate mode: '+state['mode']+'; phase: '+state.get('phase','INITIALIZED'))
+  if state.get('phase')=='READY':print('Actual gate: '+d.gateway_mode(),flush=True)
   d.run('status',d.compose+['ps'])
 if __name__=='__main__':
  CONTROL.mkdir(parents=True,exist_ok=True)
