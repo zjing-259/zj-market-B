@@ -1,14 +1,14 @@
 # 旧版稳定运行与新版工作树隔离实施方案
 
-状态：ST-00～ST-03 已于 2026-10-16 完成本机验收；ST-04 于 2026-10-17 完成本机隔离验收。主站仍从 `D:\Java\zj-market-stable` 独立运行，沿用原 `zj-market-b06` 项目及五卷；UX 工作树 `D:\Java\zj-market-ux` 和独立项目 `zj-market-ux` 已开放。ST-05 待实施。
+状态：ST-00～ST-05 均已完成本机验收；ST-05 交付批次为 `st05_20261017_02`，证据见 [验收报告](tests/st05-acceptance.json)。主站由 `D:\Java\zj-market-stable` 独立管理，沿用原 `zj-market-b06` 项目及五卷；UX 工作树 `D:\Java\zj-market-ux`（`codex/storefront-ux`）及独立项目 `zj-market-ux` 已开放。后续从 UX-00 开始，不重复创建工作树或部署隔离环境。
 
 ## 1. 目标与已知现状
 
 在实施[商城体验优化](storefront-experience-optimization.md)期间，旧版仍可正常使用；新版源码、构建和测试不影响旧版交易。旧版固定为当前 TD-06 主站版本，而非更早的 B-06 或候选 8445 版本。
 
-当前主站已经运行构建后的 A/B/web Docker 镜像，并非实时读取 Vue/Java 源码。但启动控制器、Compose、外置配置、证书、校验工具和私有发布状态仍依赖工作树。仅提交 Git 或新建 worktree，不能解除这些运行依赖。
+ST-00 盘点时，主站虽运行构建后的 A/B/web Docker 镜像，控制器与私有配置仍依赖开发／历史工作树；这一风险已在 ST-03 由独立目录接管解决。当前日常入口为 `D:\Java\zj-market-stable\scripts\stable.ps1`，新体验开发只在 UX 工作树进行。
 
-核查依据：`scripts/td06-environment.py`、`scripts/td06-main-release.py`、`scripts/open-team-discovery-browser.ps1`、[TD-06 部署说明](../deploy/td06/README.md)、[发布清单](team-discovery-td06-release.json)。实施时重新核对现场，不把本文当作实时健康报告。
+历史盘点依据为 `scripts/td06-environment.py`、`scripts/td06-main-release.py`、[TD-06 发布清单](team-discovery-td06-release.json)；当前操作依据为[稳定站说明](../deploy/stable/README.md)、[UX 说明](../deploy/ux/README.md)和[ST-05 交付说明](../deploy/st05/README.md)。实施新阶段时仍须重新核对现场，不把文档当作实时健康报告。
 
 当前关键路径：
 
@@ -17,8 +17,9 @@
 | A 源码 | `D:\Java\group-buy-market` |
 | B 源码 | `D:\Java\zj-market` |
 | 主站 Compose 项目 | `zj-market-b06`，入口 `https://zj-market.test`，本机 443 |
-| 主站私有发布控制资料 | `D:\Java\zj-market\target\team-discovery\td06_2_main_20261015_01` |
-| 历史脚本、证书、账号及备份依赖 | `D:\Java\zj-market-b-06` 下相关文件；不是可直接删除的废弃工作树 |
+| 当前主站运行控制与私有资料 | `D:\Java\zj-market-stable`；固定入口 `scripts\stable.ps1` |
+| UX 独立开发与运行 | `D:\Java\zj-market-ux`；项目 `zj-market-ux`，入口 `https://zj-market-ux.test:8446` |
+| 历史 TD-06 资料 | `D:\Java\zj-market\target\team-discovery` 与 `D:\Java\zj-market-b-06`；保留历史证据，不作为当前启动入口 |
 | 历史候选 | 8445，独立数据与旧候选镜像；本次不覆盖 |
 
 ## 2. 交给 AI 的执行约束
@@ -47,9 +48,9 @@ D:\Java\zj-market-ux               B 新工作树，分支 codex/storefront-ux
 D:\Java\group-buy-market-ux        仅当新版确需改 A 时创建
 ```
 
-稳定环境沿用 `zj-market-b06` 和 443。UX 环境使用独立项目名（建议 `zj-market-ux`）和未占用端口（建议 8446），独立 MySQL、Redis、NameServer、Broker、数据卷、配置、凭据和浏览器目录。沿用相同 MQ Topic 名只允许在独立 Broker 中；禁止误连主站 Broker、数据库或 A 服务。
+稳定环境沿用 `zj-market-b06` 和 443。UX 环境已使用独立项目 `zj-market-ux` 和回环 8446，独立 MySQL、Redis、NameServer、Broker、数据卷、配置、凭据和浏览器目录。沿用相同 MQ Topic 名只允许在独立 Broker 中；禁止误连主站 Broker、数据库或 A 服务。
 
-上述目录和入口均为待实现设计。发布工具源码放在 B 仓库 `scripts/stable-release/`，配置模板放在 `deploy/stable/`；独立部署目录只接收经校验的发布副本，不依赖开发工作树。
+上述稳定站和 UX 目录均已建立并通过本机验收。发布工具源码在 B 仓库 `scripts/stable-release/`，配置模板在 `deploy/stable/`；独立稳定站部署目录使用经校验的固定副本，不依赖开发工作树。布局中的 `group-buy-market-ux` 仍是条件性设想，当前 A 无另建工作树。
 
 ## 4. 实施小阶段
 
