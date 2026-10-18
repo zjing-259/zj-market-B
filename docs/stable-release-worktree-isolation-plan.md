@@ -1,14 +1,14 @@
 # 旧版稳定运行与新版工作树隔离实施方案
 
-状态：ST-00～ST-03 已于 2026-10-16 完成本机验收；ST-04 于 2026-10-17 完成本机隔离验收。主站仍从 `D:\Java\zj-market-stable` 独立运行，沿用原 `zj-market-b06` 项目及五卷；UX 工作树 `D:\Java\zj-market-ux` 和独立项目 `zj-market-ux` 已开放。ST-05 待实施。
+状态：ST-00～ST-05 均已完成本机验收；ST-05 交付批次为 `st05_20261017_02`，证据见 [验收报告](../../zj-market/docs/tests/st05-acceptance.json)。主站由 `D:\Java\zj-market-stable` 独立管理，沿用原 `zj-market-b06` 项目及五卷；UX 工作树 `D:\Java\zj-market-ux`（`codex/storefront-ux`）及独立项目 `zj-market-ux` 已开放。后续从 UX-00 开始，不重复创建工作树或部署隔离环境。
 
 ## 1. 目标与已知现状
 
 在实施[商城体验优化](storefront-experience-optimization.md)期间，旧版仍可正常使用；新版源码、构建和测试不影响旧版交易。旧版固定为当前 TD-06 主站版本，而非更早的 B-06 或候选 8445 版本。
 
-当前主站已经运行构建后的 A/B/web Docker 镜像，并非实时读取 Vue/Java 源码。但启动控制器、Compose、外置配置、证书、校验工具和私有发布状态仍依赖工作树。仅提交 Git 或新建 worktree，不能解除这些运行依赖。
+ST-00 盘点时，主站虽运行构建后的 A/B/web Docker 镜像，控制器与私有配置仍依赖开发／历史工作树；这一风险已在 ST-03 由独立目录接管解决。当前日常入口为 `D:\Java\zj-market-stable\scripts\stable.ps1`，新体验开发只在 UX 工作树进行。
 
-核查依据：`scripts/td06-environment.py`、`scripts/td06-main-release.py`、`scripts/open-team-discovery-browser.ps1`、[TD-06 部署说明](../deploy/td06/README.md)、[发布清单](team-discovery-td06-release.json)。实施时重新核对现场，不把本文当作实时健康报告。
+历史盘点依据为 `scripts/td06-environment.py`、`scripts/td06-main-release.py`、[TD-06 发布清单](team-discovery-td06-release.json)；当前操作依据为[稳定站说明](../../zj-market/deploy/stable/README.md)、[UX 说明](../deploy/ux/README.md)和[ST-05 交付说明](../../zj-market/deploy/st05/README.md)。实施新阶段时仍须重新核对现场，不把文档当作实时健康报告。
 
 当前关键路径：
 
@@ -17,8 +17,9 @@
 | A 源码 | `D:\Java\group-buy-market` |
 | B 源码 | `D:\Java\zj-market` |
 | 主站 Compose 项目 | `zj-market-b06`，入口 `https://zj-market.test`，本机 443 |
-| 主站私有发布控制资料 | `D:\Java\zj-market\target\team-discovery\td06_2_main_20261015_01` |
-| 历史脚本、证书、账号及备份依赖 | `D:\Java\zj-market-b-06` 下相关文件；不是可直接删除的废弃工作树 |
+| 当前主站运行控制与私有资料 | `D:\Java\zj-market-stable`；固定入口 `scripts\stable.ps1` |
+| UX 独立开发与运行 | `D:\Java\zj-market-ux`；项目 `zj-market-ux`，入口 `https://zj-market-ux.test:8446` |
+| 历史 TD-06 资料 | `D:\Java\zj-market\target\team-discovery` 与 `D:\Java\zj-market-b-06`；保留历史证据，不作为当前启动入口 |
 | 历史候选 | 8445，独立数据与旧候选镜像；本次不覆盖 |
 
 ## 2. 交给 AI 的执行约束
@@ -47,9 +48,9 @@ D:\Java\zj-market-ux               B 新工作树，分支 codex/storefront-ux
 D:\Java\group-buy-market-ux        仅当新版确需改 A 时创建
 ```
 
-稳定环境沿用 `zj-market-b06` 和 443。UX 环境使用独立项目名（建议 `zj-market-ux`）和未占用端口（建议 8446），独立 MySQL、Redis、NameServer、Broker、数据卷、配置、凭据和浏览器目录。沿用相同 MQ Topic 名只允许在独立 Broker 中；禁止误连主站 Broker、数据库或 A 服务。
+稳定环境沿用 `zj-market-b06` 和 443。UX 环境已使用独立项目 `zj-market-ux` 和回环 8446，独立 MySQL、Redis、NameServer、Broker、数据卷、配置、凭据和浏览器目录。沿用相同 MQ Topic 名只允许在独立 Broker 中；禁止误连主站 Broker、数据库或 A 服务。
 
-上述目录和入口均为待实现设计。发布工具源码放在 B 仓库 `scripts/stable-release/`，配置模板放在 `deploy/stable/`；独立部署目录只接收经校验的发布副本，不依赖开发工作树。
+上述稳定站和 UX 目录均已建立并通过本机验收。发布工具源码在 B 仓库 `scripts/stable-release/`，配置模板在 `deploy/stable/`；独立稳定站部署目录使用经校验的固定副本，不依赖开发工作树。布局中的 `group-buy-market-ux` 仍是条件性设想，当前 A 无另建工作树。
 
 ## 4. 实施小阶段
 
@@ -89,7 +90,7 @@ ST-00 风险及后续门槛：主站仍直接依赖开发/历史工作树，独�
 
 验收：源码可定位，镜像可离线恢复，私有资料未提交。提交源码无需重新构建当前稳定镜像；若另外重建验证可复现性，使用新标签和隔离环境，不覆盖已验收镜像。不能仅凭提交时间宣称镜像由该提交构建，必须关联原构建证据及差异。
 
-ST-01 实测验收（2026-10-16）：[公开稳定版清单](stable-manifest.json)记录 A/B 完整源码基线提交、两仓同名注解标签、六个唯一实际镜像 ID、独立 tar 的大小及 SHA-256、TD-05/TD-06 构建证据、契约、schema／迁移、公开配置模板哈希及环境要求；[验收摘要](tests/st01-acceptance.json)记录检查结果。私有镜像包和 `archive-results.json` 位于已忽略的 `target/stable-isolation/st01_20261016_01`，不得提交。A 基线 `8040350b7e819fac813d343aab9e9ad220f4c06d`，B 基线 `e18f4479dd934b58e93a183229110bd0b8803db3`，两仓均以注解标签 `stable-td06-20261016-01` 指向各自提交；未推送。
+ST-01 实测验收（2026-10-16）：[公开稳定版清单](../../zj-market/docs/stable-manifest.json)记录 A/B 完整源码基线提交、两仓同名注解标签、六个唯一实际镜像 ID、独立 tar 的大小及 SHA-256、TD-05/TD-06 构建证据、契约、schema／迁移、公开配置模板哈希及环境要求；[验收摘要](../../zj-market/docs/tests/st01-acceptance.json)记录检查结果。私有镜像包和 `archive-results.json` 位于已忽略的 `target/stable-isolation/st01_20261016_01`，不得提交。A 基线 `8040350b7e819fac813d343aab9e9ad220f4c06d`，B 基线 `e18f4479dd934b58e93a183229110bd0b8803db3`，两仓均以注解标签 `stable-td06-20261016-01` 指向各自提交；未推送。
 
 提交前按明确的 32 个 A 文件、117 个 B 文件暂存和检查。TD-06 锁定的 641 个源码工作树文件与当前字节一致；其中 527 个 Git blob 只发生可逆的 LF→Windows CRLF 换行转换，无其他源码差异。镜像由 TD-05/TD-06 当时的工作树快照构建，两个新提交不能冒称构建输入；关联依据为历史源码锁、A/B JAR 和 web 构建哈希、实际运行镜像 ID。MySQL、Redis、RocketMQ、A、B、web 共六包合计 1,982,738,432 字节；RocketMQ 包同时覆盖 NameServer、Broker 和 `mq-permissions` 辅助容器。逐包 tar SHA-256、manifest、配置摘要和层文件通过检查，并在当前 Docker Desktop 引擎 `load` 后逐个核对 Image ID；未在空白宿主机复验。
 
@@ -110,7 +111,7 @@ ST-01 实测验收（2026-10-16）：[公开稳定版清单](stable-manifest.jso
 
 验收：静态依赖审查确认部署包没有开发目录挂载或读取；测试重复 start、前置失败、启动中失败、停止后启动和浏览器打开。镜像缺失、卷缺失、配置漂移必须明确失败，不能自动替换版本。
 
-ST-02 实测验收（2026-10-16）：最终批次 `target/stable-isolation/st02_20261016_04/bundle` 包含固定版本工具、两种 Compose 模板、37 份逐字节校验的私有配置／证书和独立状态目录；七个常驻服务及 MQ 权限辅助服务固定实际镜像 ID，原五卷和五网络均为 external。包内静态依赖、两种 Compose 配置、镜像与卷／网络身份、schema／Flyway／索引、严格 TLS 核心只读链路与非法下单拒绝均通过；复制到新路径后仍可核对状态，私有配置漂移会拒绝。十项隔离生命周期测试覆盖重复启动、前置失败、启动中／开放后失败、停机失败、互斥、浏览器门禁和镜像／卷身份漂移。证据见[验收摘要](tests/st02-acceptance.json)和[部署说明](../deploy/stable/README.md)。
+ST-02 实测验收（2026-10-16）：最终批次 `target/stable-isolation/st02_20261016_04/bundle` 包含固定版本工具、两种 Compose 模板、37 份逐字节校验的私有配置／证书和独立状态目录；七个常驻服务及 MQ 权限辅助服务固定实际镜像 ID，原五卷和五网络均为 external。包内静态依赖、两种 Compose 配置、镜像与卷／网络身份、schema／Flyway／索引、严格 TLS 核心只读链路与非法下单拒绝均通过；复制到新路径后仍可核对状态，私有配置漂移会拒绝。十项隔离生命周期测试覆盖重复启动、前置失败、启动中／开放后失败、停机失败、互斥、浏览器门禁和镜像／卷身份漂移。证据见[验收摘要](../../zj-market/docs/tests/st02-acceptance.json)和[部署说明](../../zj-market/deploy/stable/README.md)。
 
 当前新入口只读 `status` 显示 `adopted:false`，`ready` 按预期拒绝未接管的主站；原七容器 ID、创建时间和镜像均与 ST-00 一致且全部 healthy。本阶段未执行主站启停、网关切换、真实浏览器打开或业务写入。ST-03 须先进行最新一致性备份、复核待办义务，再把包与 ST-01 镜像归档移到独立目录并重新核验 ACL，之后受控接管和真实启停验收。早期失败批次仅留在已忽略目录，不作为交付物。
 
@@ -127,7 +128,7 @@ ST-02 实测验收（2026-10-16）：最终批次 `target/stable-isolation/st02_
 
 验收：主站可从独立目录完整启停，旧数据及恢复义务无丢失，原业务镜像 ID 不变。保留旧入口但标明已交接，后续不得同时操作同一主站。
 
-ST-03 实测验收（2026-10-16）：独立目录 `D:\Java\zj-market-stable` 收纳固定 release、37 份私有配置、六个镜像归档、可变 state 和冷备。最终一致性批次 `backups/st03_20261016_04` 在关闭网关和写入者、七容器完全停止后归档数据库逻辑导出及原五卷；7 个备份文件约 2.08 GB，清单与逐文件 SHA-256 均通过，私有备份和浏览器状态 ACL 已收紧。七常驻服务因挂载来源切换全部重建，仍用原镜像 ID、卷及网络身份；实际 bind 源均在独立 private 目录。切换前后资金、库存和待办数量相同；独立入口真实 `stop`／`start`、重复 `start` 不重建、`ready`、专属 Edge `open` 均通过。两账号模拟成团带来已付 +180、可用 -2、已售 +2，新增支付、RESERVE、CONFIRM 各两条；旧订单、退款、权限和 JSON 错误七项只读检查通过。见[ST-03 验收摘要](tests/st03-acceptance.json)与[操作说明](../deploy/stable/README.md)。
+ST-03 实测验收（2026-10-16）：独立目录 `D:\Java\zj-market-stable` 收纳固定 release、37 份私有配置、六个镜像归档、可变 state 和冷备。最终一致性批次 `backups/st03_20261016_04` 在关闭网关和写入者、七容器完全停止后归档数据库逻辑导出及原五卷；7 个备份文件约 2.08 GB，清单与逐文件 SHA-256 均通过，私有备份和浏览器状态 ACL 已收紧。七常驻服务因挂载来源切换全部重建，仍用原镜像 ID、卷及网络身份；实际 bind 源均在独立 private 目录。切换前后资金、库存和待办数量相同；独立入口真实 `stop`／`start`、重复 `start` 不重建、`ready`、专属 Edge `open` 均通过。两账号模拟成团带来已付 +180、可用 -2、已售 +2，新增支付、RESERVE、CONFIRM 各两条；旧订单、退款、权限和 JSON 错误七项只读检查通过。见[ST-03 验收摘要](../../zj-market/docs/tests/st03-acceptance.json)与[操作说明](../../zj-market/deploy/stable/README.md)。
 
 前三次候选在维护模式识别、Redis 密钥挂载复用、B 开放功能配置顺序处被门禁拒绝，均恢复原配置并重新验证 443；第二、三批冷备保留为私有诊断，不作为最新恢复点。未用旧备份覆盖在线卷。当前日常启停和打开浏览器只用独立目录的 `scripts/stable.ps1`；原 TD-06 主站控制入口已加交接门禁，历史源码／私有目录暂保留，不删除。
 
@@ -152,6 +153,8 @@ ST-04 实测验收（2026-10-17）：B 从 ST-01 固定提交 `e18f4479` 分出 
 交付：公开脚本与模板、脱敏 `stable-manifest.json`、独立部署包、镜像归档、隔离验收报告、实际启动命令和失败恢复说明。私有包与公开 Git 内容分开。
 
 未来 UX 升级走“新版独立验收 → 当前数据备份 → 兼容性核查 → 受控替换镜像 → 验收”。不能把 UX 测试卷覆盖主站。涉及数据库迁移时明确新旧应用兼容窗口；无法兼容则不能承诺仅切旧镜像即可回退。新交易产生后优先前向修复或兼容代码回退，数据恢复属于独立灾难恢复操作。
+
+ST-05 本机验收（2026-10-17）：已在 B 忽略目录 `target/stable-isolation/st05_20261017_02` 封存公开／私有分离的交付快照。公开部分 16 文件含脚本、模板、脱敏清单及 ST-03／04 证据；受限私有部分 100 文件含稳定版固定 release、37 份运行输入、六个固定镜像归档、UX 本机延续材料和专属 Web 镜像归档。逐文件 SHA-256、六镜像与 ST-01 身份、静态独立运行约束均通过；UX Web 归档重新 `docker load` 后 ID 一致。ST-03 历史冷备七文件原地重新验哈希，但未复制到快照；其一致性点早于后续交易，不能当作当前实时恢复点。稳定版重复 `start` 返回 `READY`，UX `ready` 与 ST-04 隔离检查重跑通过，两站各七服务健康。运行目录和五卷未因打包或核验而迁移；快照不含在线卷、UX 数据卷或主站 `adoption.json`，不能作为第二个可直接接管旧卷的控制器。见 [交付说明](../../zj-market/deploy/st05/README.md)、[公开清单](../../zj-market/docs/st05-delivery-manifest.json)与[验收摘要](../../zj-market/docs/tests/st05-acceptance.json)。异机恢复、Linux 部署和远端发布未验收。
 
 ## 5. 完成判定
 
