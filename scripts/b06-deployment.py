@@ -149,7 +149,7 @@ class Deployment:
  def configuration(self,mode):
   flags={k:True for k in ['product','inventory','order','trade','trial','sync','payment']}
   text=''.join('b.'+k+'.enabled=true\n' for k in flags)+'b.trade.events-enabled=true\n'
-  for k in ['b.payment.checkout-enabled','b.reconciliation.enabled','b.refund.enabled']:text+=k+'='+str(mode=='open').lower()+'\n'
+  for k in ['b.payment.checkout-enabled','b.reconciliation.enabled','b.refund.enabled','b.team-discovery.enabled']:text+=k+'='+str(mode=='open').lower()+'\n'
   text+='b.reconciliation.recovery-enabled=true\nb.refund.recovery-enabled=true\n'
   (CONTROL/'capabilities.properties').write_text(text)
   overlay={'services':{'market-b':{'volumes':[{'type':'bind','source':str(CONTROL/'capabilities.properties'),'target':'/etc/b06/capabilities.properties','read_only':True,'bind':{'create_host_path':False}}],'command':['--spring.config.additional-location=file:/etc/b06/application.properties,file:/run/secrets/b.properties,file:/etc/b06/capabilities.properties']}}}

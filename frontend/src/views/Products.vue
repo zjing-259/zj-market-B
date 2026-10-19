@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import PurchasePanel from './PurchasePanel.vue'
 import JoinableTeams from '../components/JoinableTeams.vue'
+import TableScroll from '../components/TableScroll.vue'
 import type { Sync, Quarantine, Product, Trial, Page } from '../types/product'
 import { ApiError } from '../errors/ApiError'
 import { go } from '../navigation'
@@ -55,7 +56,7 @@ function form(p: Product | null) {
 async function save() {
   if (busy.value) return
   const normalizedName = goodsName.value.trim()
-  if (!normalizedName || normalizedName.length > 128) { error.value = '商品名称去掉首尾空白后须为 1～128 个 UTF-16 单元，emoji 通常占 2 个。'; return }
+  if (!normalizedName || normalizedName.length > 128) { error.value = '请填写商品名称，最多 128 个字符；包含表情时可输入长度会减少。'; return }
   if (!/^(?:0\.(?:0[1-9]|[1-9][0-9])|[1-9][0-9]{0,5}\.[0-9]{2})$/.test(price.value)) { error.value = '原价须为 0.01～999999.99 元的两位小数。'; return }
   busy.value = true; error.value = ''; notice.value = ''
   const before = selected.value
@@ -153,10 +154,10 @@ onMounted(async () => {
     <p v-if="error" role="alert" class="message error">{{ error }}</p><p v-if="notice" role="status" class="message notice">{{ notice }}</p>
     <form v-if="admin && editing" class="product-editor" @submit.prevent="save">
       <h2>{{ selected ? '编辑商品' : '创建商品' }}</h2><p v-if="selected" class="muted">当前编辑版本：{{ selected.productVersion }}</p>
-      <label for="goodsName">商品名称</label><input id="goodsName" v-model="goodsName" required :disabled="busy" aria-describedby="goodsNameHint"><small id="goodsNameHint">去掉首尾空白后最多 128 个 UTF-16 单元；普通中文占 1 个，emoji 通常占 2 个。</small>
+      <label for="goodsName">商品名称</label><input id="goodsName" v-model="goodsName" required :disabled="busy" aria-describedby="goodsNameHint" placeholder="例如：轻行随身杯"><small id="goodsNameHint">最多 128 个字符；包含表情时可输入长度会减少。</small>
       <label for="description">商品描述（纯文本）</label><small>请使用纯文本，HTML 标签会被拒绝。</small><textarea id="description" v-model="description" :disabled="busy" rows="4"></textarea>
-      <label for="imageUrl">图片 HTTPS 地址（选填）</label><input id="imageUrl" v-model="imageUrl" type="url" :disabled="busy" placeholder="https://…">
-      <label for="originalPrice">原价（元）</label><input id="originalPrice" v-model="price" required inputmode="decimal" :disabled="busy" placeholder="99.00">
+      <label for="imageUrl">图片 HTTPS 地址（选填）</label><input id="imageUrl" v-model="imageUrl" type="url" :disabled="busy" placeholder="https://…" aria-describedby="imageHint"><small id="imageHint">请使用有权展示的图片；地址必须以 https:// 开头。</small>
+      <label for="originalPrice">原价（元）</label><input id="originalPrice" v-model="price" required inputmode="decimal" :disabled="busy" placeholder="99.00" aria-describedby="priceHint"><small id="priceHint">填写 0.01～999999.99 元，保留两位小数，例如 99.00。</small>
       <label for="saleStatus">售卖状态</label><select id="saleStatus" v-model="status" :disabled="busy"><option value="OFF_SALE">下架</option><option value="ON_SALE">在售</option></select>
       <div class="actions"><button :disabled="busy" type="submit">保存商品</button><button type="button" class="secondary" :disabled="busy" @click="reread">重新读取</button><button type="button" class="secondary" @click="editing=false">关闭编辑</button></div>
     </form>
@@ -202,7 +203,7 @@ onMounted(async () => {
     </article>
     <template v-else>
       <div class="list-controls"><label v-if="admin">状态筛选 <select v-model="filter" :disabled="busy" @change="load(1)"><option value="">全部</option><option value="ON_SALE">在售</option><option value="OFF_SALE">下架</option></select></label><button class="secondary compact" :disabled="busy" @click="load()">刷新列表</button></div>
-      <p v-if="!busy && !listing.items.length" class="empty">{{ admin ? '暂无商品，点击创建商品开始维护。' : '暂无在售商品。' }}</p>
+      <p v-if="!busy && !error && !listing.items.length" class="empty">{{ admin ? '暂无商品，点击创建商品开始维护。' : '暂无在售商品。' }}</p>
       <div class="product-grid"><article v-for="p in listing.items" :key="p.goodsId" class="product-tile">
         <img v-if="p.imageUrl && !broken[p.goodsId]" :src="p.imageUrl" :alt="p.goodsName" referrerpolicy="no-referrer" @error="broken[p.goodsId]=true"><div v-else class="image-placeholder">商品图片暂无</div>
         <h2>{{ p.goodsName }}</h2><p v-if="p.availability">{{ p.availability==='IN_STOCK'?'有货':'暂时缺货' }}</p><p class="product-price">¥ {{ p.originalPrice }}</p><p v-if="admin" class="muted">{{ p.saleStatus==='ON_SALE'?'在售':'下架' }} · 版本 {{ p.productVersion }}</p><p v-if="!p.syncReady" class="muted">资料更新中，暂不可试算</p><button @click="detail(p)" :disabled="busy">查看详情</button>
@@ -215,7 +216,7 @@ onMounted(async () => {
       <template v-if="quarantine">
         <p>共 {{ quarantine.total }} 条 · 第 {{ quarantine.page }} 页</p>
         <p v-if="!quarantine.items.length">暂无隔离记录。</p>
-        <table v-else><thead><tr><th>记录</th><th>原因</th><th>保存时间</th><th>状态</th></tr></thead><tbody><tr v-for="q in quarantine.items" :key="q.quarantineId"><td>{{ q.quarantineId }}</td><td>{{ q.reason }}</td><td>{{ q.storedAt }}</td><td>{{ q.state === 'REPLAYED' ? '已恢复' : '待核对' }}</td></tr></tbody></table>
+        <TableScroll v-else label="同步隔离记录，可横向滚动"><table><thead><tr><th scope="col">记录</th><th scope="col">原因</th><th scope="col">保存时间</th><th scope="col">状态</th></tr></thead><tbody><tr v-for="q in quarantine.items" :key="q.quarantineId"><td>{{ q.quarantineId }}</td><td>{{ q.reason }}</td><td>{{ q.storedAt }}</td><td>{{ q.state === 'REPLAYED' ? '已恢复' : '待核对' }}</td></tr></tbody></table></TableScroll>
         <div class="actions"><button class="secondary compact" :disabled="busy || quarantine.page <= 1" @click="readQuarantine(quarantine.page-1)">上一页记录</button><button class="secondary compact" :disabled="busy || quarantine.page*quarantine.size >= quarantine.total" @click="readQuarantine(quarantine.page+1)">下一页记录</button></div>
       </template>
     </aside>

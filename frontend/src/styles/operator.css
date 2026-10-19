@@ -1,0 +1,40 @@
+.skip-link { position: fixed; z-index: 20; top: 8px; left: 16px; padding: 12px 18px; border-radius: 8px; background: #193a7a; color: #fff; transform: translateY(-160%); }
+.skip-link:focus { transform: translateY(0); }
+.store-content { flex: 1; min-width: 0; }
+.operator-workspace { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 28px; flex: 1; }
+.operator-sidebar { padding: 32px 16px 24px 0; border-right: 1px solid var(--line); }
+.operator-sidebar nav { display: grid; gap: 8px; margin-top: 24px; }
+.operator-sidebar nav a { display: flex; align-items: center; min-height: 44px; padding: 10px 12px; color: #344054; border-radius: 8px; text-decoration: none; }
+.operator-sidebar nav a:hover { background: #eaf0ff; }
+.operator-sidebar nav a[aria-current="page"] { background: #e5edff; color: #1849a9; font-weight: 700; }
+.operator-help { margin-top: 32px; line-height: 1.8; font-size: 13px; color: var(--muted); }
+.operator-content { min-width: 0; }
+.operator-content .catalog-main { padding-top: 32px; }
+.operator-content section, .operator-content article, .operator-content form { min-width: 0; overflow-wrap: anywhere; }
+.operator-content article, .operator-content .maintenance-card { padding: 20px; margin-top: 18px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+.operator-content .product-overview { grid-template-columns: minmax(160px, 40%) minmax(0, 1fr); gap: 20px; }
+.operator-content .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.operator-content .product-editor { margin-bottom: 24px; }
+.operator-content .product-editor small { display: block; color: var(--muted); line-height: 1.7; margin: 7px 0; }
+.operator-content form:not(.product-editor) { max-width: 100%; }
+.operator-content button { margin: 6px 8px 6px 0; }
+.operator-content [role="alert"] { padding: 12px 16px; background: #fff0ed; color: #a22b20; border-radius: 8px; }
+.operator-content [role="status"] { padding: 12px 16px; background: #e9f8ee; color: #246b40; border-radius: 8px; }
+.operator-content dl { display: grid; grid-template-columns: minmax(90px, 7em) minmax(0, 1fr); gap: 12px; }
+.operator-content dd { margin: 0; }
+.operator-content details { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+.operator-content summary { min-height: 44px; cursor: pointer; padding: 8px 0; }
+.operator-content .filters { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; }
+.operator-content .filters label { min-width: 140px; margin-top: 16px; }
+.operator-content input[type="checkbox"] { width: 24px; height: 24px; accent-color: var(--blue); }
+.table-scroll { max-width: 100%; overflow-x: auto; margin: 18px 0; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+.table-hint { font-size: 13px; margin: 18px 0 -8px; }
+.table-scroll table { width: 100%; min-width: 620px; border-collapse: collapse; text-align: left; font-size: 14px; }
+.table-scroll th, .table-scroll td { padding: 12px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; max-width: 220px; }
+.table-scroll th { background: #f0f4fa; font-weight: 600; }
+.table-scroll tr:last-child td { border-bottom: 0; }
+.inventory-summary { display: flex; flex-wrap: wrap; gap: 20px; padding: 16px; background: #f4f7ff; border-radius: 8px; }
+.inventory-summary strong { display: block; margin-top: 6px; font-size: 22px; }
+@media (max-width: 1000px) { .operator-workspace { grid-template-columns: 170px minmax(0, 1fr); gap: 20px; } .operator-content .product-grid { grid-template-columns: 1fr; } }
+@media (max-width: 850px) { .operator-workspace { display: block; } .operator-sidebar { border-right: 0; border-bottom: 1px solid var(--line); padding: 20px 0 16px; } .operator-sidebar nav { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 12px; } .operator-sidebar nav a { font-size: 14px; padding: 8px 10px; } .operator-help, .operator-sidebar > .muted { display: none; } .operator-content .product-overview { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .operator-content dl { grid-template-columns: 1fr; gap: 6px; } .operator-content dd { margin-bottom: 10px; } .operator-content article { padding: 16px; } .operator-content .filters { display: grid; grid-template-columns: minmax(0,1fr); } .operator-content .filters label { min-width: 0; } .operator-content h2 { font-size: 21px; } }

@@ -21,7 +21,7 @@
 .price-focus small { color: var(--muted); }
 .product-description-block { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line); }
 .support-details { margin-top: 16px; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
-.support-details summary { cursor: pointer; color: #344054; min-height: 36px; }
+.support-details summary { cursor: pointer; color: #344054; min-height: 44px; }
 .product-detail img { width: 100%; max-height: 350px; object-fit: contain; display: block; margin-top: 20px; }
 .product-price { font-size: 28px; font-weight: 700; color: #193a7a; }
 .product-description { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; }

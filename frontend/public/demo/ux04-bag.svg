@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">日常帆布袋</title><desc id="desc">米色背景上的绿色帆布袋原创示意插画</desc>
+  <rect width="800" height="640" rx="32" fill="#f6f0e5"/><circle cx="400" cy="310" r="220" fill="#e9e2d2"/>
+  <ellipse cx="400" cy="535" rx="178" ry="22" fill="#d7d0c0"/>
+  <path d="M325 245v-60a75 75 0 0 1 150 0v60" fill="none" stroke="#385d4d" stroke-width="25"/>
+  <path d="M260 230h280l24 275a25 25 0 0 1-25 27H261a25 25 0 0 1-25-27z" fill="#527c68"/>
+  <path d="M280 248l-18 262h276l-18-262" fill="none" stroke="#789883" stroke-width="4" stroke-dasharray="8 8"/>
+  <rect x="342" y="330" width="116" height="116" rx="18" fill="#e8eee3"/><path d="M375 410c0-38 16-55 50-62-2 35-17 57-50 62z" fill="#527c68"/>
+</svg>

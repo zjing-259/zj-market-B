@@ -2,6 +2,7 @@
 import importlib.util
 from pathlib import Path
 from unittest.mock import Mock
+from tempfile import TemporaryDirectory
 
 path = Path('D:/Java/zj-market-ux/scripts/b06-deployment.py')
 spec = importlib.util.spec_from_file_location('ux_deployment', path)
@@ -58,3 +59,20 @@ else:
     raise AssertionError('Low memory must reject the UX transition')
 capacity.configuration.assert_not_called()
 print('UX00_CONTROLLER_PREFLIGHT_PASS duplicate/start/unsupported/drift/upgrade/capacity')
+
+# A generated UX capability file must keep the existing discovery endpoint enabled
+# in the open mode and preserve the maintenance admission boundary across restarts.
+with TemporaryDirectory() as folder:
+    original = module.CONTROL
+    module.CONTROL = Path(folder)
+    try:
+        obj = module.Deployment.__new__(module.Deployment)
+        for mode in ['open', 'maintenance', 'open']:
+            obj.configuration(mode)
+            values = dict(line.split('=', 1) for line in (module.CONTROL / 'capabilities.properties').read_text().splitlines())
+            assert values['b.team-discovery.enabled'] == str(mode == 'open').lower()
+            assert values['b.payment.checkout-enabled'] == str(mode == 'open').lower()
+            assert values['b.refund.recovery-enabled'] == 'true'
+    finally:
+        module.CONTROL = original
+print('UX04_DISCOVERY_CONFIGURATION_PASS open/maintenance/reopen')

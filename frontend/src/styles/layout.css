@@ -16,7 +16,7 @@
 .card, .product-tile, .product-detail, .product-editor { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 8px 28px #1f29370a; }
 .card { padding: 32px; }
 .card nav { display: flex; gap: 20px; border-bottom: 1px solid var(--line); }
-.card nav button { width: auto; min-height: 42px; margin: 0; padding: 8px 2px; border-radius: 0; background: none; color: var(--muted); }
+.card nav button { width: auto; min-height: 44px; margin: 0; padding: 8px 2px; border-radius: 0; background: none; color: var(--muted); }
 .card nav button.active { color: var(--blue-dark); border-bottom: 3px solid var(--blue); }
 .card form button, .card > button { width: 100%; margin-top: 16px; }
 .card form small { display: block; margin-top: 7px; color: var(--muted); font-size: 12px; }

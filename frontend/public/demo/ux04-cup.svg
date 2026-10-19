@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">轻行随身杯</title><desc id="desc">浅蓝背景上的蓝色随身杯原创示意插画</desc>
+  <rect width="800" height="640" rx="32" fill="#eaf1fa"/><circle cx="400" cy="300" r="220" fill="#d9e7fa"/>
+  <ellipse cx="410" cy="530" rx="170" ry="22" fill="#c1d0e4"/>
+  <path d="M300 190h200l-23 300a30 30 0 0 1-30 28h-94a30 30 0 0 1-30-28z" fill="#285a9c"/>
+  <path d="M322 215h35l16 275h-25z" fill="#4174b7"/>
+  <rect x="288" y="158" width="224" height="55" rx="18" fill="#193a67"/><rect x="338" y="131" width="124" height="35" rx="13" fill="#355c8b"/>
+  <circle cx="400" cy="345" r="44" fill="#edf4ff"/><path d="M380 350l15 15 28-37" fill="none" stroke="#285a9c" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
