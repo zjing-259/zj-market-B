@@ -1,4 +1,6 @@
-> 最新接续（2026-10-18，UX-02 已完成）：`D:\Java\zj-market-ux`／`codex/storefront-ux` 的商品／团队购买引导已部署，当前镜像 `zj-market-ux/web:ux02-20261018-02`。价格变化及请求竞态重新确认、JOIN 固定 teamId、订单原意图恢复和服务端支付资格门禁已验证；真实 UX 页面登录／深链接／手机、无自动建单、旧站 READY 和两站隔离通过。本机镜像归档、测试矩阵及边界见 [UX 方案](storefront-experience-optimization.md)和[运行说明](../deploy/ux/README.md)。下一阶段 UX-03，后续仍只要求本机 Windows＋Docker 验收。以下为历史接续。
+> 最新接续（2026-10-19，UX-03 已完成）：`D:\Java\zj-market-ux`／`codex/storefront-ux` 已部署收银台、订单和退款体验，镜像 `zj-market-ux/web:ux03-20261019-01`。支付两段操作的原选择／原 operationId 恢复、跨标签互斥、取消同键重试、退款资金与订单收尾分开展示均经浏览器场景验证；真实 UX 站既有订单只读页面、旧站 READY 和两站隔离通过。实际网关为 OPEN，镜像归档与范围见 [UX 方案](storefront-experience-optimization.md)及[运行说明](../deploy/ux/README.md)。下一阶段 UX-04；真实新交易联合验收归 UX-05，仍只要求本机 Windows＋Docker。以下为历史接续。
+
+> 历史接续（2026-10-18，UX-02 已完成）：`D:\Java\zj-market-ux`／`codex/storefront-ux` 的商品／团队购买引导已部署，当时镜像 `zj-market-ux/web:ux02-20261018-02`。价格变化及请求竞态重新确认、JOIN 固定 teamId、订单原意图恢复和服务端支付资格门禁已验证；真实 UX 页面登录／深链接／手机、无自动建单、旧站 READY 和两站隔离通过。本机镜像归档、测试矩阵及边界见 [UX 方案](storefront-experience-optimization.md)和[运行说明](../deploy/ux/README.md)。下一阶段 UX-03，后续仍只要求本机 Windows＋Docker 验收。以下为历史接续。
 
 > 历史接续（2026-10-18，UX-01 已完成）：UX 镜像 ux01-20261018-02 已在独立环境开放，展示品牌为“正经商城”；用户／运营导航、/account、动态标题、404 与安全回跳已验收。前端构建、浏览器回归、旧站 READY 和两站隔离通过；固定镜像与本机归档见 deploy/ux/README.md，下一阶段 UX-02。UX-00～05 均以本机 Windows＋Docker 验收。以下为历史接续。
 
