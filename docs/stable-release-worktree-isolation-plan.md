@@ -1,10 +1,10 @@
 # 旧版稳定运行与新版工作树隔离实施方案
 
-状态：ST-00～ST-05 均已完成本机验收；ST-05 交付批次为 `st05_20261017_02`，证据见 [验收报告](../../zj-market/docs/tests/st05-acceptance.json)。主站由 `D:\Java\zj-market-stable` 独立管理，沿用原 `zj-market-b06` 项目及五卷；UX 工作树 `D:\Java\zj-market-ux`（`codex/storefront-ux`）及独立项目 `zj-market-ux` 已开放。UX-00～UX-04 于 2026-10-18～19 完成本机验收，见[体验优化方案](storefront-experience-optimization.md)；后续从 UX-05 开始，不重复创建工作树或部署隔离环境。
+状态：ST-00～ST-05 均已完成本机验收；ST-05 交付批次为 `st05_20261017_02`，证据见 [验收报告](../../zj-market/docs/tests/st05-acceptance.json)。主站由 `D:\Java\zj-market-stable` 独立管理，沿用原 `zj-market-b06` 项目及五卷；UX 工作树 `D:\Java\zj-market-ux`（`codex/storefront-ux`）及独立项目 `zj-market-ux` 已开放。UX-00～UX-05 于 2026-10-18～19 完成本机验收，见[体验优化方案](storefront-experience-optimization.md)；主站已在独立目录升级为 `ux05-stable-20261019-01`，见 [最终验收](tests/ux05-acceptance.json)；原五卷／五网络和两站隔离保持，不重复创建工作树或部署隔离环境。
 
 ## 1. 目标与已知现状
 
-在实施[商城体验优化](storefront-experience-optimization.md)期间，旧版仍可正常使用；新版源码、构建和测试不影响旧版交易。旧版固定为当前 TD-06 主站版本，而非更早的 B-06 或候选 8445 版本。
+在实施[商城体验优化](storefront-experience-optimization.md)期间，旧版仍可正常使用；新版源码、构建和测试不影响旧版交易。ST 阶段旧版固定为 TD-06 主站版本，该发布现作为历史兼容回退点保留；UX-05 已完成受控升级，当前主站运行正经商城新版，日常入口仍独立于开发工作树。
 
 ST-00 盘点时，主站虽运行构建后的 A/B/web Docker 镜像，控制器与私有配置仍依赖开发／历史工作树；这一风险已在 ST-03 由独立目录接管解决。当前日常入口为 `D:\Java\zj-market-stable\scripts\stable.ps1`，新体验开发只在 UX 工作树进行。
 
