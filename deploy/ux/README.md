@@ -1,6 +1,6 @@
 # UX 独立环境与 UX-00 运行说明
 
-最新状态（2026-10-18）：UX-02 已在现有 `D:\Java\zj-market-ux` 工作树完成本机验收，运行 Web 镜像为 `zj-market-ux/web:ux02-20261018-02`；旧站继续由 `D:\Java\zj-market-stable\scripts\stable.ps1` 管理。下述 ST-04 环境建立过程保留为历史基线，后续 UX-03 不再重建分支、空卷或稳定站。
+最新状态（2026-10-19）：UX-03 已在现有 `D:\Java\zj-market-ux` 工作树完成本机验收，运行 Web 镜像为 `zj-market-ux/web:ux03-20261019-01`；旧站继续由 `D:\Java\zj-market-stable\scripts\stable.ps1` 管理。下述 ST-04 环境建立过程保留为历史基线，后续 UX-04 不再重建分支、空卷或稳定站。
 
 当前本机 B 新版工作树为 `D:\Java\zj-market-ux`（`codex/storefront-ux`，从 ST-01 B 提交 `e18f4479` 分出），A 继续使用 `D:\Java\group-buy-market` 已冻结源码与 ST-01 固定镜像，不另建 A 工作树。旧站继续由 `D:\Java\zj-market-stable\scripts\stable.ps1` 管理；UX 项目为 `zj-market-ux`，入口 `https://zj-market-ux.test:8446`。两站使用不同域名、浏览器配置、五网络、五数据卷和整套新凭据；UX 不读取主站备份，也不连接主站数据库和 Broker。
 
@@ -20,4 +20,6 @@ UX-00 接续（2026-10-18）：切换前在 UX 忽略目录 `.local/ux00/backups
 
 UX-01 接续（2026-10-18）：用户展示品牌改为“正经商城”，账号中心固定 `/account`，运营和购物导航分离；该阶段镜像 `zj-market-ux/web:ux01-20261018-02` ID `sha256:e95c5c1b4fc07d788c55dd5b5507139481345fb62bacfcfe05da7780c825bedc`。本机镜像归档 `.local/ux01/images/web-ux01-20261018-02.tar` SHA-256 `BA03E9CAE432D9C4D63BB9E82289DF201CEFFCD8E165303AF0311CAFF74ACD8C`；UX-00 镜像仍可作为 Web 回退点。该阶段 `.local/b06/build/release.env` 的 `B06_WEB_IMAGE` 指向 UX-01；切换其他版本前须受控停止 UX 并核对容量。实际开放状态、旧站隔离、桌面／手机浏览器与路由回归均已通过，阶段证据见[UX 方案](../../docs/storefront-experience-optimization.md)。UX-00～05 只要求本机 Windows＋Docker 验收。
 
-UX-02 接续（2026-10-18）：商品和团队购买区已改为“单独开团／加入此团队 → 确认下单并去支付 → 原订单进度”；报价变化须重新确认，写结果未知只查原意图，只有后端开放支付能力才显示收银台入口。当前 `.local/b06/build/release.env` 的 `B06_WEB_IMAGE` 指向 `zj-market-ux/web:ux02-20261018-02`，运行 Image ID `sha256:00fbd940be3d924e36e9b29c671490623e5ab63c27d3c194a73e8d7c6b236d4c`。本机私有归档 `.local/ux02/images/web-ux02-20261018-02.tar` SHA-256 `98BCCEF4A86201F5322A8EEB2325B2961A2FE9A92A11F40D0CCA99E5FEDA1997`；UX-01 镜像及归档保留作回退点。日常只用 `ready/status` 检查，切换版本先受控停止 UX。真实页面登录、商品深链接、无自动建单、手机布局、旧站 READY 和隔离检查通过。完整用例与 UX-03 范围见[UX 方案](../../docs/storefront-experience-optimization.md)。
+UX-02 接续（2026-10-18）：商品和团队购买区已改为“单独开团／加入此团队 → 确认下单并去支付 → 原订单进度”；报价变化须重新确认，写结果未知只查原意图，只有后端开放支付能力才显示收银台入口。该阶段 `.local/b06/build/release.env` 的 `B06_WEB_IMAGE` 指向 `zj-market-ux/web:ux02-20261018-02`，运行 Image ID `sha256:00fbd940be3d924e36e9b29c671490623e5ab63c27d3c194a73e8d7c6b236d4c`。本机私有归档 `.local/ux02/images/web-ux02-20261018-02.tar` SHA-256 `98BCCEF4A86201F5322A8EEB2325B2961A2FE9A92A11F40D0CCA99E5FEDA1997`；UX-01 镜像及归档保留作回退点。日常只用 `ready/status` 检查，切换版本先受控停止 UX。真实页面登录、商品深链接、无自动建单、手机布局、旧站 READY 和隔离检查通过。完整用例与 UX-03 范围见[UX 方案](../../docs/storefront-experience-optimization.md)。
+
+UX-03 接续（2026-10-19）：当前 `.local/b06/build/release.env` 的 `B06_WEB_IMAGE` 指向 `zj-market-ux/web:ux03-20261019-01`，实际 Image ID `sha256:c913469d339811c1928b5f914914b9341e3b770614d57a52fa4420964b478ccf`。本机私有归档 `.local/ux03/images/web-ux03-20261019-01.tar` SHA-256 `5073011631AAB9F267B80657183B4EC8B75EB0066B7D123640C2054370B4D07D`；UX-02 镜像及归档保留作回退点。收银台、订单和退款页面验收结果见[UX 方案](../../docs/storefront-experience-optimization.md)。首次切换因主机可用内存低于 1.5 GiB 在开放前拒绝，资源恢复后独立 UX 站开放成功；日常仍只用 `ready/status` 检查。旧站 READY、实际网关 OPEN、两站隔离及真实订单只读页面通过；UX-05 仍负责真实新交易联合验收。
