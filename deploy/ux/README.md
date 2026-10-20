@@ -1,8 +1,8 @@
-# UX 独立环境与 UX-05 运行说明
+# UX 独立环境与 CAT 商品准备运行说明
 
-最新状态（2026-10-19）：UX-00～UX-05 已完成最终验收，主站已在 `D:\Java\zj-market-stable` 启用 `ux05-stable-20261019-01`／正经商城新版。UX 工作树与独立环境保留，UX-05 复用已验 UX-04 Web 内容，不重复构建相同业务代码。见 [最终验收](../../docs/tests/ux05-acceptance.json)；下述 ST-04 建立过程及各阶段记录保留为历史基线。
+最新状态（2026-10-20）：CAT-01.2／CAT-01.3 已验收，UX 专用 Web 固定为 `sha256:f85131ff30aa0835dbbf5d52184596ed646e765af3fa244f5a1ba2ee9fbfc862`（标签 `zj-market-ux/web:cat03-20261020-01`）；主站仍由独立稳定目录运行 UX-05 发布，未改商品或部署。六件新日常商品在 UX 在售，八件本批专用样本留证后下架；见 [商品资料](../../docs/catalog-products.md)、[实际 ID](../../docs/cat03-ux-products.json)和 [CAT-01.3 验收](../../docs/tests/cat01-3-acceptance.json)。下述各阶段记录为历史基线。
 
-UX／主站当前 Web 内容（UX-05 交付复用）：运行 Image ID `sha256:fdd4072544a5290a3d51f58b8d1cbd83cac02bcb6eb2a20abaf9f3b3a9bbc145`，私有归档 `.local/ux04/images/web-ux04-20261019-01.tar` SHA-256 `F5B06A0AC7A9557BBA88C48ED7612243DB95F5BD7C9BB4FC3205214C61456622`，`B06_WEB_IMAGE` 指向 UX-04。UX-03 镜像和归档保留为前端回退点。控制器现按模式生成 `b.team-discovery.enabled`（开放 true、维护 false），修复 UX 实际待拼接口 404；复用原 A/B 镜像及索引。只读就绪、两站隔离和实际受信 Edge 浏览器均通过；完整验收见[UX 方案](../../docs/storefront-experience-optimization.md)。
+UX-05 历史 Web 内容（主站仍保留；当前 UX 使用上方 CAT 专用镜像）：运行 Image ID `sha256:fdd4072544a5290a3d51f58b8d1cbd83cac02bcb6eb2a20abaf9f3b3a9bbc145`，私有归档 `.local/ux04/images/web-ux04-20261019-01.tar` SHA-256 `F5B06A0AC7A9557BBA88C48ED7612243DB95F5BD7C9BB4FC3205214C61456622`，UX-05 当时 `B06_WEB_IMAGE` 指向 UX-04；当前已固定 CAT 专用内容 ID。UX-03 镜像和归档保留为前端回退点。控制器现按模式生成 `b.team-discovery.enabled`（开放 true、维护 false），修复 UX 实际待拼接口 404；复用原 A/B 镜像及索引。只读就绪、两站隔离和实际受信 Edge 浏览器均通过；完整验收见[UX 方案](../../docs/storefront-experience-optimization.md)。
 
 本机演示从现有 `scripts/open-st04-ux.ps1` 打开专属浏览器，入口是 `https://zj-market-ux.test:8446`；主站仍为 `https://zj-market.test`，不要混用两站账号、订单或浏览器配置。当前用户未信任 UX CA 时，该既有入口会加入当前用户信任库；验收不关闭证书校验。
 
@@ -17,7 +17,7 @@ UX／主站当前 Web 内容（UX-05 交付复用）：运行 Image ID `sha256:f
 
 本机 UX 的 A/B 镜像复用 ST-01 已验内容 ID，但各自启动独立容器；ST-04 Web 基线镜像为 `zj-market-ux/web:st04-20261017-02`。继承的 `group_buy_market_b06`、`zj_market_b06` 库名及 `-b06` Topic 后缀只是项目内逻辑名，实际网络和存储属于 UX，不是主站数据。UX 演示数据由空卷显式迁移与种子生成，两条 TD-01 A 发现索引已定向追加；本机没有克隆主站待办或历史支付退款。
 
-日常检查先分别运行主站 `ready` 和 UX `python -B scripts/b06-deployment.py ready`，再运行 `python -B D:\Java\zj-market-ux\scripts\ux05-isolation.py`。后者只读核对容器、挂载、端口、网络、数据卷和内部地址。UX 当前模式另见 `.local/b06/control/state.json` 的 `mode=open`、`phase=READY`；`ready` 现在还以专用 CA 读取实际 HTTPS 网关模式，明确输出 `UX_GATE_OPEN` 或 `UX_GATE_MAINTENANCE`；`status` 同时报已保存状态和实际模式，`FAILED_GATE_CLOSED` 不会被当作开放就绪。运行 `powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:\Java\zj-market-ux\scripts\open-st04-ux.ps1` 会在确认 UX 已开放后，将 UX 专属 CA 加入当前用户信任库并以 `.local/st04/browser-profile` 打开专用 Edge；浏览器配置目录已单独收紧 ACL。主站浏览器仍使用稳定目录的独立配置。无界面 Edge 已实测 UX 页面与主机 Cookie 隔离；ST-04 历史测试曾跳过浏览器证书错误；UX-04／UX-05 已采用受信 Edge 严格证书校验，并保留各自 CA 的 Node 严格 TLS 探针。不要用相同域名的不同端口替代此配置。
+日常检查先分别运行主站 `ready` 和 UX `python -B scripts/b06-deployment.py ready`，再运行 `python -B D:\Java\zj-market-ux\scripts\cat03-isolation.py`。后者只读核对容器、挂载、端口、网络、数据卷和内部地址。UX 当前模式另见 `.local/b06/control/state.json` 的 `mode=open`、`phase=READY`；`ready` 现在还以专用 CA 读取实际 HTTPS 网关模式，明确输出 `UX_GATE_OPEN` 或 `UX_GATE_MAINTENANCE`；`status` 同时报已保存状态和实际模式，`FAILED_GATE_CLOSED` 不会被当作开放就绪。运行 `powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:\Java\zj-market-ux\scripts\open-st04-ux.ps1` 会在确认 UX 已开放后，将 UX 专属 CA 加入当前用户信任库并以 `.local/st04/browser-profile` 打开专用 Edge；浏览器配置目录已单独收紧 ACL。主站浏览器仍使用稳定目录的独立配置。无界面 Edge 已实测 UX 页面与主机 Cookie 隔离；ST-04 历史测试曾跳过浏览器证书错误；UX-04／UX-05 已采用受信 Edge 严格证书校验，并保留各自 CA 的 Node 严格 TLS 探针。不要用相同域名的不同端口替代此配置。
 
 如需暂时释放资源，只在 UX 工作树运行 `python -B scripts/b06-deployment.py stop`；该命令保留 UX 卷，不操作 `zj-market-b06`。恢复需在确认 UX 配置和镜像标签后执行 `python -B scripts/b06-deployment.py open`，随后核对两站和隔离报告。已开放时日常只用 `ready/status`；重复 `open` 现只核对、不重建，误用 `start` 会在任何网关变更前拒绝。容量不足也会在变更前拒绝；若确需切换模式，先受控停止 UX 释放内存，再启动目标模式。稳定站日常操作只用其独立入口，切勿对原 TD-06 主站脚本执行 `start`。
 
@@ -45,4 +45,16 @@ UX-05 最终验收（2026-10-19）：本机 Windows＋Docker 的 UX 与主站各
 
 发布入口 `scripts/ux05-release.py` 提供 freeze／upgrade／resume／rollback／ready。首次切换发现本机 Compose create 不支持 --no-deps，已修正为仅创建、不启动的兼容方式；完成冷备的原批次逐文件复验、确认全栈冷停后继续升级。运行中 resume 会在变更前拒绝。新交易后只以兼容镜像配合当前数据退包，不做数据库降级或旧备份覆盖。
 
-日常 `ready/status` 不创建订单。`scripts/ux05-joint.py prepare/browser/collect --target ux|main --batch ux05-YYYYMMDD-NN` 是显式验收入口，会新增独立标记样本及模拟交易，不是健康检查。已有批次保留原 fixture、purchaseIntentId 和支付 operationId；未知结果先查原记录，PASSED 批次禁止重做浏览器写入。最终聚合入口为 `python -B scripts/ux05-finalize.py`。两站同用已验 Web 内容 ID；历史 ST-04 检查中的“Web ID 必须不同”只适用于当时版本，日常改用 `scripts/ux05-isolation.py`。
+日常 `ready/status` 不创建订单。`scripts/ux05-joint.py prepare/browser/collect --target ux|main --batch ux05-YYYYMMDD-NN` 是显式验收入口，会新增独立标记样本及模拟交易，不是健康检查。已有批次保留原 fixture、purchaseIntentId 和支付 operationId；未知结果先查原记录，PASSED 批次禁止重做浏览器写入。最终聚合入口为 `python -B scripts/ux05-finalize.py`。两站同用已验 Web 内容 ID；历史 ST-04 检查中的“Web ID 必须不同”只适用于当时版本，日常改用 `scripts/cat03-isolation.py`。
+
+CAT-01.3 当前准备与收尾入口：
+
+- 内容：`docs/catalog-products.json`，已冻结六件中文资料和图片；运行 ID 与最终售卖状态在 `docs/cat03-ux-products.json`。正常展示商品目的为 SHOWCASE，八件专用样本为 ACCEPTANCE。
+- 已执行批次：`.local/cat/cat01-3-20261020-01`。`scripts/cat03-lib.mjs` 固定 UX 域名／端口及批次，不接受主站 target；写入仅允许本批精确 ID。新批次应显式建立独立归属和证据，不能把旧 fixture 改名后当新任务。
+- 本批已执行链（历史记录，勿当健康检查原样重放）：`cat03-products.mjs prepare` → `cat03-run.py configure` → `cat03-products.mjs publish/verify/guards` → `cat03-run.py sync-drill` → `cat03-browser.mjs` → `cat03-products.mjs stockout` → `cat03-accounting.py --batch cat01-3-20261020-01` → `cat03-evidence.py` → `cat03-products.mjs cleanup` → `cat03-final-browser.mjs` → `cat03-finalize.py`。`.mjs` 用 node，`.py` 用 python -B，在 UX 工作树执行。
+- 创建未知先以原完整字段和创建前 ID 集合找回唯一商品，无法唯一匹配则停止；入库只查／重试原 operationId，不换键。数据库流水关联内部 operation_id，外部请求编号对应 operation_key，需通过原操作记录联结，不能误当同一字段。
+- `cat03-evidence.py` 冻结证据哈希后方可收尾；`--failed` 可保存未通过批次的原证据，但不能把 PASSED 重标为失败。准备阶段身份未恢复完整时先查原记录，不伪造缺失 ID 或宣告全量收尾。下架未知先查询原商品及原编辑体，不新建业务操作；当前重复 cleanup 为零 PUT。
+- cleanup 只允许本批八件 ACCEPTANCE 精确 ID，拒绝 SHOWCASE、旧商品及未留证选择；已封存批次 publish 拒绝重新上架。样本下架不删除、不取消已付款订单或强改团队期限，原单及资金照原规则收敛。
+- 只读就绪仍用 `python -B scripts/b06-deployment.py ready`，隔离用 `python -B scripts/cat03-isolation.py`。当前旧 `ux05-isolation.py` 和历史 CAT-01.1 environment 的同 Web ID 断言不再适用于新资源镜像；保留历史文件和报告，不改其哈希。
+- Web 资源已通过正式 npm build、固定基础镜像的 `deploy/b06/images/web.Dockerfile` 构建并归档。归档 `.local/cat/cat01-3-20261020-01/web-cat03-20261020-01.tar` 的哈希见 `docs/cat03-web-release.json`；运行容器 11 文件逐项匹配构建。仅 UX Web 切换，旧 release.env 存同批 `previous-release.env`；如需兼容回退，恢复该配置并走 UX 受控网关入口，保留当前业务数据，不恢复旧数据库。主站部署仍留 CAT-01.4。
+- 本批保留一条 DEFERRED_B05 兼容协调记录及空未付团队自然期限。前者对应退款／释放和 A 核对已独立证实完成，不清表或强改 DONE；主站原有待办及 UX 原业务记录均未修复或删除。

@@ -1,0 +1,520 @@
+{
+  "stage": "CAT-01.3",
+  "status": "PASS",
+  "stageCompleted": true,
+  "seriesCompleted": false,
+  "generatedAt": "2026-10-20T04:27:10.910479+00:00",
+  "batch": "cat01-3-20261020-01",
+  "checks": [
+    "six-normal-products-created-off-sale-then-final-version-confirmed",
+    "six-original-images-actual-HTTPS-hashes-and-four-viewports",
+    "13-stock-inbounds-original-keys-no-repeat",
+    "unknown-product-create-recovered-by-exact-fields-and-before-IDs",
+    "unknown-inbound-recovered-by-original-operation",
+    "A-product-version-and-actual-quote-confirmed",
+    "A-unavailable-unconfirmed-version-blocks-trial-and-recovers",
+    "stale-product-version-rejected",
+    "stockout-backend-rejects-with-no-valid-order",
+    "no-activity-not-purchasable-and-bad-image-placeholder",
+    "showcase-only-read-no-new-orders",
+    "two-account-open-exact-join-payment-group-completion",
+    "natural-expiry-full-refund-and-unique-stock-release",
+    "off-sale-original-payment-cancel-refund-and-read-recovery",
+    "buyer-write-permission-and-cleanup-ownership-boundaries",
+    "evidence-frozen-before-only-owned-8-samples-off-sale",
+    "off-sale-receipt-loss-recovered-no-repeat-edit",
+    "cleanup-repeat-zero-writes-and-sealed-batch-no-republish",
+    "five-orders-funds-stock-A-quota-unique-ledgers",
+    "main-business-and-container-identities-unchanged",
+    "preexisting-UX-business-facts-preserved",
+    "frontend-type-build-regressions-and-runtime-assets-match"
+  ],
+  "normalShowcaseProducts": 6,
+  "ownedAcceptanceProducts": 8,
+  "ownedAcceptanceOffSale": 8,
+  "showcaseStockEach": 20,
+  "showcaseAcceptedOrders": 0,
+  "acceptedOrders": 5,
+  "simulatedPaidAmount": "360.00",
+  "simulatedRefundedAmount": "180.00",
+  "netAmount": "180.00",
+  "accountingChecks": [
+    "success-stock-conservation",
+    "funds-stock-unique-75f129ed-cc66-489c-a070-f764ec079ac6",
+    "funds-stock-unique-98d948c9-d003-43e8-8cb6-96b8b9e173b0",
+    "success-actual-A-quota-terminal",
+    "expiry-stock-conservation",
+    "funds-stock-unique-e9fbf36d-7afa-4860-830b-f7fe296c9fb0",
+    "expiry-actual-A-quota-terminal",
+    "cancel-stock-conservation",
+    "funds-stock-unique-e39ceedb-50a5-48ae-a7b2-903cf4ae061c",
+    "cancel-actual-A-quota-terminal",
+    "offpaid-stock-conservation",
+    "funds-stock-unique-e5e15b55-1eb2-464c-9784-c2b21f245c6d",
+    "offpaid-actual-A-quota-terminal",
+    "seven-services-healthy-no-observed-oom"
+  ],
+  "accountingFacts": {
+    "success": {
+      "goodsId": "1271c5d3-07fd-4769-ab15-0d8318695d2d",
+      "inventory": {
+        "sold": 2,
+        "reserved": 0,
+        "available": 8
+      },
+      "orders": [
+        {
+          "orderId": "75f129ed-cc66-489c-a070-f764ec079ac6",
+          "review": 0,
+          "status": "GROUP_COMPLETED",
+          "payments": 1,
+          "lastError": null,
+          "paidAmount": 90.0,
+          "reservation": "CONFIRMED",
+          "fulfillments": 1,
+          "confirmLedgers": 1,
+          "refundedAmount": 0,
+          "releaseLedgers": 0,
+          "channelSuccesses": 1,
+          "refundReleaseRows": 0,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 1,
+            "refundedAmount": 0,
+            "paidTimeMatches": 1,
+            "refundSuccesses": 0
+          },
+          "aAcceptedFacts": {
+            "refundId": null,
+            "paymentId": "d632a7fc-d690-4336-835c-08ed0c17d0e4",
+            "paidAmount": 90.0,
+            "refundAmount": null,
+            "refundStatus": null
+          }
+        },
+        {
+          "orderId": "98d948c9-d003-43e8-8cb6-96b8b9e173b0",
+          "review": 0,
+          "status": "GROUP_COMPLETED",
+          "payments": 1,
+          "lastError": null,
+          "paidAmount": 90.0,
+          "reservation": "CONFIRMED",
+          "fulfillments": 1,
+          "confirmLedgers": 1,
+          "refundedAmount": 0,
+          "releaseLedgers": 0,
+          "channelSuccesses": 1,
+          "refundReleaseRows": 0,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 1,
+            "refundedAmount": 0,
+            "paidTimeMatches": 1,
+            "refundSuccesses": 0
+          },
+          "aAcceptedFacts": {
+            "refundId": null,
+            "paymentId": "3c5799bb-106b-457f-9009-179e06af4343",
+            "paidAmount": 90.0,
+            "refundAmount": null,
+            "refundStatus": null
+          }
+        }
+      ],
+      "exactAQuota": {
+        "paid": 2,
+        "reserved": 2
+      },
+      "aTeam": {
+        "locked": 2,
+        "status": "COMPLETED",
+        "target": 2,
+        "teamId": "169bbd87-16e7-4220-9974-a7232932b272",
+        "expired": false,
+        "complete": 2
+      }
+    },
+    "expiry": {
+      "goodsId": "9605f8c8-d188-4506-b763-78201ba99305",
+      "inventory": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      },
+      "orders": [
+        {
+          "orderId": "e9fbf36d-7afa-4860-830b-f7fe296c9fb0",
+          "review": 1,
+          "status": "CLOSED",
+          "payments": 1,
+          "lastError": "TEAM_FAILED",
+          "paidAmount": 90.0,
+          "reservation": "RELEASED",
+          "fulfillments": 0,
+          "confirmLedgers": 0,
+          "refundedAmount": 90.0,
+          "releaseLedgers": 1,
+          "channelSuccesses": 1,
+          "refundReleaseRows": 1,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 1,
+            "refundedAmount": 90.0,
+            "paidTimeMatches": 1,
+            "refundSuccesses": 1
+          },
+          "aAcceptedFacts": {
+            "refundId": "8147bd75-f0f3-4bbe-ba4c-9b646e77172a",
+            "paymentId": "b352a832-5afc-4f06-8d9d-2cad0956c785",
+            "paidAmount": 90.0,
+            "refundAmount": 90.0,
+            "refundStatus": "SUCCEEDED"
+          }
+        }
+      ],
+      "exactAQuota": {
+        "paid": 1,
+        "reserved": 1
+      },
+      "reconciliation": {
+        "state": "RESOLVED",
+        "members": 1,
+        "finalized": 1,
+        "submission": "ACKNOWLEDGED"
+      },
+      "aTeam": {
+        "locked": 1,
+        "status": "FAILED",
+        "target": 2,
+        "teamId": "f57abdf0-d3db-4102-ba6e-851a6e74a6aa",
+        "expired": true,
+        "complete": 1
+      }
+    },
+    "cancel": {
+      "goodsId": "1044c454-57b6-4d4e-aff1-10a04fe7bad2",
+      "inventory": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      },
+      "orders": [
+        {
+          "orderId": "e39ceedb-50a5-48ae-a7b2-903cf4ae061c",
+          "review": 0,
+          "status": "CLOSED",
+          "payments": 0,
+          "lastError": null,
+          "paidAmount": 0,
+          "reservation": "RELEASED",
+          "fulfillments": 0,
+          "confirmLedgers": 0,
+          "refundedAmount": 0,
+          "releaseLedgers": 1,
+          "channelSuccesses": 0,
+          "refundReleaseRows": 0,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 0,
+            "refundedAmount": 0,
+            "paidTimeMatches": 0,
+            "refundSuccesses": 0
+          },
+          "aAcceptedFacts": {
+            "refundId": null,
+            "paymentId": null,
+            "paidAmount": null,
+            "refundAmount": null,
+            "refundStatus": null
+          }
+        }
+      ],
+      "exactAQuota": {
+        "paid": 0,
+        "reserved": 0
+      },
+      "aTeam": {
+        "locked": 0,
+        "status": "FORMING",
+        "target": 2,
+        "teamId": "51bb2c9e-0aca-4db2-b394-d60e239766c2",
+        "expired": false,
+        "complete": 0
+      }
+    },
+    "offpaid": {
+      "goodsId": "728c1a7c-22b5-4018-864d-114a0ecb33aa",
+      "inventory": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      },
+      "orders": [
+        {
+          "orderId": "e5e15b55-1eb2-464c-9784-c2b21f245c6d",
+          "review": 1,
+          "status": "CLOSED",
+          "payments": 1,
+          "lastError": "TEAM_FAILED",
+          "paidAmount": 90.0,
+          "reservation": "RELEASED",
+          "fulfillments": 0,
+          "confirmLedgers": 0,
+          "refundedAmount": 90.0,
+          "releaseLedgers": 1,
+          "channelSuccesses": 1,
+          "refundReleaseRows": 1,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 1,
+            "refundedAmount": 90.0,
+            "paidTimeMatches": 1,
+            "refundSuccesses": 1
+          },
+          "aAcceptedFacts": {
+            "refundId": "79f7eb92-1ac8-4878-8d6d-27a5d9763c36",
+            "paymentId": "2f262f12-9e88-4d5e-9c05-fb5a177bb639",
+            "paidAmount": 90.0,
+            "refundAmount": 90.0,
+            "refundStatus": "SUCCEEDED"
+          }
+        }
+      ],
+      "exactAQuota": {
+        "paid": 1,
+        "reserved": 1
+      },
+      "reconciliation": {
+        "state": "RESOLVED",
+        "members": 1,
+        "finalized": 1,
+        "submission": "ACKNOWLEDGED"
+      },
+      "aTeam": {
+        "locked": 1,
+        "status": "FAILED",
+        "target": 2,
+        "teamId": "b0442f0c-d9a4-4784-85b6-18b840414eee",
+        "expired": true,
+        "complete": 1
+      }
+    }
+  },
+  "mainUnchanged": {
+    "status": "PASS",
+    "mainBusinessDigestsBefore": {
+      "products": "49561A482C7CB83700481AD0BE22C861D421305FE244310AA3324EF635833104",
+      "sync": "C5CEA91535F16B849A94017ACF0BACFCA6C722C30244B95E449D9B3FE0465CE9",
+      "inventory": "39808C88E85089DD47B923A9A04535F4545053047FF5D117B4601B05C2AFFDF2",
+      "projection": "D58A6A10105ABB740FA9906815BF8CEF802EA8E84CE1A8A11B2C65270FBABD32",
+      "bindings": "8BD8EE402F94035A6A3DB654F56534D6A147E5FDEB3CC7AEE3636E7B9BC7F210",
+      "activities": "07A3C78A36AA451C2176FC7A1A6535E914208BD00E9C58A5E978A4606938AD9C",
+      "discounts": "CFD78125EE18ACC8F411C253D59A82B84E20E716BFD0B45877287AF372C49115",
+      "orders": "7EC499B7C20E773D9D803E4A18A5ACFFC9319C28312549DBB7243D30A78DFE63",
+      "payments": "BEA3A54DDE8C347F271AF2766F11F2972E1B667291A3C0A1E9CEB5CFC7C5C381",
+      "refunds": "D6AFDD31C43C2421F5E03CBCD350128672057D466752D9A3BC862DD6DDDC98F1",
+      "teams": "03946F48AF8A43E35F1F8D8F0855824AF1B84E0F18E644129CF4F8CCDF21C89F",
+      "aOrders": "28FC5FDD95727A3E22C9E7E996A566059DD09B9F00E5BEEE7C8D86207E6156BE",
+      "work": "F202A5283BDA610DE7EEE1265112FF825C6F2C85B59438A5A93602826BB6CC3A",
+      "blocks": "B08704BEBE99B4E642407FEB7E208818FA069FD3483D04F0903DC81485C0610B",
+      "fulfillment": "F6BB4D3EDC5FB9FD37CD98F69F9B8CE9CA167EFD5932E6DB9D785AFD2A33C71A",
+      "ledger": "01BD4ABF9D52ADDFCE786683263AD6DFFEB84CFD870773A7847989222935B905",
+      "reservations": "92E596A66E6621C69AB4A3A4E193686FC648B2548A7B38FCD529AAEF24425B20",
+      "orderSnapshots": "0753A67BC2FA979FB15189FB343A46C7E823E607816EB54DC28D0C2B8A44148A"
+    },
+    "mainBusinessDigestsAfter": {
+      "products": "49561A482C7CB83700481AD0BE22C861D421305FE244310AA3324EF635833104",
+      "sync": "C5CEA91535F16B849A94017ACF0BACFCA6C722C30244B95E449D9B3FE0465CE9",
+      "inventory": "39808C88E85089DD47B923A9A04535F4545053047FF5D117B4601B05C2AFFDF2",
+      "projection": "D58A6A10105ABB740FA9906815BF8CEF802EA8E84CE1A8A11B2C65270FBABD32",
+      "bindings": "8BD8EE402F94035A6A3DB654F56534D6A147E5FDEB3CC7AEE3636E7B9BC7F210",
+      "activities": "07A3C78A36AA451C2176FC7A1A6535E914208BD00E9C58A5E978A4606938AD9C",
+      "discounts": "CFD78125EE18ACC8F411C253D59A82B84E20E716BFD0B45877287AF372C49115",
+      "orders": "7EC499B7C20E773D9D803E4A18A5ACFFC9319C28312549DBB7243D30A78DFE63",
+      "payments": "BEA3A54DDE8C347F271AF2766F11F2972E1B667291A3C0A1E9CEB5CFC7C5C381",
+      "refunds": "D6AFDD31C43C2421F5E03CBCD350128672057D466752D9A3BC862DD6DDDC98F1",
+      "teams": "03946F48AF8A43E35F1F8D8F0855824AF1B84E0F18E644129CF4F8CCDF21C89F",
+      "aOrders": "28FC5FDD95727A3E22C9E7E996A566059DD09B9F00E5BEEE7C8D86207E6156BE",
+      "work": "F202A5283BDA610DE7EEE1265112FF825C6F2C85B59438A5A93602826BB6CC3A",
+      "blocks": "B08704BEBE99B4E642407FEB7E208818FA069FD3483D04F0903DC81485C0610B",
+      "fulfillment": "F6BB4D3EDC5FB9FD37CD98F69F9B8CE9CA167EFD5932E6DB9D785AFD2A33C71A",
+      "ledger": "01BD4ABF9D52ADDFCE786683263AD6DFFEB84CFD870773A7847989222935B905",
+      "reservations": "92E596A66E6621C69AB4A3A4E193686FC648B2548A7B38FCD529AAEF24425B20",
+      "orderSnapshots": "0753A67BC2FA979FB15189FB343A46C7E823E607816EB54DC28D0C2B8A44148A"
+    },
+    "mainContainerIdsUnchanged": true,
+    "originalMainOrdersPreserved": 66,
+    "originalUXFactsPreserved": true,
+    "newOwnedProducts": 14,
+    "newOwnedActivities": 13,
+    "newInboundLedgers": 13,
+    "initialStockAdded": 190,
+    "ownedAcceptedOrders": 5,
+    "showcaseOrders": 0
+  },
+  "strictTLS": true,
+  "ignoreHTTPSErrors": false,
+  "regressions": [
+    {
+      "test": "team-discovery.mjs",
+      "exitCode": 0
+    },
+    {
+      "test": "ux02-purchase.mjs",
+      "exitCode": 0
+    },
+    {
+      "test": "ux03-flow.mjs",
+      "exitCode": 0
+    },
+    {
+      "test": "ux04-operator.mjs",
+      "exitCode": 0
+    }
+  ],
+  "productionBuild": "PASS vue-tsc + vite",
+  "runtimeAssets": {
+    "assets/index-DsiiuT2d.css": "9037BE6131F68A8D56740AC3ED3B440CF6D70CA40E1FC9E7D65CF2E6E2E4267F",
+    "assets/index-twMpb5jb.js": "AD3BAD95DA7AC856BFAE1D157FF4D734B3631D515C0D4A92A5957E3A00907F3E",
+    "catalog/bag.svg": "E28751295FC429D82653030D1D582DA242E2DCAC35F01EB3F078C77F88E16534",
+    "catalog/cup.svg": "BBA3E7EB4FF278735553C6277B7283102F67E2E2E0E2C687C4F4B7E3461701AE",
+    "catalog/cutlery.svg": "FAC40407A8EF0E789767DF4C1F9FC256A5E2EBF28C6F870600C9EB03140213D0",
+    "catalog/notebook.svg": "295C5F78F9BD1501FB6DE4213A179997A3A1D3AE2B2776553FD9D02CB8882F21",
+    "catalog/pouch.svg": "C792665E506C9E2FDDB18DA0A8B53D85B0777F2ADC1F48F1FD488075CFF6FB9F",
+    "catalog/stand.svg": "3A9C7FCE24CB15392AA0237588798A77200CA04009F09A08C262BBF3A81532E8",
+    "demo/ux04-bag.svg": "E6944AE58CB47A7FE2F09B41A9BEEB28BEB516BF094315C5BD57ED7452F07986",
+    "demo/ux04-cup.svg": "4FE905A40724D0939325AFBE235C47802280AD0076DA63D5772F444EC10B8EAD",
+    "index.html": "A1B59F252D55899FA3F2DB10A36D6C44C7565981C356F3FA23E98FAC5E9570C2"
+  },
+  "webRelease": {
+    "stage": "CAT-01.3",
+    "project": "zj-market-ux",
+    "tag": "zj-market-ux/web:cat03-20261020-01",
+    "imageId": "sha256:f85131ff30aa0835dbbf5d52184596ed646e765af3fa244f5a1ba2ee9fbfc862",
+    "previousWebImage": "sha256:fdd4072544a5290a3d51f58b8d1cbd83cac02bcb6eb2a20abaf9f3b3a9bbc145",
+    "archiveSha256": "3A2CEBB5BD76B72580C1F2611C352F5CFBD9D29A3213C00DE204BA237E79BD8D",
+    "backendChanged": false,
+    "schemaChanged": false,
+    "mainDeployed": false
+  },
+  "environment": {
+    "stable": {
+      "status": "READY",
+      "project": "zj-market-b06",
+      "release": "ux05-stable-20261019-01"
+    },
+    "ux": "UX_GATE_OPEN",
+    "isolation": [
+      "zj-market-b06: seven healthy services, all binds and volumes owned",
+      "zj-market-ux: seven healthy services, all binds and volumes owned",
+      "distinct five-network and five-volume identities",
+      "different loopback ports; main frozen web and accepted UX catalogue web; separate A/B containers",
+      "UX origin, internal RPC/MQ and separate browser profile configured"
+    ]
+  },
+  "runtimeProductsSha256": "FBDC9B6CD776ACEE2ABF721D2304BB09E1A55E66DE73F7632236363DBFAEA04A",
+  "evidenceLockSha256": "FB59686B69514C09F85BED417C94A87B9DBE371E10C8CE64AC4525925941EE23",
+  "rawEvidenceSha256": {
+    "accounting-before-cleanup.json": "745A428F7855B68DF3CB0CFA6685D8E458107DF84139A900E4B2E8AC361512B2",
+    "accounting-report.json": "71CD4565422D70450655D2A9D01B10943656E27F85CE7B76E223770F44D96100",
+    "browser-report.json": "BA46B1E34D984ADB2427203BE7261530006EB2AB36CB0CA4B2903372F19629D4",
+    "final-browser.json": "CBB2943B25669826E4FBD024BAA1B5DD54DBCA880C97D2613416F5CE55DB2758",
+    "repeat-preparation.json": "BF7E2BE73A2FAD9454F406DA82E691663E1C6F6951EC2FE2A2402AABA3CA79A2",
+    "cleanup.json": "4AC7BA09A43B15EA5B23D6F49FE246C2BA83587D55440D3B5CD6C2D2E5E0698F",
+    "cleanup-repeat.json": "D25BF4AD2CEEE11EABEAEBBCDF5568B3B71E77391C90F42A93977BC408B6D0E4",
+    "sync-delay.json": "C9C02D8E70858F35545828B0284387D1E219B9E455C59E436235445FEA9A8AF1",
+    "stockout.json": "2DC40E5A783EE177207C34343F2B9EA0E7DDE4051EC1CE2ED8E3E0CA461EA764",
+    "guards.json": "11289ADDEEBD26D56EFD7715252948051610E572737E7D59A0C762C0FC99B575",
+    "final-proof.json": "F502DEE0B516784E19270CD7FA01BE7A043C34E91BAFD9461DD080CF41DBCDF7"
+  },
+  "sourceSha256": {
+    "scripts/cat03-accounting.py": "0946ED00FC8162DA3468AC8D50543D4F1D12A674F135DFAB909EE02118590841",
+    "scripts/cat03-browser.mjs": "63B0E47BA487A921064CC4CE6F5636871409E7140C2114FA4420BBC48AD01201",
+    "scripts/cat03-evidence.py": "30978B2078A06F9FC48F39743B9713A7B5AA4F8C83DB08D4A5C9D27C25BB8F2B",
+    "scripts/cat03-final-browser.mjs": "9E629ACE1891E9E1F6F0FAD8C2490E85755BFD814008C9F7E830F23C6FFC58D5",
+    "scripts/cat03-finalize.py": "B08EA4E5D4DC026E3D12851EF525BC76319DE4869EDD45FA5B1F599C511E701D",
+    "scripts/cat03-isolation.py": "302143945EFA53082B18EFA8B3DB7586896E5B8A9CE14C9434B514871AF9F112",
+    "scripts/cat03-lib.mjs": "52296CDC154E9D9F6A4F413F062A1E027DB20AA70197F1E553B64F438E8A827E",
+    "scripts/cat03-products.mjs": "7D03116EBB34C257BC2C726512B82338CCD3D965157C2B1CA5A37C858C41403A",
+    "scripts/cat03-run.py": "20031B06089B3DB35CCC3BE1CF84C292A71117E73E177277D958A7FC845E7141"
+  },
+  "screenshots": {
+    "badimage-state.png": "E1C9576F62F543DB8ADF04E076C2FBE8D44ACE3B433D65DDEFE75811FD9401E0",
+    "completed-75f129ed-cc66-489c-a070-f764ec079ac6.png": "2EA5DE8CA22A8BDFB35950014E4EF4A5707621F5C3B3E57D534565840BB1C43C",
+    "completed-98d948c9-d003-43e8-8cb6-96b8b9e173b0.png": "DAF7E9539BB1E8DDB2B18D8D29A16ACDC8E505B5166EFB6A81F9C8167B1581F8",
+    "final-showcase-1440.png": "7343AADA0EA3A2A1C8A528E0E8C31BF8E276A0CD44A9B826480FB056002F4BD2",
+    "final-showcase-390.png": "4EE1170282F44563F36F281AA0007347BF48CDB79AD09F31054DBA87B95566B9",
+    "natural-expiry-refund.png": "20092D17A6F7E88B0929C605265D3553C6F09B089F29699781DCC96AB24BEF6E",
+    "noactivity-state.png": "64F49DB99A40BDF755E8E7DC8F6F58C68C94CA78E93A05D67A1284866279D27C",
+    "off-sale-original-refund.png": "EC192560B11D058B119A7B02DB03789B09AF37D01D0F85903A9009E5F9FBEC7D",
+    "operator-refund.png": "748CE93086AF3E9A99C0325828A61C21854AAD237DBA959D090A890D8E9BD932",
+    "refund-mobile.png": "D50F4ED1A5583D14BF2B6A8FA07B992D1DE545844AB0F5028541FE9A6CE620E2",
+    "showcase-1280.png": "33EDF9F180ABC70B12BA18F92CA9711E1556DDD6547BF8C48EC57B4CF39585D8",
+    "showcase-1440.png": "3BCC6F69CB5355F2F561015C9E333EA121D7B07D8E04C82EEF67DBBAFBF3C3F9",
+    "showcase-360.png": "7876CA10AC6DC3311BD08C432E72E4530A9655CD01D288C4DE12EE3DA5DB9BD1",
+    "showcase-390.png": "0688641DFB7D620FB33001979E3818EAF121A4660AF56B7023D6E2E2818F52D1",
+    "stockout-state.png": "9F331D6EF72C183942F6398E74BB74D506635A173E3C7A8AF501CB8D5C38EA34",
+    "unpaid-original-order.png": "AFF6CD256E545D74D0FBF29602134BA02B23E23C1D20E7AE3F587A5C67309B4F"
+  },
+  "boundaries": [
+    "UX-only: no main catalogue, stock, activity, order or runtime deployment change",
+    "Receipt-loss variants are controlled injections after real backend acceptance, with original identities retained",
+    "Daily products use authored demo prices/specifications and original illustrations, not real fulfillment",
+    "Only this batch of eight ACCEPTANCE goods was retired; older UX fixtures and all main samples were retained",
+    "CAT-01.4 main replacement and CAT-01.5 final main acceptance remain pending",
+    "Preexisting historical reconciliation/review/fulfillment obligations are preserved; not repaired by this stage",
+    "Any listed deferred compatibility coordination record is retained with exact ID; associated refund/release and A reconciliation are independently verified complete. Empty unpaid teams may follow their natural deadline; no forced team close"
+  ],
+  "retainedCurrentBatchCoordinationRecords": [
+    {
+      "kind": "TEAM_FAILED",
+      "state": "DEFERRED_B05",
+      "reasons": [
+        "TEAM_FAILED"
+      ],
+      "team_id": "f57abdf0-d3db-4102-ba6e-851a6e74a6aa",
+      "work_id": "77abe7a7-16e2-4d6e-96bc-d948717d55c7",
+      "order_id": "e9fbf36d-7afa-4860-830b-f7fe296c9fb0",
+      "payment_id": null,
+      "business_key": "de190a4121dd5e2b44d6cbd306526fd08fb6ac0796c8e33c0584cd3b625a2bff"
+    }
+  ],
+  "pendingCurrentBatchFinancialObligations": 0,
+  "emptyUnpaidTeamsStillFollowingNaturalDeadline": [
+    {
+      "source": "b06",
+      "channel": "web",
+      "team_id": "51bb2c9e-0aca-4db2-b394-d60e239766c2",
+      "goods_id": "1044c454-57b6-4d4e-aff1-10a04fe7bad2",
+      "paid_count": 0,
+      "activity_id": 700009,
+      "team_status": "FORMING",
+      "target_count": 2,
+      "team_version": 2,
+      "reserved_count": 0,
+      "valid_end_time": "2026-10-20 04:46:06.854000",
+      "valid_start_time": "2026-10-20 04:16:06.854000"
+    }
+  ]
+}

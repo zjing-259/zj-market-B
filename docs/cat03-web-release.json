@@ -1,0 +1,11 @@
+{
+  "stage": "CAT-01.3",
+  "project": "zj-market-ux",
+  "tag": "zj-market-ux/web:cat03-20261020-01",
+  "imageId": "sha256:f85131ff30aa0835dbbf5d52184596ed646e765af3fa244f5a1ba2ee9fbfc862",
+  "previousWebImage": "sha256:fdd4072544a5290a3d51f58b8d1cbd83cac02bcb6eb2a20abaf9f3b3a9bbc145",
+  "archiveSha256": "3A2CEBB5BD76B72580C1F2611C352F5CFBD9D29A3213C00DE204BA237E79BD8D",
+  "backendChanged": false,
+  "schemaChanged": false,
+  "mainDeployed": false
+}
