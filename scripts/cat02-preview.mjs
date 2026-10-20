@@ -1,0 +1,11 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import { pathToFileURL } from 'node:url'
+import { createRequire } from 'node:module'
+const root=path.resolve(import.meta.dirname,'..'),data=JSON.parse(fs.readFileSync(path.join(root,'docs/catalog-products.json'),'utf8'))
+const output=path.join(root,'.local/cat/cat01-2-20261020-01');fs.mkdirSync(output,{recursive:true})
+const html='<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>正经商城商品资料预览</title><style>body{margin:36px;background:#f6f7f9;color:#1f2937;font:18px "Microsoft YaHei",sans-serif}h1{font-size:28px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}article{background:white;border:1px solid #dce2eb;border-radius:16px;padding:18px}img{width:100%;height:270px;object-fit:contain}h2{font-size:21px;margin:12px 0}p{margin:9px 0;font-size:15px}.price{color:#2457a8;font-size:21px}</style><h1>正经商城 · 日常演示商品</h1><p>原创插画，非实物照片；演示定价，不真实扣款或发货。</p><div class="grid">'+data.products.map(p=>'<article><img alt="'+p.alt+'" src="'+pathToFileURL(path.join(root,p.image.repositoryPath))+'"><h2>'+p.goodsName+'</h2><p>'+p.specification+'</p><p class="price">原价 ¥'+p.originalPrice+' · 两人团 ¥'+p.payPrice+'</p></article>').join('')+'</div></html>'
+const file=path.join(output,'contact-sheet.html');fs.writeFileSync(file,html)
+const { chromium }=createRequire(path.join(root,'frontend/package.json'))('playwright-core')
+const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe'})
+try{const page=await browser.newPage({viewport:{width:1440,height:1120}});await page.goto(pathToFileURL(file).href);await page.locator('img').evaluateAll(imgs=>Promise.all(imgs.map(img=>img.decode())));const ok=await page.locator('img').evaluateAll(imgs=>imgs.length===6&&imgs.every(i=>i.naturalWidth>0&&i.naturalHeight>0));if(!ok)throw Error('Asset render failed');await page.screenshot({path:path.join(output,'catalog-contact-sheet.png'),fullPage:true});fs.writeFileSync(path.join(output,'preview.json'),JSON.stringify({status:'PASS',loadedImages:6,viewport:{width:1440,height:1120},originalIllustrations:true},null,2)+'\n');console.log('CAT02_SIX_IMAGES_RENDER_PASS')}finally{await browser.close()}
