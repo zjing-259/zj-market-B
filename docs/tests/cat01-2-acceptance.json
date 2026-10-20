@@ -1,0 +1,37 @@
+{
+  "stage": "CAT-01.2",
+  "status": "PASS",
+  "stageCompleted": true,
+  "products": 6,
+  "runtimeProductWrites": 0,
+  "contentVersion": "cat-content-20261020-01",
+  "contentSha256": "A0AFCD91ADE0E5AB01C649DD02F401B810B4607EA2B82A9648D58DC5DA5A2E67",
+  "imageSha256": {
+    "/catalog/cup.svg": "BBA3E7EB4FF278735553C6277B7283102F67E2E2E0E2C687C4F4B7E3461701AE",
+    "/catalog/bag.svg": "E28751295FC429D82653030D1D582DA242E2DCAC35F01EB3F078C77F88E16534",
+    "/catalog/notebook.svg": "295C5F78F9BD1501FB6DE4213A179997A3A1D3AE2B2776553FD9D02CB8882F21",
+    "/catalog/pouch.svg": "C792665E506C9E2FDDB18DA0A8B53D85B0777F2ADC1F48F1FD488075CFF6FB9F",
+    "/catalog/cutlery.svg": "FAC40407A8EF0E789767DF4C1F9FC256A5E2EBF28C6F870600C9EB03140213D0",
+    "/catalog/stand.svg": "3A9C7FCE24CB15392AA0237588798A77200CA04009F09A08C262BBF3A81532E8"
+  },
+  "checks": [
+    "six-daily-Chinese-products-with-specs-and-description",
+    "positive-demo-prices-and-10-yuan-reductions",
+    "stock-and-activity-plan-explicit",
+    "original-800-square-SVGs-with-source-author-date-usage-hashes",
+    "no-third-party-or-external-assets",
+    "six-images-rendered-in-real-Edge",
+    "no-runtime-product-creation"
+  ],
+  "previewSha256": "D46B50424E22DFAB47A233183D2218F09E36E979EAEFB2BD34CA875E47C9AEA7",
+  "sourceSha256": {
+    "scripts/cat02-validate.py": "DE66AA4549E455107170598F00F4A72257495386A30CE90212949121E6F9E67C",
+    "scripts/cat02-preview.mjs": "3284900AFA211CF5A0674DF7115AC3F6289700351AD17B3CF6A5BF8730044DF8"
+  },
+  "nextStage": "CAT-01.3; UX-only preparation and acceptance",
+  "boundaries": [
+    "Illustrations and specifications are demonstration content, not real product photography or certifications",
+    "Demo pricing is authored, not a market price or actual promotion",
+    "No main-site catalogue, stock, activity or order change"
+  ]
+}

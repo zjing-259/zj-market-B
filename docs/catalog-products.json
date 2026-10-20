@@ -1,0 +1,195 @@
+{
+  "format": 1,
+  "stage": "CAT-01.2",
+  "version": "cat-content-20261020-01",
+  "pricing": "项目演示定价，并非市场价格调查或促销承诺",
+  "fulfillment": "模拟支付，不真实发货",
+  "products": [
+    {
+      "contentId": "CAT-S01",
+      "key": "cup",
+      "goodsName": "雾蓝随行杯",
+      "description": "日常通勤或书桌使用的随行杯示意商品。杯盖与杯身以圆润轮廓呈现，便于搭配帆布袋出行。 规格：450 mL，约 8 × 18 cm，雾蓝色。 饮品容器示意；容量和尺寸仅为演示规格，不宣称保温、防漏或食品接触认证。 本商品用于商城功能演示，不产生真实扣款或发货。",
+      "specification": "450 mL，约 8 × 18 cm，雾蓝色",
+      "originalPrice": "39.90",
+      "payPrice": "29.90",
+      "currency": "CNY",
+      "initialStock": "20",
+      "activity": {
+        "discountPlan": "ZJ",
+        "reduction": "10.00",
+        "targetCount": 2,
+        "validMinutes": 120,
+        "windowDays": 30,
+        "takeLimitCount": 10
+      },
+      "imagePath": "/catalog/cup.svg",
+      "alt": "雾蓝随行杯商品插画",
+      "image": {
+        "repositoryPath": "frontend/public/catalog/cup.svg",
+        "sha256": "BBA3E7EB4FF278735553C6277B7283102F67E2E2E0E2C687C4F4B7E3461701AE",
+        "author": "Codex 为本项目编写",
+        "sourceType": "PROJECT_ORIGINAL_SVG",
+        "sourceUrl": null,
+        "createdDate": "2026-10-20",
+        "usage": "项目演示用途；不含第三方素材、商标或外链；不是实物照片",
+        "modifications": "本轮原创绘制"
+      }
+    },
+    {
+      "contentId": "CAT-S02",
+      "key": "bag",
+      "goodsName": "原色帆布袋",
+      "description": "用于装书本、文件和日常小物的帆布袋示意商品。原色袋身配简洁口袋，适合通勤与短途采购场景。 规格：约 34 × 38 cm，提手约 24 cm，原色。 单个袋子，不含图中以外配件；尺寸为演示规格，不宣称承重性能。 本商品用于商城功能演示，不产生真实扣款或发货。",
+      "specification": "约 34 × 38 cm，提手约 24 cm，原色",
+      "originalPrice": "29.90",
+      "payPrice": "19.90",
+      "currency": "CNY",
+      "initialStock": "20",
+      "activity": {
+        "discountPlan": "ZJ",
+        "reduction": "10.00",
+        "targetCount": 2,
+        "validMinutes": 120,
+        "windowDays": 30,
+        "takeLimitCount": 10
+      },
+      "imagePath": "/catalog/bag.svg",
+      "alt": "原色帆布袋商品插画",
+      "image": {
+        "repositoryPath": "frontend/public/catalog/bag.svg",
+        "sha256": "E28751295FC429D82653030D1D582DA242E2DCAC35F01EB3F078C77F88E16534",
+        "author": "Codex 为本项目编写",
+        "sourceType": "PROJECT_ORIGINAL_SVG",
+        "sourceUrl": null,
+        "createdDate": "2026-10-20",
+        "usage": "项目演示用途；不含第三方素材、商标或外链；不是实物照片",
+        "modifications": "本轮原创绘制"
+      }
+    },
+    {
+      "contentId": "CAT-S03",
+      "key": "notebook",
+      "goodsName": "方格随手本",
+      "description": "适合记录待办、课程笔记与日常灵感的方格本示意商品。清爽封面与方格内页便于表达常见文具使用场景。 规格：A5 约 14.8 × 21 cm，80 页，鼠尾草绿。 单本，无笔；页数和纸张外观为演示规格，不作纸张性能承诺。 本商品用于商城功能演示，不产生真实扣款或发货。",
+      "specification": "A5 约 14.8 × 21 cm，80 页，鼠尾草绿",
+      "originalPrice": "19.90",
+      "payPrice": "9.90",
+      "currency": "CNY",
+      "initialStock": "20",
+      "activity": {
+        "discountPlan": "ZJ",
+        "reduction": "10.00",
+        "targetCount": 2,
+        "validMinutes": 120,
+        "windowDays": 30,
+        "takeLimitCount": 10
+      },
+      "imagePath": "/catalog/notebook.svg",
+      "alt": "方格随手本商品插画",
+      "image": {
+        "repositoryPath": "frontend/public/catalog/notebook.svg",
+        "sha256": "295C5F78F9BD1501FB6DE4213A179997A3A1D3AE2B2776553FD9D02CB8882F21",
+        "author": "Codex 为本项目编写",
+        "sourceType": "PROJECT_ORIGINAL_SVG",
+        "sourceUrl": null,
+        "createdDate": "2026-10-20",
+        "usage": "项目演示用途；不含第三方素材、商标或外链；不是实物照片",
+        "modifications": "本轮原创绘制"
+      }
+    },
+    {
+      "contentId": "CAT-S04",
+      "key": "pouch",
+      "goodsName": "拉链收纳袋",
+      "description": "用于分类放置充电线、文具或随身小物的拉链收纳袋示意商品。方正袋身与提环设计使日常整理场景更直观。 规格：约 22 × 14 × 6 cm，暖砂色。 单个空袋，不含收纳物；不宣称防水或抗冲击性能。 本商品用于商城功能演示，不产生真实扣款或发货。",
+      "specification": "约 22 × 14 × 6 cm，暖砂色",
+      "originalPrice": "24.90",
+      "payPrice": "14.90",
+      "currency": "CNY",
+      "initialStock": "20",
+      "activity": {
+        "discountPlan": "ZJ",
+        "reduction": "10.00",
+        "targetCount": 2,
+        "validMinutes": 120,
+        "windowDays": 30,
+        "takeLimitCount": 10
+      },
+      "imagePath": "/catalog/pouch.svg",
+      "alt": "拉链收纳袋商品插画",
+      "image": {
+        "repositoryPath": "frontend/public/catalog/pouch.svg",
+        "sha256": "C792665E506C9E2FDDB18DA0A8B53D85B0777F2ADC1F48F1FD488075CFF6FB9F",
+        "author": "Codex 为本项目编写",
+        "sourceType": "PROJECT_ORIGINAL_SVG",
+        "sourceUrl": null,
+        "createdDate": "2026-10-20",
+        "usage": "项目演示用途；不含第三方素材、商标或外链；不是实物照片",
+        "modifications": "本轮原创绘制"
+      }
+    },
+    {
+      "contentId": "CAT-S05",
+      "key": "cutlery",
+      "goodsName": "便携餐具盒",
+      "description": "适合展示午餐携带场景的餐具盒示意商品。盒内分区呈现筷、勺与叉，外观简洁，方便理解套装组成。 规格：约 21 × 6 × 3 cm，薄荷色；筷、勺、叉各一件。 组成和尺寸为演示规格，不宣称材质认证、耐热或消毒能力。 本商品用于商城功能演示，不产生真实扣款或发货。",
+      "specification": "约 21 × 6 × 3 cm，薄荷色；筷、勺、叉各一件",
+      "originalPrice": "35.90",
+      "payPrice": "25.90",
+      "currency": "CNY",
+      "initialStock": "20",
+      "activity": {
+        "discountPlan": "ZJ",
+        "reduction": "10.00",
+        "targetCount": 2,
+        "validMinutes": 120,
+        "windowDays": 30,
+        "takeLimitCount": 10
+      },
+      "imagePath": "/catalog/cutlery.svg",
+      "alt": "便携餐具盒商品插画",
+      "image": {
+        "repositoryPath": "frontend/public/catalog/cutlery.svg",
+        "sha256": "FAC40407A8EF0E789767DF4C1F9FC256A5E2EBF28C6F870600C9EB03140213D0",
+        "author": "Codex 为本项目编写",
+        "sourceType": "PROJECT_ORIGINAL_SVG",
+        "sourceUrl": null,
+        "createdDate": "2026-10-20",
+        "usage": "项目演示用途；不含第三方素材、商标或外链；不是实物照片",
+        "modifications": "本轮原创绘制"
+      }
+    },
+    {
+      "contentId": "CAT-S06",
+      "key": "stand",
+      "goodsName": "折叠手机支架",
+      "description": "适合桌面看课程、视频通话或查看菜谱场景的手机支架示意商品。折线支撑与托槽外观清楚表达产品用途。 规格：底座约 10 × 8 cm，高约 12 cm，石墨灰。 不含手机；不承诺适配所有机型、角度范围或承重性能。 本商品用于商城功能演示，不产生真实扣款或发货。",
+      "specification": "底座约 10 × 8 cm，高约 12 cm，石墨灰",
+      "originalPrice": "29.90",
+      "payPrice": "19.90",
+      "currency": "CNY",
+      "initialStock": "20",
+      "activity": {
+        "discountPlan": "ZJ",
+        "reduction": "10.00",
+        "targetCount": 2,
+        "validMinutes": 120,
+        "windowDays": 30,
+        "takeLimitCount": 10
+      },
+      "imagePath": "/catalog/stand.svg",
+      "alt": "折叠手机支架商品插画",
+      "image": {
+        "repositoryPath": "frontend/public/catalog/stand.svg",
+        "sha256": "3A9C7FCE24CB15392AA0237588798A77200CA04009F09A08C262BBF3A81532E8",
+        "author": "Codex 为本项目编写",
+        "sourceType": "PROJECT_ORIGINAL_SVG",
+        "sourceUrl": null,
+        "createdDate": "2026-10-20",
+        "usage": "项目演示用途；不含第三方素材、商标或外链；不是实物照片",
+        "modifications": "本轮原创绘制"
+      }
+    }
+  ]
+}
