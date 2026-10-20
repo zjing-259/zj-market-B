@@ -1,6 +1,6 @@
 # UX 独立环境与 CAT 商品准备运行说明
 
-最新状态（2026-10-20）：CAT-01.2～CAT-01.4 已验收，UX 专用 Web 固定为 `sha256:f85131ff30aa0835dbbf5d52184596ed646e765af3fa244f5a1ba2ee9fbfc862`（标签 `zj-market-ux/web:cat03-20261020-01`）；主站已由独立稳定目录发布 CAT-01.4，六件日常商品在售、52 件确认样本已下架；主站与 UX 使用相同已验资源内容，但配置、账号、卷和网络独立。六件新日常商品在 UX 在售，八件本批专用样本留证后下架；见 [商品资料](../../docs/catalog-products.md)、[实际 ID](../../docs/cat03-ux-products.json)和 [CAT-01.3 验收](../../docs/tests/cat01-3-acceptance.json)。下述各阶段记录为历史基线。
+最新状态（2026-10-20）：CAT-01.1～CAT-01.5 均已验收，UX 专用 Web 固定为 `sha256:f85131ff30aa0835dbbf5d52184596ed646e765af3fa244f5a1ba2ee9fbfc862`（标签 `zj-market-ux/web:cat03-20261020-01`）；主站已由独立稳定目录发布 CAT-01.4，六件日常商品在售、52 件确认样本已下架；主站与 UX 使用相同已验资源内容，但配置、账号、卷和网络独立。六件新日常商品在 UX 在售，八件本批专用样本留证后下架；见 [商品资料](../../docs/catalog-products.md)、[实际 ID](../../docs/cat03-ux-products.json)和 [CAT-01.3 验收](../../docs/tests/cat01-3-acceptance.json)。下述各阶段记录为历史基线。
 
 UX-05 历史 Web 内容（两站均已升级，旧发布和归档保留）：运行 Image ID `sha256:fdd4072544a5290a3d51f58b8d1cbd83cac02bcb6eb2a20abaf9f3b3a9bbc145`，私有归档 `.local/ux04/images/web-ux04-20261019-01.tar` SHA-256 `F5B06A0AC7A9557BBA88C48ED7612243DB95F5BD7C9BB4FC3205214C61456622`，UX-05 当时 `B06_WEB_IMAGE` 指向 UX-04；当前已固定 CAT 专用内容 ID。UX-03 镜像和归档保留为前端回退点。控制器现按模式生成 `b.team-discovery.enabled`（开放 true、维护 false），修复 UX 实际待拼接口 404；复用原 A/B 镜像及索引。只读就绪、两站隔离和实际受信 Edge 浏览器均通过；完整验收见[UX 方案](../../docs/storefront-experience-optimization.md)。
 
@@ -60,3 +60,6 @@ CAT-01.3 当前准备与收尾入口：
 - 本批保留一条 DEFERRED_B05 兼容协调记录及空未付团队自然期限。前者对应退款／释放和 A 核对已独立证实完成，不清表或强改 DONE；主站原有待办及 UX 原业务记录均未修复或删除。
 
 CAT-01.4 已完成主站整理；当前两站隔离用 `python -B scripts/cat04-isolation.py`，历史 CAT-01.3 检查固定主站旧镜像，勿作为当前门禁。主站操作脚本为 `cat04-products.mjs`／`cat04-configure.py`／`cat04-release.py`，与 UX-only CAT03 批次隔开；当前主站状态见 [CAT-01.4](../../docs/tests/cat01-4-acceptance.json)及 [主站清单](../../docs/cat04-main-products.json)。主站私有运行输入仅来自稳定目录；本轮没有把 UX 数据库、卷、商品 ID 或凭据复制到主站。
+
+
+CAT-01.5 系列收尾（主站独立批次；UX 业务数据未变）：[最终验收](../../docs/tests/cat01-5-acceptance.json)和[精确样本](../../docs/cat05-main-samples.json)。七件主站样本已下架，正常六件无本批订单，两站运行仍沿用 CAT04／CAT03 资源镜像，未部署新代码。UX 源码中的 `cat05-run.py` 是明确的主站验收工具，只从稳定目录读取主站输入；不要把执行目录误当目标环境。日常主站及 UX ready 和 `cat04-isolation.py` 保持只读。旧 `ux05-joint.py prepare/browser` 与 `ux05-browser.mjs prepare/browser` 已封闭无 CAT 收尾的写入口，改用 CAT05 显式批次流程；旧报告及历史源码提交不覆盖。CAT03 工具仍只处理其 UX 自有批次，已封存批次不得重新发布。当前 CAT05 本批也禁止再跑交易；恢复和新批次说明见 [主站维护说明](D:/Java/zj-market/deploy/stable/README.md)。

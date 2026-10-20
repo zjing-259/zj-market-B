@@ -1,0 +1,655 @@
+{
+  "stage": "CAT-01.5",
+  "status": "PASS",
+  "stageCompleted": true,
+  "seriesCompleted": true,
+  "acceptedAt": "2026-10-20T15:19:29.228534+00:00",
+  "batch": "cat01-5-20261020-01",
+  "matrix": {
+    "CAT-T01": {
+      "status": "PASS",
+      "evidence": "CAT01.1 inventory + CAT04 retirement + CAT05 exact ownership"
+    },
+    "CAT-T02": {
+      "status": "PASS",
+      "evidence": "Final public 8; 7 current samples and 52 historical samples absent"
+    },
+    "CAT-T03": {
+      "status": "PASS",
+      "evidence": "4 real Edge viewports + failed image placeholder + six strict HTTPS image hashes"
+    },
+    "CAT-T04": {
+      "status": "PASS",
+      "evidence": "Actual current offers and versions; no-activity not purchasable"
+    },
+    "CAT-T05": {
+      "status": "PASS",
+      "evidence": "Main final OFF_SALE versions confirmed by A; delay/recovery proven separately on UX in CAT01.3"
+    },
+    "CAT-T06": {
+      "status": "PASS",
+      "evidence": "6 original inbound keys/unique ledgers + original-key repeat + backend stockout refusal"
+    },
+    "CAT-T07": {
+      "status": "PASS",
+      "evidence": "All original main rows/snapshot hashes and original stock/ledger preserved"
+    },
+    "CAT-T08": {
+      "status": "PASS",
+      "evidence": "Original off-sale order payment/cancel/full refund and final reads"
+    },
+    "CAT-T09": {
+      "status": "PASS",
+      "evidence": "Two-account OPEN/exact JOIN/payment/group + payment retry same root + A exact quota"
+    },
+    "CAT-T10": {
+      "status": "PASS",
+      "evidence": "Unpaid cancel unique release; two natural full refunds confirmed by A and stock"
+    },
+    "CAT-T11": {
+      "status": "PASS",
+      "evidence": "Evidence hash seal precedes owned cleanup; repeat no mutations; failed evidence retained"
+    },
+    "CAT-T12": {
+      "status": "PASS",
+      "evidence": "Buyer create/inbound 403, cross-owner order 404; operator keys/reasons/versions persisted"
+    },
+    "CAT-T13": {
+      "status": "PASS",
+      "evidence": "Main and UX independent; all UX facts and both container sets unchanged"
+    },
+    "CAT-T14": {
+      "status": "PASS",
+      "evidence": "Receipt-loss recovery and stale version rejection; sealed batch and legacy entry guards"
+    }
+  },
+  "normalShowcaseGoods": 6,
+  "normalShowcaseNewOrders": 0,
+  "ownedAcceptanceGoods": 7,
+  "ownedAcceptanceGoodsOffSale": 7,
+  "finalPublicGoods": 8,
+  "orders": 5,
+  "simulatedPaidAmount": "360.00",
+  "simulatedRefundedAmount": "180.00",
+  "simulatedNetAmount": "180.00",
+  "pendingCurrentBatchFinancialObligations": 0,
+  "proof": {
+    "status": "PASS",
+    "mainOriginalFactsPreserved": true,
+    "originalOrderCount": 66,
+    "originalLedgerCount": 191,
+    "uxAllBusinessFactsPreserved": true,
+    "allContainerIdsUnchanged": true,
+    "newSamples": 7,
+    "newOrders": 5,
+    "normalGoodsNewOrders": 0,
+    "newStockInboundCount": 6,
+    "newStockQuantity": 60,
+    "newLedgerCounts": {
+      "INBOUND": 6,
+      "RESERVE": 5,
+      "CONFIRM": 2,
+      "RELEASE": 3
+    },
+    "pendingFinancialAndReleaseObligations": {
+      "reservedStock": 0,
+      "pendingRefunds": 0,
+      "pendingPayments": 0,
+      "pendingRefundWork": 0
+    },
+    "originalMainDigests": {
+      "products": "96F4713B633D5C045E59E75947C011A2C8199C35FFE7B79CDCF6D9945EC95C57",
+      "sync": "D3BF8FA280C3843535A56FBA696FFE9EA40CF33B4021973BE7F1FB2C89BA4857",
+      "inventory": "4B7FA2F731BC581FE1DB6DAFF8CD22E679E01FB417528358C14B203933250C3A",
+      "projection": "153593FE36EF9295FB2D680ACC7F34B07F458D1C30FCFBF95EBEA346685BAE6F",
+      "bindings": "F38358EFFBE35B3ABBE714D95C26B9F3B91A68EFF0D3A23435D5492E32FE77E9",
+      "activities": "E5DE472879331222B3285013E6D7C3A56FBC0E776F8C22D6A9B5743343C2ABDA",
+      "discounts": "A93F7DC3D11E1A90D149EE7689B1AA3D6B44DA618294FFF0ACBBAE4B7EB4AEF7",
+      "orders": "7EC499B7C20E773D9D803E4A18A5ACFFC9319C28312549DBB7243D30A78DFE63",
+      "payments": "BEA3A54DDE8C347F271AF2766F11F2972E1B667291A3C0A1E9CEB5CFC7C5C381",
+      "refunds": "D6AFDD31C43C2421F5E03CBCD350128672057D466752D9A3BC862DD6DDDC98F1",
+      "teams": "03946F48AF8A43E35F1F8D8F0855824AF1B84E0F18E644129CF4F8CCDF21C89F",
+      "aOrders": "28FC5FDD95727A3E22C9E7E996A566059DD09B9F00E5BEEE7C8D86207E6156BE",
+      "work": "F202A5283BDA610DE7EEE1265112FF825C6F2C85B59438A5A93602826BB6CC3A",
+      "blocks": "B08704BEBE99B4E642407FEB7E208818FA069FD3483D04F0903DC81485C0610B",
+      "fulfillment": "F6BB4D3EDC5FB9FD37CD98F69F9B8CE9CA167EFD5932E6DB9D785AFD2A33C71A",
+      "ledger": "D0808B0D56AB812B388BCAD0F8A042D21B4F2B3986DC6E2D833B9CD9A0CA8DA9",
+      "reservations": "92E596A66E6621C69AB4A3A4E193686FC648B2548A7B38FCD529AAEF24425B20",
+      "orderSnapshots": "0753A67BC2FA979FB15189FB343A46C7E823E607816EB54DC28D0C2B8A44148A"
+    },
+    "currentMainDigests": {
+      "products": "63C66E292F3D4338049BC5CCD3F66BBF8571E0834068DEB8A67995B290BE62F3",
+      "sync": "B13BC4D28DC31929280F8254ABF732E6E8FBE53DD82967DB4C941204FF5AE953",
+      "inventory": "F1D81E6126351E43CA316B9D5EE2A806E3D4FA619C55D954415881CB821153ED",
+      "projection": "4620F829386237C210F81FFCB052A9134A73AEB69B3DF28F870546C261761DA7",
+      "bindings": "D9B8F8264AF4F7B12ED472838D91D65F691D6BFF44171A19504BF0189D6DD424",
+      "activities": "FBB7642A684C27ACB97B36D15A491C12BB77B1A2C106D9893811970CC060BA68",
+      "discounts": "FDA5AC35BE52F75C97CCA2DDE8DDBEFD19895559DD07CB081D8A07C41A19F234",
+      "orders": "F8E9D4F84CD765AEBCE1CC49130D33EC01E2634FB66F49BC95ECF42BD2C39ADB",
+      "payments": "38A2F50F29F38027D614D8C373391112C6C23980CB4DC4AF10A71E5AF5EDAD82",
+      "refunds": "D272B81DD9B199C1AEFA1B128CAD1B414084C520840FA39269FC1EBF0F6B0E29",
+      "teams": "D4D559E498286D5178139E57024C4BF1296C23612A3F6A3CBC5E7A098791729C",
+      "aOrders": "6429334844168B39230EE0275E8925C985C7E5AAC2D42D0DD66D41AE77B87F0B",
+      "work": "7D3DCAC9C892FEE7992E84EE8CEF96F86077501BB7A67EC325CFA8418365D806",
+      "blocks": "81A77391B0D4D7D8B674F7D7FB421784D21A848BB878AACA569E378285BF44D6",
+      "fulfillment": "D93D217F7D4B7189A71695808EBA0D6F55194A0CBEA21BF1FC02102B982DBFF3",
+      "ledger": "8F6CCB56229F6774FD45D6970025232A7AE96F2026BC8182D569004DE24C7E96",
+      "reservations": "BA7C05BA6C92624398A976B59B5F6FAF5BAC28B8A118F578668A4F41401F01F1",
+      "orderSnapshots": "B5841860E40E25B4025BDB9DE7D44C8F51A88E376DE9115940DC00A418D9736F"
+    },
+    "uxBeforeDigests": {
+      "products": "32B6D477FEF592092838A87003426B75D94FB373DAB9259D9E2D36E2FDC08324",
+      "sync": "0DF939730F7C9220D4C79B78B9E3AC945708EB6EB638D9CEE023D3E5BAEBB267",
+      "inventory": "9EA1B9B60C025AB22131A5914283AEF7B9D67479F46C0C8760DAC9EC5E0AF199",
+      "projection": "4871A6D31573CB995C89B168F80BAC7A41C06AB0E18EC1EDCDF85EB3920980C2",
+      "bindings": "8B235C31F6690E13C195045F09C5F4F6D8C4770B22693BFF32AB27F018A2B9DA",
+      "activities": "5B24275CD74E4EA0C988B772B43908ABB300DA69FB1E45A1E15A1C02B814AED6",
+      "discounts": "3476EA2891AF300BDC39A00CF947193D365426697AADE7012A053199BDBAD8F5",
+      "orders": "A8AD276EDA625F72121FB938CCF8F85E0A8357F0A953178FD4EEF816C2E13D22",
+      "payments": "7721CF5BD0E51C09DD802EFB102A5881B89E500D9713C62B9928AFAB8397F0FF",
+      "refunds": "052CEE56FFFC46A8680731CAF147159B4D1438B89386742A0E1B099820E44A90",
+      "teams": "6267327C7D5E47454B811D8279AA69DF40E4290FDE5ADBF9EF6D4543C5610FE2",
+      "aOrders": "EED8FB1B12032045307F7B16039947B5C1F07527DE3F771DD89171AF7C516C49",
+      "work": "BAE824EFAD7E5E9CA1DF64602AD1558F58458844F7DF252649D65D37B3BB922E",
+      "blocks": "AEC39FF8769195DE720DFDD489D84F81CCFE73D072BBB6A1087E0FAE843B5580",
+      "fulfillment": "6D4FED38EAFB838184B26E4DBEC8B26B97EC03B3ED6BF943E3CB6FFB065D9056",
+      "ledger": "06CCB5907867AA99A190BE22469DE37F885D6CC6E7CE76C92690A397B9BA31B1",
+      "reservations": "FE269C45A0A736D7C3D0DF2B264DA1E11CA4F5AD2DB03482FBD4B89A7085CB77",
+      "orderSnapshots": "1FDB7D6EF0464680AAA405711A5C79CDE6A324C75AD7DA9D0839AA8357E1A197"
+    },
+    "uxAfterDigests": {
+      "products": "32B6D477FEF592092838A87003426B75D94FB373DAB9259D9E2D36E2FDC08324",
+      "sync": "0DF939730F7C9220D4C79B78B9E3AC945708EB6EB638D9CEE023D3E5BAEBB267",
+      "inventory": "9EA1B9B60C025AB22131A5914283AEF7B9D67479F46C0C8760DAC9EC5E0AF199",
+      "projection": "4871A6D31573CB995C89B168F80BAC7A41C06AB0E18EC1EDCDF85EB3920980C2",
+      "bindings": "8B235C31F6690E13C195045F09C5F4F6D8C4770B22693BFF32AB27F018A2B9DA",
+      "activities": "5B24275CD74E4EA0C988B772B43908ABB300DA69FB1E45A1E15A1C02B814AED6",
+      "discounts": "3476EA2891AF300BDC39A00CF947193D365426697AADE7012A053199BDBAD8F5",
+      "orders": "A8AD276EDA625F72121FB938CCF8F85E0A8357F0A953178FD4EEF816C2E13D22",
+      "payments": "7721CF5BD0E51C09DD802EFB102A5881B89E500D9713C62B9928AFAB8397F0FF",
+      "refunds": "052CEE56FFFC46A8680731CAF147159B4D1438B89386742A0E1B099820E44A90",
+      "teams": "6267327C7D5E47454B811D8279AA69DF40E4290FDE5ADBF9EF6D4543C5610FE2",
+      "aOrders": "EED8FB1B12032045307F7B16039947B5C1F07527DE3F771DD89171AF7C516C49",
+      "work": "BAE824EFAD7E5E9CA1DF64602AD1558F58458844F7DF252649D65D37B3BB922E",
+      "blocks": "AEC39FF8769195DE720DFDD489D84F81CCFE73D072BBB6A1087E0FAE843B5580",
+      "fulfillment": "6D4FED38EAFB838184B26E4DBEC8B26B97EC03B3ED6BF943E3CB6FFB065D9056",
+      "ledger": "06CCB5907867AA99A190BE22469DE37F885D6CC6E7CE76C92690A397B9BA31B1",
+      "reservations": "FE269C45A0A736D7C3D0DF2B264DA1E11CA4F5AD2DB03482FBD4B89A7085CB77",
+      "orderSnapshots": "1FDB7D6EF0464680AAA405711A5C79CDE6A324C75AD7DA9D0839AA8357E1A197"
+    }
+  },
+  "accountingFacts": {
+    "success": {
+      "goodsId": "cb69dd45-fff4-44fb-b306-318e379af73e",
+      "inventory": {
+        "sold": 2,
+        "reserved": 0,
+        "available": 8
+      },
+      "orders": [
+        {
+          "orderId": "bb8a482b-288e-47e8-8a5a-f08f6fd3b51b",
+          "review": 0,
+          "status": "GROUP_COMPLETED",
+          "payments": 1,
+          "lastError": null,
+          "paidAmount": 90.0,
+          "reservation": "CONFIRMED",
+          "fulfillments": 1,
+          "confirmLedgers": 1,
+          "refundedAmount": 0,
+          "releaseLedgers": 0,
+          "channelSuccesses": 1,
+          "refundReleaseRows": 0,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 1,
+            "refundedAmount": 0,
+            "paidTimeMatches": 1,
+            "refundSuccesses": 0
+          },
+          "aAcceptedFacts": {
+            "refundId": null,
+            "paymentId": "22c5e9da-c625-4cee-a1e4-84773e6557ae",
+            "paidAmount": 90.0,
+            "refundAmount": null,
+            "refundStatus": null
+          }
+        },
+        {
+          "orderId": "69a0e8b2-fbe8-4560-ab83-f4cfdacc4aae",
+          "review": 0,
+          "status": "GROUP_COMPLETED",
+          "payments": 1,
+          "lastError": null,
+          "paidAmount": 90.0,
+          "reservation": "CONFIRMED",
+          "fulfillments": 1,
+          "confirmLedgers": 1,
+          "refundedAmount": 0,
+          "releaseLedgers": 0,
+          "channelSuccesses": 1,
+          "refundReleaseRows": 0,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 1,
+            "refundedAmount": 0,
+            "paidTimeMatches": 1,
+            "refundSuccesses": 0
+          },
+          "aAcceptedFacts": {
+            "refundId": null,
+            "paymentId": "005fd2f5-7e6f-4c43-ae89-b0e0959d894f",
+            "paidAmount": 90.0,
+            "refundAmount": null,
+            "refundStatus": null
+          }
+        }
+      ],
+      "exactAQuota": {
+        "paid": 2,
+        "reserved": 2
+      },
+      "aTeam": {
+        "locked": 2,
+        "status": "COMPLETED",
+        "target": 2,
+        "teamId": "1cbc7b9c-4de6-48e4-8a2c-2994ad810db2",
+        "expired": false,
+        "complete": 2
+      }
+    },
+    "expiry": {
+      "goodsId": "d4f1c1a1-26e6-43e4-ae01-70e5994b5b06",
+      "inventory": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      },
+      "orders": [
+        {
+          "orderId": "9d30b3c8-357e-42d8-bd21-c48668ff67c0",
+          "review": 1,
+          "status": "CLOSED",
+          "payments": 1,
+          "lastError": "TEAM_FAILED",
+          "paidAmount": 90.0,
+          "reservation": "RELEASED",
+          "fulfillments": 0,
+          "confirmLedgers": 0,
+          "refundedAmount": 90.0,
+          "releaseLedgers": 1,
+          "channelSuccesses": 1,
+          "refundReleaseRows": 1,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 1,
+            "refundedAmount": 90.0,
+            "paidTimeMatches": 1,
+            "refundSuccesses": 1
+          },
+          "aAcceptedFacts": {
+            "refundId": "3ad48605-2acb-4f12-9765-2941c1108df2",
+            "paymentId": "60afd05b-afa1-4ea9-a2df-8c611382731b",
+            "paidAmount": 90.0,
+            "refundAmount": 90.0,
+            "refundStatus": "SUCCEEDED"
+          }
+        }
+      ],
+      "exactAQuota": {
+        "paid": 1,
+        "reserved": 1
+      },
+      "reconciliation": {
+        "state": "RESOLVED",
+        "members": 1,
+        "finalized": 1,
+        "submission": "ACKNOWLEDGED"
+      },
+      "aTeam": {
+        "locked": 1,
+        "status": "FAILED",
+        "target": 2,
+        "teamId": "f11158ae-c805-427f-bcd9-41f3c031989b",
+        "expired": true,
+        "complete": 1
+      }
+    },
+    "cancel": {
+      "goodsId": "1ec7fe96-6985-4918-b4a7-85c583f485cd",
+      "inventory": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      },
+      "orders": [
+        {
+          "orderId": "8219f3bf-b6c3-4b82-8dc3-85309b9f835e",
+          "review": 0,
+          "status": "CLOSED",
+          "payments": 0,
+          "lastError": null,
+          "paidAmount": 0,
+          "reservation": "RELEASED",
+          "fulfillments": 0,
+          "confirmLedgers": 0,
+          "refundedAmount": 0,
+          "releaseLedgers": 1,
+          "channelSuccesses": 0,
+          "refundReleaseRows": 0,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 0,
+            "refundedAmount": 0,
+            "paidTimeMatches": 0,
+            "refundSuccesses": 0
+          },
+          "aAcceptedFacts": {
+            "refundId": null,
+            "paymentId": null,
+            "paidAmount": null,
+            "refundAmount": null,
+            "refundStatus": null
+          }
+        }
+      ],
+      "exactAQuota": {
+        "paid": 0,
+        "reserved": 0
+      },
+      "aTeam": {
+        "locked": 0,
+        "status": "RECONCILING",
+        "target": 2,
+        "teamId": "418f0892-b9e5-4e8f-8e5e-a12c813f99a1",
+        "expired": true,
+        "complete": 0
+      }
+    },
+    "offpaid": {
+      "goodsId": "7718f8f2-92f8-4fde-86e1-fc8f223131ac",
+      "inventory": {
+        "sold": 0,
+        "reserved": 0,
+        "available": 10
+      },
+      "orders": [
+        {
+          "orderId": "2b3b68f0-c026-4e85-951c-2bf8a8597751",
+          "review": 1,
+          "status": "CLOSED",
+          "payments": 1,
+          "lastError": "TEAM_FAILED",
+          "paidAmount": 90.0,
+          "reservation": "RELEASED",
+          "fulfillments": 0,
+          "confirmLedgers": 0,
+          "refundedAmount": 90.0,
+          "releaseLedgers": 1,
+          "channelSuccesses": 1,
+          "refundReleaseRows": 1,
+          "reviewOwnership": {
+            "unownedActive": 0,
+            "reviewFinancialWork": 0,
+            "unfinishedRefundWork": 0
+          },
+          "channel": {
+            "paidRoots": 1,
+            "refundedAmount": 90.0,
+            "paidTimeMatches": 1,
+            "refundSuccesses": 1
+          },
+          "aAcceptedFacts": {
+            "refundId": "b9b83277-a192-49b8-8bc7-132cc2841130",
+            "paymentId": "5e9f5fdb-f328-4fb4-b28e-6c9fab6d9e13",
+            "paidAmount": 90.0,
+            "refundAmount": 90.0,
+            "refundStatus": "SUCCEEDED"
+          }
+        }
+      ],
+      "exactAQuota": {
+        "paid": 1,
+        "reserved": 1
+      },
+      "reconciliation": {
+        "state": "RESOLVED",
+        "members": 1,
+        "finalized": 1,
+        "submission": "ACKNOWLEDGED"
+      },
+      "aTeam": {
+        "locked": 1,
+        "status": "FAILED",
+        "target": 2,
+        "teamId": "5b1fb1eb-3b96-4eda-9389-a1e0f3564cea",
+        "expired": true,
+        "complete": 1
+      }
+    }
+  },
+  "accountingChecks": [
+    "success-stock-conservation",
+    "funds-stock-unique-bb8a482b-288e-47e8-8a5a-f08f6fd3b51b",
+    "funds-stock-unique-69a0e8b2-fbe8-4560-ab83-f4cfdacc4aae",
+    "success-actual-A-quota-terminal",
+    "expiry-stock-conservation",
+    "funds-stock-unique-9d30b3c8-357e-42d8-bd21-c48668ff67c0",
+    "expiry-actual-A-quota-terminal",
+    "cancel-stock-conservation",
+    "funds-stock-unique-8219f3bf-b6c3-4b82-8dc3-85309b9f835e",
+    "cancel-actual-A-quota-terminal",
+    "offpaid-stock-conservation",
+    "funds-stock-unique-2b3b68f0-c026-4e85-951c-2bf8a8597751",
+    "offpaid-actual-A-quota-terminal",
+    "seven-services-healthy-no-observed-oom"
+  ],
+  "browserChecks": [
+    "trusted-HTTPS-b06buyer",
+    "trusted-HTTPS-b06buyer2",
+    "trusted-HTTPS-b06operator",
+    "secure-http-only-session-cookie",
+    "showcase-image-showcase-cup-360",
+    "showcase-image-showcase-bag-360",
+    "showcase-image-showcase-notebook-360",
+    "showcase-image-showcase-pouch-360",
+    "showcase-image-showcase-cutlery-360",
+    "showcase-image-showcase-stand-360",
+    "showcase-no-overflow-360",
+    "showcase-image-showcase-cup-390",
+    "showcase-image-showcase-bag-390",
+    "showcase-image-showcase-notebook-390",
+    "showcase-image-showcase-pouch-390",
+    "showcase-image-showcase-cutlery-390",
+    "showcase-image-showcase-stand-390",
+    "showcase-no-overflow-390",
+    "showcase-image-showcase-cup-1280",
+    "showcase-image-showcase-bag-1280",
+    "showcase-image-showcase-notebook-1280",
+    "showcase-image-showcase-pouch-1280",
+    "showcase-image-showcase-cutlery-1280",
+    "showcase-image-showcase-stand-1280",
+    "showcase-no-overflow-1280",
+    "showcase-image-showcase-cup-1440",
+    "showcase-image-showcase-bag-1440",
+    "showcase-image-showcase-notebook-1440",
+    "showcase-image-showcase-pouch-1440",
+    "showcase-image-showcase-cutlery-1440",
+    "showcase-image-showcase-stand-1440",
+    "showcase-no-overflow-1440",
+    "stockout-no-purchase-button",
+    "noactivity-no-purchase-button",
+    "missing-image-placeholder",
+    "showcase-read-only-ready-showcase-cup",
+    "showcase-read-only-ready-showcase-bag",
+    "showcase-read-only-ready-showcase-notebook",
+    "showcase-read-only-ready-showcase-pouch",
+    "showcase-read-only-ready-showcase-cutlery",
+    "showcase-read-only-ready-showcase-stand",
+    "showcase-no-order-writes",
+    "two-confirmations-one-order-success",
+    "unpaid-team-not-discoverable",
+    "failed-attempt-retry-same-payment-root",
+    "actual-payment-90-bb8a482b-288e-47e8-8a5a-f08f6fd3b51b",
+    "product-discovery-selected-exact-team",
+    "two-confirmations-one-order-success",
+    "actual-payment-90-69a0e8b2-fbe8-4560-ab83-f4cfdacc4aae",
+    "reload-no-business-writes-completed-bb8a482b-288e-47e8-8a5a-f08f6fd3b51b",
+    "reload-no-business-writes-completed-69a0e8b2-fbe8-4560-ab83-f4cfdacc4aae",
+    "two-confirmations-one-order-expiry",
+    "actual-payment-90-9d30b3c8-357e-42d8-bd21-c48668ff67c0",
+    "two-confirmations-one-order-offpaid",
+    "actual-payment-90-2b3b68f0-c026-4e85-951c-2bf8a8597751",
+    "off-sale-original-order-snapshot-readable",
+    "two-confirmations-one-order-cancel",
+    "reload-no-business-writes-unpaid-original-order",
+    "other-buyer-order-hidden",
+    "buyer-operator-api-forbidden",
+    "reload-no-business-writes-natural-expiry-refund",
+    "reload-no-business-writes-off-sale-original-refund",
+    "mobile-no-overflow",
+    "browser-no-page-errors"
+  ],
+  "strictTLS": true,
+  "httpsBypass": false,
+  "releaseChanged": false,
+  "backendOrSchemaChanged": false,
+  "retainedCurrentBatchCoordinationRecords": [],
+  "emptyUnpaidTeamsFollowingNaturalDeadline": [
+    {
+      "source": "b06",
+      "channel": "web",
+      "team_id": "418f0892-b9e5-4e8f-8e5e-a12c813f99a1",
+      "goods_id": "1ec7fe96-6985-4918-b4a7-85c583f485cd",
+      "paid_count": 0,
+      "activity_id": 900015,
+      "team_status": "RECONCILING",
+      "target_count": 2,
+      "team_version": 3,
+      "reserved_count": 0,
+      "valid_end_time": "2026-10-20 15:07:16.862000",
+      "valid_start_time": "2026-10-20 15:05:16.862000"
+    }
+  ],
+  "retainedLegacyGoodsIds": [
+    "5a4d973a-4d83-4f7b-9155-4c331b436fc4",
+    "db7100d5-12ad-4b24-b7b3-dc773b0f33b8"
+  ],
+  "preservedHistoricalObligations": {
+    "reconcilingTeams": 24,
+    "unfinishedWork": 1,
+    "activeBlocks": 10,
+    "reviewOrders": 13,
+    "pendingFulfillment": 28
+  },
+  "boundaries": [
+    "Simulated funds only; no real shipping. Two new completed orders remain PENDING fulfillment as designed.",
+    "Historical reconciliation/review/fulfillment and any verified deferred compatibility records are preserved, not manually cleared.",
+    "Six daily goods only read; exact retained probe/unresolved goods remain.",
+    "Main A process was not stopped for fault injection; delayed-version fault/recovery evidence remains separately identified as CAT01.3 UX evidence.",
+    "Receipt loss checks are controlled injections after actual backend acceptance. Failed auxiliary browser forwarding attempt created no orders; normal trusted Edge transport resumed the same batch.",
+    "Current stage does not rebuild or redeploy images, restore old backups, or copy UX data."
+  ],
+  "privateEvidenceRoot": "D:\\Java\\zj-market-ux\\.local\\cat\\cat01-5-20261020-01",
+  "sourceHashes": {
+    "cat05-accounting.py": "D258A116BBA0745D9035070AE94CDD948DB72CDB5A4ACBF9BB11DE2A8767C9D7",
+    "cat05-browser.mjs": "3E48AF13F104446667AD014FA2803D7CA9D04A8E65A2DF66AD562310CDC3CCCE",
+    "cat05-checks.py": "180C492855D015E0A24A861CC51D8D4345A471402CD8B0AE5660CBF2D8CD399B",
+    "cat05-configure.py": "591B8D2EE638FF76D845CA028F84DCBB21C448F645E4420ED9A92CE5871AF436",
+    "cat05-final-browser.mjs": "42E82B6A36A769C3EFB1F4691A6B14E9AF803EABDDACF48C696390B194560DAE",
+    "cat05-finalize.py": "F86CD1EED5594E4222DBBB307FF0B7CE149601A2874E93A216D71009ACA22BD2",
+    "cat05-lib.mjs": "AF3F884873A10890B9A90107F645EA3922FFA1944EF9AE40E061B1F354CE3382",
+    "cat05-products.mjs": "6A210D1C5C3FE836E37A72DDB2BCB881BC1BFC96ED89ADA552573C2D56AD426E",
+    "cat05-run.py": "90F487EF2E0D0372FA23A37ABF00C4A97F0E6A00E19A330D1C82FFF9384D2A39"
+  },
+  "retiredLegacyWriteEntries": [
+    "scripts/ux05-joint.py prepare/browser",
+    "scripts/ux05-browser.mjs prepare/browser"
+  ],
+  "evidenceHashes": {
+    "accounting-report.json": "B42340E868FD4FF166A3C7128F34EA403286405E01E1FE85A7D8C9342F59CAA2",
+    "api-trace-cleanup-1792509057434.json": "A48C5EED5C3C9BB03B8028FB3E1A0ED058943C4A0B94FD8717A45D8E65DD9A78",
+    "api-trace-cleanup-1792509060828.json": "655279B6B20B396F91766ECD8452819AC5F9C7F085D25EB6958B581A112FABBF",
+    "api-trace-cleanup-1792509061155.json": "982081C35F513B5FD14E3031C209D4D81A205EACC70AD853EE49F1C56EB02E3A",
+    "api-trace-cleanup-1792509389558.json": "982081C35F513B5FD14E3031C209D4D81A205EACC70AD853EE49F1C56EB02E3A",
+    "api-trace-guards-1792508506032.json": "618386FFE4F656A19EC3F7EEF770186203EF256FC55B74B10D207F811E9F85B4",
+    "api-trace-guards-1792508819696.json": "D5BA0287DC586EF4D0787BA41FCAE460259D5828129C736150B34A5D3976F4CE",
+    "api-trace-prepare-1792508351572.json": "8BB835D989F913CD0F41E4BDEEAC238DED52E1EFA6F6752FDBAA236C0CED2E4F",
+    "api-trace-prepare-1792508351820.json": "EB411CDD8641291DA499DD269BE141DE2CDB8F23178317DAD9202F02D0558241",
+    "api-trace-prepare-1792508352762.json": "97726A9F1EE76545FECA67EF6571D74828319B17F03EF47F7B7A33952F5607F6",
+    "api-trace-prepare-1792509008134.json": "BBD0AB7A09CD76594D8939BF0D83FE965836D1F775E80BD00CF1C7AD49B527A4",
+    "api-trace-prepare-1792509385882.json": "BBD0AB7A09CD76594D8939BF0D83FE965836D1F775E80BD00CF1C7AD49B527A4",
+    "api-trace-publish-1792508378409.json": "C2BD8FF2F4415BA094A362C1F6FD75203DB338286C777D95CA60E46687822083",
+    "api-trace-stockout-1792508506439.json": "2C18006DEEC8A23929BF90E7EF8931AF1DC43CAA5CA22586B8D877091DFC7869",
+    "api-trace-verify-1792508378816.json": "D73B14AB0A667A9F1AC6804767283DFDDEB89A3586E064F2679AE9D667BD3FB8",
+    "browser-report-before-resume-1792508649654.json": "7D9BE33591F15B5A3132D01885DDCB666AC0DDAE421DDE5B20BA7144A42D1F92",
+    "browser-report.json": "4FEF12FDBD5C61C89F32FB70D2C5E6663301EFF75A7D49FE5C3062401B8C8703",
+    "cleanup-receipt-recovery.json": "1E9C417F98BD7F3E9AEE0609C6CFF4D71CD238CB32FA9045DAAA48334BC3BBC7",
+    "cleanup-repeat.json": "85EFD99135B0BBF52FE908ABEC02342C1069D63761DFB9592C3C3EEDF8AFC807",
+    "cleanup.json": "85EFD99135B0BBF52FE908ABEC02342C1069D63761DFB9592C3C3EEDF8AFC807",
+    "documents-before.json": "7CBD5F531ACBCDD3B3B01D9FFBFDEFF1ACE3BA280F8B7B4B48DF3595C4224857",
+    "evidence-lock.json": "8BC75180BF02198D402810501C4EFF3E55A454E3108A22E68879ED3D95B26784",
+    "failure-evidence-guard.json": "3FB58FDA86CA0576D97E495799F2A0B0DCC3CD7CE0C3528B927781D0F31694EF",
+    "final-browser.json": "D7F9DB09DB9C026F2FBF268D548BF3DC70884CC07BCE41461B0BE3EF220D2B2B",
+    "final-proof.json": "2D9FCC33FAB570BB0F459A957CEA31F9549DBA7C243921961D2B9DFA84AB2787",
+    "guards.json": "4E34CA81F5B39B5FD179DD7FFEE02BAA8E4AB76F793530F7E8EAF119EE41EC57",
+    "isolation-before.json": "DDF8D3D0CDE2A9CDA0B1785FFC3012C3E00EC94A44E6466C3082827E659B0B82",
+    "isolation-final.json": "DDF8D3D0CDE2A9CDA0B1785FFC3012C3E00EC94A44E6466C3082827E659B0B82",
+    "legacy-entry-guards.json": "999B639FD29E9C6BAC82218B7A63804192809C63D969A2F9F95645FC76681CF1",
+    "main-after.json": "E6282F6085257F05BB904157C1303D70121CAC46662425A19B57D9F9FB9960BD",
+    "main-before.json": "5916F6FC664CFCCF0FED5EBE1B9CB6FCCD124EDF00532F0695E039ED215D292A",
+    "original-receipt-recovery.json": "48D99CC4C1E9CF9A000A9F92CF86947DA13DF1E39DB370EB3B385AEEAE82191A",
+    "products-verified.json": "C8BE8946F79E4E373F0B2EE3D854219DE3856710C74A857D776A02E911E0B512",
+    "repeat-after.json": "E6282F6085257F05BB904157C1303D70121CAC46662425A19B57D9F9FB9960BD",
+    "repeat-before.json": "E6282F6085257F05BB904157C1303D70121CAC46662425A19B57D9F9FB9960BD",
+    "repeat-proof.json": "89CBC75349048C0C465AD266A3BFD86F546C93E9800A1641E557FA0DE42F90E3",
+    "saved-accounting-report.json": "8E5850EB191362893BC0F48F3DCE118CF0DE8C1D96ADB22DCEE7888D2833C05F",
+    "saved-browser-report.json": "4FEF12FDBD5C61C89F32FB70D2C5E6663301EFF75A7D49FE5C3062401B8C8703",
+    "saved-fixture.json": "938A1602E2B4691CB13B5AB97374ED0B5C19C7CA023D60A94477D8AFF712D478",
+    "saved-guards.json": "4E34CA81F5B39B5FD179DD7FFEE02BAA8E4AB76F793530F7E8EAF119EE41EC57",
+    "saved-main-before.json": "5916F6FC664CFCCF0FED5EBE1B9CB6FCCD124EDF00532F0695E039ED215D292A",
+    "saved-original-receipt-recovery.json": "48D99CC4C1E9CF9A000A9F92CF86947DA13DF1E39DB370EB3B385AEEAE82191A",
+    "saved-stockout.json": "8CD7903AE0CD94245AD814743393FA478E80B56F9F49BE7985AA73A8236A8A37",
+    "saved-ux-before.json": "8E8043E03B2A077D7AD75F8B004DF3FD62E0C67F4A5AC3D57389FC0388FF4D3D",
+    "sealed-guards.json": "B6482DDCFC5E37A91EC9DBA6FD0E9AD0DE9399FAF390C5B1B3924B082793E972",
+    "stock-operations.json": "FED0446DB06D470428344B49436DB22A4E5A98A4FB6A19C310C2963817ADF50C",
+    "stockout.json": "8CD7903AE0CD94245AD814743393FA478E80B56F9F49BE7985AA73A8236A8A37",
+    "ux-after.json": "8E8043E03B2A077D7AD75F8B004DF3FD62E0C67F4A5AC3D57389FC0388FF4D3D",
+    "ux-before.json": "8E8043E03B2A077D7AD75F8B004DF3FD62E0C67F4A5AC3D57389FC0388FF4D3D"
+  },
+  "screenshots": {
+    "badimage-state.png": "B2065296EB3BAB3C79C24B483FF284854CA0C0BCA5CC31EE8174A9428E9487E6",
+    "completed-69a0e8b2-fbe8-4560-ab83-f4cfdacc4aae.png": "6690A0D0F16359FB13E24A83C5988A2BDF0C04476C22ACF264B73278B2DA2CC0",
+    "completed-bb8a482b-288e-47e8-8a5a-f08f6fd3b51b.png": "8F43D2138BD9EC8C2009C21DA192DB8F45E86CD284F78AF897AEAE5035DA6564",
+    "final-showcase-1440.png": "7E1CA871803BA154E9C7698586577FCEF007D1D506608F02F1A2CD0265046EF2",
+    "final-showcase-390.png": "AC4E694785F0C7B29C5DFC84E4ADB445C91B94E77490FAEBA5D74A1DCE578201",
+    "natural-expiry-refund.png": "47823F982AE74637095D2D7BBE09988EA7EE60EA26FEF643EFB54516746A8E1C",
+    "noactivity-state.png": "C02E34389C94D0B6CBEDAC8162B59B2D16E2D466E7CAFE1CB55D8E78904F40E3",
+    "off-sale-original-refund.png": "C43FAB8F88689885DD47ABEE95C928A8EC89F1B4697409D605BCE32887BD3DC7",
+    "operator-refund.png": "748CE93086AF3E9A99C0325828A61C21854AAD237DBA959D090A890D8E9BD932",
+    "refund-mobile.png": "DE4279C017468127DA661DE42E48A12813290DD700F29098C6413C958ADEED41",
+    "showcase-1280.png": "3700101B76A235CFD24B348A436C4DAE28A5DF5F8727B66FB26D2366AA09A851",
+    "showcase-1440.png": "3F2E4FBB628848A572C9F0D632E53A4CED46CF168E2866F0D79F9CAC3BC39328",
+    "showcase-360.png": "6F45A2480B6846AF5CC247AD98B24BA0A5EB984D646768AA169EA6C8539E242D",
+    "showcase-390.png": "9C82DC3DC181A0D69A82E78EBB2FD3C3580AF663FC823CBC2923FCC7BA60D061",
+    "stockout-state.png": "760BEF64427A07C6A3C2FD311AE3DFE8CAC9E1960790C9902D4BEB9D09395052",
+    "unpaid-original-order.png": "3FB8C6CACA9B6CBB55517F6600463D53A7B9EA5A20B987749A417A3516163011"
+  }
+}

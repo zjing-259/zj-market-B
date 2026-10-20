@@ -1,6 +1,6 @@
-# 独立稳定版运行入口（CAT-01.4 当前发布）
+# 独立稳定版运行入口（CAT04 发布，CAT 系列已验收）
 
-主站现为 `cat04-stable-20261020-01`／正经商城新版，CAT-01.4 开始时的原 66 笔订单及原义务保持，六件日用品在售，52 件确认样本已下架，2 件保留。`zj-market-b06` 已于 2026-10-16 从 `D:\Java\zj-market-stable` 接管，沿用原五卷、五网络及固定镜像。当前日常入口为 `D:\Java\zj-market-stable\scripts\stable.ps1`；原 `td06-environment.py`、`td06-main-release.py` 和旧浏览器入口对主站已设置交接门禁。ST-02 原候选仍位于已忽略的 `target/stable-isolation/st02_20261016_04/bundle`，仅作历史材料，不能用于当前主站启停。
+主站现为 `cat04-stable-20261020-01`／正经商城新版，CAT-01.4 开始时的原 66 笔订单及原义务保持，六件日用品在售，52 件确认历史样本和 CAT05 七件专用样本已下架，2 件保留；CAT05 新增五笔已验订单，当前总计 71 单。`zj-market-b06` 已于 2026-10-16 从 `D:\Java\zj-market-stable` 接管，沿用原五卷、五网络及固定镜像。当前日常入口为 `D:\Java\zj-market-stable\scripts\stable.ps1`；原 `td06-environment.py`、`td06-main-release.py` 和旧浏览器入口对主站已设置交接门禁。ST-02 原候选仍位于已忽略的 `target/stable-isolation/st02_20261016_04/bundle`，仅作历史材料，不能用于当前主站启停。
 
 先启动 Docker Desktop 的 Linux 引擎，再在 Windows PowerShell 使用：
 
@@ -55,3 +55,31 @@ CAT-01.4 当前发布与商品维护（2026-10-20）：
 - 最新冷备含双库逻辑备份、五原卷以及旧发布／私有输入副本，`COMPLETE.json` 绑定清单哈希；它是本批整理前的恢复资料，不能覆盖当前在线卷。旧 `releases/ux05-stable-20261019-01` 和 TD06 发布均未改。
 - 资源发布工具 `python -B scripts/cat04-release.py ready` 核对本发布；`rollback --batch cat04-main-20261020-01` 只允许健康已接管新发布先闭网关停机，再以当前数据退回旧兼容镜像与配置，不恢复数据库或卷。旧 Web 不含六张新图片，退包会显示原占位，之后需恢复 CAT04 资源；不要将退包作为商品回滚。冷点中断才使用 `resume --batch cat04-main-20261020-01`，要求七服务全停且完整备份哈希通过，运行中拒绝恢复。
 - 浏览器验收 `node scripts/cat04-browser.mjs` 只读；最终核对 `python -B scripts/cat04-acceptance.py` 对本批基线逐项检查。以后合法新交易会使该冻结基线检查失败，应建立新阶段证据，不能重写 CAT04 报告或补回库存。专用交易与本批样本收尾归 CAT-01.5。
+
+
+CAT-01.5 最终验收与日常维护（2026-10-20）：
+
+[最终报告](../../docs/tests/cat01-5-acceptance.json)／[本批样本与原交易 ID](../../docs/cat05-main-samples.json)。主站资源发布仍为 CAT04，当前 67 件商品（公开 8／下架 59）、71 单、207 库存流水；六件日用品各库存 20，零本批订单。专用七件样本全为 OFF_SALE／版本 3／A 确认，五笔交易实付 360／全退 180 元，本批待支付确认／退款／库存释放为 0。原 66 单和 191 流水、原库存及核对／隔离／待履约保持，新增两笔成团待履约和一个空取消团按原边界保留，不强行清理。
+
+在 `D:\Java\zj-market-ux` 查看本批只读计划：
+
+```powershell
+python -B scripts/cat05-run.py --batch cat01-5-20261020-01
+```
+
+默认动作是 `plan`，不登录、不写业务。当前已验批次不可重跑 `all` 或 `browser`，不可重新发布。健康检查仍用稳定版 `ready`、UX `ready` 和 `cat04-isolation.py`；不要拿准备或交易验收当健康检查。
+
+只有另一次明确授权的验收才使用**新批次**，先阅读方案、核对 Git／现场和计划，选择符合 `cat01-5-YYYYMMDD-NN` 的新编号。统一 `all --batch <新编号>` 会先保存本次主站／UX 基线，先 OFF_SALE 创建七件自有样本、原编号入库、受控只插入本批活动、确认最终版本，再真实浏览器交易／自然退款、逐单查账、留证、下架、重复收尾和最终核对。期间会在首页短暂出现专用样本，完成或失败后仅处理该批精确 ID。各小阶段在本批已逐步实测；不为测试组合入口再次产生额外交易。
+
+实际入口与恢复：
+
+- `cat05-run.py` 提供 `capture/prepare/configure/publish/verify/guards/stockout/browser/collect/seal/cleanup/final-browser/finalize` 显式动作，均带 `--batch`。`cat05-checks.py` 的 prepare/repeat/evidence/cleanup/sealed 检查由 all 串联；分阶段调用新批次时传递同一 `CAT_ACCEPTANCE_BATCH`，不能混批。普通 prepare 不自动补造丢失的入库编号。
+- 私有 `.local/cat/<批次>/fixture.json`、浏览器 storage state、写请求记录及 evidence-lock 保留原商品 ID、购买意图、支付／库存／下架原编号和请求体。创建未知只按完整字段和创建前 ID 集合核对；不能可靠关联时停下查证，不新建替代商品或订单。未知业务结果不换键重发。
+- `browser` 支持未封存失败批次的原订单／原支付根继续；进入证据封存后禁止重跑交易。集中登录遇 429 只按 Retry-After 等身份登录窗口，不重发资金或库存写入；浏览器和客户端均使用主站受信 CA，不跳过 TLS 校验。
+- 成功交易后 `collect` 核对 B 订单／渠道／退款／库存唯一流水和 A 名额／收款／退款／核对确认，再 `seal`。证据文件复制封存并绑定哈希，收尾前先核对锁及精确 ID。收尾只做当前商品完整字段＋当前 expectedVersion 的 OFF_SALE 编辑，不删数据、不关闭旧活动、不延长期限、不改订单／团队终态。
+- 失败批次保存原记录，可 `seal --failed --batch <原批次>` 后 `cleanup --batch <原批次>` 只下架已明确归属的商品；未知创建结果必须另列原记录供核对，不能把未确认 ID 随便归给本批。all 在失败时尝试留证和本批收尾；依赖不可用导致收尾失败时保留 cleanup-pending 和原键，恢复依赖后重复 cleanup。失败封存不能冒充成功最终验收，未结金融／释放义务必须继续核对。
+- `cleanup` 可重复，已下架只核对，不再次增版；sealed 门禁阻止新建、入库和重新上架，正常六件及探针不能被本批清理。下架不阻断合法原单查询、付款、取消或退款恢复，未完成原单继续自然收敛。
+- `final-browser` 只读确认公开集合、实际图片和六件报价、下架原单；`finalize` 对本批原基线和交易事实严格核验。以后合法新交易可能改变快照，不能覆盖当前 CAT05 报告或重置库存让旧基线重新通过，应创建新观察／任务证据。
+- 原 UX05 写入工具没有 CAT 样本收尾，现 prepare/browser 入口明确拒绝；其只读查账和历史 Git 源码／证据保留。CAT03 为 UX-only，CAT04 为正常商品及精确旧样本清单，不能拿来制造新交易或批量扩大收尾。
+
+本阶段未新增冷备或发布，CAT04 冷备是整理前历史恢复资料；CAT05 已有新交易，严禁用旧备份覆盖在线卷。原 24 RECONCILING 团队、1 未终结工作、10 ACTIVE 隔离、13 review 及 28 原待履约继续按原业务维护；本批新增待履约不等于真实发货，无付款／预留的取消空团保留原自然状态。

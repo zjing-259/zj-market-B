@@ -1,0 +1,178 @@
+{
+  "stage": "CAT-01.5",
+  "status": "PASS",
+  "batch": "cat01-5-20261020-01",
+  "origin": "https://zj-market.test",
+  "products": [
+    {
+      "key": "success",
+      "purpose": "ACCEPTANCE",
+      "goodsId": "cb69dd45-fff4-44fb-b306-318e379af73e",
+      "goodsName": "CAT 专用验收 cat01-5-20261020-01 success",
+      "saleStatus": "OFF_SALE",
+      "productVersion": "3",
+      "syncReady": true,
+      "stock": {
+        "available": 8,
+        "reserved": 0,
+        "sold": 2
+      },
+      "activityId": 900013,
+      "validMinutes": 30,
+      "originalStockOperationKey": "96f7372e-deaf-4b41-9ed5-7f04280e57d1"
+    },
+    {
+      "key": "expiry",
+      "purpose": "ACCEPTANCE",
+      "goodsId": "d4f1c1a1-26e6-43e4-ae01-70e5994b5b06",
+      "goodsName": "CAT 专用验收 cat01-5-20261020-01 expiry",
+      "saleStatus": "OFF_SALE",
+      "productVersion": "3",
+      "syncReady": true,
+      "stock": {
+        "available": 10,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 900014,
+      "validMinutes": 2,
+      "originalStockOperationKey": "49d87090-720b-4f71-8f15-d69b8877e3af"
+    },
+    {
+      "key": "cancel",
+      "purpose": "ACCEPTANCE",
+      "goodsId": "1ec7fe96-6985-4918-b4a7-85c583f485cd",
+      "goodsName": "CAT 专用验收 cat01-5-20261020-01 cancel",
+      "saleStatus": "OFF_SALE",
+      "productVersion": "3",
+      "syncReady": true,
+      "stock": {
+        "available": 10,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 900015,
+      "validMinutes": 2,
+      "originalStockOperationKey": "c2184df5-b6f3-4b8e-8901-63310fda66fe"
+    },
+    {
+      "key": "offpaid",
+      "purpose": "ACCEPTANCE",
+      "goodsId": "7718f8f2-92f8-4fde-86e1-fc8f223131ac",
+      "goodsName": "CAT 专用验收 cat01-5-20261020-01 offpaid",
+      "saleStatus": "OFF_SALE",
+      "productVersion": "3",
+      "syncReady": true,
+      "stock": {
+        "available": 10,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 900016,
+      "validMinutes": 2,
+      "originalStockOperationKey": "a1c93fd8-f513-452a-ac50-b73ae311201d"
+    },
+    {
+      "key": "stockout",
+      "purpose": "ACCEPTANCE",
+      "goodsId": "b842b464-0ee5-43d6-bd95-28e4fbb38774",
+      "goodsName": "CAT 专用验收 cat01-5-20261020-01 stockout",
+      "saleStatus": "OFF_SALE",
+      "productVersion": "3",
+      "syncReady": true,
+      "stock": {
+        "available": 0,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 900017,
+      "validMinutes": 30,
+      "originalStockOperationKey": null
+    },
+    {
+      "key": "noactivity",
+      "purpose": "ACCEPTANCE",
+      "goodsId": "92ed47a4-91eb-4de3-bf5a-1df8f1dfa711",
+      "goodsName": "CAT 专用验收 cat01-5-20261020-01 noactivity",
+      "saleStatus": "OFF_SALE",
+      "productVersion": "3",
+      "syncReady": true,
+      "stock": {
+        "available": 10,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": null,
+      "validMinutes": 30,
+      "originalStockOperationKey": "14031bd5-9ecc-42af-abd6-50f20e2fd3bc"
+    },
+    {
+      "key": "badimage",
+      "purpose": "ACCEPTANCE",
+      "goodsId": "34cba558-6f71-402d-b0a7-2827c283c64d",
+      "goodsName": "CAT 专用验收 cat01-5-20261020-01 badimage",
+      "saleStatus": "OFF_SALE",
+      "productVersion": "3",
+      "syncReady": true,
+      "stock": {
+        "available": 10,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 900019,
+      "validMinutes": 30,
+      "originalStockOperationKey": "c223370b-9e3f-45fd-9c04-02aeccbfadb8"
+    }
+  ],
+  "sampleGoodsIds": [
+    "1ec7fe96-6985-4918-b4a7-85c583f485cd",
+    "34cba558-6f71-402d-b0a7-2827c283c64d",
+    "7718f8f2-92f8-4fde-86e1-fc8f223131ac",
+    "92ed47a4-91eb-4de3-bf5a-1df8f1dfa711",
+    "b842b464-0ee5-43d6-bd95-28e4fbb38774",
+    "cb69dd45-fff4-44fb-b306-318e379af73e",
+    "d4f1c1a1-26e6-43e4-ae01-70e5994b5b06"
+  ],
+  "normalShowcaseGoodsIds": [
+    "0527e161-8ca8-4744-ba24-fd886536e5cf",
+    "68d2db7c-62d8-402b-a52a-ea1e6bca93dc",
+    "830a2bc3-e828-480b-abd9-96571a1097dc",
+    "a86372f0-c65e-4c95-9610-643343b8047e",
+    "d42cd30c-4438-47d9-bfe1-1657f2864b3a",
+    "f343b1e1-da5f-4207-a835-b9222321c574"
+  ],
+  "allSamplesOffSale": true,
+  "publicGoodsCount": 8,
+  "acceptedOrders": {
+    "bb8a482b-288e-47e8-8a5a-f08f6fd3b51b": {
+      "goods": "cb69dd45-fff4-44fb-b306-318e379af73e",
+      "kind": "success",
+      "mode": "OPEN",
+      "teamId": "1cbc7b9c-4de6-48e4-8a2c-2994ad810db2"
+    },
+    "69a0e8b2-fbe8-4560-ab83-f4cfdacc4aae": {
+      "goods": "cb69dd45-fff4-44fb-b306-318e379af73e",
+      "kind": "success",
+      "mode": "JOIN",
+      "teamId": "1cbc7b9c-4de6-48e4-8a2c-2994ad810db2"
+    },
+    "9d30b3c8-357e-42d8-bd21-c48668ff67c0": {
+      "goods": "d4f1c1a1-26e6-43e4-ae01-70e5994b5b06",
+      "kind": "expiry",
+      "mode": "OPEN",
+      "teamId": "f11158ae-c805-427f-bcd9-41f3c031989b"
+    },
+    "2b3b68f0-c026-4e85-951c-2bf8a8597751": {
+      "goods": "7718f8f2-92f8-4fde-86e1-fc8f223131ac",
+      "kind": "offpaid",
+      "mode": "OPEN",
+      "teamId": "5b1fb1eb-3b96-4eda-9389-a1e0f3564cea"
+    },
+    "8219f3bf-b6c3-4b82-8dc3-85309b9f835e": {
+      "goods": "1ec7fe96-6985-4918-b4a7-85c583f485cd",
+      "kind": "cancel",
+      "mode": "OPEN",
+      "teamId": "418f0892-b9e5-4e8f-8e5e-a12c813f99a1"
+    }
+  }
+}

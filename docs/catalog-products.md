@@ -41,4 +41,4 @@ CAT-01.4 主站实际展示商品（各 20 可用库存，版本 2，A 已确认
 | CAT-S05 | 便携餐具盒 | `f343b1e1-da5f-4207-a835-b9222321c574` | [主站商品页](https://zj-market.test/products/f343b1e1-da5f-4207-a835-b9222321c574) |
 | CAT-S06 | 折叠手机支架 | `0527e161-8ca8-4744-ba24-fd886536e5cf` | [主站商品页](https://zj-market.test/products/0527e161-8ca8-4744-ba24-fd886536e5cf) |
 
-精确活动区间、库存和状态见 [主站运行清单](cat04-main-products.json)，证据见 [CAT-01.4](tests/cat01-4-acceptance.json)。主站后续交易验收使用 CAT-01.5 专用样本，日常六件主要只读检查。
+精确活动区间、库存和状态见 [主站运行清单](cat04-main-products.json)，证据见 [CAT-01.4](tests/cat01-4-acceptance.json)。CAT-01.5 已在独立专用样本上完成交易和下架收尾，正常六件保持只读且无本批新订单。见 [系列最终验收](tests/cat01-5-acceptance.json)。
