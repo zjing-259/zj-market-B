@@ -1,6 +1,6 @@
 # 旧版稳定运行与新版工作树隔离实施方案
 
-状态：ST-00～ST-05 均已完成本机验收；ST-05 交付批次为 `st05_20261017_02`，证据见 [验收报告](../../zj-market/docs/tests/st05-acceptance.json)。主站由 `D:\Java\zj-market-stable` 独立管理，沿用原 `zj-market-b06` 项目及五卷；UX 工作树 `D:\Java\zj-market-ux`（`codex/storefront-ux`）及独立项目 `zj-market-ux` 已开放。UX-00～UX-05 于 2026-10-18～19 完成本机验收，见[体验优化方案](storefront-experience-optimization.md)；主站已在独立目录升级为 `ux05-stable-20261019-01`，见 [最终验收](tests/ux05-acceptance.json)；原五卷／五网络和两站隔离保持，不重复创建工作树或部署隔离环境。
+状态：ST-00～ST-05 均已完成本机验收；ST-05 交付批次为 `st05_20261017_02`，证据见 [验收报告](../../zj-market/docs/tests/st05-acceptance.json)。主站由 `D:\Java\zj-market-stable` 独立管理，沿用原 `zj-market-b06` 项目及五卷；UX 工作树 `D:\Java\zj-market-ux`（`codex/storefront-ux`）及独立项目 `zj-market-ux` 已开放。UX-00～UX-05 于 2026-10-18～19 完成本机验收，见[体验优化方案](storefront-experience-optimization.md)；UX-05 历史升级见 [最终验收](tests/ux05-acceptance.json)；当前已在独立目录发布 `cat04-stable-20261020-01`，见 [CAT-01.4 验收](tests/cat01-4-acceptance.json)；原五卷／五网络和两站隔离保持，不重复创建工作树或部署隔离环境。
 
 ## 1. 目标与已知现状
 
