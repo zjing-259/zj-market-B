@@ -10,6 +10,8 @@ p.add_argument('--batch', required=True)
 a = p.parse_args()
 if ROOT.name != 'zj-market-ux' or not re.fullmatch(r'ux05-[0-9]{8}-[0-9]{2}', a.batch):
     raise RuntimeError('Owned worktree and batch required')
+if a.action in ('prepare','browser'):
+    raise RuntimeError('UX05 historical write entry retired; use cat05-run.py owned samples/evidence/cleanup')
 project = 'zj-market-ux' if a.target == 'ux' else 'zj-market-b06'
 work = ROOT / '.local/ux05' / (a.batch + '-' + a.target)
 docker = ['docker', '--context', 'desktop-linux']

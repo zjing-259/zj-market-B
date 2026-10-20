@@ -6,6 +6,8 @@ import { createRequire } from 'node:module'
 import { randomUUID, createHash } from 'node:crypto'
 const root = path.resolve(import.meta.dirname, '..'), [mode, target, batch] = process.argv.slice(2)
 if (!['prepare', 'browser'].includes(mode) || !['ux', 'main'].includes(target) || !/^ux05-[0-9]{8}-[0-9]{2}$/.test(batch)) throw Error('Explicit owned batch and target required')
+// UX05 batches are historical. New acceptance must own, evidence, and retire its samples.
+throw Error('UX05 write entry retired; use scripts/cat05-run.py with an explicit CAT batch and cleanup')
 const work = path.join(root, '.local/ux05', batch + '-' + target)
 fs.mkdirSync(work, { recursive: true })
 const origin = target === 'ux' ? 'https://zj-market-ux.test:8446' : 'https://zj-market.test'
