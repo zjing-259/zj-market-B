@@ -353,6 +353,8 @@ UX-05 最终验收（2026-10-19）：本机 Windows＋Docker 的 UX 与主站各
 
 ## 11. 文档与历史资料关联
 
+后续商品内容整理与技术验收样本收尾见 [CAT 优化方案](catalog-optimization.md)（2026-10-20 仅建立方案，CAT-01.1～01.5 均待实施）。UX 验收结果保持不变；商品实际清单和状态须由 CAT-01.1 重新盘点，不能用 UX 历史报告代替当前事实。
+
 - [现有功能与TD-06基线](team-discovery-development.md)
 - [稳定站当前入口](../deploy/stable/README.md)与[UX 独立入口](../deploy/ux/README.md)
 - [ST-05 交付边界](../deploy/st05/README.md)及[本机验收](tests/st05-acceptance.json)
