@@ -1,0 +1,154 @@
+{
+  "stage": "CAT-01.1",
+  "status": "PASS",
+  "stageCompleted": true,
+  "seriesCompleted": false,
+  "generatedAt": "2026-10-20T03:09:33.196923+00:00",
+  "batch": "cat01-1-20261020-01",
+  "checks": [
+    "both-sites-ready-and-isolated",
+    "full-admin-and-public-pagination",
+    "unique-exact-goods-ids-match-sql",
+    "api-product-fields-and-versions-match-sql",
+    "api-stock-balances-and-versions-match-sql",
+    "sync-target-and-confirmed-version-match-A",
+    "exact-fixture-ownership-only-no-name-based-classification",
+    "active-probe-product-explicitly-retained",
+    "unknown-product-retained",
+    "ongoing-teams-financial-work-review-and-fulfillment-recorded",
+    "six-new-content-proposals-no-fabricated-goods-id",
+    "both-site-business-and-order-snapshot-digests-unchanged"
+  ],
+  "summary": {
+    "products": 54,
+    "onSale": 54,
+    "classificationCounts": {
+      "CONFIRMED_ACCEPTANCE": 52,
+      "DEMO_RETAIN": 1,
+      "UNRESOLVED_RETAIN": 1
+    },
+    "inventoryTotals": {
+      "available": 592,
+      "reserved": 0,
+      "sold": 28
+    },
+    "syncedToCurrentA": 54,
+    "orders": 66,
+    "orderStatusCounts": {
+      "CLOSED": 38,
+      "GROUP_COMPLETED": 28
+    },
+    "teamStatusCounts": {
+      "COMPLETED": 14,
+      "FAILED": 14,
+      "RECONCILING": 24
+    },
+    "pendingFinancialPayments": 0,
+    "pendingFinancialRefunds": 0,
+    "unfinishedWork": 1,
+    "activeBlocks": 10,
+    "reviewFlaggedOrders": 13,
+    "pendingFulfillment": 28,
+    "missingImage": 51,
+    "activityBindings": 53
+  },
+  "pagination": {
+    "admin": [
+      {
+        "page": 1,
+        "size": 20,
+        "total": 54,
+        "count": 20
+      },
+      {
+        "page": 2,
+        "size": 20,
+        "total": 54,
+        "count": 20
+      },
+      {
+        "page": 3,
+        "size": 20,
+        "total": 54,
+        "count": 14
+      }
+    ],
+    "public": [
+      {
+        "page": 1,
+        "size": 20,
+        "total": 54,
+        "count": 20
+      },
+      {
+        "page": 2,
+        "size": 20,
+        "total": 54,
+        "count": 20
+      },
+      {
+        "page": 3,
+        "size": 20,
+        "total": 54,
+        "count": 14
+      }
+    ]
+  },
+  "apiRequests": 170,
+  "strictTLS": true,
+  "businessResourceWrites": 0,
+  "sqlTransactionsReadOnly": true,
+  "identityLoginMayUpdateAuthState": true,
+  "businessFactsUnchanged": true,
+  "inventoryFile": "docs/cat01-product-inventory.json",
+  "inventorySha256": "8C8E79AF8BF2CA72F0A366C6F953F9B8CD509111FD69C243A1DDA59309DF8F52",
+  "proofSha256": "C44AE8353E4FA7FD47124DB3C604B7A3FF93DC75D9AF20D47C1F3F2639D24551",
+  "sourceSha256": {
+    "scripts/cat01-inventory.py": "9315914CFE89452993D67834580D5C5DA5681A049B8ECD937762EEEE8B2E4858",
+    "scripts/cat01-inventory-client.mjs": "E3A97EF4E5F67E314B8B7CA120EC37D9FFC35158147FAB73325B37C37855BE58",
+    "scripts/cat01-inventory-report.py": "AFC9E082F00526777EEAE0415EA00ADD8E87ADEF40C77E24C8158AB461144FBF"
+  },
+  "boundaries": [
+    "CAT-T01 inventory subset passed; later catalogue replacement/transaction/cleanup criteria remain unexecuted",
+    "No trial, new order, payment, refund, stock, activity or product mutation invoked by inventory tools",
+    "Active A reconciliation, historical deferred work, owned blocks and fulfillment records are observed and preserved; not repaired",
+    "Candidates are proposed IDs only. CAT-01.4 must re-read current versions/obligations and prepare usable replacements before taking anything off sale",
+    "Names are descriptive only; no name-pattern cleanup"
+  ],
+  "environment": {
+    "stable": {
+      "status": "READY",
+      "project": "zj-market-b06",
+      "release": "ux05-stable-20261019-01"
+    },
+    "uxGate": "UX_GATE_OPEN",
+    "isolationChecks": [
+      "zj-market-b06: seven healthy services, all binds and volumes owned",
+      "zj-market-ux: seven healthy services, all binds and volumes owned",
+      "distinct five-network and five-volume identities",
+      "different loopback ports; identical accepted web content; separate A/B containers",
+      "UX origin, internal RPC/MQ and separate browser profile configured"
+    ],
+    "imageIds": {
+      "zj-market-b06": {
+        "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+        "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+        "namesrv": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+        "broker": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+        "marketing-a": "sha256:48c7af4be50e59133cf76aac69bac7142fb0ab19c27c4cf21ae352550dc57ddc",
+        "market-b": "sha256:cebd526685cd3b2bba6619494321abae36a6f5df976306a67f08549d781d196a",
+        "web": "sha256:fdd4072544a5290a3d51f58b8d1cbd83cac02bcb6eb2a20abaf9f3b3a9bbc145"
+      },
+      "zj-market-ux": {
+        "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+        "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+        "namesrv": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+        "broker": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+        "marketing-a": "sha256:48c7af4be50e59133cf76aac69bac7142fb0ab19c27c4cf21ae352550dc57ddc",
+        "market-b": "sha256:cebd526685cd3b2bba6619494321abae36a6f5df976306a67f08549d781d196a",
+        "web": "sha256:fdd4072544a5290a3d51f58b8d1cbd83cac02bcb6eb2a20abaf9f3b3a9bbc145"
+      }
+    }
+  },
+  "environmentEvidenceSha256": "8725D8CBBCE5EB7481F53A103184C8109E7EBBAA64F86670C793F208C41CE79F"
+}
