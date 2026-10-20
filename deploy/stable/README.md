@@ -36,8 +36,10 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:\Java\zj-market\target
 
 ST-02 历史候选的阶段验收见[摘要](../../docs/tests/st02-acceptance.json)；当前现场验收以 [UX-05 最终验收](../../docs/tests/ux05-acceptance.json)为准。
 
-UX-05 当前操作仍为 `stable.ps1 -Action ready/status/start/stop/open`；日常启停只依赖独立稳定目录，A/B 镜像与 schema 未改。两站隔离使用 `python -B D:\Java\zj-market-ux\scripts\ux05-isolation.py`，允许共享已验 Web 内容，仍严格检查独立容器、卷、网络、域名和端口。
+UX-05 当前操作仍为 `stable.ps1 -Action ready/status/start/stop/open`；日常启停只依赖独立稳定目录，A/B 镜像与 schema 未改。两站隔离使用 `python -B D:\Java\zj-market-ux\scripts\cat03-isolation.py`，允许共享已验 Web 内容，仍严格检查独立容器、卷、网络、域名和端口。
 
 升级前冷备为 `D:\Java\zj-market-stable\backups\ux05-main-20261019-01`，含双库逻辑导出、五卷冷归档、原配置／发布／入口／接管凭据与逐文件哈希。它是升级前冷点，之后已产生新交易，禁止覆盖在线卷。独立 UX 已实测兼容旧 Web 退包再恢复新版，当前订单／资金／退款／库存／账本不变。TD-06／ST 历史材料保持原字节；新增主站归档 `images/web-ux05-20261019-01.tar`，SHA-256 `F5B06A0AC7A9557BBA88C48ED7612243DB95F5BD7C9BB4FC3205214C61456622`。
 
 需要兼容退包时保留当前数据，使用已验源码入口 `python -B D:\Java\zj-market-ux\scripts\ux05-release.py rollback --batch ux05-main-20261019-01`：它先停写，复用当前五卷及原固定镜像／配置，再恢复原入口。该发布变更工具在 UX 分支，日常启停不依赖它。失败／部分启动先按日志诊断并保持入口关闭；resume 仅允许已核验冷备、全部服务停止的冷点，运行中会拒绝。不得以降级数据库或旧备份覆盖使验收通过。
+
+2026-10-20 CAT-01.3 接续：主站发布／商品／库存未变，UX 单独启用 CAT 商品图片镜像；两站当前 Web 内容不同。日常隔离改用 UX 工作树 `scripts/cat03-isolation.py`，旧 UX-05 隔离源码与验收保留历史哈希，不作为新镜像实时断言。主站商品替换仍待 CAT-01.4。

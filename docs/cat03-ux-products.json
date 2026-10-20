@@ -1,0 +1,293 @@
+{
+  "stage": "CAT-01.3",
+  "origin": "https://zj-market-ux.test:8446",
+  "status": "PASS",
+  "batch": "cat01-3-20261020-01",
+  "products": [
+    {
+      "key": "showcase-cup",
+      "purpose": "SHOWCASE",
+      "contentId": "CAT-S01",
+      "goodsId": "28f891db-2bf3-4210-b13e-0ad29eafdd6d",
+      "goodsName": "雾蓝随行杯",
+      "productVersion": "2",
+      "saleStatus": "ON_SALE",
+      "stock": {
+        "available": 20,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 700001,
+      "validMinutes": 120,
+      "payPrice": "29.90",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/cup.svg",
+      "syncReady": true
+    },
+    {
+      "key": "showcase-bag",
+      "purpose": "SHOWCASE",
+      "contentId": "CAT-S02",
+      "goodsId": "1a93009a-d318-46ca-ae9d-6b4112264153",
+      "goodsName": "原色帆布袋",
+      "productVersion": "2",
+      "saleStatus": "ON_SALE",
+      "stock": {
+        "available": 20,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 700002,
+      "validMinutes": 120,
+      "payPrice": "19.90",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/bag.svg",
+      "syncReady": true
+    },
+    {
+      "key": "showcase-notebook",
+      "purpose": "SHOWCASE",
+      "contentId": "CAT-S03",
+      "goodsId": "9d0311e3-8164-42a8-aa5f-07ffafc27bfd",
+      "goodsName": "方格随手本",
+      "productVersion": "2",
+      "saleStatus": "ON_SALE",
+      "stock": {
+        "available": 20,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 700003,
+      "validMinutes": 120,
+      "payPrice": "9.90",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/notebook.svg",
+      "syncReady": true
+    },
+    {
+      "key": "showcase-pouch",
+      "purpose": "SHOWCASE",
+      "contentId": "CAT-S04",
+      "goodsId": "3cc36149-b95b-4181-8914-b0dffc55508c",
+      "goodsName": "拉链收纳袋",
+      "productVersion": "2",
+      "saleStatus": "ON_SALE",
+      "stock": {
+        "available": 20,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 700004,
+      "validMinutes": 120,
+      "payPrice": "14.90",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/pouch.svg",
+      "syncReady": true
+    },
+    {
+      "key": "showcase-cutlery",
+      "purpose": "SHOWCASE",
+      "contentId": "CAT-S05",
+      "goodsId": "a9fe54ef-d12b-417a-bc47-f022ec12dede",
+      "goodsName": "便携餐具盒",
+      "productVersion": "2",
+      "saleStatus": "ON_SALE",
+      "stock": {
+        "available": 20,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 700005,
+      "validMinutes": 120,
+      "payPrice": "25.90",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/cutlery.svg",
+      "syncReady": true
+    },
+    {
+      "key": "showcase-stand",
+      "purpose": "SHOWCASE",
+      "contentId": "CAT-S06",
+      "goodsId": "306ecfa3-ce91-4cf2-8e1b-a26b99498d9d",
+      "goodsName": "折叠手机支架",
+      "productVersion": "2",
+      "saleStatus": "ON_SALE",
+      "stock": {
+        "available": 20,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 700006,
+      "validMinutes": 120,
+      "payPrice": "19.90",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/stand.svg",
+      "syncReady": true
+    },
+    {
+      "key": "success",
+      "purpose": "ACCEPTANCE",
+      "contentId": null,
+      "goodsId": "1271c5d3-07fd-4769-ab15-0d8318695d2d",
+      "goodsName": "CAT 专用验收 cat01-3-20261020-01 success",
+      "productVersion": "3",
+      "saleStatus": "OFF_SALE",
+      "stock": {
+        "available": 8,
+        "reserved": 0,
+        "sold": 2
+      },
+      "activityId": 700007,
+      "validMinutes": 30,
+      "payPrice": "90.00",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/cup.svg",
+      "syncReady": true
+    },
+    {
+      "key": "expiry",
+      "purpose": "ACCEPTANCE",
+      "contentId": null,
+      "goodsId": "9605f8c8-d188-4506-b763-78201ba99305",
+      "goodsName": "CAT 专用验收 cat01-3-20261020-01 expiry",
+      "productVersion": "3",
+      "saleStatus": "OFF_SALE",
+      "stock": {
+        "available": 10,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 700008,
+      "validMinutes": 2,
+      "payPrice": "90.00",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/cup.svg",
+      "syncReady": true
+    },
+    {
+      "key": "cancel",
+      "purpose": "ACCEPTANCE",
+      "contentId": null,
+      "goodsId": "1044c454-57b6-4d4e-aff1-10a04fe7bad2",
+      "goodsName": "CAT 专用验收 cat01-3-20261020-01 cancel",
+      "productVersion": "3",
+      "saleStatus": "OFF_SALE",
+      "stock": {
+        "available": 10,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 700009,
+      "validMinutes": 30,
+      "payPrice": "90.00",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/cup.svg",
+      "syncReady": true
+    },
+    {
+      "key": "offpaid",
+      "purpose": "ACCEPTANCE",
+      "contentId": null,
+      "goodsId": "728c1a7c-22b5-4018-864d-114a0ecb33aa",
+      "goodsName": "CAT 专用验收 cat01-3-20261020-01 offpaid",
+      "productVersion": "3",
+      "saleStatus": "OFF_SALE",
+      "stock": {
+        "available": 10,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 700010,
+      "validMinutes": 2,
+      "payPrice": "90.00",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/cup.svg",
+      "syncReady": true
+    },
+    {
+      "key": "stockout",
+      "purpose": "ACCEPTANCE",
+      "contentId": null,
+      "goodsId": "cb334165-269d-4fa2-8d6a-d81ac7832baf",
+      "goodsName": "CAT 专用验收 cat01-3-20261020-01 stockout",
+      "productVersion": "3",
+      "saleStatus": "OFF_SALE",
+      "stock": {
+        "available": 0,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 700011,
+      "validMinutes": 30,
+      "payPrice": "90.00",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/cup.svg",
+      "syncReady": true
+    },
+    {
+      "key": "noactivity",
+      "purpose": "ACCEPTANCE",
+      "contentId": null,
+      "goodsId": "19158acf-d538-4f9d-881e-410517c72f15",
+      "goodsName": "CAT 专用验收 cat01-3-20261020-01 noactivity",
+      "productVersion": "3",
+      "saleStatus": "OFF_SALE",
+      "stock": {
+        "available": 10,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": null,
+      "validMinutes": 30,
+      "payPrice": "90.00",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/cup.svg",
+      "syncReady": true
+    },
+    {
+      "key": "badimage",
+      "purpose": "ACCEPTANCE",
+      "contentId": null,
+      "goodsId": "f37f55f6-8716-4411-b266-72add9b78178",
+      "goodsName": "CAT 专用验收 cat01-3-20261020-01 badimage",
+      "productVersion": "3",
+      "saleStatus": "OFF_SALE",
+      "stock": {
+        "available": 10,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 700013,
+      "validMinutes": 30,
+      "payPrice": "90.00",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/intentionally-missing.svg",
+      "syncReady": true
+    },
+    {
+      "key": "sync",
+      "purpose": "ACCEPTANCE",
+      "contentId": null,
+      "goodsId": "a415a3c4-192f-4b7c-8dd0-6280978fb961",
+      "goodsName": "CAT 专用验收 cat01-3-20261020-01 sync",
+      "productVersion": "4",
+      "saleStatus": "OFF_SALE",
+      "stock": {
+        "available": 10,
+        "reserved": 0,
+        "sold": 0
+      },
+      "activityId": 700014,
+      "validMinutes": 30,
+      "payPrice": "90.00",
+      "imageUrl": "https://zj-market-ux.test:8446/catalog/cup.svg",
+      "syncReady": true
+    }
+  ],
+  "sampleGoodsIds": [
+    "1271c5d3-07fd-4769-ab15-0d8318695d2d",
+    "9605f8c8-d188-4506-b763-78201ba99305",
+    "1044c454-57b6-4d4e-aff1-10a04fe7bad2",
+    "728c1a7c-22b5-4018-864d-114a0ecb33aa",
+    "cb334165-269d-4fa2-8d6a-d81ac7832baf",
+    "19158acf-d538-4f9d-881e-410517c72f15",
+    "f37f55f6-8716-4411-b266-72add9b78178",
+    "a415a3c4-192f-4b7c-8dd0-6280978fb961"
+  ],
+  "normalShowcaseGoodsIds": [
+    "28f891db-2bf3-4210-b13e-0ad29eafdd6d",
+    "1a93009a-d318-46ca-ae9d-6b4112264153",
+    "9d0311e3-8164-42a8-aa5f-07ffafc27bfd",
+    "3cc36149-b95b-4181-8914-b0dffc55508c",
+    "a9fe54ef-d12b-417a-bc47-f022ec12dede",
+    "306ecfa3-ce91-4cf2-8e1b-a26b99498d9d"
+  ],
+  "mainProductsCreated": 0
+}
