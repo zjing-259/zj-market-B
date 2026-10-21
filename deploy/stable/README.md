@@ -1,5 +1,7 @@
 # 独立稳定版运行入口（CAT04 发布，CAT 系列已验收）
 
+当前验收口径补充（2026-10-21）：CAT-01.1～01.5 已完成已约定范围，交付证据复核通过；首页仍保留 B06 demonstration product（就绪探针依赖）和 B063 b063-normal01 success（精确归属待核对）。解除探针依赖与核对归属后的商品整理尚未实施，不能宣称全部展示商品已整理。本批待办为零也不代表历史核对／人工复核／待履约全系统清空。本次 Docker 未启动，未重新检查在线首页、商品状态或数据库快照；下文运行数量和 READY 记录均取自已注明的历史验收，日常使用时须实际执行就绪检查。详见 [范围与剩余展示收尾](../../docs/catalog-optimization.md)。
+
 主站现为 `cat04-stable-20261020-01`／正经商城新版，CAT-01.4 开始时的原 66 笔订单及原义务保持，六件日用品在售，52 件确认历史样本和 CAT05 七件专用样本已下架，2 件保留；CAT05 新增五笔已验订单，当前总计 71 单。`zj-market-b06` 已于 2026-10-16 从 `D:\Java\zj-market-stable` 接管，沿用原五卷、五网络及固定镜像。当前日常入口为 `D:\Java\zj-market-stable\scripts\stable.ps1`；原 `td06-environment.py`、`td06-main-release.py` 和旧浏览器入口对主站已设置交接门禁。ST-02 原候选仍位于已忽略的 `target/stable-isolation/st02_20261016_04/bundle`，仅作历史材料，不能用于当前主站启停。
 
 先启动 Docker Desktop 的 Linux 引擎，再在 Windows PowerShell 使用：
