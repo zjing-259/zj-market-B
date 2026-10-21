@@ -63,3 +63,5 @@ CAT-01.4 已完成主站整理；当前两站隔离用 `python -B scripts/cat04-
 
 
 CAT-01.5 系列收尾（主站独立批次；UX 业务数据未变）：[最终验收](../../docs/tests/cat01-5-acceptance.json)和[精确样本](../../docs/cat05-main-samples.json)。七件主站样本已下架，正常六件无本批订单，两站运行仍沿用 CAT04／CAT03 资源镜像，未部署新代码。UX 源码中的 `cat05-run.py` 是明确的主站验收工具，只从稳定目录读取主站输入；不要把执行目录误当目标环境。日常主站及 UX ready 和 `cat04-isolation.py` 保持只读。旧 `ux05-joint.py prepare/browser` 与 `ux05-browser.mjs prepare/browser` 已封闭无 CAT 收尾的写入口，改用 CAT05 显式批次流程；旧报告及历史源码提交不覆盖。CAT03 工具仍只处理其 UX 自有批次，已封存批次不得重新发布。当前 CAT05 本批也禁止再跑交易；恢复和新批次说明见 [主站维护说明](D:/Java/zj-market/deploy/stable/README.md)。
+
+CAT-02 主站展示收尾（2026-10-21）已验收：主站新控制发布 cat02-stable-20261021-01，两个原保留商品均下架，首页仅六件日用品；业务镜像和 UX 部署未换。新探针正常／受控空目录分支及真实 A 停机失败测试仅在 UX 进行，A finally 恢复后健康，UX 全业务快照及容器身份保持。日常仍用主站独立 stable.ps1、UX ready、cat04-isolation；不要执行绑定旧发布的 CAT04/05 工具作当前门禁。见 [本轮验收](../../docs/tests/cat02-closeout-acceptance.json)和 [新发布](../../docs/cat02-release.json)。原 CAT05 及之前的报告保持原字节。

@@ -42,3 +42,5 @@ CAT-01.4 主站实际展示商品（各 20 可用库存，版本 2，A 已确认
 | CAT-S06 | 折叠手机支架 | `0527e161-8ca8-4744-ba24-fd886536e5cf` | [主站商品页](https://zj-market.test/products/0527e161-8ca8-4744-ba24-fd886536e5cf) |
 
 精确活动区间、库存和状态见 [主站运行清单](cat04-main-products.json)，证据见 [CAT-01.4](tests/cat01-4-acceptance.json)。CAT-01.5 已在独立专用样本上完成交易和下架收尾，正常六件保持只读且无本批新订单。见 [系列最终验收](tests/cat01-5-acceptance.json)。
+
+CAT-02 当前展示状态（2026-10-21）：两件原保留技术商品已运营下架，首页只剩上述六件中文日用品；商品 ID、图片／描述／价格和各 20 件库存保持。cat04-main-products.json 是 CAT01.4 时点记录，其 retainedGoodsIds 两项已由 CAT-02 单独收尾，不回写历史 JSON。最新结果见 [CAT-02 验收](tests/cat02-closeout-acceptance.json)。本轮正常商品仅匿名 GET 和只读数据库配置核对，没有新交易。
