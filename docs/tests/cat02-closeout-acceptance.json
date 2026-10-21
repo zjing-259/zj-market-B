@@ -1,0 +1,354 @@
+{
+  "stage": "CAT-02 retained storefront closeout",
+  "status": "PASS",
+  "acceptedAt": "2026-10-21T13:54:21.841731+00:00",
+  "batch": "cat02-closeout-20261021-01",
+  "summary": {
+    "retiredLegacyGoods": 2,
+    "publicGoods": 6,
+    "allGoods": 67,
+    "orders": 71,
+    "ledgerRows": 207,
+    "newOrders": 0,
+    "newPaymentsOrRefunds": 0,
+    "newInventoryOperations": 0,
+    "originalBusinessFactsPreserved": true,
+    "uxBusinessFactsPreserved": true
+  },
+  "scope": "Resolve both previously retained technical display goods; original CAT01.1-01.5 reports unchanged",
+  "retiredGoods": [
+    {
+      "goodsId": "5a4d973a-4d83-4f7b-9155-4c331b436fc4",
+      "goodsName": "B06 demonstration product",
+      "productVersion": 2,
+      "saleStatus": "OFF_SALE",
+      "aConfirmed": true
+    },
+    {
+      "goodsId": "db7100d5-12ad-4b24-b7b3-dc773b0f33b8",
+      "goodsName": "B063 b063-normal01 success",
+      "productVersion": 2,
+      "saleStatus": "OFF_SALE",
+      "aConfirmed": true
+    }
+  ],
+  "ownershipReview": {
+    "status": "REVIEWED",
+    "goodsIds": [
+      "5a4d973a-4d83-4f7b-9155-4c331b436fc4",
+      "db7100d5-12ad-4b24-b7b3-dc773b0f33b8"
+    ],
+    "authorization": "User explicitly requested completion of both retained legacy goods; exact IDs reviewed from persisted inventory",
+    "sourceHashes": {
+      "D:\\Java\\zj-market-b-06\\docs\\b06-development.md": "5132DF88FDDD05FB92C7282D70FD236E8027DE1C8083873F64E2CA151E4AE5E7",
+      "D:\\Java\\zj-market-b-06\\docs\\tests\\b06-normal-browser.mjs": "1CB143D33C0D2FE694CDB7A9A3A34CCDB91EC3DD46B36B6C3511B2DA3FF3AB6E",
+      "D:\\Java\\zj-market-ux\\zj-market-domain\\src\\main\\java\\cn\\zj\\zjmarket\\domain\\order\\service\\impl\\TeamService.java": "9B106DDA217ED245B0C6935EC333E99F6BD9D62B849E51C1C67CDD8A9908509A",
+      "D:\\Java\\zj-market-ux\\zj-market-infrastructure\\src\\main\\java\\cn\\zj\\zjmarket\\infrastructure\\adapter\\port\\order\\DubboTradePort.java": "B51F034AB92B25146DD69D4F871D335D05CE703A7C4E2DB73E5A490F7F09031C"
+    },
+    "reviews": [
+      {
+        "goodsId": "5a4d973a-4d83-4f7b-9155-4c331b436fc4",
+        "basis": "Original initialization event + previous active stable readiness seed + user-directed closeout after probe change",
+        "creationEventId": "38ffa3b8-ea0e-4fd8-af69-4e9d2cafe4c9",
+        "scope": "off-sale only; retain all original orders and stock"
+      },
+      {
+        "goodsId": "db7100d5-12ad-4b24-b7b3-dc773b0f33b8",
+        "classification": "REVIEW_CONFIRMED_FAILED_PREPARATION_REMAINDER",
+        "basis": "Exact original outbox ID binds this goods ID to b063-normal01 success; full current fields match original preparation factory; historical development note explicitly records stock API 405 and retained zero-stock product; account initialization and no operations/activity/orders/ledgers independently agree",
+        "creationEventId": "5b68c25a-9281-4102-9cb7-a44051a6a79f",
+        "creationEventBodySha256": "64aa12c530df8e4412caa0eb813e3313c89f921062736566218a350c7f6b8b4c",
+        "initialization": {
+          "goodsId": "db7100d5-12ad-4b24-b7b3-dc773b0f33b8",
+          "initializedBy": "PRODUCT_CREATE",
+          "productCreatedAt": 1791730273769,
+          "inventoryCreatedAt": 1791730273769,
+          "inventoryOperations": 0
+        },
+        "originalFixtureRecovered": false,
+        "historicalOperatorIdUnavailable": true,
+        "scope": "Explicit current operator closeout of this reviewed ID, not a name-based batch classification"
+      }
+    ]
+  },
+  "checks": {
+    "noSeedInActiveProbeOrManifest": true,
+    "signedMissingTeamQueryRequiresSpecificSemantic404": true,
+    "generic404AuthTLSDependencyAndMaintenanceFailuresRejected": true,
+    "emptyCatalogueResponseBranchPassedWithRealUXPeer": true,
+    "actualUXADownFailsAndRecovers": true,
+    "allImagesAndSchemaUnchanged": true,
+    "oldReleasesAndColdBackupVerified": true,
+    "onlyTwoExactOptimisticOffSaleEdits": true,
+    "preRetirementEvidenceHashesVerified": true,
+    "repeatNoBusinessChanges": true,
+    "legacyRollbackRefusedBeforeStoppingNewRelease": true,
+    "exactSixNormalGoodsPublic": true,
+    "fourBrowserViewportsAndSixImageHashes": true,
+    "originalSeedOrdersSnapshotsReadable": true,
+    "normalPriceStockAndActivityInvariantsAgainstAcceptedBaseline": true,
+    "mainAndUXOriginalBusinessRecordsPreserved": true
+  },
+  "probeMain": {
+    "status": "STABLE_PROBE_PASS",
+    "contract": "sku-independent-signed-team-query-v1",
+    "catalogue": 200,
+    "catalogueTotal": 6,
+    "signedTeam": 404,
+    "signedTeamCode": "TEAM_NOT_FOUND",
+    "probeTeamId": "ebe54df6-4d4b-4eb5-bfa5-649b404bd5b8",
+    "discovery": 200,
+    "invalidWrite": 401,
+    "tlsAuthorized": true
+  },
+  "probeContractTests": "CAT02_PROBE_CONTRACT_PASS 11 cases; empty catalogue and dependency/auth/TLS failures",
+  "browser": {
+    "status": "PASS",
+    "strictTLS": true,
+    "ignoreHTTPSErrors": false,
+    "publicGoods": [
+      {
+        "goodsId": "0527e161-8ca8-4744-ba24-fd886536e5cf",
+        "goodsName": "折叠手机支架"
+      },
+      {
+        "goodsId": "f343b1e1-da5f-4207-a835-b9222321c574",
+        "goodsName": "便携餐具盒"
+      },
+      {
+        "goodsId": "a86372f0-c65e-4c95-9610-643343b8047e",
+        "goodsName": "拉链收纳袋"
+      },
+      {
+        "goodsId": "830a2bc3-e828-480b-abd9-96571a1097dc",
+        "goodsName": "方格随手本"
+      },
+      {
+        "goodsId": "d42cd30c-4438-47d9-bfe1-1657f2864b3a",
+        "goodsName": "原色帆布袋"
+      },
+      {
+        "goodsId": "68d2db7c-62d8-402b-a52a-ea1e6bca93dc",
+        "goodsName": "雾蓝随行杯"
+      }
+    ],
+    "checks": [
+      "image-sha256-cup",
+      "image-sha256-bag",
+      "image-sha256-notebook",
+      "image-sha256-pouch",
+      "image-sha256-cutlery",
+      "image-sha256-stand",
+      "six-chinese-products-layout-360",
+      "six-chinese-products-layout-390",
+      "six-chinese-products-layout-1280",
+      "six-chinese-products-layout-1440",
+      "anonymous-product-detail-cup",
+      "anonymous-product-detail-bag",
+      "anonymous-product-detail-notebook",
+      "anonymous-product-detail-pouch",
+      "anonymous-product-detail-cutlery",
+      "anonymous-product-detail-stand",
+      "retired-id-not-public-5a4d973a-4d83-4f7b-9155-4c331b436fc4",
+      "retired-id-not-public-db7100d5-12ad-4b24-b7b3-dc773b0f33b8"
+    ],
+    "originalOrders": [
+      {
+        "orderId": "accd5bee-b101-4ecc-b098-6af71cd7d648",
+        "status": "GROUP_COMPLETED",
+        "originalGoodsName": "B06 demonstration product"
+      },
+      {
+        "orderId": "954a88a7-2ee3-4bb9-923a-ed49e2cd744d",
+        "status": "GROUP_COMPLETED",
+        "originalGoodsName": "B06 demonstration product"
+      }
+    ],
+    "blockedBusinessMutations": 0,
+    "pageErrors": [],
+    "screenshots": {
+      "catalogue-final-360.png": "F6FBE3E421B6222982B5356F74E8F4D5E117E19CE5FFBFFA94CD5CEA7C743933",
+      "catalogue-final-390.png": "4E757AADA2EA9452BFDC510BE50B9A1C6153B3358EC9B2F40A050834023CF545",
+      "catalogue-final-1280.png": "A7F2BC70242F389669C6CE3B2822B57DA723CB15EE2D2BC1BC2562D2A76AD511",
+      "catalogue-final-1440.png": "D45280677012DEF3865FD98CCBDE269E6C7FAAC7975A3C97BE20CB992A80C6D2"
+    },
+    "normalProductInspection": "anonymous GET only; activity/stock/price invariants checked independently"
+  },
+  "release": {
+    "status": "FROZEN",
+    "release": "cat02-stable-20261021-01",
+    "previousRelease": "cat04-stable-20261020-01",
+    "releaseSha256": "9925C67A1B2E6D5A037F74141FE0499A85FCBD42939DF88CBDAC22A83D8C78D5",
+    "previousReleaseSha256": "C649DBCACBA5E2A21D691EC20C6F8C3D2EF1DD69DD5A7540F13FAE24707018A7",
+    "images": {
+      "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+      "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+      "rocketmq": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+      "marketing-a": "sha256:48c7af4be50e59133cf76aac69bac7142fb0ab19c27c4cf21ae352550dc57ddc",
+      "market-b": "sha256:cebd526685cd3b2bba6619494321abae36a6f5df976306a67f08549d781d196a",
+      "web": "sha256:f85131ff30aa0835dbbf5d52184596ed646e765af3fa244f5a1ba2ee9fbfc862"
+    },
+    "imagesUnchanged": true,
+    "backendConfigUnchanged": true,
+    "seedRemovedFromActiveProbeManifest": true,
+    "schemaFingerprint": "5112d4e1b0c30224047bc9f945dfb4c360c623d4fcfb204757a4a7a411ec090b",
+    "flywayHistorySha256": "6fce73b5216393658902305bacdf262f80294dedec4a4a7676e6c0ba897928df",
+    "readinessContract": "sku-independent-signed-team-query-v1",
+    "tools": {
+      "controller.py": "0FBFC47EFD6AABCE8641FE1D9F0D1DB42DD11FB02A1D36B96A122A513563006B",
+      "stable-probe.mjs": "D7314D405CC4A077E98033875FC38382B1810B44A34590BB795FBCFCE90719FF",
+      "stable.ps1": "F92CEB057A65647AD8D2A1451C726C03A35CA43EA7C102A032F4662F652B5C39",
+      "open-stable.ps1": "842DD0FFB412BD094F2CF7ED7A198AC882A2813ACE049D416ACAF759F92CA613"
+    },
+    "probeSourceSha256": "A83D1FECFFE8BCC7D69554AA21FD7CC2A25EB27DD99662E40E066CAE5869CB19",
+    "rollbackConstraint": "Old CAT04 probe requires its seed ON_SALE. After retirement, legacy rollback is rejected before stopping current release; use a compatible SKU-independent successor with current data."
+  },
+  "upgrade": {
+    "release": "cat02-stable-20261021-01",
+    "backupBatch": "cat02-main-20261021-01",
+    "backupManifestSha256": "319696A7A61081A032C840209604C2ACAA41F041E30AB02599F8AC112F1A05C6",
+    "preExistingFactsPreserved": true
+  },
+  "beforeDigests": {
+    "products": "63C66E292F3D4338049BC5CCD3F66BBF8571E0834068DEB8A67995B290BE62F3",
+    "sync": "B13BC4D28DC31929280F8254ABF732E6E8FBE53DD82967DB4C941204FF5AE953",
+    "inventory": "F1D81E6126351E43CA316B9D5EE2A806E3D4FA619C55D954415881CB821153ED",
+    "projection": "4620F829386237C210F81FFCB052A9134A73AEB69B3DF28F870546C261761DA7",
+    "bindings": "D9B8F8264AF4F7B12ED472838D91D65F691D6BFF44171A19504BF0189D6DD424",
+    "activities": "FBB7642A684C27ACB97B36D15A491C12BB77B1A2C106D9893811970CC060BA68",
+    "discounts": "FDA5AC35BE52F75C97CCA2DDE8DDBEFD19895559DD07CB081D8A07C41A19F234",
+    "orders": "F8E9D4F84CD765AEBCE1CC49130D33EC01E2634FB66F49BC95ECF42BD2C39ADB",
+    "payments": "38A2F50F29F38027D614D8C373391112C6C23980CB4DC4AF10A71E5AF5EDAD82",
+    "refunds": "D272B81DD9B199C1AEFA1B128CAD1B414084C520840FA39269FC1EBF0F6B0E29",
+    "teams": "D4D559E498286D5178139E57024C4BF1296C23612A3F6A3CBC5E7A098791729C",
+    "aOrders": "6429334844168B39230EE0275E8925C985C7E5AAC2D42D0DD66D41AE77B87F0B",
+    "work": "7D3DCAC9C892FEE7992E84EE8CEF96F86077501BB7A67EC325CFA8418365D806",
+    "blocks": "81A77391B0D4D7D8B674F7D7FB421784D21A848BB878AACA569E378285BF44D6",
+    "fulfillment": "D93D217F7D4B7189A71695808EBA0D6F55194A0CBEA21BF1FC02102B982DBFF3",
+    "ledger": "8F6CCB56229F6774FD45D6970025232A7AE96F2026BC8182D569004DE24C7E96",
+    "reservations": "BA7C05BA6C92624398A976B59B5F6FAF5BAC28B8A118F578668A4F41401F01F1",
+    "orderSnapshots": "B5841860E40E25B4025BDB9DE7D44C8F51A88E376DE9115940DC00A418D9736F"
+  },
+  "afterDigests": {
+    "products": "0CE0A869C446194647EB3C3A596951F1CD4C471E4E8D6AB693A74D426F2D5C02",
+    "sync": "27937FA9384F9DC0276A55766C1F03696BBDC9A84326C233D7F2353B0CD20182",
+    "inventory": "F1D81E6126351E43CA316B9D5EE2A806E3D4FA619C55D954415881CB821153ED",
+    "projection": "2D214006F8440156C578CF06457AFEEC2C5C6F8DDEECC8CA7F6E65C188DA9858",
+    "bindings": "D9B8F8264AF4F7B12ED472838D91D65F691D6BFF44171A19504BF0189D6DD424",
+    "activities": "FBB7642A684C27ACB97B36D15A491C12BB77B1A2C106D9893811970CC060BA68",
+    "discounts": "FDA5AC35BE52F75C97CCA2DDE8DDBEFD19895559DD07CB081D8A07C41A19F234",
+    "orders": "F8E9D4F84CD765AEBCE1CC49130D33EC01E2634FB66F49BC95ECF42BD2C39ADB",
+    "payments": "38A2F50F29F38027D614D8C373391112C6C23980CB4DC4AF10A71E5AF5EDAD82",
+    "refunds": "D272B81DD9B199C1AEFA1B128CAD1B414084C520840FA39269FC1EBF0F6B0E29",
+    "teams": "D4D559E498286D5178139E57024C4BF1296C23612A3F6A3CBC5E7A098791729C",
+    "aOrders": "6429334844168B39230EE0275E8925C985C7E5AAC2D42D0DD66D41AE77B87F0B",
+    "work": "7D3DCAC9C892FEE7992E84EE8CEF96F86077501BB7A67EC325CFA8418365D806",
+    "blocks": "81A77391B0D4D7D8B674F7D7FB421784D21A848BB878AACA569E378285BF44D6",
+    "fulfillment": "D93D217F7D4B7189A71695808EBA0D6F55194A0CBEA21BF1FC02102B982DBFF3",
+    "ledger": "8F6CCB56229F6774FD45D6970025232A7AE96F2026BC8182D569004DE24C7E96",
+    "reservations": "BA7C05BA6C92624398A976B59B5F6FAF5BAC28B8A118F578668A4F41401F01F1",
+    "orderSnapshots": "B5841860E40E25B4025BDB9DE7D44C8F51A88E376DE9115940DC00A418D9736F"
+  },
+  "uxBeforeDigests": {
+    "products": "32B6D477FEF592092838A87003426B75D94FB373DAB9259D9E2D36E2FDC08324",
+    "sync": "0DF939730F7C9220D4C79B78B9E3AC945708EB6EB638D9CEE023D3E5BAEBB267",
+    "inventory": "9EA1B9B60C025AB22131A5914283AEF7B9D67479F46C0C8760DAC9EC5E0AF199",
+    "projection": "4871A6D31573CB995C89B168F80BAC7A41C06AB0E18EC1EDCDF85EB3920980C2",
+    "bindings": "8B235C31F6690E13C195045F09C5F4F6D8C4770B22693BFF32AB27F018A2B9DA",
+    "activities": "5B24275CD74E4EA0C988B772B43908ABB300DA69FB1E45A1E15A1C02B814AED6",
+    "discounts": "3476EA2891AF300BDC39A00CF947193D365426697AADE7012A053199BDBAD8F5",
+    "orders": "A8AD276EDA625F72121FB938CCF8F85E0A8357F0A953178FD4EEF816C2E13D22",
+    "payments": "7721CF5BD0E51C09DD802EFB102A5881B89E500D9713C62B9928AFAB8397F0FF",
+    "refunds": "052CEE56FFFC46A8680731CAF147159B4D1438B89386742A0E1B099820E44A90",
+    "teams": "6267327C7D5E47454B811D8279AA69DF40E4290FDE5ADBF9EF6D4543C5610FE2",
+    "aOrders": "EED8FB1B12032045307F7B16039947B5C1F07527DE3F771DD89171AF7C516C49",
+    "work": "BAE824EFAD7E5E9CA1DF64602AD1558F58458844F7DF252649D65D37B3BB922E",
+    "blocks": "AEC39FF8769195DE720DFDD489D84F81CCFE73D072BBB6A1087E0FAE843B5580",
+    "fulfillment": "6D4FED38EAFB838184B26E4DBEC8B26B97EC03B3ED6BF943E3CB6FFB065D9056",
+    "ledger": "06CCB5907867AA99A190BE22469DE37F885D6CC6E7CE76C92690A397B9BA31B1",
+    "reservations": "FE269C45A0A736D7C3D0DF2B264DA1E11CA4F5AD2DB03482FBD4B89A7085CB77",
+    "orderSnapshots": "1FDB7D6EF0464680AAA405711A5C79CDE6A324C75AD7DA9D0839AA8357E1A197"
+  },
+  "uxAfterDigests": {
+    "products": "32B6D477FEF592092838A87003426B75D94FB373DAB9259D9E2D36E2FDC08324",
+    "sync": "0DF939730F7C9220D4C79B78B9E3AC945708EB6EB638D9CEE023D3E5BAEBB267",
+    "inventory": "9EA1B9B60C025AB22131A5914283AEF7B9D67479F46C0C8760DAC9EC5E0AF199",
+    "projection": "4871A6D31573CB995C89B168F80BAC7A41C06AB0E18EC1EDCDF85EB3920980C2",
+    "bindings": "8B235C31F6690E13C195045F09C5F4F6D8C4770B22693BFF32AB27F018A2B9DA",
+    "activities": "5B24275CD74E4EA0C988B772B43908ABB300DA69FB1E45A1E15A1C02B814AED6",
+    "discounts": "3476EA2891AF300BDC39A00CF947193D365426697AADE7012A053199BDBAD8F5",
+    "orders": "A8AD276EDA625F72121FB938CCF8F85E0A8357F0A953178FD4EEF816C2E13D22",
+    "payments": "7721CF5BD0E51C09DD802EFB102A5881B89E500D9713C62B9928AFAB8397F0FF",
+    "refunds": "052CEE56FFFC46A8680731CAF147159B4D1438B89386742A0E1B099820E44A90",
+    "teams": "6267327C7D5E47454B811D8279AA69DF40E4290FDE5ADBF9EF6D4543C5610FE2",
+    "aOrders": "EED8FB1B12032045307F7B16039947B5C1F07527DE3F771DD89171AF7C516C49",
+    "work": "BAE824EFAD7E5E9CA1DF64602AD1558F58458844F7DF252649D65D37B3BB922E",
+    "blocks": "AEC39FF8769195DE720DFDD489D84F81CCFE73D072BBB6A1087E0FAE843B5580",
+    "fulfillment": "6D4FED38EAFB838184B26E4DBEC8B26B97EC03B3ED6BF943E3CB6FFB065D9056",
+    "ledger": "06CCB5907867AA99A190BE22469DE37F885D6CC6E7CE76C92690A397B9BA31B1",
+    "reservations": "FE269C45A0A736D7C3D0DF2B264DA1E11CA4F5AD2DB03482FBD4B89A7085CB77",
+    "orderSnapshots": "1FDB7D6EF0464680AAA405711A5C79CDE6A324C75AD7DA9D0839AA8357E1A197"
+  },
+  "preservedHistoricalObligations": {
+    "reconcilingTeams": 25,
+    "unfinishedWork": 1,
+    "activeBlocks": 12,
+    "reviewOrders": 15,
+    "pendingFulfillment": 30
+  },
+  "boundaries": [
+    "Original fixture and individual creator identity for normal01 were not recovered; original outbox ID, complete fields, failed-batch documentation and zero-related-business records form the reviewed evidence chain under explicit current authorization.",
+    "Empty catalogue drill masks the read response on UX; no real catalogue rows were taken off sale for this drill. Signed peer/auth/TLS calls remained real.",
+    "Normal browser product inspection uses anonymous GET only. Prices/activity/stock are compared to accepted baselines and current activity windows; no new quote/purchase/payment requests on normal goods.",
+    "Original financial/review/reconciliation/fulfillment history is preserved; no claim of system-wide historical obligations cleared.",
+    "Legacy CAT04 rollback requires its original seed ON_SALE. With it retired the tool refuses before stopping the current release; fix forward or use a verified SKU-independent successor, never restore old data over live volumes."
+  ],
+  "privateEvidenceRoot": "D:\\Java\\zj-market-ux\\.local\\cat\\cat02-closeout-20261021-01",
+  "sourceHashes": {
+    "cat02-acceptance.py": "B7F37F503129C108EF15BAD2607E3879A7DED4CB7B637FD4551364E17C184379",
+    "cat02-browser.mjs": "2D40344FD43481544B58826F078528604CDB207C5FD346B02E33515EA4814DDC",
+    "cat02-closeout.mjs": "E67FB418083469EF368146E6CCDBC6948DEC62C978464A5028BF10B47EA6D312",
+    "cat02-preview.mjs": "3284900AFA211CF5A0674DF7115AC3F6289700351AD17B3CF6A5BF8730044DF8",
+    "cat02-probe-live.mjs": "FD409F28CA3190AC068B692256FA0F9B091C58BFA2CA4CD7BDD6557F3E7AC906",
+    "cat02-probe.test.mjs": "E1E395C1EDEDEFB24A3014C61C08D423C3092AF760EAAAC98D8F889006B0E3EB",
+    "cat02-release.py": "A755723597C1787CDE6E9B5DFDD76C6F9EDFCA5D27E31A45F7C8E97DE50FF7E6",
+    "cat02-stable-probe.mjs": "A83D1FECFFE8BCC7D69554AA21FD7CC2A25EB27DD99662E40E066CAE5869CB19",
+    "cat02-validate.py": "DE66AA4549E455107170598F00F4A72257495386A30CE90212949121E6F9E67C"
+  },
+  "evidenceHashes": {
+    "after-repeat.json": "70EDE88D4D7DD4D38DA4F7190638179530532CA40D05074B183388D627A86071",
+    "api-retire-1792590512844.json": "2AFD44E9269D2612454469474BC1E5439E4943D290F17D567B7DC2DA7724F306",
+    "api-retire-1792590570324.json": "1288C99515B73DF7869B56004B11B161EB2C9944F30CF6979915DAA9BF41770B",
+    "before-repeat.json": "70EDE88D4D7DD4D38DA4F7190638179530532CA40D05074B183388D627A86071",
+    "browser-report.json": "AE98DCF30E1330970CDF11893EF3EAB906E93CA9761B2FA5A9CD226FBABE2663",
+    "evidence-before-retirement.json": "C0AC7E225CC505771B12D7F795F3A12FA7386F4AF7A251584DF2708139CA2ACF",
+    "isolation-before-upgrade.json": "DDF8D3D0CDE2A9CDA0B1785FFC3012C3E00EC94A44E6466C3082827E659B0B82",
+    "isolation-final.json": "BC8042A7F101A03B02924FD3EF98CBBC79DACBDC0F6F364BE69486C6A0CA82B7",
+    "main-after-probe-drill.json": "E6282F6085257F05BB904157C1303D70121CAC46662425A19B57D9F9FB9960BD",
+    "main-after.json": "70EDE88D4D7DD4D38DA4F7190638179530532CA40D05074B183388D627A86071",
+    "main-before.json": "E6282F6085257F05BB904157C1303D70121CAC46662425A19B57D9F9FB9960BD",
+    "main-upgrade.json": "97CAF871D91F5A8218554C1B6545CDB7D3DD623B241AA416571DC1833F0B52E1",
+    "ownership-raw.json": "9060D57847EB518C9A26CAAAC5C9DA6B7FCD107A7F8AA43A650F1E79AF1E7639",
+    "ownership-review.json": "D32A158CDB60565A17C451CE4DCEFFDA603C3CFE4DC0EEE4A5297D7B700DB8A8",
+    "probe-main-after-retirement.json": "32DFB80E66641D66231A9C9319237F133B478BF670AC5E75C7566BA1FE0367A2",
+    "probe-ux-down.json": "3F6F7D8CCF230A5637101165FF360ED81892E92C9FDE019C79B883C55903BC69",
+    "probe-ux-empty.json": "B843B210A8A04AFD726DF74EBDAF4797632EB7A6A417504EA6F5F324C4621459",
+    "probe-ux-normal.json": "92C49449414C0D088E57D6F7F0C5E3C82CF6E2623B00A8017FF191C6188C848D",
+    "probe-ux-recovery.json": "02CB610D158587133A1EC40B324AD520601E253023312E0153D29B63634D58C0",
+    "release-freeze.json": "09C87DF9CDC9CF535A2BD35233DCB1792F7B3502FED268B63CDDA0C3E1D40AF6",
+    "repeat-and-rollback-guard.json": "A86EFD7F7F1394E9185C4D3853C747384BE75BA6810D2745CF1156F687907D5B",
+    "retirement-journal.json": "7931AA0BF983D773628A34EE21AE74CA9CDD65E80A71DC84D344A469CBAC32D0",
+    "retirement-repeat.json": "4BA0EFA6C9E2C6C355CA61A27E3D57189CDB2ABB12AA4E15EC7A6BE33AF126FC",
+    "retirement.json": "9EC66CA8FA8A6FBD5F4B05C55E836983D212CE8B8286A311673D45D38F6B1B00",
+    "source-evidence.json": "406CAD9A2613FE0C9AF48C04BB693825224E86529ED6380366C35C4B0659A889",
+    "ux-after-probe-drill.json": "8E8043E03B2A077D7AD75F8B004DF3FD62E0C67F4A5AC3D57389FC0388FF4D3D",
+    "ux-after.json": "8E8043E03B2A077D7AD75F8B004DF3FD62E0C67F4A5AC3D57389FC0388FF4D3D",
+    "ux-before.json": "8E8043E03B2A077D7AD75F8B004DF3FD62E0C67F4A5AC3D57389FC0388FF4D3D"
+  },
+  "screenshots": {
+    "catalogue-final-1280.png": "A7F2BC70242F389669C6CE3B2822B57DA723CB15EE2D2BC1BC2562D2A76AD511",
+    "catalogue-final-1440.png": "D45280677012DEF3865FD98CCBDE269E6C7FAAC7975A3C97BE20CB992A80C6D2",
+    "catalogue-final-360.png": "F6FBE3E421B6222982B5356F74E8F4D5E117E19CE5FFBFFA94CD5CEA7C743933",
+    "catalogue-final-390.png": "4E757AADA2EA9452BFDC510BE50B9A1C6153B3358EC9B2F40A050834023CF545"
+  }
+}

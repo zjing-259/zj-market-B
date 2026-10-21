@@ -1,0 +1,29 @@
+{
+  "status": "FROZEN",
+  "release": "cat02-stable-20261021-01",
+  "previousRelease": "cat04-stable-20261020-01",
+  "releaseSha256": "9925C67A1B2E6D5A037F74141FE0499A85FCBD42939DF88CBDAC22A83D8C78D5",
+  "previousReleaseSha256": "C649DBCACBA5E2A21D691EC20C6F8C3D2EF1DD69DD5A7540F13FAE24707018A7",
+  "images": {
+    "mysql": "sha256:412b8cc72e4a28e086097c3fcb1ca391beaefe86bc421a57bc53f7596461ce3b",
+    "redis": "sha256:6b39cc9308f350a20a3289ce1d55e1e3a4ce20d7991cb18d4d2f9c029f1d2ea7",
+    "rocketmq": "sha256:c147972457ebbd024bb8d5ef11e3d069c2464523b6983af2a6c650b3d94160c5",
+    "marketing-a": "sha256:48c7af4be50e59133cf76aac69bac7142fb0ab19c27c4cf21ae352550dc57ddc",
+    "market-b": "sha256:cebd526685cd3b2bba6619494321abae36a6f5df976306a67f08549d781d196a",
+    "web": "sha256:f85131ff30aa0835dbbf5d52184596ed646e765af3fa244f5a1ba2ee9fbfc862"
+  },
+  "imagesUnchanged": true,
+  "backendConfigUnchanged": true,
+  "seedRemovedFromActiveProbeManifest": true,
+  "schemaFingerprint": "5112d4e1b0c30224047bc9f945dfb4c360c623d4fcfb204757a4a7a411ec090b",
+  "flywayHistorySha256": "6fce73b5216393658902305bacdf262f80294dedec4a4a7676e6c0ba897928df",
+  "readinessContract": "sku-independent-signed-team-query-v1",
+  "tools": {
+    "controller.py": "0FBFC47EFD6AABCE8641FE1D9F0D1DB42DD11FB02A1D36B96A122A513563006B",
+    "stable-probe.mjs": "D7314D405CC4A077E98033875FC38382B1810B44A34590BB795FBCFCE90719FF",
+    "stable.ps1": "F92CEB057A65647AD8D2A1451C726C03A35CA43EA7C102A032F4662F652B5C39",
+    "open-stable.ps1": "842DD0FFB412BD094F2CF7ED7A198AC882A2813ACE049D416ACAF759F92CA613"
+  },
+  "probeSourceSha256": "A83D1FECFFE8BCC7D69554AA21FD7CC2A25EB27DD99662E40E066CAE5869CB19",
+  "rollbackConstraint": "Old CAT04 probe requires its seed ON_SALE. After retirement, legacy rollback is rejected before stopping current release; use a compatible SKU-independent successor with current data."
+}

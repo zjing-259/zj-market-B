@@ -1,8 +1,8 @@
-# 独立稳定版运行入口（CAT04 发布，CAT 系列已验收）
+# 独立稳定版运行入口（CAT-02 探针及两项展示收尾已验收）
 
-当前验收口径补充（2026-10-21）：CAT-01.1～01.5 已完成已约定范围，交付证据复核通过；首页仍保留 B06 demonstration product（就绪探针依赖）和 B063 b063-normal01 success（精确归属待核对）。解除探针依赖与核对归属后的商品整理尚未实施，不能宣称全部展示商品已整理。本批待办为零也不代表历史核对／人工复核／待履约全系统清空。本次 Docker 未启动，未重新检查在线首页、商品状态或数据库快照；下文运行数量和 READY 记录均取自已注明的历史验收，日常使用时须实际执行就绪检查。详见 [范围与剩余展示收尾](../../docs/catalog-optimization.md)。
+当前状态（2026-10-21，已在线验收）：主站新独立发布 `cat02-stable-20261021-01` READY。两件原保留历史商品均已下架／版本 2／A 确认，当前公开只六件中文日用品，全站 67 商品／71 单／207 流水；本轮无新增交易或库存操作，原业务与历史义务保持。新就绪探针不再读取 seed-goods-id，也不要求任何特定商品在售。见 [验收](../../docs/tests/cat02-closeout-acceptance.json)、[发布](../../docs/cat02-release.json)及 [CAT 方案](../../docs/catalog-optimization.md)。此前“Docker 未启动、仅离线复核”和“仍保留两件”的记录均为历史时点，本轮已在线完成新增目标。
 
-主站现为 `cat04-stable-20261020-01`／正经商城新版，CAT-01.4 开始时的原 66 笔订单及原义务保持，六件日用品在售，52 件确认历史样本和 CAT05 七件专用样本已下架，2 件保留；CAT05 新增五笔已验订单，当前总计 71 单。`zj-market-b06` 已于 2026-10-16 从 `D:\Java\zj-market-stable` 接管，沿用原五卷、五网络及固定镜像。当前日常入口为 `D:\Java\zj-market-stable\scripts\stable.ps1`；原 `td06-environment.py`、`td06-main-release.py` 和旧浏览器入口对主站已设置交接门禁。ST-02 原候选仍位于已忽略的 `target/stable-isolation/st02_20261016_04/bundle`，仅作历史材料，不能用于当前主站启停。
+主站现为 `cat02-stable-20261021-01`／正经商城新版，CAT-01.4 开始时的原 66 笔订单及原义务保持，六件日用品在售，52 件确认历史样本和 CAT05 七件专用样本已下架，原 2 件保留项已由 CAT-02 下架；CAT05 新增五笔已验订单，当前总计 71 单。`zj-market-b06` 已于 2026-10-16 从 `D:\Java\zj-market-stable` 接管，沿用原五卷、五网络及固定镜像。当前日常入口为 `D:\Java\zj-market-stable\scripts\stable.ps1`；原 `td06-environment.py`、`td06-main-release.py` 和旧浏览器入口对主站已设置交接门禁。ST-02 原候选仍位于已忽略的 `target/stable-isolation/st02_20261016_04/bundle`，仅作历史材料，不能用于当前主站启停。
 
 先启动 Docker Desktop 的 Linux 引擎，再在 Windows PowerShell 使用：
 
@@ -17,7 +17,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File D:\Java\zj-market-stable
 
 `status` 只读；正常应为 `READY` 且 `adopted:true`。`start` 在已就绪时只做核对，不重建容器。`open` 在 `ready` 通过后使用稳定版专属 Edge 配置目录。`stop` 先切维护网关，再按依赖停止七服务。失败时保持网关关闭并查看 `state/lifecycle.jsonl`、`state/state.json` 与容器真实状态；不要手改 `adoption.json` 或把旧备份覆盖在线卷。完整接管与模拟交易证据见[ST-03 摘要](../../docs/tests/st03-acceptance.json)。
 
-独立目录当前发布为 `releases/cat04-stable-20261020-01`，私有输入在 `private/cat04-stable-20261020-01`，入口指向新清单。原 `releases/td06-stable-20261016-01`、原 private 清单和 ST 镜像归档保持原字节；state 保存当前生命周期，images 保存已验镜像；最新升级前冷备为 `backups/cat04-main-20261020-01`；`backups/ux05-main-20261019-01` 为上一发布历史冷备，ST-03 冷备仅作历史。升级后已有新交易，禁止旧备份覆盖在线卷。私有配置、备份与浏览器状态仅授权当前用户、SYSTEM 和 Administrators；历史失败批次留存供诊断，不能当作最新恢复点。
+独立目录当前发布为 `releases/cat02-stable-20261021-01`，私有输入在 `private/cat02-stable-20261021-01`，入口指向新清单。原 `releases/td06-stable-20261016-01`、原 private 清单和 ST 镜像归档保持原字节；state 保存当前生命周期，images 保存已验镜像；最新升级前冷备为 `backups/cat02-main-20261021-01`；CAT04 冷备 `backups/cat04-main-20261020-01` 仅为历史资料；`backups/ux05-main-20261019-01` 为上一发布历史冷备，ST-03 冷备仅作历史。升级后已有新交易，禁止旧备份覆盖在线卷。私有配置、备份与浏览器状态仅授权当前用户、SYSTEM 和 Administrators；历史失败批次留存供诊断，不能当作最新恢复点。
 
 部署包生成器从 TD-06 已验的 `compose-on.json`／`compose-maintenance.json`、ST-00 实际挂载与 ST-01 固定镜像清单取材，逐字节复制并校验私有输入，不覆盖已有批次。七个常驻服务和已退出的 MQ 权限辅助服务均固定实际 Image ID；五个原数据卷和五个网络声明为 `external: true`。运行模板只引用包内 `private`，没有 `build:`、源码挂载、旧工作树路径或自动 pull／迁移／旧备份恢复。旧备份原件继续保留；新启动门禁改用包内固定清单、原卷创建时间、网络 ID、schema／Flyway／索引和只读业务探针，不再调用旧备份控制器。
 
@@ -47,7 +47,7 @@ UX-05 当前操作仍为 `stable.ps1 -Action ready/status/start/stop/open`；日
 2026-10-20 CAT-01.3 接续：主站发布／商品／库存未变，UX 单独启用 CAT 商品图片镜像；两站当前 Web 内容不同。日常隔离改用 UX 工作树 `scripts/cat03-isolation.py`，旧 UX-05 隔离源码与验收保留历史哈希，不作为新镜像实时断言。主站商品替换仍待 CAT-01.4。
 
 
-CAT-01.4 当前发布与商品维护（2026-10-20）：
+CAT-01.4 历史发布与商品维护（2026-10-20）：
 
 - 运行清单：[cat04-release.json](../../docs/cat04-release.json)；[实际商品／下架／保留 ID](../../docs/cat04-main-products.json)；[验收报告](../../docs/tests/cat01-4-acceptance.json)。Web 内容固定为 CAT03 已验 `sha256:f85131ff30aa0835dbbf5d52184596ed646e765af3fa244f5a1ba2ee9fbfc862`，归档位于稳定目录 `images/web-cat04-20261020-01.tar`。原 A/B 镜像、schema、Flyway、五原卷／网络未变；主站 nginx、CA、账号及内部配置保持原值。
 - 日常健康检查仍用顶部独立稳定入口；两站隔离用 UX 工作树 `python -B scripts/cat04-isolation.py`。不要执行历史 UX05/CAT01/CAT03 镜像断言作为当前发布门禁。
@@ -59,7 +59,7 @@ CAT-01.4 当前发布与商品维护（2026-10-20）：
 - 浏览器验收 `node scripts/cat04-browser.mjs` 只读；最终核对 `python -B scripts/cat04-acceptance.py` 对本批基线逐项检查。以后合法新交易会使该冻结基线检查失败，应建立新阶段证据，不能重写 CAT04 报告或补回库存。专用交易与本批样本收尾归 CAT-01.5。
 
 
-CAT-01.5 最终验收与日常维护（2026-10-20）：
+CAT-01.5 历史验收与当时维护入口（当前以 CAT-02 说明为准）（2026-10-20）：
 
 [最终报告](../../docs/tests/cat01-5-acceptance.json)／[本批样本与原交易 ID](../../docs/cat05-main-samples.json)。主站资源发布仍为 CAT04，当前 67 件商品（公开 8／下架 59）、71 单、207 库存流水；六件日用品各库存 20，零本批订单。专用七件样本全为 OFF_SALE／版本 3／A 确认，五笔交易实付 360／全退 180 元，本批待支付确认／退款／库存释放为 0。原 66 单和 191 流水、原库存及核对／隔离／待履约保持，新增两笔成团待履约和一个空取消团按原边界保留，不强行清理。
 
@@ -87,3 +87,16 @@ python -B scripts/cat05-run.py --batch cat01-5-20261020-01
 本阶段未新增冷备或发布，CAT04 冷备是整理前历史恢复资料；CAT05 已有新交易，严禁用旧备份覆盖在线卷。原 24 RECONCILING 团队、1 未终结工作、10 ACTIVE 隔离、13 review 及 28 原待履约继续按原业务维护；本批新增待履约不等于真实发货，无付款／预留的取消空团保留原自然状态。
 
 2026-10-21 交付复核：已解除暂停，Docker 启动后主站 READY、两站隔离和原容器身份通过；主站及 UX 全业务语义快照与 CAT05 最终验收时一致。已验代码／证据哈希及交付差异复核通过，源码和验收的暂停提交已推送，旧报告保持不变。本次仅只读复核和文档收尾，不重跑已封存交易；CAT-01.1～01.5 已完成，继续使用上述日常健康及原记录恢复入口。
+
+
+CAT-02 当前维护与恢复（2026-10-21）：
+
+- 当前探针 CLI 仅两个私有输入（CA、账号）；新 manifest 已移除 seed-goods-id 条目及文件。核心 GET /teams/<随机 UUID> 直接走 B→A 签名只读查询，只接受明确 TEAM_NOT_FOUND（404）；商品列表可空，有合适商品时动态核对待拼列表。原种子下架后主站 ready 已实测通过，空目录分支、认证／依赖／TLS／维护失败语义及 UX A 停机恢复已验收。
+- 所有 A/B/Web／中间件镜像、应用配置和原五卷／五网络身份保持，仅控制器／探针改变。旧 cat04、ux05、td06 发布保持封存。最新双库与五卷冷备 cat02-main-20261021-01 已逐文件哈希验证，不得覆盖当前在线数据。
+- 用户指定两件商品由 `node scripts/cat02-closeout.mjs retire` 精确收尾（仅在 UX 源码工作树执行），要求当前 CAT02 主站发布、组合归属材料及下架前证据锁；只允许当前完整字段与 expectedVersion 的 OFF_SALE PUT，不提供创建商品、入库、订单或资金写入。两件现均版本 2，重复运行只读核对，不增版。
+- 第二件的原 fixture 和个人创建者身份未找回；本轮用原 Outbox 精确商品 ID、完整字段、normal01 库存 API 405 的历史说明、PRODUCT_CREATE 初始化及零业务关联复核，并有用户对两件目标的明确授权。不能把这种受审查的个案扩展为按名称批量下架。
+- 旧 CAT04 依赖种子在售，与当前数据状态不兼容。cat02-release.py 的 rollback 在任何停机前先检查这一条件，现会拒绝 LEGACY_ROLLBACK_INCOMPATIBLE_WITH_RETIRED_SEED，保持当前服务。后续恢复应修复前进或使用已验证的无商品种子后继发布和当前数据；不自动重新上架、不直接修改冻结旧探针、不恢复旧卷。不要绕过退包守卫使用旧控制器 start。
+- 日常入口仍为顶部 stable.ps1；UX ready 和 cat04-isolation 仍适用（运行镜像不变）。旧 CAT04/05 的验收／准备代码绑定旧发布和冻结基线，不作为当前维护入口；只读历史报告与数据保留。cat02-release.py ready 核对当前发布；cat02-acceptance.py 是本批冻结基线复核器，未来合法业务变化不能靠修改原证据使其再次通过。
+- 最终浏览器对正常商品只作未登录 GET；登录上下文只读原订单。原价／描述／图片／四视口通过，价格、库存和活动与已验基线及当前窗口一致。本轮没有在正常商品上新建报价确认、订单、付款、退款或库存操作。原核对、人工复核与待履约记录仍存在，完整保留，不是系统历史待办清空。
+
+CAT-02 当前历史待办口径：本轮执行前重新冻结的现场为 25 个 RECONCILING 团队、1 项未终结工作、12 条 ACTIVE 隔离、15 笔 review 及 30 条待履约；本轮结束逐项相同。这与旧 CAT05 报告时点的部分数量不同，应以各自报告的实际基线为准，不将跨时点数字硬写成一致，也未通过清理或回退使其归零。
